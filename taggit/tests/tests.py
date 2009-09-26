@@ -22,3 +22,11 @@ class AddTagTestCase(BaseTaggingTest):
         pair.tags.add('green')
         self.assert_tags_equal(pair.tags.all(), ['green'])
         self.assert_tags_equal(Food.tags.all(), ['green'])
+        
+        apple.tags.add('red')
+        self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
+        self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
+        
+        apple.tags.remove('green')
+        self.assert_tags_equal(apple.tags.all(), ['red'])
+        self.assert_tags_equal(Food.tags.all(), ['green', 'red'])

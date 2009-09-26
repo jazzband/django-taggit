@@ -40,6 +40,14 @@ class _TaggableManager(models.Manager):
         self.add(tags)
     
     @require_instance_manager
+    def remove(self, tags):
+        if isinstance(tags, basestring):
+            tags = [tags]
+        TaggedItem.objects.filter(object_id=self.object_id, 
+            content_type=ContentType.objects.get_for_model(self.model)).filter(
+            tag__name__in=tags).delete()
+    
+    @require_instance_manager
     def clear(self):
         TaggedItem.objects.filter(object_id=self.object_id,
             content_type=ContentType.objects.get_for_model(self.model)).delete()
