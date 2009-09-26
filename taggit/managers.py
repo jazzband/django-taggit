@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from taggit.models import Tag, TaggedItem
-from tagging.utils import require_instance_manager
+from taggit.utils import require_instance_manager
 
 
 class TaggableManager(object):
@@ -23,25 +23,23 @@ class _TaggableManager(models.Manager):
             return Tag.objects.filter(items__object_id=self.object_id, 
                 items__content_type=ct)
         else:
-            return Tag.objects.filter(items__content_type=ct)
+            return Tag.objects.filter(items__content_type=ct).distinct()
     
     @require_instance_manager
-    def add_tag(self, tag):
-        tag, _ = Tag.objects.get_or_create(name=tag)
-        TaggedItem.objects.create(object_id=self.object_id, 
-            content_type=ContentType.objects.get_for_model(self.model), tag=tag)
-    
-    @require_instance_manager
-    def add_tags(self, tags):
+    def add(self, tags):
+        if isinstance(tags, basestring):
+            tags = [tags]
         for tag in tags:
-            self.add_tag(tag)
+            tag, _ = Tag.objects.get_or_create(name=tag)
+            TaggedItem.objects.create(object_id=self.object_id, 
+                content_type=ContentType.objects.get_for_model(self.model), tag=tag)
     
     @require_instance_manager
-    def set_tags(self, tags):
-        self.clear_tags()
-        self.add_tags(tags)
+    def set(self, tags):
+        self.clear()
+        self.add(tags)
     
     @require_instance_manager
-    def clear_tags(self):
+    def clear(self):
         TaggedItem.objects.filter(object_id=self.object_id,
             content_type=ContentType.objects.get_for_model(self.model)).delete()

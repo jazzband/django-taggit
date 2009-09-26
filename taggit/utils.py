@@ -4,7 +4,7 @@ def split_tags(tags):
     return [o.strip() for o in tags.split(',') if o.strip()]
 
 def require_instance_manager(func):
-    @wraps
+    @wraps(func)
     def inner(self, *args, **kwargs):
         if self.object_id is None:
             raise TypeError("Can't call %s with a non-instance manager" % func.__name__)
