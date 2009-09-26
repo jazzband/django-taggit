@@ -51,3 +51,8 @@ class _TaggableManager(models.Manager):
     def clear(self):
         TaggedItem.objects.filter(object_id=self.object_id,
             content_type=ContentType.objects.get_for_model(self.model)).delete()
+    
+    def most_common(self):
+        return self.get_query_set().annotate(
+            num_times=models.Count('items')
+        ).order_by('-num_times')

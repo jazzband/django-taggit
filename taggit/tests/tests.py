@@ -27,6 +27,8 @@ class AddTagTestCase(BaseTaggingTest):
         self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
         self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
         
+        self.assert_tags_equal(Food.tags.most_common(), ['green', 'red'])
+        
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
         self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
