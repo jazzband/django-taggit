@@ -7,8 +7,7 @@ from taggit.tests.models import Food, Pet
 
 class BaseTaggingTest(TestCase):
     def assert_tags_equal(self, qs, tags):
-        tags = Tag.objects.filter(name__in=tags)
-        self.assertEqual(list(qs), list(tags))
+        self.assertEqual(map(lambda tag: tag.name, qs), list(tags))
 
 
 class AddTagTestCase(BaseTaggingTest):
@@ -65,6 +64,5 @@ class TaggableFormTestCase(BaseTaggingTest):
         
         f = FoodForm({'name': 'apple', 'tags': 'green, red, yummy'})
         f.save()
-        
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])

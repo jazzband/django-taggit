@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.fields.related import ManyToManyRel
 from django.db.models.query_utils import QueryWrapper
 
+from taggit.forms import TagField
 from taggit.models import Tag, TaggedItem
 from taggit.utils import require_instance_manager
 
@@ -20,7 +21,7 @@ class TaggableRel(ManyToManyRel):
 class TaggableManager(object):
     def __init__(self):
         self.rel = TaggableRel()
-        self.editable = False
+        self.editable = True
         self.unique = False
         self.creates_table = False
         self.db_column = None
@@ -41,7 +42,7 @@ class TaggableManager(object):
         setattr(cls, name, self)
 
     def save_form_data(self, instance, value):
-        pass
+        getattr(instance, self.name).set(*value)
     
     def get_db_prep_lookup(self, lookup_type, value):
         if lookup_type not in  ("in", "exact"):
@@ -61,6 +62,14 @@ class TaggableManager(object):
             raise ValueError("You can't combine Tag objects and strings, pick one!")
         sql, params = qs.values_list("pk", flat=True).query.as_sql()
         return QueryWrapper(("(%s)" % sql), params)
+    
+    def formfield(self, form_class=TagField, **kwargs):
+        defaults = {
+            "label": "Tags",
+            "help_text": "A comma seperated list of tags."
+        }
+        defaults.update(kwargs)
+        return form_class(**kwargs)
     
     def related_query_name(self):
         return None

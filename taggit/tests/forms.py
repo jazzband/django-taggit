@@ -1,8 +1,8 @@
-from taggit.forms import TaggableForm
+from django import forms
 
 from taggit.tests.models import Food
 
 
-class FoodForm(TaggableForm):
+class FoodForm(forms.ModelForm):
     class Meta:
         model = Food
