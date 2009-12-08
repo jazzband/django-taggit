@@ -18,4 +18,4 @@ class TaggedItem(models.Model):
     tag = models.ForeignKey(Tag, related_name="items")
     
     def __unicode__(self):
-        return "%s tagged with %" % (self.content_object, self.tag)
+        return "%s tagged with %s" % (self.content_object, self.tag)
