@@ -26,23 +26,19 @@ class _TaggableManager(models.Manager):
             return Tag.objects.filter(items__content_type=ct).distinct()
     
     @require_instance_manager
-    def add(self, tags):
-        if isinstance(tags, basestring):
-            tags = [tags]
+    def add(self, *tags):
         for tag in tags:
             tag, _ = Tag.objects.get_or_create(name=tag)
             TaggedItem.objects.create(object_id=self.object_id, 
                 content_type=ContentType.objects.get_for_model(self.model), tag=tag)
     
     @require_instance_manager
-    def set(self, tags):
+    def set(self, *tags):
         self.clear()
-        self.add(tags)
+        self.add(*tags)
     
     @require_instance_manager
-    def remove(self, tags):
-        if isinstance(tags, basestring):
-            tags = [tags]
+    def remove(self, *tags):
         TaggedItem.objects.filter(object_id=self.object_id, 
             content_type=ContentType.objects.get_for_model(self.model)).filter(
             tag__name__in=tags).delete()
