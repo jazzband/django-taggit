@@ -48,8 +48,18 @@ class TaggableManager(object):
             raise ValueError("You can't do lookups other than \"in\" and \"exact\" on Tags")
         if lookup_type == "exact":
             value = [value]
-        qs = TaggedItem.objects.filter(tag__name__in=value).values_list("pk", flat=True)
-        sql, params = qs.query.as_sql()
+        if all(isinstance(v, Tag) for v in value):
+            qs = TaggedItem.objects.filter(tag__in=value)
+        elif all(isinstance(v, basestring) for v in value):
+            qs = TaggedItem.objects.filter(tag__name__in=value)
+        elif all(isinstance(v, int) for v in value):
+            # This one is really ackward, just don't do it.  The ORM does it
+            # for deletes, but no one else gets to.
+            qs = TaggedItem.objects.filter(pk__in=value)
+        else:
+            # Fucking flip-floppers.
+            raise ValueError("You can't combine Tag objects and strings, pick one!")
+        sql, params = qs.values_list("pk", flat=True).query.as_sql()
         return QueryWrapper(("(%s)" % sql), params)
     
     def related_query_name(self):
