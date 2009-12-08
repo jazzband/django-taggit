@@ -1,13 +1,20 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models
+from django.template.defaultfilters import slugify
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField()
     
     def __unicode__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.slug = slugify(self.name)
+        super(Tag, self).save(*args, **kwargs)
 
 
 class TaggedItem(models.Model):
