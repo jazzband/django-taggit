@@ -105,7 +105,8 @@ class _TaggableManager(models.Manager):
     @require_instance_manager
     def add(self, *tags):
         for tag in tags:
-            tag, _ = Tag.objects.get_or_create(name=tag)
+            if not isinstance(tag, Tag):
+                tag, _ = Tag.objects.get_or_create(name=tag)
             TaggedItem.objects.create(object_id=self.object_id, 
                 content_type=ContentType.objects.get_for_model(self.model), tag=tag)
     
