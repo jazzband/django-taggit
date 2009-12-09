@@ -6,7 +6,7 @@ model and go:
     
     from django.db import models
     
-    from taggit.manager import TagManager
+    from taggit.managers import TagManager
     
     class Food(models.Model):
         # ... fields here
