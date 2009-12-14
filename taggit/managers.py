@@ -73,7 +73,7 @@ class TaggableManager(object):
         return form_class(**kwargs)
     
     def value_from_object(self, instance):
-        return getattr(instance, self.name).all()
+        return ", ".join(map(unicode, getattr(instance, self.name).all()))
     
     def related_query_name(self):
         return None
