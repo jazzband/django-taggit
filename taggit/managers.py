@@ -25,6 +25,7 @@ class TaggableManager(object):
         self.unique = False
         self.creates_table = False
         self.db_column = None
+        self.choices = None
     
     def __get__(self, instance, type):
         manager = _TaggableManager()
