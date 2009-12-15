@@ -12,4 +12,7 @@ def tagged_object_list(request, slug, queryset, **kwargs):
     qs = queryset.filter(pk__in=TaggedItem.objects.filter(
         tag=tag, content_type=ContentType.objects.get_for_model(queryset.model)
     ))
+    if "extra_context" not in kwargs:
+        kwargs["extra_context"] = {}
+    kwargs["extra_context"]["tag"] = tag
     return object_list(request, queryset, **kwargs)
