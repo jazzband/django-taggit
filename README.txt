@@ -1,17 +1,17 @@
 django-taggit
 =============
 
-Is a simpler approach to tagging with Django.  Just add a TagManager to your
+Is a simpler approach to tagging with Django.  Just add a TaggableManager to your
 model and go:
     
     from django.db import models
     
-    from taggit.managers import TagManager
+    from taggit.managers import TaggableManager
     
     class Food(models.Model):
         # ... fields here
         
-        tags = TagManager()
+        tags = TaggableManager()
     
 
 Then you can use the API like so:

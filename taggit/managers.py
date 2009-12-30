@@ -26,6 +26,8 @@ class TaggableManager(object):
         self.creates_table = False
         self.db_column = None
         self.choices = None
+        self.creation_counter = models.Field.creation_counter
+        models.Field.creation_counter += 1
     
     def __get__(self, instance, type):
         manager = _TaggableManager()
