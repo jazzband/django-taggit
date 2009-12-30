@@ -62,7 +62,7 @@ class TaggableManager(object):
             qs = TaggedItem.objects.filter(pk__in=value)
         else:
             # Fucking flip-floppers.
-            raise ValueError("You can't combine Tag objects and strings, pick one!")
+            raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
         sql, params = qs.values_list("pk", flat=True).query.as_sql()
         return QueryWrapper(("(%s)" % sql), params)
     
