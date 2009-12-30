@@ -69,3 +69,9 @@ class TaggableFormTestCase(BaseTaggingTest):
         f.save()
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
+        
+        f = FoodForm({'name': 'apple', 'tags': 'green, red, yummy, delicious'}, instance=apple)
+        f.save()
+        apple = Food.objects.get(name='apple')
+        self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy', 'delicious'])
+        self.assertEqual(Food.objects.count(), 1)
