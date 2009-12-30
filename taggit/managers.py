@@ -56,7 +56,7 @@ class TaggableManager(object):
             qs = TaggedItem.objects.filter(tag__in=value)
         elif all(isinstance(v, basestring) for v in value):
             qs = TaggedItem.objects.filter(tag__name__in=value)
-        elif all(isinstance(v, int) for v in value):
+        elif all(isinstance(v, (int, long)) for v in value):
             # This one is really ackward, just don't do it.  The ORM does it
             # for deletes, but no one else gets to.
             qs = TaggedItem.objects.filter(pk__in=value)
