@@ -6,8 +6,12 @@ from taggit.tests.models import Food, Pet
 
 
 class BaseTaggingTest(TestCase):
-    def assert_tags_equal(self, qs, tags):
-        self.assertEqual(sorted(map(lambda tag: tag.name, qs)), sorted(list(tags)))
+    def assert_tags_equal(self, qs, tags, sort=True):
+        got = map(lambda tag: tag.name, qs)
+        if sort:
+            got.sort()
+            tags.sort()
+        self.assertEqual(got, tags)
 
 
 class AddTagTestCase(BaseTaggingTest):
@@ -29,7 +33,7 @@ class AddTagTestCase(BaseTaggingTest):
         self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
         self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
         
-        self.assert_tags_equal(Food.tags.most_common(), ['green', 'red'])
+        self.assert_tags_equal(Food.tags.most_common(), ['green', 'red'], sort=False)
         
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
