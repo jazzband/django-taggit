@@ -59,7 +59,7 @@ class TaggableManager(object):
         elif all(isinstance(v, (int, long)) for v in value):
             # This one is really ackward, just don't do it.  The ORM does it
             # for deletes, but no one else gets to.
-            qs = TaggedItem.objects.filter(pk__in=value)
+            return value
         else:
             # Fucking flip-floppers.
             raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
