@@ -15,4 +15,4 @@ def tagged_object_list(request, slug, queryset, **kwargs):
     if "extra_context" not in kwargs:
         kwargs["extra_context"] = {}
     kwargs["extra_context"]["tag"] = tag
-    return object_list(request, queryset, **kwargs)
+    return object_list(request, qs, **kwargs)
