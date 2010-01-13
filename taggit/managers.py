@@ -139,11 +139,14 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def similar_objects(self):
-        qs = TaggedItem.objects.values('object_id', 'content_type') \
-            .annotate(n=models.Count('pk')) \
-            .exclude(object_id=self.object_id) \
-            .filter(tag__in=self.all()) \
-            .order_by('-n')
+        qs = TaggedItem.objects.values('object_id', 'content_type')
+        qs = qs.annotate(n=models.Count('pk'))
+        qs = qs.exclude(
+            object_id=self.object_id,
+            content_type=ContentType.objects.get_for_model(self.model)
+        )
+        qs = qs.filter(tag__in=self.all())
+        qs = qs.order_by('-n')
 
         preload = defaultdict(set)
         for result in qs:
