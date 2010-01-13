@@ -59,10 +59,8 @@ class LookupByTagTestCase(BaseTaggingTest):
         dog.tags.add("woof", "red")
         self.assertEqual(list(Food.objects.filter(tags__in=["red"]).distinct()), [apple])
 
-        self.assertEqual(list(Food.objects.filter(tags="red").distinct()), [apple])
-        
         tag = Tag.objects.get(name="woof")
-        self.assertEqual(list(Pet.objects.filter(tags=tag)), [dog])
+        self.assertEqual(list(Pet.objects.filter(tags__in=[tag])), [dog])
 
 
 class TaggableFormTestCase(BaseTaggingTest):
