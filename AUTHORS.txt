@@ -1,0 +1,7 @@
+django-taggit was original created by Alex Gaynor.
+
+The following is a list of much appreciated contributors:
+
+Nathan Borror <nathan@playgroundblues.com>
+Alex Gaynor <alex.gaynor@gmail.com>
+Rob Hudson <rob@cogit8.org>
