@@ -22,7 +22,7 @@ Then you can use the API like so:
     [<Tag: red>, <Tag: green>, <Tag: delicious>]
     >>> apple.tags.remove("green")
     [<Tag: red>, <Tag: delicious>]
-    >>> Food.objects.filter(tags="red")
+    >>> Food.objects.filter(tags__in=["red"])
     [<Food: apple>, <Food: cherry>]
 
 
