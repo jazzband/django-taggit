@@ -50,8 +50,6 @@ class TaggableManager(object):
     def get_db_prep_lookup(self, lookup_type, value):
         if lookup_type !=  "in":
             raise ValueError("You can't do lookups other than \"in\" on Tags")
-        if lookup_type == "exact":
-            value = [value]
         if all(isinstance(v, Tag) for v in value):
             qs = TaggedItem.objects.filter(tag__in=value)
         elif all(isinstance(v, basestring) for v in value):
