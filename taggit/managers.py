@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyRel
@@ -28,7 +30,7 @@ class TaggableManager(object):
         self.choices = None
         self.creation_counter = models.Field.creation_counter
         models.Field.creation_counter += 1
-    
+
     def __get__(self, instance, type):
         manager = _TaggableManager()
         manager.model = type
@@ -37,7 +39,7 @@ class TaggableManager(object):
         else:
             manager.object_id = instance.pk
         return manager
-    
+
     def contribute_to_class(self, cls, name):
         self.name = self.column = name
         self.model = cls
@@ -46,7 +48,7 @@ class TaggableManager(object):
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
-    
+
     def get_db_prep_lookup(self, lookup_type, value):
         if lookup_type !=  "in":
             raise ValueError("You can't do lookups other than \"in\" on Tags")
@@ -63,7 +65,7 @@ class TaggableManager(object):
             raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
         sql, params = qs.values_list("pk", flat=True).query.as_sql()
         return QueryWrapper(("(%s)" % sql), params)
-    
+
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
             "label": "Tags",
@@ -71,25 +73,25 @@ class TaggableManager(object):
         }
         defaults.update(kwargs)
         return form_class(**kwargs)
-    
+
     def value_from_object(self, instance):
         return ", ".join(map(unicode, getattr(instance, self.name).all()))
-    
+
     def related_query_name(self):
         return None
-    
+
     def m2m_reverse_name(self):
         return "id"
-    
+
     def m2m_column_name(self):
         return "object_id"
-    
+
     def db_type(self):
         return None
-    
+
     def m2m_db_table(self):
         return self.rel.to._meta.db_table
-    
+
     def extra_filters(self, pieces, pos, negate):
         if negate:
             return []
@@ -101,45 +103,62 @@ class _TaggableManager(models.Manager):
     def get_query_set(self):
         ct = ContentType.objects.get_for_model(self.model)
         if self.object_id is not None:
-            return Tag.objects.filter(items__object_id=self.object_id, 
+            return Tag.objects.filter(items__object_id=self.object_id,
                 items__content_type=ct)
         else:
             return Tag.objects.filter(items__content_type=ct).distinct()
-    
+
     @require_instance_manager
     def add(self, *tags):
         for tag in tags:
             if not isinstance(tag, Tag):
                 tag, _ = Tag.objects.get_or_create(name=tag)
-            TaggedItem.objects.create(object_id=self.object_id, 
+            TaggedItem.objects.create(object_id=self.object_id,
                 content_type=ContentType.objects.get_for_model(self.model), tag=tag)
-    
+
     @require_instance_manager
     def set(self, *tags):
         self.clear()
         self.add(*tags)
-    
+
     @require_instance_manager
     def remove(self, *tags):
-        TaggedItem.objects.filter(object_id=self.object_id, 
+        TaggedItem.objects.filter(object_id=self.object_id,
             content_type=ContentType.objects.get_for_model(self.model)).filter(
             tag__name__in=tags).delete()
-    
+
     @require_instance_manager
     def clear(self):
         TaggedItem.objects.filter(object_id=self.object_id,
             content_type=ContentType.objects.get_for_model(self.model)).delete()
-    
+
     def most_common(self):
         return self.get_query_set().annotate(
             num_times=models.Count('items')
         ).order_by('-num_times')
-    
+
     @require_instance_manager
     def similar_objects(self):
-        return TaggedItem.objects.values('object_id', 'content_type') \
-            .annotate(models.Count('pk')) \
+        qs = TaggedItem.objects.values('object_id', 'content_type') \
+            .annotate(n=models.Count('pk')) \
             .exclude(object_id=self.object_id) \
             .filter(tag__in=self.all()) \
-            .order_by('-pk__count')
-    
+            .order_by('-n')
+
+        preload = defaultdict(set)
+        for result in qs:
+            preload[result["content_type"]].add(result["object_id"])
+
+        items = {}
+        for ct, obj_ids in preload.iteritems():
+            ct = ContentType.objects.get_for_id(ct)
+            items[ct.pk] = dict((o.pk, o) for o in
+                ct.model_class()._default_manager.filter(pk__in=obj_ids)
+            )
+
+        results = []
+        for result in qs:
+            obj = items[result["content_type"]][result["object_id"]]
+            obj.similar_tags = result["n"]
+            results.append(obj)
+        return results

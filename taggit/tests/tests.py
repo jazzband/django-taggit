@@ -19,22 +19,22 @@ class AddTagTestCase(BaseTaggingTest):
         apple = Food.objects.create(name="apple")
         self.assertEqual(list(apple.tags.all()), [])
         self.assertEqual(list(Food.tags.all()),  [])
-        
+
         apple.tags.add('green')
         self.assert_tags_equal(apple.tags.all(), ['green'])
         self.assert_tags_equal(Food.tags.all(), ['green'])
-        
+
         pear = Food.objects.create(name="pear")
         pear.tags.add('green')
         self.assert_tags_equal(pear.tags.all(), ['green'])
         self.assert_tags_equal(Food.tags.all(), ['green'])
-        
+
         apple.tags.add('red')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
         self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
-        
+
         self.assert_tags_equal(Food.tags.most_common(), ['green', 'red'], sort=False)
-        
+
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
         self.assert_tags_equal(Food.tags.all(), ['green', 'red'])
@@ -49,10 +49,10 @@ class LookupByTagTestCase(BaseTaggingTest):
         apple.tags.add("red", "green")
         pear = Food.objects.create(name="pear")
         pear.tags.add("green")
-        
+
         self.assertEqual(list(Food.objects.filter(tags__in=["red"])), [apple])
         self.assertEqual(list(Food.objects.filter(tags__in=["green"])), [apple, pear])
-        
+
         kitty = Pet.objects.create(name="kitty")
         kitty.tags.add("fuzzy", "red")
         dog = Pet.objects.create(name="dog")
@@ -66,12 +66,12 @@ class LookupByTagTestCase(BaseTaggingTest):
 class TaggableFormTestCase(BaseTaggingTest):
     def test_form(self):
         self.assertEqual(FoodForm.base_fields.keys(), ['name', 'tags'])
-        
+
         f = FoodForm({'name': 'apple', 'tags': 'green, red, yummy'})
         f.save()
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
-        
+
         f = FoodForm({'name': 'apple', 'tags': 'green, red, yummy, delicious'}, instance=apple)
         f.save()
         apple = Food.objects.get(name='apple')
@@ -90,6 +90,6 @@ class SimilarityByTagTestCase(BaseTaggingTest):
         watermelon = Food.objects.create(name="watermelon")
         watermelon.tags.add("green", "juicy", "large", "sweet")
 
-        self.assertEqual(apple.tags.similar_objects(),
-            [{'pk__count': 3, 'content_type': 13, 'object_id': 6}, {'pk__count': 2, 'content_type': 13, 'object_id': 7}])
-
+        similar_objs = apple.tags.similar_objects()
+        self.assertEqual(similar_objs, [pear, watermelon])
+        self.assertEqual(map(lambda x: x.similar_tags, similar_objs), [3, 2])
