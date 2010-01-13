@@ -79,3 +79,19 @@ class TaggableFormTestCase(BaseTaggingTest):
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy', 'delicious'])
         self.assertEqual(Food.objects.count(), 1)
+
+class SimilarityByTagTestCase(BaseTaggingTest):
+    def test_similarity_by_tag(self):
+        """Test that pears are more similar to apples than watermelons"""
+        apple = Food.objects.create(name="apple")
+        apple.tags.add("green", "juicy", "small", "sour")
+
+        pear = Food.objects.create(name="pear")
+        pear.tags.add("green", "juicy", "small", "sweet")
+
+        watermelon = Food.objects.create(name="watermelon")
+        watermelon.tags.add("green", "juicy", "large", "sweet")
+
+        self.assertEqual(apple.tags.similar_objects(),
+            [{'pk__count': 3, 'content_type': 13, 'object_id': 6}, {'pk__count': 2, 'content_type': 13, 'object_id': 7}])
+

@@ -136,3 +136,12 @@ class _TaggableManager(models.Manager):
         return self.get_query_set().annotate(
             num_times=models.Count('items')
         ).order_by('-num_times')
+    
+    @require_instance_manager
+    def similar_objects(self):
+        return TaggedItem.objects.values('object_id', 'content_type') \
+            .annotate(models.Count('pk')) \
+            .exclude(object_id=self.object_id) \
+            .filter(tag__in=self.all()) \
+            .order_by('-pk__count')
+    
