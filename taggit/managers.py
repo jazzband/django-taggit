@@ -95,7 +95,7 @@ class TaggableManager(object):
     def m2m_column_name(self):
         return "object_id"
 
-    def db_type(self):
+    def db_type(self, connection=None):
         return None
 
     def m2m_db_table(self):
