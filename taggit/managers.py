@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+import django
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyRel
@@ -49,7 +50,7 @@ class TaggableManager(object):
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
 
-    def get_db_prep_lookup(self, lookup_type, value):
+    def get_prep_lookup(self, lookup_type, value):
         if lookup_type !=  "in":
             raise ValueError("You can't do lookups other than \"in\" on Tags")
         if all(isinstance(v, Tag) for v in value):
@@ -65,6 +66,9 @@ class TaggableManager(object):
             raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
         sql, params = qs.values_list("pk", flat=True).query.as_sql()
         return QueryWrapper(("(%s)" % sql), params)
+    
+    if django.VERSION < (1, 2):
+        get_db_prep_lookup = get_prep_lookup
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
