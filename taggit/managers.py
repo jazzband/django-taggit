@@ -69,6 +69,11 @@ class TaggableManager(object):
     
     if django.VERSION < (1, 2):
         get_db_prep_lookup = get_prep_lookup
+    else:
+        def get_db_prep_lookup(self, lookup_type, value, connection, prepared=False):
+            if not prepared:
+                return self.get_prep_lookup(lookup_type, value)
+            return value
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
