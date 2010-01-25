@@ -29,6 +29,7 @@ class TaggableManager(object):
         self.creates_table = False
         self.db_column = None
         self.choices = None
+        self.serialize = False
         self.creation_counter = models.Field.creation_counter
         models.Field.creation_counter += 1
 
