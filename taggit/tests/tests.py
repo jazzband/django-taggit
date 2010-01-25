@@ -41,6 +41,9 @@ class AddTagTestCase(BaseTaggingTest):
         tag = Tag.objects.create(name="delicious")
         apple.tags.add(tag)
         self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
+        
+        apple.delete()
+        self.assert_tags_equal(Food.tags.all(), ["green"])
 
 
 class LookupByTagTestCase(BaseTaggingTest):
