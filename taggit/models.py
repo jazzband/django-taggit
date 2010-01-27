@@ -19,7 +19,7 @@ class Tag(models.Model):
 
 class TaggedItem(models.Model):
     object_id = models.IntegerField()
-    content_type = models.ForeignKey(ContentType, related_name="items")
+    content_type = models.ForeignKey(ContentType, related_name="tagged_items")
     content_object = GenericForeignKey()
     
     tag = models.ForeignKey(Tag, related_name="items")
