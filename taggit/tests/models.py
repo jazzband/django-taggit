@@ -16,3 +16,6 @@ class Pet(models.Model):
     name = models.CharField(max_length=50)
     
     tags = TaggableManager()
+
+class HousePet(Pet):
+    trained = models.BooleanField()

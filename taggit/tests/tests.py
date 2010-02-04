@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from taggit.models import Tag
 from taggit.tests.forms import FoodForm
-from taggit.tests.models import Food, Pet
+from taggit.tests.models import Food, Pet, HousePet
 
 
 class BaseTaggingTest(TestCase):
@@ -64,6 +64,14 @@ class LookupByTagTestCase(BaseTaggingTest):
 
         tag = Tag.objects.get(name="woof")
         self.assertEqual(list(Pet.objects.filter(tags__in=[tag])), [dog])
+
+        cat = HousePet.objects.create(name="cat", trained=True)
+        cat.tags.add("fuzzy")
+
+        self.assertEqual(
+            map(lambda o: o.pk, Pet.objects.filter(tags__in=["fuzzy"])),
+            [kitty.pk, cat.pk]
+        )
 
 
 class TaggableFormTestCase(BaseTaggingTest):

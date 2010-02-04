@@ -3,6 +3,7 @@ from collections import defaultdict
 import django
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models.related import RelatedObject
 from django.db.models.fields.related import ManyToManyRel
 from django.db.models.query_utils import QueryWrapper
 
@@ -106,7 +107,10 @@ class TaggableManager(object):
         if negate:
             return []
         prefix = "__".join(pieces[:pos+1])
-        return [("%s__content_type" % prefix, ContentType.objects.get_for_model(self.model))]
+        cts = map(ContentType.objects.get_for_model, _get_subclasses(self.model))
+        if len(cts) == 1:
+            return [("%s__content_type" % prefix, cts[0])]
+        return [("%s__content_type__in" % prefix, cts)]
 
 
 class _TaggableManager(models.Manager):
@@ -175,3 +179,11 @@ class _TaggableManager(models.Manager):
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
+
+def _get_subclasses(model):
+    subclasses = [model]
+    for f in model._meta.get_all_field_names():
+        field = model._meta.get_field_by_name(f)[0]
+        if isinstance(field, RelatedObject) and field.field.rel.parent_link:
+            subclasses.extend(_get_subclasses(field.model))
+    return subclasses
