@@ -104,3 +104,9 @@ class SimilarityByTagTestCase(BaseTaggingTest):
         similar_objs = apple.tags.similar_objects()
         self.assertEqual(similar_objs, [pear, watermelon])
         self.assertEqual(map(lambda x: x.similar_tags, similar_objs), [3, 2])
+
+class TagReuseTestCase(BaseTaggingTest):
+    def test_tag_reuse(self):
+        apple = Food.objects.create(name="apple")
+        apple.tags.add("juicy", "juicy")
+        self.assert_tags_equal(apple.tags.all(), ['juicy'])

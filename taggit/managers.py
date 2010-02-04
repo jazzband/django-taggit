@@ -127,7 +127,7 @@ class _TaggableManager(models.Manager):
         for tag in tags:
             if not isinstance(tag, Tag):
                 tag, _ = Tag.objects.get_or_create(name=tag)
-            TaggedItem.objects.create(object_id=self.object_id,
+            TaggedItem.objects.get_or_create(object_id=self.object_id,
                 content_type=ContentType.objects.get_for_model(self.model), tag=tag)
 
     @require_instance_manager
