@@ -39,6 +39,9 @@ class TaggableManager(object):
         manager.model = type
         if instance is None:
             manager.object_id = None
+        elif instance.pk is None:
+            raise ValueError("%s objects need to have a primary key value "
+                "before you can access their tags." % type.__name__)
         else:
             manager.object_id = instance.pk
         return manager
@@ -86,7 +89,9 @@ class TaggableManager(object):
         return form_class(**kwargs)
 
     def value_from_object(self, instance):
-        return ", ".join(map(unicode, getattr(instance, self.name).all()))
+        if instance.pk:
+            return ", ".join(map(unicode, getattr(instance, self.name).all()))
+        return ""
 
     def related_query_name(self):
         return None

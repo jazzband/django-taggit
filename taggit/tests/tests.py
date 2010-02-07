@@ -1,3 +1,6 @@
+from __future__ import with_statement
+from contextlib import contextmanager
+
 from django.test import TestCase
 
 from taggit.models import Tag
@@ -12,7 +15,17 @@ class BaseTaggingTest(TestCase):
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
-
+    
+    @contextmanager
+    def assert_raises(self, exc_type):
+        try:
+            yield
+        except Exception, e:
+            self.assert_(type(e) is exc_type, "%s didn't match expected "
+                "exception type %s" % (e, exc_type))
+        else:
+            self.fail("No exception raised, expected %s" % exc_type)
+    
 
 class AddTagTestCase(BaseTaggingTest):
     def test_add_tag(self):
@@ -44,6 +57,10 @@ class AddTagTestCase(BaseTaggingTest):
         
         apple.delete()
         self.assert_tags_equal(Food.tags.all(), ["green"])
+        
+        f = Food()
+        with self.assert_raises(ValueError):
+            f.tags.all()
 
 
 class LookupByTagTestCase(BaseTaggingTest):
