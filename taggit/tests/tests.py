@@ -88,6 +88,11 @@ class TaggableFormTestCase(BaseTaggingTest):
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy', 'delicious'])
         self.assertEqual(Food.objects.count(), 1)
+        
+        f = FoodForm({"name": "raspberry"})
+        raspberry = f.save()
+        self.assert_tags_equal(raspberry.tags.all(), [])
+
 
 class SimilarityByTagTestCase(BaseTaggingTest):
     def test_similarity_by_tag(self):
@@ -104,6 +109,7 @@ class SimilarityByTagTestCase(BaseTaggingTest):
         similar_objs = apple.tags.similar_objects()
         self.assertEqual(similar_objs, [pear, watermelon])
         self.assertEqual(map(lambda x: x.similar_tags, similar_objs), [3, 2])
+
 
 class TagReuseTestCase(BaseTaggingTest):
     def test_tag_reuse(self):

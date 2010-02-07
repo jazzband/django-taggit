@@ -1,6 +1,8 @@
 from functools import wraps
 
 def parse_tags(tags):
+    if tags is None:
+        tags = ""
     return [o.strip() for o in tags.split(',') if o.strip()]
 
 def require_instance_manager(func):
