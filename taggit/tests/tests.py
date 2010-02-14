@@ -61,6 +61,10 @@ class AddTagTestCase(BaseTaggingTest):
         f = Food()
         with self.assert_raises(ValueError):
             f.tags.all()
+    
+    def test_unique_slug(self):
+        apple = Food.objects.create(name="apple")
+        apple.tags.add("Red", "red")
 
 
 class LookupByTagTestCase(BaseTaggingTest):
