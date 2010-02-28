@@ -23,8 +23,9 @@ class TaggableRel(ManyToManyRel):
 
 
 class TaggableManager(object):
-    def __init__(self):
+    def __init__(self, verbose_name="Tags"):
         self.rel = TaggableRel()
+        self.verbose_name = verbose_name
         self.editable = True
         self.unique = False
         self.creates_table = False
