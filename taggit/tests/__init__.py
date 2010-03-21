@@ -1,1 +1,3 @@
-from taggit.tests.tests import AddTagTestCase, LookupByTagTestCase, TaggableFormTestCase, SimilarityByTagTestCase, TagReuseTestCase
+from taggit.tests.tests import (AddTagTestCase, DeleteObjecTestCase,
+    LookupByTagTestCase, TaggableFormTestCase, SimilarityByTagTestCase,
+    TagReuseTestCase)

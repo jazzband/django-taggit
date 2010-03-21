@@ -70,8 +70,9 @@ class TaggableManager(object):
         else:
             # Fucking flip-floppers.
             raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
-        sql, params = qs.values_list("pk", flat=True).query.as_sql()
-        return QueryWrapper(("(%s)" % sql), params)
+        if hasattr(models.Field, "get_prep_lookup"):
+            return models.Field().get_prep_lookup(lookup_type, qs)
+        return models.Field().get_db_prep_lookup(lookup_type, qs)
     
     if django.VERSION < (1, 2):
         get_db_prep_lookup = get_prep_lookup
@@ -79,7 +80,7 @@ class TaggableManager(object):
         def get_db_prep_lookup(self, lookup_type, value, connection, prepared=False):
             if not prepared:
                 return self.get_prep_lookup(lookup_type, value)
-            return value
+            return models.Field().get_db_prep_lookup(lookup_type, value, connection=connection, prepared=True)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
@@ -91,8 +92,11 @@ class TaggableManager(object):
 
     def value_from_object(self, instance):
         if instance.pk:
-            return ", ".join(map(unicode, getattr(instance, self.name).all()))
-        return ""
+            return TaggedItem.objects.filter(
+                object_id=instance.pk,
+                content_type=ContentType.objects.get_for_model(instance)
+            )
+        return TaggedItem.objects.none()
 
     def related_query_name(self):
         return None

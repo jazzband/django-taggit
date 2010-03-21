@@ -67,13 +67,24 @@ class AddTagTestCase(BaseTaggingTest):
         apple.tags.add("Red", "red")
 
 
+class DeleteObjecTestCase(BaseTaggingTest):
+    def test_delete_obj(self):
+        apple = Food.objects.create(name="apple")
+        apple.tags.add("red")
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+        strawberry = Food.objects.create(name="strawberry")
+        strawberry.tags.add("red")
+        apple.delete()
+        self.assert_tags_equal(strawberry.tags.all(), ["red"])
+
+
 class LookupByTagTestCase(BaseTaggingTest):
     def test_lookup_by_tag(self):
         apple = Food.objects.create(name="apple")
         apple.tags.add("red", "green")
         pear = Food.objects.create(name="pear")
         pear.tags.add("green")
-
+        
         self.assertEqual(list(Food.objects.filter(tags__in=["red"])), [apple])
         self.assertEqual(list(Food.objects.filter(tags__in=["green"])), [apple, pear])
 
@@ -100,6 +111,7 @@ class TaggableFormTestCase(BaseTaggingTest):
         self.assertEqual(FoodForm.base_fields.keys(), ['name', 'tags'])
 
         f = FoodForm({'name': 'apple', 'tags': 'green, red, yummy'})
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" /></td></tr>""")
         f.save()
         apple = Food.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
@@ -113,6 +125,9 @@ class TaggableFormTestCase(BaseTaggingTest):
         f = FoodForm({"name": "raspberry"})
         raspberry = f.save()
         self.assert_tags_equal(raspberry.tags.all(), [])
+        
+        f = FoodForm(instance=apple)
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy, delicious" id="id_tags" /></td></tr>""")
 
 
 class SimilarityByTagTestCase(BaseTaggingTest):
