@@ -1,8 +1,10 @@
+import os
 from setuptools import setup, find_packages
 
 from taggit import VERSION
 
-f = open('README.txt')
+
+f = open(os.path.join(os.path.dirname(__file__), 'README.txt'))
 readme = f.read()
 f.close()
 
