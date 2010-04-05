@@ -47,8 +47,4 @@ def suggest_tags(content=None):
     suggested_regexps  = _suggest_regexps(content) 
     suggested_tag_ids  = suggested_keywords | suggested_regexps
 
-    # Turn the found IDs into tags 
-    where_string = 'id IN (%s)' % ','.join([str(x) for x in suggested_tag_ids])
-    tags = Tag.objects.extra(where=[where_string])
-
-    return tags
+    return Tag.objects.filter(id__in=suggested_tag_ids)
