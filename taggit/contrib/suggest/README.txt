@@ -11,9 +11,10 @@ For example, if your site is a humor site you might want to collapse all of
 suggest_tags() function in taggit.contrib.suggest.utils will give you a list
 of tags that seem appropriate for the text content given to it.  
 
-It will also do some basic stemming of the keywords for you! Which requires the 
-Python NLTK. 
+TODO
+====
 
-In a later version I hope to a simple way to help determine keywords for you
+* Basic stemming of the keywords for you! Which will require the Python NLTK. 
+
+* In a later version I hope to a simple way to help determine keywords for you
 automatically, by learning from your past tags and content. 
-

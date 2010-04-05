@@ -1,7 +1,9 @@
 import re 
+
 from django.db import models 
 from django.core.exceptions import ValidationError 
 from taggit.models import Tag 
+
 
 class TagKeyword(models.Model): 
     """ Model to associate simple keywords to a Tag """ 
@@ -25,7 +27,6 @@ class TagRegExp(models.Model):
     regexp = models.CharField(max_length=250,
                              validators=[validate_regexp],
                              )
-    case_insensitive = models.BooleanField(default=False)
 
     def __unicode__(self): 
         return self.name 
