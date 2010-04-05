@@ -26,6 +26,7 @@ class TagRegExp(models.Model):
     name = models.CharField(max_length=30)
     regexp = models.CharField(max_length=250,
                              validators=[validate_regexp],
+                             help_text='Enter a valid Regular Expression. To make it case-insensitive include "(?i)" in your expression.'
                              )
 
     def __unicode__(self): 
