@@ -4,12 +4,6 @@ from taggit.contrib.suggest.models import TagKeyword, TagRegExp
 from django.conf import settings 
 
 
-HAS_NLTK = True 
-try: 
-    from nltk.stemmer.porter import PorterStemmer
-except ImportError: 
-    HAS_NLTK = False 
-
 def _suggest_keywords(content=None):
     """ Suggest by keywords """ 
     suggested_keywords = set()

@@ -4,14 +4,28 @@ from django.db import models
 from django.core.exceptions import ValidationError 
 from taggit.models import Tag 
 
+HAS_PYSTEMMER = True 
+try: 
+    import Stemmer
+except ImportError: 
+    HAS_PYSTEMMER = False 
 
 class TagKeyword(models.Model): 
     """ Model to associate simple keywords to a Tag """ 
     tag = models.ForeignKey(Tag, related_name='keywords')
     keyword = models.CharField(max_length=30)
+    stem = models.CharField(max_length=30)
 
     def __unicode__(self): 
         return "Keyword '%s' for Tag '%s'" % (self.keyword, self.tag.name)
+
+    def save(self, *args, **kwargs): 
+        """ Stem the keyword on save if they have PyStemmer """ 
+        language = kwargs.pop('stemmer-language', 'english')
+        if not self.id and not self.stem and HAS_PYSTEMMER: 
+            stemmer = Stemmer.Stemmer(language)
+            self.stem = stemmer.stemWord(self.keyword)
+        super(TagKeyword,self).save(*args,**kwargs)
 
 def validate_regexp(value): 
     """ Make sure we have a valid regular expression """ 
