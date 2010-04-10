@@ -7,11 +7,15 @@ from django.conf import settings
 def _suggest_keywords(content=None):
     """ Suggest by keywords """ 
     suggested_keywords = set()
-    keywords = TagKeyword.objects.values_list('keyword', 'tag')
+    keywords = TagKeyword.objects.values_list('keyword', 'stem', 'tag')
 
     for k in keywords: 
-        if k[0] in content: 
-            suggested_keywords.add(k[1])
+        # Use the stem if available, otherwise use the whole keyword  
+        if k[1]: 
+            if k[1] in content: 
+                suggested_keywords.add(k[2])
+        elif k[0] in content: 
+            suggested_keywords.add(k[2])
 
     return suggested_keywords 
 
