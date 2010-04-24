@@ -69,7 +69,7 @@ class TaggableManager(object):
             return value
         else:
             # Fucking flip-floppers.
-            raise ValueError("You can't combine Tag objects and strings.  '%s' was provided." % value)
+            raise ValueError("You can't combine Tag objects and strings. '%s' was provided." % value)
         if hasattr(models.Field, "get_prep_lookup"):
             return models.Field().get_prep_lookup(lookup_type, qs)
         return models.Field().get_db_prep_lookup(lookup_type, qs)
@@ -85,7 +85,7 @@ class TaggableManager(object):
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
             "label": "Tags",
-            "help_text": "A comma seperated list of tags."
+            "help_text": "A comma-separated list of tags."
         }
         defaults.update(kwargs)
         return form_class(**kwargs)

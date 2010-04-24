@@ -16,4 +16,4 @@ class TagField(forms.CharField):
         try:
             return parse_tags(value)
         except ValueError:
-            raise forms.ValidationError("Please provide a comma seperate list of tags.")
+            raise forms.ValidationError("Please provide a comma-separated list of tags.")
