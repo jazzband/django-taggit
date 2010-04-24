@@ -7,3 +7,4 @@ fakeempire <adam@fakeempire.com>
 Ben Firshman <ben@firshman.co.uk>
 Alex Gaynor <alex.gaynor@gmail.com>
 Rob Hudson <rob@cogit8.org>
+Frank Wiles

@@ -1,22 +1,25 @@
-from django.contrib import admin 
+from django.contrib import admin
 
-from taggit.models import Tag 
-from taggit.admin import TaggedItemInline 
-from taggit.contrib.suggest.models import TagKeyword, TagRegExp
+from taggit.admin import TaggedItemInline
+from taggit.contrib.suggest.models import TagKeyword, TagRegex
+from taggit.models import Tag
 
 
 class TagKeywordInline(admin.StackedInline):
-    model = TagKeyword 
+    model = TagKeyword
 
-class TagRegExpInline(admin.StackedInline): 
-    model = TagRegExp
 
-class TagSuggestAdmin(admin.ModelAdmin): 
+class TagRegxInline(admin.StackedInline):
+    model = TagRegex
+
+
+class TagSuggestAdmin(admin.ModelAdmin):
     inlines = [
         TaggedItemInline,
         TagKeywordInline,
-        TagRegExpInline,
+        TagRegxInline,
     ]
 
-admin.site.unregister(Tag) 
+
+admin.site.unregister(Tag)
 admin.site.register(Tag, TagSuggestAdmin)

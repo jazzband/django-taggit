@@ -1,48 +1,43 @@
-import re 
-from taggit.models import Tag 
-from taggit.contrib.suggest.models import TagKeyword, TagRegExp
-from django.conf import settings 
+import re
+
+from django.conf import settings
+
+from taggit.contrib.suggest.models import TagKeyword, TagRegex
+from taggit.models import Tag
 
 
-def _suggest_keywords(content=None):
-    """ Suggest by keywords """ 
+def _suggest_keywords(content):
+    """ Suggest by keywords """
     suggested_keywords = set()
-    keywords = TagKeyword.objects.values_list('keyword', 'stem', 'tag')
+    keywords = TagKeyword.objects.all()
 
-    for k in keywords: 
-        # Use the stem if available, otherwise use the whole keyword  
-        if k[1]: 
-            if k[1] in content: 
-                suggested_keywords.add(k[2])
-        elif k[0] in content: 
-            suggested_keywords.add(k[2])
+    for k in keywords:
+        # Use the stem if available, otherwise use the whole keyword
+        if k.stem:
+            if k.stem in content:
+                suggested_keywords.add(k.tag_id)
+        elif k.keyword in content:
+            suggested_keywords.add(k.tag_id)
 
-    return suggested_keywords 
+    return suggested_keywords
 
-def _suggest_regexps(content=None): 
-    """ Suggest by regular expressions """ 
-    # Grab all regular expressions and compile them 
-    suggested_regexps = set()
-    regexps = set()
-    regexp_keywords = TagRegExp.objects.values_list(
-                            'regexp', 
-                            'tag', 
-                            )
+def _suggest_regexes(content):
+    """ Suggest by regular expressions """
+    # Grab all regular expressions and compile them
+    suggested_regexes = set()
+    regex_keywords = TagRegex.objects.all()
 
-    for r in regexp_keywords: 
-        regexps.add((re.compile(r[0]), r[1]))
+    # Look for our regular expressions in the content
+    for r in regex_keywords:
+        if re.search(r.regex, content):
+            suggested_regexes.add(r.tag_id)
 
-    # Look for our regular expressions in the content 
-    for r in regexps:
-        if r[0].search(content):
-            suggested_regexps.add(r[1])
+    return suggested_regexes
 
-    return suggested_regexps 
-
-def suggest_tags(content=None):
-    """ Suggest tags based on text content """ 
+def suggest_tags(content):
+    """ Suggest tags based on text content """
     suggested_keywords = _suggest_keywords(content)
-    suggested_regexps  = _suggest_regexps(content) 
-    suggested_tag_ids  = suggested_keywords | suggested_regexps
+    suggested_regexes  = _suggest_regexes(content)
+    suggested_tag_ids  = suggested_keywords | suggested_regexes
 
     return Tag.objects.filter(id__in=suggested_tag_ids)
