@@ -21,6 +21,7 @@ Then you can use the API like so:
     >>> apple.tags.all()
     [<Tag: red>, <Tag: green>, <Tag: delicious>]
     >>> apple.tags.remove("green")
+    >>> apple.tags.all()
     [<Tag: red>, <Tag: delicious>]
     >>> Food.objects.filter(tags__in=["red"])
     [<Food: apple>, <Food: cherry>]
