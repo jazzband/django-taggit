@@ -1,1 +1,3 @@
 *.pyc
+django_taggit.egg-info/
+dist/
