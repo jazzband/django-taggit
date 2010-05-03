@@ -84,7 +84,7 @@ class LookupByTagTestCase(BaseTaggingTest):
         apple.tags.add("red", "green")
         pear = Food.objects.create(name="pear")
         pear.tags.add("green")
-        
+
         self.assertEqual(list(Food.objects.filter(tags__in=["red"])), [apple])
         self.assertEqual(list(Food.objects.filter(tags__in=["green"])), [apple, pear])
 

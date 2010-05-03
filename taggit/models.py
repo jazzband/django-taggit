@@ -25,12 +25,47 @@ class Tag(models.Model):
             return super(Tag, self).save(*args, **kwargs)
 
 
-class TaggedItem(models.Model):
+class TaggedItemBase(models.Model):
+    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+
+    def __unicode__(self):
+        return "%s tagged with %s" % (self.content_object, self.tag)
+    
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def tag_relname(cls):
+        return cls._meta.get_field('tag').rel.related_name
+
+    @classmethod
+    def lookup_kwargs(cls, instance):
+        return {'content_object': instance}
+
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return Tag.objects.filter(**{'%s__content_object' % cls.tag_relname(): instance})
+        else:
+            return Tag.objects.filter(**{'%s__content_object__isnull' % cls.tag_relname(): False})
+
+
+class TaggedItem(TaggedItemBase):
     object_id = models.IntegerField()
     content_type = models.ForeignKey(ContentType, related_name="tagged_items")
     content_object = GenericForeignKey()
-    
-    tag = models.ForeignKey(Tag, related_name="items")
-    
-    def __unicode__(self):
-        return "%s tagged with %s" % (self.content_object, self.tag)
+
+    @classmethod
+    def lookup_kwargs(cls, instance):
+        return {'object_id': instance.pk,
+                'content_type': ContentType.objects.get_for_model(instance)}
+
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        ct = ContentType.objects.get_for_model(model)
+        if instance is not None:
+            return Tag.objects.filter(**{'%s__object_id' % cls.tag_relname(): instance.pk,
+                                         '%s__content_type' % cls.tag_relname(): ct})
+        else:
+            return Tag.objects.filter(**{'%s__content_type' % cls.tag_relname(): ct}).distinct()
+            
