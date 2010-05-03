@@ -27,6 +27,7 @@ class TaggableRel(ManyToManyRel):
 
 class TaggableManager(object):
     def __init__(self, verbose_name="Tags", through=None):
+        self.use_gfk = through is None
         self.through = through or TaggedItem
         self.rel = TaggableRel(to=self.through)
         self.verbose_name = verbose_name
@@ -100,21 +101,31 @@ class TaggableManager(object):
         return None
 
     def m2m_reverse_name(self):
-        try:
-            return self.through._meta.get_field('content_object').rel.to._meta.pk.column
-        except FieldDoesNotExist:
+        if self.use_gfk:
             return "id"
+        else:
+            return self.through._meta.get_field('content_object').rel.to._meta.pk.column
 
     def m2m_column_name(self):
-        try:
-            return self.through._meta.get_field('content_object').column
-        except FieldDoesNotExist :
+        if self.use_gfk:
             return self.through._meta.virtual_fields[0].fk_field
+        else:
+            return self.through._meta.get_field('content_object').column
 
     def db_type(self, connection=None):
         return None
 
     def m2m_db_table(self):
+        return self.through._meta.db_table
+
+    def extra_filters(self, pieces, pos, negate):
+        if negate or not self.use_gfk:
+            return []
+        prefix = "__".join(pieces[:pos+1])
+        cts = map(ContentType.objects.get_for_model, _get_subclasses(self.model))
+        if len(cts) == 1:
+            return [("%s__content_type" % prefix, cts[0])]
+        return [("%s__content_type__in" % prefix, cts)]
         return self.through._meta.db_table
 
 
@@ -183,3 +194,12 @@ class _TaggableManager(models.Manager):
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
+
+
+def _get_subclasses(model):
+    subclasses = [model]
+    for f in model._meta.get_all_field_names():
+        field = model._meta.get_field_by_name(f)[0]
+        if isinstance(field, RelatedObject) and getattr(field.field.rel, "parent_link", None):
+            subclasses.extend(_get_subclasses(field.model))
+    return subclasses
