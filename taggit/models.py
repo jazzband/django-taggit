@@ -1,3 +1,4 @@
+import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError
@@ -26,7 +27,10 @@ class Tag(models.Model):
 
 
 class TaggedItemBase(models.Model):
-    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+    if django.VERSION < (1, 2):
+        tag = models.ForeignKey(Tag, related_name="%(class)s_items")
+    else:
+        tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
     def __unicode__(self):
         return "%s tagged with %s" % (self.content_object, self.tag)
@@ -47,7 +51,7 @@ class TaggedItemBase(models.Model):
         if instance is not None:
             return Tag.objects.filter(**{'%s__content_object' % cls.tag_relname(): instance})
         else:
-            return Tag.objects.filter(**{'%s__content_object__isnull' % cls.tag_relname(): False})
+            return Tag.objects.filter(**{'%s__content_object__isnull' % cls.tag_relname(): False}).distinct()
 
 
 class TaggedItem(TaggedItemBase):

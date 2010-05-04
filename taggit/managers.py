@@ -5,7 +5,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models
 from django.db.models.related import RelatedObject
-from django.db.models.fields import FieldDoesNotExist
 from django.db.models.fields.related import ManyToManyRel
 from django.db.models.query_utils import QueryWrapper
 
@@ -126,17 +125,16 @@ class TaggableManager(object):
         if len(cts) == 1:
             return [("%s__content_type" % prefix, cts[0])]
         return [("%s__content_type__in" % prefix, cts)]
-        return self.through._meta.db_table
 
 
 class _TaggableManager(models.Manager):
-    def __init__(self, through=None):
-        self.through = through or TaggedItem
+    def __init__(self, through):
+        self.through = through
         
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
 
-    def lookup_kwargs(self):
+    def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
     
     @require_instance_manager
@@ -144,7 +142,7 @@ class _TaggableManager(models.Manager):
         for tag in tags:
             if not isinstance(tag, Tag):
                 tag, _ = Tag.objects.get_or_create(name=tag)
-            self.through.objects.get_or_create(**dict(self.lookup_kwargs(),
+            self.through.objects.get_or_create(**dict(self._lookup_kwargs(),
                                                       tag=tag))
 
     @require_instance_manager
@@ -154,12 +152,12 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def remove(self, *tags):
-        self.through.objects.filter(**self.lookup_kwargs()).filter(
+        self.through.objects.filter(**self._lookup_kwargs()).filter(
             tag__name__in=tags).delete()
 
     @require_instance_manager
     def clear(self):
-        self.through.objects.filter(**self.lookup_kwargs()).delete()
+        self.through.objects.filter(**self._lookup_kwargs()).delete()
 
     def most_common(self):
         return self.get_query_set().annotate(
@@ -168,13 +166,19 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def similar_objects(self):
-        qs = self.through.objects.values(*self.lookup_kwargs().keys())
+        qs = self.through.objects.values(*self._lookup_kwargs().keys())
         qs = qs.annotate(n=models.Count('pk'))
-        qs = qs.exclude(**self.lookup_kwargs())
+        qs = qs.exclude(**self._lookup_kwargs())
         qs = qs.filter(tag__in=self.all())
         qs = qs.order_by('-n')
 
-        if not 'content_object' in self.lookup_kwargs():
+        if 'content_object' in self._lookup_kwargs():
+            using_gfk = False
+            items = dict([(o.pk, o) for o in
+                          self.through._meta.get_field('content_object').rel.to.objects.filter(
+                        pk__in=[r['content_object'] for r in qs])])
+        else:
+            using_gfk = True
             preload = defaultdict(set)
             for result in qs:
                 preload[result["content_type"]].add(result["object_id"])
@@ -187,10 +191,10 @@ class _TaggableManager(models.Manager):
 
         results = []
         for result in qs:
-            try:
-                obj = result['content_object']
-            except KeyError:
+            if using_gfk:
                 obj = items[result["content_type"]][result["object_id"]]
+            else:
+                obj = items[result["content_object"]]
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
