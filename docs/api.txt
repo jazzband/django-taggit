@@ -8,7 +8,7 @@ playing around with the API.
 add(*tags)
 ~~~~~~~~~~
 
-This adds tags to an object, the tags can be either ``Tag`` instances, or
+This adds tags to an object. The tags can be either ``Tag`` instances, or
 strings::
 
     >>> apple.tags.all()
@@ -19,7 +19,7 @@ strings::
 remove(*tags)
 ~~~~~~~~~~~~~
 
-Removes a tag from an object, no exception is raised if the object doesn't have
+Removes a tag from an object. No exception is raised if the object doesn't have
 that tag.
 
 clear()
@@ -40,4 +40,14 @@ appear, available as the ``num_times`` attribute on each tag.  The ``QuerySet``
 is ordered by ``num_times``, descending.  The ``QuerySet`` is lazily evaluated,
 and can be sliced efficiently.
 
+similar_objects()
+~~~~~~~~~~~~~~~~~
 
+Returns a list (not a lazy ``QuerySet``) of other objects tagged similarly to
+this one, ordered with most similar first. Each object in the list is decorated
+with a ``similar_tags`` attribute, the number of tags it shares with this
+object.
+
+If using generic tagging (the default), this method searches all tagged
+objects. If querying on a model with its own tagging through table, only other
+instances of the same model will be returned.

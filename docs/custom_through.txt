@@ -1,16 +1,17 @@
 Using a Custom Through Model
 ============================
 
-By default ``django-taggit`` uses a "through model" with a ``GenericForeignKey``
-on it.  However, there are some cases where this isn't desirable, for example
-if you want the speed and referential guarntees of a real ``ForeignKey``, or if
-you have a model with a non-integer primary key.  In these cases ``django-taggit``
-makes it easy to subsistute your own through model.
+By default ``django-taggit`` uses a "through model" with a
+``GenericForeignKey`` on it.  However, there are some cases where this
+isn't desirable, for example if you want the speed and referential
+guarantees of a real ``ForeignKey``, or if you have a model with a
+non-integer primary key.  In these cases ``django-taggit`` makes it
+easy to substitute your own through model.
 
-You must create your own intermediary model, a subclass of
-``taggit.models.TaggedItemBase`` with a foreign key to your content model named
-``content_object``, and then pass this intermediary model as the ``through``
-argument of ``TaggableManager``::
+Youe intermediary model must be a subclass of
+``taggit.models.TaggedItemBase`` with a foreign key to your content
+model named ``content_object``. Pass this intermediary model as the
+``through`` argument to ``TaggableManager``::
 
     from django.db import models
 
@@ -27,5 +28,4 @@ argument of ``TaggableManager``::
         tags = TaggableManager(through=TaggedFood)
 
 
-Once this is done, the API works identically with direct-tagged or
-GFK-tagged models.
+Once this is done, the API works the same as for GFK-tagged models.

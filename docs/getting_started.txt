@@ -1,12 +1,13 @@
 Getting Started
 ===============
 
-To get started using ``django-taggit`` simply install it ``pip``::
+To get started using ``django-taggit`` simply install it with
+``pip``::
 
     $ pip install django-taggit
 
 
-Add it to your project's ``INSTALLED_APPS`` setting.
+Add ``"taggit"`` to your project's ``INSTALLED_APPS`` setting.
 
 And then to any model you want tagging on do the following::
 
@@ -18,6 +19,3 @@ And then to any model you want tagging on do the following::
         # ... fields here
 
         tags = TaggableManager()
-
-
-
