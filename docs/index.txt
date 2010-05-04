@@ -1,0 +1,20 @@
+Welcome to django-taggit's documentation!
+=========================================
+
+``django-taggit`` is a reusable Django application designed to making adding
+tagging to your project easy and fun.
+
+.. toctree::
+   :maxdepth: 2
+   
+   getting_started
+   api
+   custom_through
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

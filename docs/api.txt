@@ -1,0 +1,43 @@
+The API
+=======
+
+After you've got your ``TaggableManager`` added to your model you can start
+playing around with the API.
+
+
+add(*tags)
+~~~~~~~~~~
+
+This adds tags to an object, the tags can be either ``Tag`` instances, or
+strings::
+
+    >>> apple.tags.all()
+    []
+    >>> apple.tags.add("red", "green", "fruit")
+
+
+remove(*tags)
+~~~~~~~~~~~~~
+
+Removes a tag from an object, no exception is raised if the object doesn't have
+that tag.
+
+clear()
+~~~~~~~
+
+Removes all tags from an object.
+
+set(*tags)
+~~~~~~~~~~
+
+Removes all the current tags and then adds the specified tags to the object.
+
+most_common()
+~~~~~~~~~~~~~
+
+Returns a ``QuerySet`` of all tags, annotated with the number of times they
+appear, available as the ``num_times`` attribute on each tag.  The ``QuerySet``
+is ordered by ``num_times``, descending.  The ``QuerySet`` is lazily evaluated,
+and can be sliced efficiently.
+
+
