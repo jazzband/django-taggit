@@ -50,7 +50,11 @@ class TaggableManagerTestCase(BaseTaggingTest):
         self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
         self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
 
-        self.assert_tags_equal(self.food_model.tags.most_common(), ['green', 'red'], sort=False)
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(),
+            ['green', 'red'],
+            sort=False
+        )
 
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
@@ -85,14 +89,23 @@ class TaggableManagerTestCase(BaseTaggingTest):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green")
 
-        self.assertEqual(list(self.food_model.objects.filter(tags__in=["red"])), [apple])
-        self.assertEqual(list(self.food_model.objects.filter(tags__in=["green"])), [apple, pear])
+        self.assertEqual(
+            list(self.food_model.objects.filter(tags__in=["red"])),
+            [apple]
+        )
+        self.assertEqual(
+            list(self.food_model.objects.filter(tags__in=["green"])),
+            [apple, pear]
+        )
 
         kitty = self.pet_model.objects.create(name="kitty")
         kitty.tags.add("fuzzy", "red")
         dog = self.pet_model.objects.create(name="dog")
         dog.tags.add("woof", "red")
-        self.assertEqual(list(self.food_model.objects.filter(tags__in=["red"]).distinct()), [apple])
+        self.assertEqual(
+            list(self.food_model.objects.filter(tags__in=["red"]).distinct()),
+            [apple]
+        )
 
         tag = Tag.objects.get(name="woof")
         self.assertEqual(list(self.pet_model.objects.filter(tags__in=[tag])), [dog])
@@ -130,7 +143,8 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
     housepet_model = DirectHousePet
-        
+
+
 class TaggableFormTestCase(BaseTaggingTest):
     form_class = FoodForm
     food_model = Food

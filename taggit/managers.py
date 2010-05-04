@@ -1,11 +1,11 @@
 from collections import defaultdict
 
 import django
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models.related import RelatedObject
 from django.db.models.fields.related import ManyToManyRel
+from django.db.models.related import RelatedObject
 from django.db.models.query_utils import QueryWrapper
 
 from taggit.forms import TagField
@@ -102,14 +102,12 @@ class TaggableManager(object):
     def m2m_reverse_name(self):
         if self.use_gfk:
             return "id"
-        else:
-            return self.through._meta.get_field('content_object').rel.to._meta.pk.column
+        return self.through._meta.get_field('content_object').rel.to._meta.pk.column
 
     def m2m_column_name(self):
         if self.use_gfk:
             return self.through._meta.virtual_fields[0].fk_field
-        else:
-            return self.through._meta.get_field('content_object').column
+        return self.through._meta.get_field('content_object').column
 
     def db_type(self, connection=None):
         return None
@@ -142,8 +140,7 @@ class _TaggableManager(models.Manager):
         for tag in tags:
             if not isinstance(tag, Tag):
                 tag, _ = Tag.objects.get_or_create(name=tag)
-            self.through.objects.get_or_create(**dict(self._lookup_kwargs(),
-                                                      tag=tag))
+            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 
     @require_instance_manager
     def set(self, *tags):
@@ -166,17 +163,22 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def similar_objects(self):
-        qs = self.through.objects.values(*self._lookup_kwargs().keys())
+        lookup_kwargs = self._lookup_kwargs()
+        qs = self.through.objects.values(*lookup_kwargs.keys())
         qs = qs.annotate(n=models.Count('pk'))
-        qs = qs.exclude(**self._lookup_kwargs())
+        qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
         qs = qs.order_by('-n')
-
-        if 'content_object' in self._lookup_kwargs():
+        
+        # TODO: This all feels like a giant hack... giant.
+        if len(lookup_kwargs) == 1:
             using_gfk = False
-            items = dict([(o.pk, o) for o in
-                          self.through._meta.get_field('content_object').rel.to.objects.filter(
-                        pk__in=[r['content_object'] for r in qs])])
+            # Can this just be select_related?  I think so.
+            items = self.through._meta.get_field_by_name(
+                lookup_kwargs.keys()[0]
+            )[0].rel.to._default_manager.in_bulk(
+                [r["content_object"] for r in qs]
+            )
         else:
             using_gfk = True
             preload = defaultdict(set)
@@ -186,11 +188,12 @@ class _TaggableManager(models.Manager):
             items = {}
             for ct, obj_ids in preload.iteritems():
                 ct = ContentType.objects.get_for_id(ct)
-                items[ct.pk] = dict((o.pk, o) for o in
-                                    ct.model_class()._default_manager.filter(pk__in=obj_ids))
+                items[ct.pk] = ct.model_class()._default_manager.in_bulk(obj_ids)
 
         results = []
         for result in qs:
+            # TODO: Consolidate this into dicts keyed by a tuple of the
+            # (content_type, object_id) instead of the nesting.
             if using_gfk:
                 obj = items[result["content_type"]][result["object_id"]]
             else:
@@ -204,6 +207,7 @@ def _get_subclasses(model):
     subclasses = [model]
     for f in model._meta.get_all_field_names():
         field = model._meta.get_field_by_name(f)[0]
-        if isinstance(field, RelatedObject) and getattr(field.field.rel, "parent_link", None):
+        if (isinstance(field, RelatedObject) and
+            getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
     return subclasses

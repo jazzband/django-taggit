@@ -40,18 +40,23 @@ class TaggedItemBase(models.Model):
 
     @classmethod
     def tag_relname(cls):
-        return cls._meta.get_field('tag').rel.related_name
+        return cls._meta.get_field_by_name('tag')[0].rel.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
-        return {'content_object': instance}
+        return {
+            'content_object': instance
+        }
 
     @classmethod
     def tags_for(cls, model, instance=None):
         if instance is not None:
-            return Tag.objects.filter(**{'%s__content_object' % cls.tag_relname(): instance})
-        else:
-            return Tag.objects.filter(**{'%s__content_object__isnull' % cls.tag_relname(): False}).distinct()
+            return Tag.objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return Tag.objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
 
 
 class TaggedItem(TaggedItemBase):
@@ -61,15 +66,20 @@ class TaggedItem(TaggedItemBase):
 
     @classmethod
     def lookup_kwargs(cls, instance):
-        return {'object_id': instance.pk,
-                'content_type': ContentType.objects.get_for_model(instance)}
+        return {
+            'object_id': instance.pk,
+            'content_type': ContentType.objects.get_for_model(instance)
+        }
 
     @classmethod
     def tags_for(cls, model, instance=None):
         ct = ContentType.objects.get_for_model(model)
         if instance is not None:
-            return Tag.objects.filter(**{'%s__object_id' % cls.tag_relname(): instance.pk,
-                                         '%s__content_type' % cls.tag_relname(): ct})
-        else:
-            return Tag.objects.filter(**{'%s__content_type' % cls.tag_relname(): ct}).distinct()
-            
+            return Tag.objects.filter(**{
+                '%s__object_id' % cls.tag_relname(): instance.pk,
+                '%s__content_type' % cls.tag_relname(): ct
+            })
+        return Tag.objects.filter(**{
+            '%s__content_type' % cls.tag_relname(): ct
+        }).distinct()
+
