@@ -164,40 +164,39 @@ class _TaggableManager(models.Manager):
     @require_instance_manager
     def similar_objects(self):
         lookup_kwargs = self._lookup_kwargs()
+        lookup_keys = sorted(lookup_kwargs)
         qs = self.through.objects.values(*lookup_kwargs.keys())
         qs = qs.annotate(n=models.Count('pk'))
         qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
         qs = qs.order_by('-n')
         
-        # TODO: This all feels like a giant hack... giant.
-        if len(lookup_kwargs) == 1:
-            using_gfk = False
-            # Can this just be select_related?  I think so.
-            items = self.through._meta.get_field_by_name(
-                lookup_kwargs.keys()[0]
-            )[0].rel.to._default_manager.in_bulk(
-                [r["content_object"] for r in qs]
-            )
+        # TODO: This all feels like a bit of a hack.
+        items = {}
+        if len(lookup_keys) == 1:
+            # Can we do this without a second query by using a select_related()
+            # somehow?
+            f = self.through._meta.get_field_by_name(lookup_keys[0])[0]
+            objs = f.rel.to._default_manager.filter(**{
+                "%s__in" % f.rel.field_name: [r["content_object"] for r in qs]
+            })
+            for obj in objs:
+                items[(getattr(obj, f.rel.field_name),)] = obj
         else:
-            using_gfk = True
             preload = defaultdict(set)
             for result in qs:
                 preload[result["content_type"]].add(result["object_id"])
 
-            items = {}
             for ct, obj_ids in preload.iteritems():
                 ct = ContentType.objects.get_for_id(ct)
-                items[ct.pk] = ct.model_class()._default_manager.in_bulk(obj_ids)
+                for obj in ct.model_class()._default_manager.filter(pk__in=obj_ids):
+                    items[(ct.pk, obj.pk)] = obj
 
         results = []
         for result in qs:
-            # TODO: Consolidate this into dicts keyed by a tuple of the
-            # (content_type, object_id) instead of the nesting.
-            if using_gfk:
-                obj = items[result["content_type"]][result["object_id"]]
-            else:
-                obj = items[result["content_object"]]
+            obj = items[
+                tuple(result[k] for k in lookup_keys)
+            ]
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
