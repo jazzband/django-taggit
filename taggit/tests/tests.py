@@ -82,7 +82,7 @@ class TaggableManagerTestCase(BaseTaggingTest):
         strawberry.tags.add("red")
         apple.delete()
         self.assert_tags_equal(strawberry.tags.all(), ["red"])
-
+    
     def test_lookup_by_tag(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red", "green")

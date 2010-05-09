@@ -33,7 +33,7 @@ class TaggedItemBase(models.Model):
         tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
     def __unicode__(self):
-        return "%s tagged with %s" % (self.content_object, self.tag)
+        return u"%s tagged with %s" % (self.content_object, self.tag)
     
     class Meta:
         abstract = True
