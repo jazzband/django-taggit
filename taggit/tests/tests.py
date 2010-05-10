@@ -83,6 +83,17 @@ class TaggableManagerTestCase(BaseTaggingTest):
         apple.delete()
         self.assert_tags_equal(strawberry.tags.all(), ["red"])
     
+    def test_delete_bulk(self):
+        apple = self.food_model.objects.create(name="apple")
+        kitty = self.pet_model.objects.create(id=apple.pk,  name="kitty")
+        
+        apple.tags.add("red", "delicious", "fruit")
+        kitty.tags.add("feline")
+        
+        self.food_model.objects.all().delete()
+
+        self.assert_tags_equal(kitty.tags.all(), ["feline"])
+    
     def test_lookup_by_tag(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red", "green")
