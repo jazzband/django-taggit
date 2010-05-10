@@ -10,6 +10,7 @@ tagging to your project easy and fun.
    getting_started
    api
    custom_through
+   issues
 
 Indices and tables
 ==================
