@@ -56,7 +56,7 @@ Filtering
 ~~~~~~~~~
 
 To find all of a model with a specific tags you can filter, using the normal
-Django ORM API.  For example if you had a ``Food`` model, who's
+Django ORM API.  For example if you had a ``Food`` model, whose
 ``TaggableManager`` was named ``tags``, you could find all the delicious fruit
 like so::
 
