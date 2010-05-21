@@ -19,6 +19,8 @@ class Pet(models.Model):
 class HousePet(Pet):
     trained = models.BooleanField()
 
+# test direct-tagging with custom through model
+    
 class TaggedFood(TaggedItemBase):
     content_object = models.ForeignKey('DirectFood')
     
@@ -36,4 +38,25 @@ class DirectPet(models.Model):
     tags = TaggableManager(through=TaggedPet)
 
 class DirectHousePet(DirectPet):
+    trained = models.BooleanField()
+
+# test custom through model to model with custom PK
+
+class TaggedCustomPKFood(TaggedItemBase):
+    content_object = models.ForeignKey('CustomPKFood')
+
+class CustomPKFood(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomPKFood)
+    
+class TaggedCustomPKPet(TaggedItemBase):
+    content_object = models.ForeignKey('CustomPKPet')
+    
+class CustomPKPet(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomPKPet)
+
+class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField()

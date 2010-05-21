@@ -1,6 +1,6 @@
 from django import forms
 
-from taggit.tests.models import Food, DirectFood
+from taggit.tests.models import Food, DirectFood, CustomPKFood
 
 
 class FoodForm(forms.ModelForm):
@@ -10,3 +10,7 @@ class FoodForm(forms.ModelForm):
 class DirectFoodForm(forms.ModelForm):
     class Meta:
         model = DirectFood
+
+class CustomPKFoodForm(forms.ModelForm):
+    class Meta:
+        model = CustomPKFood
