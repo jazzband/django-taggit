@@ -156,8 +156,10 @@ class TaggableManagerTestCase(BaseTaggingTest):
         spot.tags.add('scary')
         spike.tags.add('fluffy')
         lookup_kwargs = {'%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'}
-        self.assertEqual([unicode(i.tag) for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
-                         [u'scary'])
+        self.assert_tags_equal(
+           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
+           ['scary']
+        )
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
