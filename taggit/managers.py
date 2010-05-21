@@ -97,7 +97,7 @@ class TaggableManager(object):
         return self.through.objects.none()
 
     def related_query_name(self):
-        return None
+        return self.model._meta.object_name.lower()
 
     def m2m_reverse_name(self):
         if self.use_gfk:

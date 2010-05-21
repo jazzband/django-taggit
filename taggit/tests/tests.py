@@ -3,9 +3,9 @@ from contextlib import contextmanager
 
 from django.test import TestCase
 
-from taggit.models import Tag
+from taggit.models import Tag, TaggedItem
 from taggit.tests.forms import FoodForm, DirectFoodForm
-from taggit.tests.models import Food, Pet, HousePet, DirectFood, DirectPet, DirectHousePet
+from taggit.tests.models import Food, Pet, HousePet, DirectFood, DirectPet, DirectHousePet, TaggedPet
 
 
 class BaseTaggingTest(TestCase):
@@ -31,6 +31,7 @@ class TaggableManagerTestCase(BaseTaggingTest):
     food_model = Food
     pet_model = Pet
     housepet_model = HousePet
+    taggeditem_model = TaggedItem
     
     def test_add_tag(self):
         apple = self.food_model.objects.create(name="apple")
@@ -149,11 +150,21 @@ class TaggableManagerTestCase(BaseTaggingTest):
         apple.tags.add("juicy", "juicy")
         self.assert_tags_equal(apple.tags.all(), ['juicy'])
 
+    def test_query_traverse(self):
+        spot = self.pet_model.objects.create(name='Spot')
+        spike = self.pet_model.objects.create(name='Spike')
+        spot.tags.add('scary')
+        spike.tags.add('fluffy')
+        lookup_kwargs = {'%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'}
+        self.assertEqual([unicode(i.tag) for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
+                         [u'scary'])
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
     housepet_model = DirectHousePet
+    taggeditem_model = TaggedPet
 
 
 class TaggableFormTestCase(BaseTaggingTest):
