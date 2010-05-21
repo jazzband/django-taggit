@@ -70,7 +70,8 @@ class TaggableManagerTestCase(BaseTaggingTest):
         
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
-        
+
+    def test_require_pk(self):
         f = self.food_model()
         with self.assert_raises(ValueError):
             f.tags.all()
@@ -178,6 +179,10 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     housepet_model = CustomPKHousePet
     taggeditem_model = TaggedCustomPKPet
 
+    def test_require_pk(self):
+        # XXX with a charfield pk, pk is never None, so taggit has no
+        # way to tell if the instance is saved or not
+        pass
 
 class TaggableFormTestCase(BaseTaggingTest):
     form_class = FoodForm

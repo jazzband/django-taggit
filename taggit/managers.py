@@ -102,7 +102,7 @@ class TaggableManager(object):
     def m2m_reverse_name(self):
         if self.use_gfk:
             return "id"
-        return self.through._meta.get_field('content_object').rel.to._meta.pk.column
+        return self.through._meta.pk.column
 
     def m2m_column_name(self):
         if self.use_gfk:
