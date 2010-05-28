@@ -15,7 +15,15 @@ try:
     all
 except NameError:
     # 2.4 compat
-    from django.utils.itercompat import all
+    try:
+        from django.utils.itercompat import all
+    except ImportError:
+        # 1.1.X compat
+        def all(iterable):
+            for item in iterable:
+                if not item:
+                    return False
+            return True
 
 
 class TaggableRel(ManyToManyRel):
