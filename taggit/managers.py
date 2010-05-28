@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import django
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -12,6 +10,12 @@ from taggit.forms import TagField
 from taggit.models import Tag, TaggedItem
 from taggit.utils import require_instance_manager
 
+
+try:
+    all
+except NameError:
+    # 2.4 compat
+    from django.utils.itercompat import all
 
 
 class TaggableRel(ManyToManyRel):
@@ -183,8 +187,9 @@ class _TaggableManager(models.Manager):
             for obj in objs:
                 items[(getattr(obj, f.rel.field_name),)] = obj
         else:
-            preload = defaultdict(set)
+            preload = {}
             for result in qs:
+                preload.setdefault(result['content_type'], set())
                 preload[result["content_type"]].add(result["object_id"])
 
             for ct, obj_ids in preload.iteritems():

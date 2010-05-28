@@ -1,4 +1,4 @@
-from functools import wraps
+from django.utils.functional import wraps
 
 def parse_tags(tags):
     if tags is None:

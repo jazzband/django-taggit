@@ -1,6 +1,3 @@
-from __future__ import with_statement
-from contextlib import contextmanager
-
 from django.test import TestCase
 
 from taggit.models import Tag, TaggedItem
@@ -15,16 +12,6 @@ class BaseTaggingTest(TestCase):
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
-    
-    @contextmanager
-    def assert_raises(self, exc_type):
-        try:
-            yield
-        except Exception, e:
-            self.assert_(type(e) is exc_type, "%s didn't match expected "
-                "exception type %s" % (e, exc_type))
-        else:
-            self.fail("No exception raised, expected %s" % exc_type)
     
 
 class TaggableManagerTestCase(BaseTaggingTest):
@@ -66,10 +53,9 @@ class TaggableManagerTestCase(BaseTaggingTest):
         
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
-        
-        f = self.food_model()
-        with self.assert_raises(ValueError):
-            f.tags.all()
+
+        food_instance = self.food_model()
+        self.assertRaises(ValueError, lambda: food_instance.tags.all())
     
     def test_unique_slug(self):
         apple = self.food_model.objects.create(name="apple")
