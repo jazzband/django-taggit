@@ -2,11 +2,9 @@ from django.test import TestCase
 
 from taggit.models import Tag, TaggedItem
 from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
-from taggit.tests.models import (Food, Pet, HousePet,
-                                 DirectFood, DirectPet, DirectHousePet,
-                                 TaggedPet,
-                                 CustomPKFood, CustomPKPet, CustomPKHousePet,
-                                 TaggedCustomPKPet)
+from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
+    DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
+    TaggedCustomPKPet)
 
 
 class BaseTaggingTest(TestCase):
@@ -166,8 +164,8 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     taggeditem_model = TaggedCustomPKPet
 
     def test_require_pk(self):
-        # XXX with a charfield pk, pk is never None, so taggit has no
-        # way to tell if the instance is saved or not
+        # TODO with a charfield pk, pk is never None, so taggit has no way to
+        # tell if the instance is saved or not
         pass
 
 class TaggableFormTestCase(BaseTaggingTest):
