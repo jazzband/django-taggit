@@ -1,8 +1,12 @@
 from django.test import TestCase
 
 from taggit.models import Tag, TaggedItem
-from taggit.tests.forms import FoodForm, DirectFoodForm
-from taggit.tests.models import Food, Pet, HousePet, DirectFood, DirectPet, DirectHousePet, TaggedPet
+from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
+from taggit.tests.models import (Food, Pet, HousePet,
+                                 DirectFood, DirectPet, DirectHousePet,
+                                 TaggedPet,
+                                 CustomPKFood, CustomPKPet, CustomPKHousePet,
+                                 TaggedCustomPKPet)
 
 
 class BaseTaggingTest(TestCase):
@@ -54,6 +58,7 @@ class TaggableManagerTestCase(BaseTaggingTest):
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
+    def test_require_pk(self):
         food_instance = self.food_model()
         self.assertRaises(ValueError, lambda: food_instance.tags.all())
     
@@ -72,7 +77,7 @@ class TaggableManagerTestCase(BaseTaggingTest):
     
     def test_delete_bulk(self):
         apple = self.food_model.objects.create(name="apple")
-        kitty = self.pet_model.objects.create(id=apple.pk,  name="kitty")
+        kitty = self.pet_model.objects.create(pk=apple.pk,  name="kitty")
         
         apple.tags.add("red", "delicious", "fruit")
         kitty.tags.add("feline")
@@ -154,6 +159,16 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     housepet_model = DirectHousePet
     taggeditem_model = TaggedPet
 
+class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
+    food_model = CustomPKFood
+    pet_model = CustomPKPet
+    housepet_model = CustomPKHousePet
+    taggeditem_model = TaggedCustomPKPet
+
+    def test_require_pk(self):
+        # XXX with a charfield pk, pk is never None, so taggit has no
+        # way to tell if the instance is saved or not
+        pass
 
 class TaggableFormTestCase(BaseTaggingTest):
     form_class = FoodForm
@@ -184,3 +199,7 @@ class TaggableFormTestCase(BaseTaggingTest):
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
     food_model = DirectFood
+
+class TaggableFormCustomPKTestCase(TaggableFormTestCase):
+    form_class = CustomPKFoodForm
+    food_model = CustomPKFood
