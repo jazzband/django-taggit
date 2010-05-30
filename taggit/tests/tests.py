@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 
 from taggit.models import Tag, TaggedItem
 from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
@@ -7,16 +7,36 @@ from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     TaggedCustomPKPet)
 
 
-class BaseTaggingTest(TestCase):
+class BaseTaggingTest(object):
     def assert_tags_equal(self, qs, tags, sort=True):
         got = map(lambda tag: tag.name, qs)
         if sort:
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
-    
 
-class TaggableManagerTestCase(BaseTaggingTest):
+class BaseTaggingTestCase(TestCase, BaseTaggingTest):
+    pass
+
+class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
+    pass
+
+
+class TagModelTestCase(BaseTaggingTransactionTestCase):
+    food_model = Food
+
+    def test_unique_slug(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("Red", "red")
+
+class TagModelDirectTestCase(TagModelTestCase):
+    food_model = DirectFood
+
+class TagModelCustomPKTestCase(TagModelTestCase):
+    food_model = CustomPKFood
+
+
+class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
     pet_model = Pet
     housepet_model = HousePet
@@ -60,10 +80,6 @@ class TaggableManagerTestCase(BaseTaggingTest):
         food_instance = self.food_model()
         self.assertRaises(ValueError, lambda: food_instance.tags.all())
     
-    def test_unique_slug(self):
-        apple = self.food_model.objects.create(name="apple")
-        apple.tags.add("Red", "red")
-
     def test_delete_obj(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red")
@@ -168,7 +184,7 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
         # tell if the instance is saved or not
         pass
 
-class TaggableFormTestCase(BaseTaggingTest):
+class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
     food_model = Food
     
