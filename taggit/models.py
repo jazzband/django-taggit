@@ -1,7 +1,7 @@
 import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
-from django.db import models, IntegrityError
+from django.db import models, IntegrityError, transaction
 from django.template.defaultfilters import slugify
 
 
@@ -15,11 +15,26 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
             self.slug = slug = slugify(self.name)
+            if django.VERSION >= (1, 2):
+                from django.db import router
+                using = kwargs.get("using") or router.db_for_write(
+                    type(self), instance=self)
+                # Make sure we write to the same db for all attempted writes,
+                # with a multi-master setup, theoretically we could try to
+                # write and rollback on different DBs
+                kwargs["using"] = using
+                trans_kwargs = {"using": using}
+            else:
+                trans_kwargs = {}
             i = 0
             while True:
                 try:
-                    return super(Tag, self).save(*args, **kwargs)
+                    sid = transaction.savepoint(**trans_kwargs)
+                    res = super(Tag, self).save(*args, **kwargs)
+                    transaction.savepoint_commit(sid, **trans_kwargs)
+                    return res
                 except IntegrityError:
+                    transaction.savepoint_rollback(sid, **trans_kwargs)
                     i += 1
                     self.slug = "%s_%d" % (slug, i)
         else:
