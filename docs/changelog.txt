@@ -1,0 +1,10 @@
+Changelog
+=========
+
+master (unreleased)
+~~~~~~~~~~~~~~~~~~~
+
+* Smarter tagstring parsing for form field; ported from Jonathan
+  Buchanan's `django-tagging
+  <http://django-tagging.googlecode.com>`_. Now supports tags
+  containing commas. See :ref:`tags-in-forms` for details.
