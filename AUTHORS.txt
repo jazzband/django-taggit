@@ -9,3 +9,4 @@ Alex Gaynor <alex.gaynor@gmail.com>
 Rob Hudson <rob@cogit8.org>
 Carl Meyer <carl@oddbird.net>
 Frank Wiles
+Jonathan Buchanan
