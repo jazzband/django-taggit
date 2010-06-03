@@ -3,11 +3,11 @@ from unittest import TestCase as UnitTestCase
 from django.test import TestCase, TransactionTestCase
 
 from taggit.models import Tag, TaggedItem
-from taggit.utils import parse_tags, edit_string_for_tags
 from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
 from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet)
+from taggit.utils import parse_tags, edit_string_for_tags
 
 
 class BaseTaggingTest(object):
@@ -231,73 +231,83 @@ class TagStringParseTestCase(UnitTestCase):
     """
     Ported from Jonathan Buchanan's `django-tagging
     <http://django-tagging.googlecode.com/>`_
-
     """
+
     def test_with_simple_space_delimited_tags(self):
-        """ Test with simple space-delimited tags. """
-        
-        self.assertEquals(parse_tags('one'), [u'one'])
-        self.assertEquals(parse_tags('one two'), [u'one', u'two'])
-        self.assertEquals(parse_tags('one two three'), [u'one', u'three', u'two'])
-        self.assertEquals(parse_tags('one one two two'), [u'one', u'two'])
+        """
+        Test with simple space-delimited tags.
+        """
+        self.assertEqual(parse_tags('one'), [u'one'])
+        self.assertEqual(parse_tags('one two'), [u'one', u'two'])
+        self.assertEqual(parse_tags('one two three'), [u'one', u'three', u'two'])
+        self.assertEqual(parse_tags('one one two two'), [u'one', u'two'])
     
     def test_with_comma_delimited_multiple_words(self):
-        """ Test with comma-delimited multiple words.
-            An unquoted comma in the input will trigger this. """
-            
-        self.assertEquals(parse_tags(',one'), [u'one'])
-        self.assertEquals(parse_tags(',one two'), [u'one two'])
-        self.assertEquals(parse_tags(',one two three'), [u'one two three'])
-        self.assertEquals(parse_tags('a-one, a-two and a-three'),
+        """
+        Test with comma-delimited multiple words.
+        An unquoted comma in the input will trigger this.
+        """ 
+        self.assertEqual(parse_tags(',one'), [u'one'])
+        self.assertEqual(parse_tags(',one two'), [u'one two'])
+        self.assertEqual(parse_tags(',one two three'), [u'one two three'])
+        self.assertEqual(parse_tags('a-one, a-two and a-three'),
             [u'a-one', u'a-two and a-three'])
     
     def test_with_double_quoted_multiple_words(self):
-        """ Test with double-quoted multiple words.
-            A completed quote will trigger this.  Unclosed quotes are ignored. """
-            
-        self.assertEquals(parse_tags('"one'), [u'one'])
-        self.assertEquals(parse_tags('"one two'), [u'one', u'two'])
-        self.assertEquals(parse_tags('"one two three'), [u'one', u'three', u'two'])
-        self.assertEquals(parse_tags('"one two"'), [u'one two'])
-        self.assertEquals(parse_tags('a-one "a-two and a-three"'),
+        """
+        Test with double-quoted multiple words.
+        A completed quote will trigger this.  Unclosed quotes are ignored.
+        """
+        self.assertEqual(parse_tags('"one'), [u'one'])
+        self.assertEqual(parse_tags('"one two'), [u'one', u'two'])
+        self.assertEqual(parse_tags('"one two three'), [u'one', u'three', u'two'])
+        self.assertEqual(parse_tags('"one two"'), [u'one two'])
+        self.assertEqual(parse_tags('a-one "a-two and a-three"'),
             [u'a-one', u'a-two and a-three'])
     
     def test_with_no_loose_commas(self):
-        """ Test with no loose commas -- split on spaces. """
-        self.assertEquals(parse_tags('one two "thr,ee"'), [u'one', u'thr,ee', u'two'])
+        """
+        Test with no loose commas -- split on spaces.
+        """
+        self.assertEqual(parse_tags('one two "thr,ee"'), [u'one', u'thr,ee', u'two'])
         
     def test_with_loose_commas(self):
-        """ Loose commas - split on commas """
-        self.assertEquals(parse_tags('"one", two three'), [u'one', u'two three'])
+        """
+        Loose commas - split on commas
+        """
+        self.assertEqual(parse_tags('"one", two three'), [u'one', u'two three'])
         
     def test_tags_with_double_quotes_can_contain_commas(self):
-        """ Double quotes can contain commas """
-        self.assertEquals(parse_tags('a-one "a-two, and a-three"'),
+        """
+        Double quotes can contain commas
+        """
+        self.assertEqual(parse_tags('a-one "a-two, and a-three"'),
             [u'a-one', u'a-two, and a-three'])
-        self.assertEquals(parse_tags('"two", one, one, two, "one"'),
+        self.assertEqual(parse_tags('"two", one, one, two, "one"'),
             [u'one', u'two'])
     
     def test_with_naughty_input(self):
-        """ Test with naughty input. """
-        
+        """
+        Test with naughty input.
+        """
         # Bad users! Naughty users!
-        self.assertEquals(parse_tags(None), [])
-        self.assertEquals(parse_tags(''), [])
-        self.assertEquals(parse_tags('"'), [])
-        self.assertEquals(parse_tags('""'), [])
-        self.assertEquals(parse_tags('"' * 7), [])
-        self.assertEquals(parse_tags(',,,,,,'), [])
-        self.assertEquals(parse_tags('",",",",",",","'), [u','])
-        self.assertEquals(parse_tags('a-one "a-two" and "a-three'),
+        self.assertEqual(parse_tags(None), [])
+        self.assertEqual(parse_tags(''), [])
+        self.assertEqual(parse_tags('"'), [])
+        self.assertEqual(parse_tags('""'), [])
+        self.assertEqual(parse_tags('"' * 7), [])
+        self.assertEqual(parse_tags(',,,,,,'), [])
+        self.assertEqual(parse_tags('",",",",",",","'), [u','])
+        self.assertEqual(parse_tags('a-one "a-two" and "a-three'),
             [u'a-one', u'a-three', u'a-two', u'and'])
 
     def test_recreation_of_tag_list_string_representations(self):
         plain = Tag.objects.create(name='plain')
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
-        self.assertEquals(edit_string_for_tags([plain]), u'plain')
-        self.assertEquals(edit_string_for_tags([plain, spaces]), u'plain, spa ces')
-        self.assertEquals(edit_string_for_tags([plain, spaces, comma]), u'plain, spa ces, "com,ma"')
-        self.assertEquals(edit_string_for_tags([plain, comma]), u'plain "com,ma"')
-        self.assertEquals(edit_string_for_tags([comma, spaces]), u'"com,ma", spa ces')
+        self.assertEqual(edit_string_for_tags([plain]), u'plain')
+        self.assertEqual(edit_string_for_tags([plain, spaces]), u'plain, spa ces')
+        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'plain, spa ces, "com,ma"')
+        self.assertEqual(edit_string_for_tags([plain, comma]), u'plain "com,ma"')
+        self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", spa ces')
     

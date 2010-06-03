@@ -35,7 +35,7 @@ def parse_tags(tagstring):
     open_quote = False
     i = iter(tagstring)
     try:
-        while 1:
+        while True:
             c = i.next()
             if c == u'"':
                 if buffer:

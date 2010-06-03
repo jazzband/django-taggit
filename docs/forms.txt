@@ -22,14 +22,14 @@ as follows:
 
 Examples:
 
-====================== ======================================= ================================================
-Tag input string       Resulting tags                          Notes
-====================== ======================================= ================================================
-apple ball cat         [``apple``], [``ball``], [``cat``]      No commas, so space delimited
-apple, ball cat        [``apple``], [``ball cat``]             Comma present, so comma delimited
-"apple, ball" cat dog  [``apple, ball``], [``cat``], [``dog``] All commas are quoted, so space delimited
-"apple, ball", cat dog [``apple, ball``], [``cat dog``]        Contains an unquoted comma, so comma delimited
-apple "ball cat" dog   [``apple``], [``ball cat``], [``dog``]  No commas, so space delimited
-"apple" "ball dog      [``apple``], [``ball``], [``dog``]      Unclosed double quote is ignored
-====================== ======================================= ================================================
+====================== ================================= ================================================
+Tag input string       Resulting tags                    Notes
+====================== ================================= ================================================
+apple ball cat         ``["apple", "ball", "cat"]``      No commas, so space delimited
+apple, ball cat        ``["apple", "ball cat"]``         Comma present, so comma delimited
+"apple, ball" cat dog  ``["apple, ball", "cat", "dog"]`` All commas are quoted, so space delimited
+"apple, ball", cat dog ``["apple, ball", "cat dog"]``    Contains an unquoted comma, so comma delimited
+apple "ball cat" dog   ``["apple", "ball cat", "dog"]``  No commas, so space delimited
+"apple" "ball dog      ``["apple", "ball", "dog"]``      Unclosed double quote is ignored
+====================== ================================= ================================================
 
