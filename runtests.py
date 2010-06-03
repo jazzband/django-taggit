@@ -16,7 +16,8 @@ if not settings.configured:
     )
 
 from django.test.simple import run_tests
-    
+
+
 def runtests(*test_args):
     if not test_args:
         test_args = ['tests']
