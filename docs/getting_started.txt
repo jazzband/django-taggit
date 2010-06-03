@@ -19,3 +19,4 @@ And then to any model you want tagging on do the following::
         # ... fields here
 
         tags = TaggableManager()
+

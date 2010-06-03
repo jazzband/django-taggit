@@ -11,9 +11,11 @@ for known issues with older versions of Django), and Python 2.4-2.X.
    :maxdepth: 2
    
    getting_started
+   forms
    api
    custom_through
    issues
+   changelog
 
 Indices and tables
 ==================
