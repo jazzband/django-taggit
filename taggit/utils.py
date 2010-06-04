@@ -122,7 +122,7 @@ def edit_string_for_tags(tags):
         glue = u', '
     else:
         glue = u' '
-    return glue.join(names)
+    return glue.join(sorted(names))
 
 
 def require_instance_manager(func):
