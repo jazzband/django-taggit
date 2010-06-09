@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models.fields.related import ManyToManyRel
 from django.db.models.related import RelatedObject
 from django.db.models.query_utils import QueryWrapper
+from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import Tag, TaggedItem
@@ -37,7 +38,7 @@ class TaggableRel(ManyToManyRel):
 
 
 class TaggableManager(object):
-    def __init__(self, verbose_name="Tags", through=None):
+    def __init__(self, verbose_name=_("Tags"), through=None):
         self.use_gfk = through is None
         self.through = through or TaggedItem
         self.rel = TaggableRel(to=self.through)
@@ -97,8 +98,8 @@ class TaggableManager(object):
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
-            "label": "Tags",
-            "help_text": "A comma-separated list of tags."
+            "label": _("Tags"),
+            "help_text": _("A comma-separated list of tags.")
         }
         defaults.update(kwargs)
         return form_class(**kwargs)

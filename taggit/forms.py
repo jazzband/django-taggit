@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext as _
 
 from taggit.utils import parse_tags, edit_string_for_tags
 
@@ -16,4 +17,4 @@ class TagField(forms.CharField):
         try:
             return parse_tags(value)
         except ValueError:
-            raise forms.ValidationError("Please provide a comma-separated list of tags.")
+            raise forms.ValidationError(_("Please provide a comma-separated list of tags."))

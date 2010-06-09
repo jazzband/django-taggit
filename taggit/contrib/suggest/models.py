@@ -2,6 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from taggit.models import Tag
 
@@ -12,7 +13,9 @@ except ImportError:
 
 
 class TagKeyword(models.Model):
-    """ Model to associate simple keywords to a Tag """
+    """
+    Model to associate simple keywords to a Tag
+    """
     tag = models.ForeignKey(Tag, related_name='keywords')
     keyword = models.CharField(max_length=30)
     stem = models.CharField(max_length=30)
@@ -21,7 +24,9 @@ class TagKeyword(models.Model):
         return "Keyword '%s' for Tag '%s'" % (self.keyword, self.tag.name)
 
     def save(self, *args, **kwargs):
-        """ Stem the keyword on save if they have PyStemmer """
+        """
+        Stem the keyword on save if they have PyStemmer
+        """
         language = kwargs.pop('stemmer-language', 'english')
         if not self.pk and not self.stem and Stemmer:
             stemmer = Stemmer.Stemmer(language)
@@ -30,21 +35,26 @@ class TagKeyword(models.Model):
 
 
 def validate_regex(value):
-    """ Make sure we have a valid regular expression """
+    """
+    Make sure we have a valid regular expression
+    """
     try:
         re.compile(value)
     except Exception:
+        # TODO: more restrictive in the exceptions
         raise ValidationError('Please enter a valid regular expression')
 
 
 class TagRegex(models.Model):
-    """ Model to associate regular expressions with a Tag """
+    """
+    Model to associate regular expressions with a Tag
+    """
     tag = models.ForeignKey(Tag, related_name='regexes')
     name = models.CharField(max_length=30)
     regex = models.CharField(
         max_length=250,
          validators=[validate_regex],
-         help_text=('Enter a valid Regular Expression. To make it '
+         help_text=_('Enter a valid Regular Expression. To make it '
             'case-insensitive include "(?i)" in your expression.')
      )
 
@@ -52,6 +62,8 @@ class TagRegex(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        """ Make sure to validate """
+        """
+        Make sure to validate
+        """
         self.full_clean()
-        super(TagRegex,self).save(*args, **kwargs)
+        super(TagRegex, self).save(*args, **kwargs)
