@@ -102,7 +102,7 @@ class TaggableManager(object):
             "help_text": _("A comma-separated list of tags.")
         }
         defaults.update(kwargs)
-        return form_class(**kwargs)
+        return form_class(**defaults)
 
     def value_from_object(self, instance):
         if instance.pk:

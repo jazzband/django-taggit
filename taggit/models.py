@@ -3,14 +3,18 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
 from django.template.defaultfilters import slugify
-
+from django.utils.translation import ugettext_lazy as _
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True, max_length=100)
+    name = models.CharField(verbose_name=_('Name'), max_length=100)
+    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
     
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
     
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
@@ -48,7 +52,7 @@ class TaggedItemBase(models.Model):
         tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
     def __unicode__(self):
-        return u"%s tagged with %s" % (self.content_object, self.tag)
+        return _("%(object)s tagged with %(tag)s") % { 'object': self.content_object, 'tag': self.tag }
     
     class Meta:
         abstract = True
@@ -75,10 +79,14 @@ class TaggedItemBase(models.Model):
 
 
 class TaggedItem(TaggedItemBase):
-    object_id = models.IntegerField()
-    content_type = models.ForeignKey(ContentType, related_name="tagged_items")
+    object_id = models.IntegerField(verbose_name=_('Object id'))
+    content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'), related_name="tagged_items")
     content_object = GenericForeignKey()
 
+    class Meta:
+        verbose_name = _("Tagged Item")
+        verbose_name_plural = _("Tagged Items")
+        
     @classmethod
     def lookup_kwargs(cls, instance):
         return {
