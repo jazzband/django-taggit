@@ -50,6 +50,9 @@ class CustomPKFood(models.Model):
 
     tags = TaggableManager(through=TaggedCustomPKFood)
     
+    def __unicode__(self):
+        return self.name
+    
 class TaggedCustomPKPet(TaggedItemBase):
     content_object = models.ForeignKey('CustomPKPet')
     

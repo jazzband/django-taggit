@@ -23,7 +23,7 @@ def runtests(*test_args):
         test_args = ['tests']
     parent = dirname(abspath(__file__))
     sys.path.insert(0, parent)
-    failures = run_tests(test_args, verbosity=1, interactive=True)
+    failures = run_tests(test_args, verbosity=1, interactive=True, failfast=True)
     sys.exit(failures)
 
 

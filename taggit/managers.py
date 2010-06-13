@@ -41,7 +41,7 @@ class TaggableManager(object):
     def __init__(self, verbose_name=_("Tags"), through=None):
         self.use_gfk = through is None
         self.through = through or TaggedItem
-        self.rel = TaggableRel(to=self.through)
+        self.rel = TaggableRel(to=self.through._meta.get_field("tag").rel.to)
         self.verbose_name = verbose_name
         self.editable = True
         self.unique = False
@@ -69,32 +69,9 @@ class TaggableManager(object):
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
-
-    def get_prep_lookup(self, lookup_type, value):
-        if lookup_type !=  "in":
-            raise ValueError("You can't do lookups other than \"in\" on Tags")
-        if all(isinstance(v, Tag) for v in value):
-            qs = self.through.objects.filter(tag__in=value)
-        elif all(isinstance(v, basestring) for v in value):
-            qs = self.through.objects.filter(tag__name__in=value)
-        elif all(isinstance(v, (int, long)) for v in value):
-            # This one is really ackward, just don't do it.  The ORM does it
-            # for deletes, but no one else gets to.
-            return value
-        else:
-            # Fucking flip-floppers.
-            raise ValueError("You can't combine Tag objects and strings. '%s' was provided." % value)
-        if hasattr(models.Field, "get_prep_lookup"):
-            return models.Field().get_prep_lookup(lookup_type, qs)
-        return models.Field().get_db_prep_lookup(lookup_type, qs)
     
-    if django.VERSION < (1, 2):
-        get_db_prep_lookup = get_prep_lookup
-    else:
-        def get_db_prep_lookup(self, lookup_type, value, connection, prepared=False):
-            if not prepared:
-                return self.get_prep_lookup(lookup_type, value)
-            return models.Field().get_db_prep_lookup(lookup_type, value, connection=connection, prepared=True)
+    def get_prep_lookup(self, lookup_type, value):
+        return models.Field().get_prep_lookup(lookup_type, value)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
@@ -113,9 +90,7 @@ class TaggableManager(object):
         return self.model._meta.object_name.lower()
 
     def m2m_reverse_name(self):
-        if self.use_gfk:
-            return "id"
-        return self.through._meta.pk.column
+        return self.through._meta.get_field_by_name("tag")[0].column
 
     def m2m_column_name(self):
         if self.use_gfk:

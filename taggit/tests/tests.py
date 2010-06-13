@@ -108,13 +108,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("red", "green")
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green")
-
+        
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["red"])),
+            list(self.food_model.objects.filter(tags__name__in=["red"])),
             [apple]
         )
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["green"])),
+            list(self.food_model.objects.filter(tags__name__in=["green"])),
             [apple, pear]
         )
 
@@ -123,18 +123,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         dog = self.pet_model.objects.create(name="dog")
         dog.tags.add("woof", "red")
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["red"]).distinct()),
+            list(self.food_model.objects.filter(tags__name__in=["red"]).distinct()),
             [apple]
         )
 
         tag = Tag.objects.get(name="woof")
-        self.assertEqual(list(self.pet_model.objects.filter(tags__in=[tag])), [dog])
+        self.assertEqual(list(self.pet_model.objects.filter(tags__name__in=[tag])), [dog])
 
         cat = self.housepet_model.objects.create(name="cat", trained=True)
         cat.tags.add("fuzzy")
 
         self.assertEqual(
-            map(lambda o: o.pk, self.pet_model.objects.filter(tags__in=["fuzzy"])),
+            map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"])),
             [kitty.pk, cat.pk]
         )
 
@@ -158,16 +158,16 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("juicy", "juicy")
         self.assert_tags_equal(apple.tags.all(), ['juicy'])
 
-    def test_query_traverse(self):
-        spot = self.pet_model.objects.create(name='Spot')
-        spike = self.pet_model.objects.create(name='Spike')
-        spot.tags.add('scary')
-        spike.tags.add('fluffy')
-        lookup_kwargs = {'%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'}
-        self.assert_tags_equal(
-           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
-           ['scary']
-        )
+#    def test_query_traverse(self):
+#        spot = self.pet_model.objects.create(name='Spot')
+#        spike = self.pet_model.objects.create(name='Spike')
+#        spot.tags.add('scary')
+#        spike.tags.add('fluffy')
+#        lookup_kwargs = {'%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'}
+#        self.assert_tags_equal(
+#           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
+#           ['scary']
+#        )
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
