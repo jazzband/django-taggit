@@ -3,7 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
 from django.template.defaultfilters import slugify
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
+
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
@@ -52,7 +53,10 @@ class TaggedItemBase(models.Model):
         tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
     def __unicode__(self):
-        return _("%(object)s tagged with %(tag)s") % { 'object': self.content_object, 'tag': self.tag }
+        return ugettext("%(object)s tagged with %(tag)s") % {
+            "object": self.content_object,
+            "tag": self.tag
+        }
     
     class Meta:
         abstract = True
@@ -80,7 +84,8 @@ class TaggedItemBase(models.Model):
 
 class TaggedItem(TaggedItemBase):
     object_id = models.IntegerField(verbose_name=_('Object id'))
-    content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'), related_name="tagged_items")
+    content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'),
+        related_name="tagged_items")
     content_object = GenericForeignKey()
 
     class Meta:

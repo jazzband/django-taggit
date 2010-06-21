@@ -15,6 +15,10 @@ class Pet(models.Model):
     name = models.CharField(max_length=50)
     
     tags = TaggableManager()
+    
+    def __unicode__(self):
+        return self.name
+
 
 class HousePet(Pet):
     trained = models.BooleanField()
@@ -36,6 +40,10 @@ class DirectPet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=TaggedPet)
+    
+    def __unicode__(self):
+        return self.name
+    
 
 class DirectHousePet(DirectPet):
     trained = models.BooleanField()
@@ -57,6 +65,9 @@ class CustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKPet)
+    
+    def __unicode__(self):
+        return self.name
 
 class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField()
