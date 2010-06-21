@@ -145,9 +145,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green", "delicious")
         
+        guava = self.food_model.objects.create(name="guava")
+        
         self.assertEqual(
             map(lambda o: o.pk, self.food_model.objects.exclude(tags__in=["red"])),
-            [pear.pk],
+            [pear.pk, guava.pk],
         )
 
     def test_similarity_by_tag(self):
