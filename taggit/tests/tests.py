@@ -137,6 +137,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             map(lambda o: o.pk, self.pet_model.objects.filter(tags__in=["fuzzy"])),
             [kitty.pk, cat.pk]
         )
+    
+    def test_exclude(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green", "delicious")
+        
+        pear = self.food_model.objects.create(name="pear")
+        pear.tags.add("green", "delicious")
+        
+        self.assertEqual(
+            map(lambda o: o.pk, self.food_model.objects.exclude(tags__in=["red"])),
+            [pear.pk],
+        )
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
