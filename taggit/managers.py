@@ -49,6 +49,7 @@ class TaggableManager(object):
         self.db_column = None
         self.choices = None
         self.serialize = False
+        self.null = True
         self.creation_counter = models.Field.creation_counter
         models.Field.creation_counter += 1
 
@@ -71,22 +72,33 @@ class TaggableManager(object):
         getattr(instance, self.name).set(*value)
 
     def get_prep_lookup(self, lookup_type, value):
-        if lookup_type !=  "in":
-            raise ValueError("You can't do lookups other than \"in\" on Tags")
-        if all(isinstance(v, Tag) for v in value):
-            qs = self.through.objects.filter(tag__in=value)
-        elif all(isinstance(v, basestring) for v in value):
-            qs = self.through.objects.filter(tag__name__in=value)
-        elif all(isinstance(v, (int, long)) for v in value):
-            # This one is really ackward, just don't do it.  The ORM does it
-            # for deletes, but no one else gets to.
-            return value
-        else:
-            # Fucking flip-floppers.
-            raise ValueError("You can't combine Tag objects and strings. '%s' was provided." % value)
+        if lookup_type not in ["in", "isnull"]:
+            # Users really shouldn't do "isnull" lookups, again: the ORM can,
+            # you can't.
+            raise ValueError("You can't do lookups other than \"in\" on Tags: "
+                "__%s=%s" % (lookup_type, value))
+
+        if hasattr(value, 'prepare'):
+            return value.prepare()
+        if hasattr(value, '_prepare'):
+            return value._prepare()
+        
+        if lookup_type == "in":
+            if all(isinstance(v, Tag) for v in value):
+                value = self.through.objects.filter(tag__in=value)
+            elif all(isinstance(v, basestring) for v in value):
+                value = self.through.objects.filter(tag__name__in=value)
+            elif all(isinstance(v, (int, long)) for v in value):
+                # This one is really ackward, just don't do it.  The ORM does
+                # it for deletes, but no one else gets to.
+                return value
+            else:
+                # Fucking flip-floppers.
+                raise ValueError("You can't combine Tag objects and strings. '%s' "
+                    "was provided." % value)
         if hasattr(models.Field, "get_prep_lookup"):
-            return models.Field().get_prep_lookup(lookup_type, qs)
-        return models.Field().get_db_prep_lookup(lookup_type, qs)
+            return models.Field().get_prep_lookup(lookup_type, value)
+        return models.Field().get_db_prep_lookup(lookup_type, value)
     
     if django.VERSION < (1, 2):
         get_db_prep_lookup = get_prep_lookup
