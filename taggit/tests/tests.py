@@ -148,7 +148,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         guava = self.food_model.objects.create(name="guava")
         
         self.assertEqual(
-            map(lambda o: o.pk, self.food_model.objects.exclude(tags__in=["red"])),
+            map(lambda o: o.pk, self.food_model.objects.exclude(tags__name__in=["red"])),
             [pear.pk, guava.pk],
         )
 
