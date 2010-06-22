@@ -137,6 +137,20 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"])),
             [kitty.pk, cat.pk]
         )
+    
+    def test_exclude(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green", "delicious")
+        
+        pear = self.food_model.objects.create(name="pear")
+        pear.tags.add("green", "delicious")
+        
+        guava = self.food_model.objects.create(name="guava")
+        
+        self.assertEqual(
+            map(lambda o: o.pk, self.food_model.objects.exclude(tags__in=["red"])),
+            [pear.pk, guava.pk],
+        )
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
@@ -168,6 +182,16 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 #           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
 #           ['scary']
 #        )
+    
+    def test_taggeditem_unicode(self):
+        ross = self.pet_model.objects.create(name="ross")
+        # I keep Ross Perot for a pet, what's it to you?
+        ross.tags.add("president")
+        
+        self.assertEqual(
+            unicode(self.taggeditem_model.objects.all()[0]),
+            "ross tagged with president"
+        )
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
@@ -195,7 +219,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertEqual(self.form_class.base_fields.keys(), ['name', 'tags'])
 
         f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy'})
-        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" /></td></tr>""")
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
         f.save()
         apple = self.food_model.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
@@ -211,11 +235,11 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assert_tags_equal(raspberry.tags.all(), [])
         
         f = self.form_class(instance=apple)
-        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious green red yummy" id="id_tags" /></td></tr>""")
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious green red yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
 
         apple.tags.add('has,comma')
         f = self.form_class(instance=apple)
-        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot; delicious green red yummy" id="id_tags" /></td></tr>""")
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot; delicious green red yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
 
         
 class TaggableFormDirectTestCase(TaggableFormTestCase):

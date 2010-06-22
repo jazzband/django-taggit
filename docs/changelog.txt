@@ -1,10 +1,21 @@
 Changelog
 =========
 
-master (unreleased)
-~~~~~~~~~~~~~~~~~~~
+0.8.0
+~~~~~
+ 
+ * Fixed querying for objects using ``exclude(tags__in=tags)``.
+ * Marked strings as translatable.
 
-* Smarter tagstring parsing for form field; ported from Jonathan
-  Buchanan's `django-tagging
-  <http://django-tagging.googlecode.com>`_. Now supports tags
-  containing commas. See :ref:`tags-in-forms` for details.
+   * Added a Russian translation.
+ * Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
+ * Smarter tagstring parsing for form field; ported from Jonathan
+   Buchanan's `django-tagging
+   <http://django-tagging.googlecode.com>`_. Now supports tags
+   containing commas. See :ref:`tags-in-forms` for details.
+ * Switched to using savepoints around the slug generation for tags.  This
+   ensures that it works fine on databases (such as Postgres) which dirty a
+   transaction with an ``IntegrityError``.
+ * Added Python 2.4 compatibility.
+ * Added Django 1.1 compatibility.
+

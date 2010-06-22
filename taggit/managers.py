@@ -49,6 +49,7 @@ class TaggableManager(object):
         self.db_column = None
         self.choices = None
         self.serialize = False
+        self.null = True
         self.creation_counter = models.Field.creation_counter
         models.Field.creation_counter += 1
 
@@ -79,7 +80,7 @@ class TaggableManager(object):
             "help_text": _("A comma-separated list of tags.")
         }
         defaults.update(kwargs)
-        return form_class(**kwargs)
+        return form_class(**defaults)
 
     def value_from_object(self, instance):
         if instance.pk:
