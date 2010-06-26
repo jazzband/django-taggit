@@ -11,6 +11,7 @@ if not settings.configured:
         INSTALLED_APPS=[
             'django.contrib.contenttypes',
             'taggit',
+            'taggit.contrib.suggest',
             'taggit.tests',
         ]
     )
@@ -20,7 +21,7 @@ from django.test.simple import run_tests
 
 def runtests(*test_args):
     if not test_args:
-        test_args = ['tests']
+        test_args = ['tests', 'suggest']
     parent = dirname(abspath(__file__))
     sys.path.insert(0, parent)
     failures = run_tests(test_args, verbosity=1, interactive=True)
