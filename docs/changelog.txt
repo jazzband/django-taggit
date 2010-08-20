@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.9.0
+~~~~~
+
+ * Added a Hebrew locale.
+ * Added an index on the ``object_id`` field of ``TaggedItem``.
+ * When displaying tags always join them with commas, never spaces.
+
 0.8.0
 ~~~~~
  
