@@ -1,5 +1,5 @@
 import django
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyRel
@@ -67,12 +67,18 @@ class TaggableManager(object):
         self.model = cls
         cls._meta.add_field(self)
         setattr(cls, name, self)
+        if self.use_gfk:
+            tagged_items = GenericRelation(self.through)
+            tagged_items.contribute_to_class(cls, "tagged_items")
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
     
     def get_prep_lookup(self, lookup_type, value):
         return models.Field().get_prep_lookup(lookup_type, value)
+    
+    def get_db_prep_lookup(self, *args, **kwargs):
+        return models.Field().get_db_prep_lookup(*args, **kwargs)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
@@ -107,7 +113,7 @@ class TaggableManager(object):
     def extra_filters(self, pieces, pos, negate):
         if negate or not self.use_gfk:
             return []
-        prefix = "__".join(pieces[:pos+1])
+        prefix = "__".join(["tagged_items"] + pieces[:pos-2])
         cts = map(ContentType.objects.get_for_model, _get_subclasses(self.model))
         if len(cts) == 1:
             return [("%s__content_type" % prefix, cts[0])]
