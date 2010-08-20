@@ -4,7 +4,7 @@ Tags in forms
 =============
 
 The ``TaggableManager`` will show up automatically as a field in a
-``ModelForm`` or in the admin. Tag input via the form field is parsed
+``ModelForm`` or in the admin. Tags input via the form field are parsed
 as follows:
 
 * If the input doesn't contain any commas or double quotes, it is simply
