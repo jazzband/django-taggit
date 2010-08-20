@@ -10,3 +10,5 @@ Rob Hudson <rob@cogit8.org>
 Carl Meyer <carl@oddbird.net>
 Frank Wiles
 Jonathan Buchanan
+idle sign <idlesign@yandex.ru>
+Charles Leifer

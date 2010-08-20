@@ -83,7 +83,7 @@ class TaggedItemBase(models.Model):
 
 
 class TaggedItem(TaggedItemBase):
-    object_id = models.IntegerField(verbose_name=_('Object id'))
+    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
     content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'),
         related_name="tagged_items")
     content_object = GenericForeignKey()

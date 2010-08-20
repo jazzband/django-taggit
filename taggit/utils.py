@@ -108,21 +108,13 @@ def edit_string_for_tags(tags):
     <http://django-tagging.googlecode.com/>`_
     """
     names = []
-    use_commas = False
     for tag in tags:
         name = tag.name
         if u',' in name:
             names.append('"%s"' % name)
-            continue
-        elif u' ' in name:
-            if not use_commas:
-                use_commas = True
-        names.append(name)
-    if use_commas:
-        glue = u', '
-    else:
-        glue = u' '
-    return glue.join(sorted(names))
+        else:
+            names.append(name)
+    return u', '.join(sorted(names))
 
 
 def require_instance_manager(func):

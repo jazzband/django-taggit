@@ -4,53 +4,49 @@ The API
 After you've got your ``TaggableManager`` added to your model you can start
 playing around with the API.
 
+.. class:: TaggableManager
 
-add(*tags)
-~~~~~~~~~~
+    .. method:: add(*tags)
 
-This adds tags to an object. The tags can be either ``Tag`` instances, or
-strings::
+        This adds tags to an object. The tags can be either ``Tag`` instances, or
+        strings::
 
-    >>> apple.tags.all()
-    []
-    >>> apple.tags.add("red", "green", "fruit")
+            >>> apple.tags.all()
+            []
+            >>> apple.tags.add("red", "green", "fruit")
 
+    .. method:: remove(*tags)
 
-remove(*tags)
-~~~~~~~~~~~~~
+        Removes a tag from an object. No exception is raised if the object
+        doesn't have that tag.
+    
+    .. method:: clear()
+        
+        Removes all tags from an object.
+    
+    .. method:: set(*tags)
 
-Removes a tag from an object. No exception is raised if the object doesn't have
-that tag.
+        Removes all the current tags and then adds the specified tags to the
+        object.
+    
+    .. method: most_common()
 
-clear()
-~~~~~~~
+        Returns a ``QuerySet`` of all tags, annotated with the number of times
+        they appear, available as the ``num_times`` attribute on each tag. The
+        ``QuerySet``is ordered by ``num_times``, descending.  The ``QuerySet``
+        is lazily evaluated, and can be sliced efficiently.
+    
+    .. method:: similar_objects()
 
-Removes all tags from an object.
+        Returns a list (not a lazy ``QuerySet``) of other objects tagged
+        similarly to this one, ordered with most similar first. Each object in
+        the list is decorated with a ``similar_tags`` attribute, the number of
+        tags it shares with this object.
 
-set(*tags)
-~~~~~~~~~~
-
-Removes all the current tags and then adds the specified tags to the object.
-
-most_common()
-~~~~~~~~~~~~~
-
-Returns a ``QuerySet`` of all tags, annotated with the number of times they
-appear, available as the ``num_times`` attribute on each tag.  The ``QuerySet``
-is ordered by ``num_times``, descending.  The ``QuerySet`` is lazily evaluated,
-and can be sliced efficiently.
-
-similar_objects()
-~~~~~~~~~~~~~~~~~
-
-Returns a list (not a lazy ``QuerySet``) of other objects tagged similarly to
-this one, ordered with most similar first. Each object in the list is decorated
-with a ``similar_tags`` attribute, the number of tags it shares with this
-object.
-
-If using generic tagging (the default), this method searches all tagged
-objects. If querying on a model with its own tagging through table, only other
-instances of the same model will be returned.
+        If the model is using generic tagging (the default), this method
+        searches tagged objects from all classes. If you are querying on a
+        model with its own tagging through table, only other instances of the
+        same model will be returned.
 
 Filtering
 ~~~~~~~~~
@@ -61,4 +57,14 @@ Django ORM API.  For example if you had a ``Food`` model, whose
 like so::
 
     >>> Food.objects.filter(tags__in=["delicious"])
-    [<Food: apple>, <Food: pear>, <Food: plum>] 
+    [<Food: apple>, <Food: pear>, <Food: plum>]
+
+
+If you're filtering on multiple tags, it's very common to get duplicate
+results, because of the way relational databases work.  Often you'll want to
+make use of the ``distinct()`` method on ``QuerySets``::
+    
+    >>> Food.objects.filter(tags__in=["delicious", "red"])
+    [<Food: apple>, <Food: apple>]
+    >>> Food.objects.filter(tags__in=["delicious", "red"]).distinct()
+    [<Food: apple>]
