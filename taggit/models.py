@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 
-class Tag(models.Model):
+class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
     
@@ -14,8 +14,7 @@ class Tag(models.Model):
         return self.name
     
     class Meta:
-        verbose_name = _("Tag")
-        verbose_name_plural = _("Tags")
+        abstract = True
     
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
@@ -35,7 +34,7 @@ class Tag(models.Model):
             while True:
                 try:
                     sid = transaction.savepoint(**trans_kwargs)
-                    res = super(Tag, self).save(*args, **kwargs)
+                    res = super(TagBase, self).save(*args, **kwargs)
                     transaction.savepoint_commit(sid, **trans_kwargs)
                     return res
                 except IntegrityError:
@@ -45,13 +44,14 @@ class Tag(models.Model):
         else:
             return super(Tag, self).save(*args, **kwargs)
 
+class Tag(TagBase):
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
 
-class TaggedItemBase(models.Model):
-    if django.VERSION < (1, 2):
-        tag = models.ForeignKey(Tag, related_name="%(class)s_items")
-    else:
-        tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
+
+class ItemBase(models.Model):
     def __unicode__(self):
         return ugettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
@@ -82,15 +82,34 @@ class TaggedItemBase(models.Model):
         }).distinct()
 
 
-class TaggedItem(TaggedItemBase):
+class TaggedItemBase(ItemBase):
+    if django.VERSION < (1, 2):
+        tag = models.ForeignKey(Tag, related_name="%(class)s_items")
+    else:
+        tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+    
+    class Meta:
+        abstract = True
+
+
+class GenericTaggedItemBase(ItemBase):
     object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
-    content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'),
-        related_name="tagged_items")
+    if django.VERSION < (1, 2):
+        content_type = models.ForeignKey(
+            ContentType,
+            verbose_name=_('Content type'),
+            related_name="%(class)s_tagged_items"
+        )
+    else:
+        content_type = models.ForeignKey(
+            ContentType,
+            verbose_name=_('Content type'),
+            related_name="%(app_label)s_%(class)s_tagged_items"
+        )
     content_object = GenericForeignKey()
 
     class Meta:
-        verbose_name = _("Tagged Item")
-        verbose_name_plural = _("Tagged Items")
+        abstract=True
         
     @classmethod
     def lookup_kwargs(cls, instance):
@@ -110,4 +129,10 @@ class TaggedItem(TaggedItemBase):
         return Tag.objects.filter(**{
             '%s__content_type' % cls.tag_relname(): ct
         }).distinct()
+
+
+class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
+    class Meta:
+        verbose_name = _("Tagged Item")
+        verbose_name_plural = _("Tagged Items")
 

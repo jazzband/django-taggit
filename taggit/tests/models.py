@@ -1,7 +1,7 @@
 from django.db import models
 
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, GenericTaggedItemBase, TagBase
 
 
 class Food(models.Model):
@@ -75,3 +75,31 @@ class CustomPKPet(models.Model):
 
 class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField()
+
+# Test custom through model to a custom tag model
+
+class OfficialTag(TagBase):
+    official = models.BooleanField()
+
+class OfficialThroughModel(GenericTaggedItemBase):
+    tag = models.ForeignKey(OfficialTag, related_name="tagged_items")
+
+class OfficialFood(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=OfficialThroughModel)
+    
+    def __unicode__(self):
+        return self.name
+
+class OfficialPet(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=OfficialThroughModel)
+    
+    def __unicode__(self):
+        return self.name
+
+class OfficialHousePet(CustomPKPet):
+    trained = models.BooleanField()
+

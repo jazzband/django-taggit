@@ -6,7 +6,8 @@ from taggit.models import Tag, TaggedItem
 from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
 from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKPet)
+    TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet, 
+    OfficialThroughModel)
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
@@ -212,6 +213,13 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
         # tell if the instance is saved or not
         pass
+
+class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
+    food_model = OfficialFood
+    pet_model = OfficialPet
+    housepet_model = OfficialHousePet
+    taggeditem_model = OfficialThroughModel
+
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
