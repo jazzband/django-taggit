@@ -40,6 +40,8 @@ class TagModelDirectTestCase(TagModelTestCase):
 class TagModelCustomPKTestCase(TagModelTestCase):
     food_model = CustomPKFood
 
+class TagModelOfficialTestCase(TagModelTestCase):
+    food_model = OfficialFood
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
