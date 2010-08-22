@@ -1,10 +1,8 @@
-import django
-from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyRel
 from django.db.models.related import RelatedObject
-from django.db.models.query_utils import QueryWrapper
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField

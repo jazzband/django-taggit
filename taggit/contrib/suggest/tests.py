@@ -9,7 +9,7 @@ from taggit.models import Tag
 class SuggestCase(TestCase):
     def test_simple_suggest(self):
         ku_tag = Tag.objects.create(name='ku')
-        ku_keyword1 = TagKeyword.objects.create(
+        TagKeyword.objects.create(
             tag=ku_tag,
             keyword='kansas university'
         )
@@ -31,7 +31,7 @@ class SuggestCase(TestCase):
 
     def test_bad_regex(self):
         ku_tag = Tag.objects.create(name='ku')
-        ku_keyword1 = TagKeyword.objects.create(
+        TagKeyword.objects.create(
             tag=ku_tag,
             keyword='kansas university'
         )
