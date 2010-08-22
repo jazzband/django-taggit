@@ -177,18 +177,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("juicy", "juicy")
         self.assert_tags_equal(apple.tags.all(), ['juicy'])
 
-#    def test_query_traverse(self):
-#        spot = self.pet_model.objects.create(name='Spot')
-#        spike = self.pet_model.objects.create(name='Spike')
-#        spot.tags.add('scary')
-#        spike.tags.add('fluffy')
-#        lookup_kwargs = {
-#            '%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'
-#        }
-#        self.assert_tags_equal(
-#           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
-#           ['scary']
-#        )
+    def test_query_traverse(self):
+        spot = self.pet_model.objects.create(name='Spot')
+        spike = self.pet_model.objects.create(name='Spike')
+        spot.tags.add('scary')
+        spike.tags.add('fluffy')
+        lookup_kwargs = {
+            'content_object__name' % (self.pet_model._meta.object_name.lower()): 'Spot'
+        }
+        self.assert_tags_equal(
+           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
+           ['scary']
+        )
     
     def test_taggeditem_unicode(self):
         ross = self.pet_model.objects.create(name="ross")
