@@ -224,6 +224,20 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
     housepet_model = OfficialHousePet
     taggeditem_model = OfficialThroughModel
     tag_model = OfficialTag
+    
+    def test_extra_fields(self):
+        self.tag_model.objects.create(name="red")
+        self.tag_model.objects.create(name="delicious", official=True)
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("delicious", "red")
+        
+        pear = self.food_model.objects.create(name="Pear")
+        pear.tags.add("delicious")
+        
+        self.assertEqual(
+            map(lambda o: o.pk, self.food_model.objects.filter(tags__official=False)),
+            [apple.pk],
+        )
 
 
 class TaggableFormTestCase(BaseTaggingTestCase):
