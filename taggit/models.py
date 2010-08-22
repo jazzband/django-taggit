@@ -62,6 +62,10 @@ class ItemBase(models.Model):
         abstract = True
 
     @classmethod
+    def tag_model(cls):
+        return cls._meta.get_field_by_name("tag")[0].rel.to
+
+    @classmethod
     def tag_relname(cls):
         return cls._meta.get_field_by_name('tag')[0].rel.related_name
 
@@ -110,7 +114,7 @@ class GenericTaggedItemBase(ItemBase):
 
     class Meta:
         abstract=True
-        
+    
     @classmethod
     def lookup_kwargs(cls, instance):
         return {
@@ -121,14 +125,12 @@ class GenericTaggedItemBase(ItemBase):
     @classmethod
     def tags_for(cls, model, instance=None):
         ct = ContentType.objects.get_for_model(model)
+        kwargs = {
+            "%s__content_type" % cls.tag_relname(): ct
+        }
         if instance is not None:
-            return Tag.objects.filter(**{
-                '%s__object_id' % cls.tag_relname(): instance.pk,
-                '%s__content_type' % cls.tag_relname(): ct
-            })
-        return Tag.objects.filter(**{
-            '%s__content_type' % cls.tag_relname(): ct
-        }).distinct()
+            kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
+        return cls.tag_model().objects.filter(**kwargs).distinct()
 
 
 class TaggedItem(GenericTaggedItemBase, TaggedItemBase):

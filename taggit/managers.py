@@ -8,7 +8,7 @@ from django.db.models.query_utils import QueryWrapper
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
-from taggit.models import Tag, TaggedItem
+from taggit.models import Tag, TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
 
 
@@ -39,7 +39,7 @@ class TaggableRel(ManyToManyRel):
 
 class TaggableManager(object):
     def __init__(self, verbose_name=_("Tags"), through=None):
-        self.use_gfk = through is None
+        self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
         self.rel = TaggableRel(to=self.through._meta.get_field("tag").rel.to)
         self.verbose_name = verbose_name
@@ -134,7 +134,7 @@ class _TaggableManager(models.Manager):
     def add(self, *tags):
         for tag in tags:
             if not isinstance(tag, Tag):
-                tag, _ = Tag.objects.get_or_create(name=tag)
+                tag, _ = self.through.tag_model().objects.get_or_create(name=tag)
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 
     @require_instance_manager

@@ -85,7 +85,7 @@ class OfficialThroughModel(GenericTaggedItemBase):
     tag = models.ForeignKey(OfficialTag, related_name="tagged_items")
 
 class OfficialFood(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
+    name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
     
@@ -93,13 +93,13 @@ class OfficialFood(models.Model):
         return self.name
 
 class OfficialPet(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
+    name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
     
     def __unicode__(self):
         return self.name
 
-class OfficialHousePet(CustomPKPet):
+class OfficialHousePet(OfficialPet):
     trained = models.BooleanField()
 
