@@ -56,7 +56,7 @@ Django ORM API.  For example if you had a ``Food`` model, whose
 ``TaggableManager`` was named ``tags``, you could find all the delicious fruit
 like so::
 
-    >>> Food.objects.filter(tags__in=["delicious"])
+    >>> Food.objects.filter(tags__name__in=["delicious"])
     [<Food: apple>, <Food: pear>, <Food: plum>]
 
 
@@ -64,7 +64,10 @@ If you're filtering on multiple tags, it's very common to get duplicate
 results, because of the way relational databases work.  Often you'll want to
 make use of the ``distinct()`` method on ``QuerySets``::
     
-    >>> Food.objects.filter(tags__in=["delicious", "red"])
+    >>> Food.objects.filter(tags__name__in=["delicious", "red"])
     [<Food: apple>, <Food: apple>]
-    >>> Food.objects.filter(tags__in=["delicious", "red"]).distinct()
+    >>> Food.objects.filter(tags__name__in=["delicious", "red"]).distinct()
     [<Food: apple>]
+
+You can also filter by the slug on tags.  If you're using a custom ``Tag``
+model you can use this API to filter on any fields it has.

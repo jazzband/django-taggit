@@ -13,7 +13,7 @@ for known issues with older versions of Django), and Python 2.4-2.X.
    getting_started
    forms
    api
-   custom_through
+   custom_tagging
    issues
    changelog
 
