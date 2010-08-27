@@ -131,7 +131,7 @@ class _TaggableManager(models.Manager):
     @require_instance_manager
     def add(self, *tags):
         for tag in tags:
-            if not isinstance(tag, Tag):
+            if not isinstance(tag, self.through.tag_model()):
                 tag, _ = self.through.tag_model().objects.get_or_create(name=tag)
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 

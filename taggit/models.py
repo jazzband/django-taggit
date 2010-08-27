@@ -42,7 +42,7 @@ class TagBase(models.Model):
                     i += 1
                     self.slug = "%s_%d" % (slug, i)
         else:
-            return super(Tag, self).save(*args, **kwargs)
+            return super(TagBase, self).save(*args, **kwargs)
 
 class Tag(TagBase):
     class Meta:
@@ -75,16 +75,6 @@ class ItemBase(models.Model):
             'content_object': instance
         }
 
-    @classmethod
-    def tags_for(cls, model, instance=None):
-        if instance is not None:
-            return Tag.objects.filter(**{
-                '%s__content_object' % cls.tag_relname(): instance
-            })
-        return Tag.objects.filter(**{
-            '%s__content_object__isnull' % cls.tag_relname(): False
-        }).distinct()
-
 
 class TaggedItemBase(ItemBase):
     if django.VERSION < (1, 2):
@@ -94,6 +84,16 @@ class TaggedItemBase(ItemBase):
     
     class Meta:
         abstract = True
+
+    @classmethod
+    def tags_for(cls, model, instance=None):
+        if instance is not None:
+            return cls.tag_model().objects.filter(**{
+                '%s__content_object' % cls.tag_relname(): instance
+            })
+        return cls.tag_model().objects.filter(**{
+            '%s__content_object__isnull' % cls.tag_relname(): False
+        }).distinct()
 
 
 class GenericTaggedItemBase(ItemBase):
