@@ -241,6 +241,10 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         f = self.form_class(instance=apple)
         self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
 
+        apple.tags.add('has space')
+        f = self.form_class(instance=apple)
+        self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
+
         
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
@@ -330,7 +334,7 @@ class TagStringParseTestCase(UnitTestCase):
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
         self.assertEqual(edit_string_for_tags([plain]), u'plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces]), u'plain, spa ces')
-        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'"com,ma", plain, spa ces')
+        self.assertEqual(edit_string_for_tags([plain, spaces]), u'"spa ces", plain')
+        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), u'"com,ma", plain')
-        self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", spa ces')
+        self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", "spa ces"')
