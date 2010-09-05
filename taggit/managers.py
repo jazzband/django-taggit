@@ -92,7 +92,7 @@ class TaggableManager(object):
         return self.through.objects.none()
 
     def related_query_name(self):
-        return self.model._meta.object_name.lower()
+        return self.model._meta.module_name
 
     def m2m_reverse_name(self):
         return self.through._meta.get_field_by_name("tag")[0].column
