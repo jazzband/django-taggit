@@ -23,7 +23,7 @@ Then you can use the API like so::
     >>> apple.tags.remove("green")
     >>> apple.tags.all()
     [<Tag: red>, <Tag: delicious>]
-    >>> Food.objects.filter(tags__in=["red"])
+    >>> Food.objects.filter(tags__name__in=["red"])
     [<Food: apple>, <Food: cherry>]
 
 Tags will show up for you automatically in forms and the admin.
