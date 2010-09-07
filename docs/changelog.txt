@@ -11,6 +11,9 @@ Unreleased.
  * When displaying tags always join them with commas, never spaces.
  * The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
  * Custom ``Tag`` models are now allowed.
+ * *Backwards incompatible*  Filtering on tags is no longer
+   ``filter(tags__in=["foo"])``, it is written
+   ``filter(tags__name__in=["foo"])``.
 
 0.8.0
 ~~~~~
