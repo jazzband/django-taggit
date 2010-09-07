@@ -115,13 +115,13 @@ class TaggableManager(RelatedField):
 class _TaggableManager(models.Manager):
     def __init__(self, through):
         self.through = through
-        
+
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
-    
+
     @require_instance_manager
     def add(self, *tags):
         for tag in tags:
@@ -157,7 +157,7 @@ class _TaggableManager(models.Manager):
         qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
         qs = qs.order_by('-n')
-        
+
         # TODO: This all feels like a bit of a hack.
         items = {}
         if len(lookup_keys) == 1:

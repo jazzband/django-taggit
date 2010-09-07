@@ -6,17 +6,17 @@ from taggit.models import TaggedItemBase, GenericTaggedItemBase, TagBase
 
 class Food(models.Model):
     name = models.CharField(max_length=50)
-    
+
     tags = TaggableManager()
-    
+
     def __unicode__(self):
         return self.name
 
 class Pet(models.Model):
     name = models.CharField(max_length=50)
-    
+
     tags = TaggableManager()
-    
+
     def __unicode__(self):
         return self.name
 
@@ -41,7 +41,7 @@ class DirectPet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=TaggedPet)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -61,7 +61,7 @@ class CustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKFood)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -69,7 +69,7 @@ class CustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKPet)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -88,7 +88,7 @@ class OfficialFood(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -96,7 +96,7 @@ class OfficialPet(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=OfficialThroughModel)
-    
+
     def __unicode__(self):
         return self.name
 

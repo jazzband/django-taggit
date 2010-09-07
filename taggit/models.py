@@ -9,13 +9,13 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
-    
+
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         abstract = True
-    
+
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
             self.slug = slug = slugify(self.name)
@@ -57,7 +57,7 @@ class ItemBase(models.Model):
             "object": self.content_object,
             "tag": self.tag
         }
-    
+
     class Meta:
         abstract = True
 
@@ -81,7 +81,7 @@ class TaggedItemBase(ItemBase):
         tag = models.ForeignKey(Tag, related_name="%(class)s_items")
     else:
         tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
-    
+
     class Meta:
         abstract = True
 
@@ -114,7 +114,7 @@ class GenericTaggedItemBase(ItemBase):
 
     class Meta:
         abstract=True
-    
+
     @classmethod
     def lookup_kwargs(cls, instance):
         return {
