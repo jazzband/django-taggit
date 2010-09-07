@@ -1,7 +1,5 @@
 import re
 
-from django.conf import settings
-
 from taggit.contrib.suggest.models import TagKeyword, TagRegex
 from taggit.models import Tag
 

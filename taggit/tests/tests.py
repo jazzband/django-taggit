@@ -3,10 +3,12 @@ from unittest import TestCase as UnitTestCase
 from django.test import TestCase, TransactionTestCase
 
 from taggit.models import Tag, TaggedItem
-from taggit.tests.forms import FoodForm, DirectFoodForm, CustomPKFoodForm
+from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
+    OfficialFoodForm)
 from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKPet)
+    TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet, 
+    OfficialThroughModel, OfficialTag)
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
@@ -27,23 +29,39 @@ class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
 
 class TagModelTestCase(BaseTaggingTransactionTestCase):
     food_model = Food
+    tag_model = Tag
 
     def test_unique_slug(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("Red", "red")
+    
+    def test_update(self):
+        special = self.tag_model.objects.create(name="special")
+        special.save()
+    
+    def test_add(self):
+        apple = self.food_model.objects.create(name="apple")
+        yummy = self.tag_model.objects.create(name="yummy")
+        apple.tags.add(yummy)
 
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
+    tag_model = Tag
 
 class TagModelCustomPKTestCase(TagModelTestCase):
     food_model = CustomPKFood
+    tag_model = Tag
 
+class TagModelOfficialTestCase(TagModelTestCase):
+    food_model = OfficialFood
+    tag_model = OfficialTag
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
     pet_model = Pet
     housepet_model = HousePet
     taggeditem_model = TaggedItem
+    tag_model = Tag
     
     def test_add_tag(self):
         apple = self.food_model.objects.create(name="apple")
@@ -72,7 +90,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
         self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
-        tag = Tag.objects.create(name="delicious")
+        tag = self.tag_model.objects.create(name="delicious")
         apple.tags.add(tag)
         self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
         
@@ -108,13 +126,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("red", "green")
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green")
-
+        
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["red"])),
+            list(self.food_model.objects.filter(tags__name__in=["red"])),
             [apple]
         )
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["green"])),
+            list(self.food_model.objects.filter(tags__name__in=["green"])),
             [apple, pear]
         )
 
@@ -123,18 +141,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         dog = self.pet_model.objects.create(name="dog")
         dog.tags.add("woof", "red")
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__in=["red"]).distinct()),
+            list(self.food_model.objects.filter(tags__name__in=["red"]).distinct()),
             [apple]
         )
 
-        tag = Tag.objects.get(name="woof")
-        self.assertEqual(list(self.pet_model.objects.filter(tags__in=[tag])), [dog])
+        tag = self.tag_model.objects.get(name="woof")
+        self.assertEqual(list(self.pet_model.objects.filter(tags__name__in=[tag])), [dog])
 
         cat = self.housepet_model.objects.create(name="cat", trained=True)
         cat.tags.add("fuzzy")
-
+        
         self.assertEqual(
-            map(lambda o: o.pk, self.pet_model.objects.filter(tags__in=["fuzzy"])),
+            map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"])),
             [kitty.pk, cat.pk]
         )
     
@@ -148,7 +166,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         guava = self.food_model.objects.create(name="guava")
         
         self.assertEqual(
-            map(lambda o: o.pk, self.food_model.objects.exclude(tags__in=["red"])),
+            map(lambda o: o.pk, self.food_model.objects.exclude(tags__name__in=["red"])),
             [pear.pk, guava.pk],
         )
 
@@ -177,9 +195,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         spike = self.pet_model.objects.create(name='Spike')
         spot.tags.add('scary')
         spike.tags.add('fluffy')
-        lookup_kwargs = {'%s__name' % (self.pet_model._meta.object_name.lower()): 'Spot'}
+        lookup_kwargs = {
+            '%s__name' % self.pet_model._meta.module_name: 'Spot'
+        }
         self.assert_tags_equal(
-           [i.tag for i in self.taggeditem_model.objects.filter(**lookup_kwargs)],
+           self.tag_model.objects.filter(**lookup_kwargs),
            ['scary']
         )
     
@@ -210,6 +230,28 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
         # tell if the instance is saved or not
         pass
+
+class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
+    food_model = OfficialFood
+    pet_model = OfficialPet
+    housepet_model = OfficialHousePet
+    taggeditem_model = OfficialThroughModel
+    tag_model = OfficialTag
+    
+    def test_extra_fields(self):
+        self.tag_model.objects.create(name="red")
+        self.tag_model.objects.create(name="delicious", official=True)
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("delicious", "red")
+        
+        pear = self.food_model.objects.create(name="Pear")
+        pear.tags.add("delicious")
+        
+        self.assertEqual(
+            map(lambda o: o.pk, self.food_model.objects.filter(tags__official=False)),
+            [apple.pk],
+        )
+
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
@@ -253,6 +295,10 @@ class TaggableFormDirectTestCase(TaggableFormTestCase):
 class TaggableFormCustomPKTestCase(TaggableFormTestCase):
     form_class = CustomPKFoodForm
     food_model = CustomPKFood
+
+class TaggableFormOfficialTestCase(TaggableFormTestCase):
+    form_class = OfficialFoodForm
+    food_model = OfficialFood
 
 
 class TagStringParseTestCase(UnitTestCase):

@@ -1,7 +1,8 @@
 from django.db import models
 
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, GenericTaggedItemBase, TagBase
+
 
 class Food(models.Model):
     name = models.CharField(max_length=50)
@@ -19,23 +20,23 @@ class Pet(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class HousePet(Pet):
     trained = models.BooleanField()
 
-# test direct-tagging with custom through model
-    
+
+# Test direct-tagging with custom through model
+
 class TaggedFood(TaggedItemBase):
     content_object = models.ForeignKey('DirectFood')
-    
+
+class TaggedPet(TaggedItemBase):
+    content_object = models.ForeignKey('DirectPet')
+
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
     tags = TaggableManager(through=TaggedFood)
 
-class TaggedPet(TaggedItemBase):
-    content_object = models.ForeignKey('DirectPet')
-    
 class DirectPet(models.Model):
     name = models.CharField(max_length=50)
 
@@ -43,24 +44,27 @@ class DirectPet(models.Model):
     
     def __unicode__(self):
         return self.name
-    
 
 class DirectHousePet(DirectPet):
     trained = models.BooleanField()
 
-# test custom through model to model with custom PK
+
+# Test custom through model to model with custom PK
 
 class TaggedCustomPKFood(TaggedItemBase):
     content_object = models.ForeignKey('CustomPKFood')
+
+class TaggedCustomPKPet(TaggedItemBase):
+    content_object = models.ForeignKey('CustomPKPet')
 
 class CustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKFood)
     
-class TaggedCustomPKPet(TaggedItemBase):
-    content_object = models.ForeignKey('CustomPKPet')
-    
+    def __unicode__(self):
+        return self.name
+
 class CustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
@@ -71,3 +75,31 @@ class CustomPKPet(models.Model):
 
 class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField()
+
+# Test custom through model to a custom tag model
+
+class OfficialTag(TagBase):
+    official = models.BooleanField()
+
+class OfficialThroughModel(GenericTaggedItemBase):
+    tag = models.ForeignKey(OfficialTag, related_name="tagged_items")
+
+class OfficialFood(models.Model):
+    name = models.CharField(max_length=50)
+
+    tags = TaggableManager(through=OfficialThroughModel)
+    
+    def __unicode__(self):
+        return self.name
+
+class OfficialPet(models.Model):
+    name = models.CharField(max_length=50)
+
+    tags = TaggableManager(through=OfficialThroughModel)
+    
+    def __unicode__(self):
+        return self.name
+
+class OfficialHousePet(OfficialPet):
+    trained = models.BooleanField()
+
