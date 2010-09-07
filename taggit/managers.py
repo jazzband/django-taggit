@@ -1,12 +1,12 @@
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models.fields.related import ManyToManyRel
+from django.db.models.fields.related import ManyToManyRel, RelatedField
 from django.db.models.related import RelatedObject
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
-from taggit.models import Tag, TaggedItem, GenericTaggedItemBase
+from taggit.models import TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
 
 
@@ -35,7 +35,7 @@ class TaggableRel(ManyToManyRel):
         self.through = None
 
 
-class TaggableManager(object):
+class TaggableManager(RelatedField):
     def __init__(self, verbose_name=_("Tags"), through=None):
         self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
@@ -71,12 +71,6 @@ class TaggableManager(object):
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
-    
-    def get_prep_lookup(self, lookup_type, value):
-        return models.Field().get_prep_lookup(lookup_type, value)
-    
-    def get_db_prep_lookup(self, *args, **kwargs):
-        return models.Field().get_db_prep_lookup(*args, **kwargs)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
@@ -121,13 +115,13 @@ class TaggableManager(object):
 class _TaggableManager(models.Manager):
     def __init__(self, through):
         self.through = through
-        
+
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
-    
+
     @require_instance_manager
     def add(self, *tags):
         for tag in tags:
@@ -163,7 +157,7 @@ class _TaggableManager(models.Manager):
         qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
         qs = qs.order_by('-n')
-        
+
         # TODO: This all feels like a bit of a hack.
         items = {}
         if len(lookup_keys) == 1:

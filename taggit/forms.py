@@ -12,7 +12,7 @@ class TagWidget(forms.TextInput):
 
 class TagField(forms.CharField):
     widget = TagWidget
-    
+
     def clean(self, value):
         try:
             return parse_tags(value)
