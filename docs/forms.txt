@@ -42,7 +42,7 @@ If, when saving a form, you use the ``commit=False`` option you'll need to call
 form with normal many to many fields on it::
     
     if request.method == "POST":
-        form = MyFormClass(requets.POST)
+        form = MyFormClass(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
