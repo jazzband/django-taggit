@@ -1,0 +1,3 @@
+include taggit/contrib/suggest/README.txt
+recursive-include docs *.txt
+recursive-include taggit/locale *
