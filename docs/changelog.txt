@@ -14,6 +14,8 @@ Unreleased.
  * *Backwards incompatible*  Filtering on tags is no longer
    ``filter(tags__in=["foo"])``, it is written
    ``filter(tags__name__in=["foo"])``.
+ * Added a German locale.
+ * Added a Dutch locale.
 
 0.8.0
 ~~~~~
