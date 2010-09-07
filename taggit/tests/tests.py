@@ -146,7 +146,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         )
 
         tag = self.tag_model.objects.get(name="woof")
-        self.assertEqual(list(self.pet_model.objects.filter(tags__name__in=[tag])), [dog])
+        self.assertEqual(list(self.pet_model.objects.filter(tags__in=[tag])), [dog])
 
         cat = self.housepet_model.objects.create(name="cat", trained=True)
         cat.tags.add("fuzzy")

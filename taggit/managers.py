@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models.fields.related import ManyToManyRel
+from django.db.models.fields.related import ManyToManyRel, RelatedField
 from django.db.models.related import RelatedObject
 from django.utils.translation import ugettext_lazy as _
 
@@ -35,7 +35,7 @@ class TaggableRel(ManyToManyRel):
         self.through = None
 
 
-class TaggableManager(object):
+class TaggableManager(RelatedField):
     def __init__(self, verbose_name=_("Tags"), through=None):
         self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
@@ -71,12 +71,6 @@ class TaggableManager(object):
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
-    
-    def get_prep_lookup(self, lookup_type, value):
-        return models.Field().get_prep_lookup(lookup_type, value)
-    
-    def get_db_prep_lookup(self, *args, **kwargs):
-        return models.Field().get_db_prep_lookup(*args, **kwargs)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
