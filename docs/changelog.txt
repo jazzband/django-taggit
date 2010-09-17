@@ -19,7 +19,7 @@ Unreleased.
 
 0.8.0
 ~~~~~
- 
+
  * Fixed querying for objects using ``exclude(tags__in=tags)``.
  * Marked strings as translatable.
 
@@ -34,4 +34,3 @@ Unreleased.
    transaction with an ``IntegrityError``.
  * Added Python 2.4 compatibility.
  * Added Django 1.1 compatibility.
-

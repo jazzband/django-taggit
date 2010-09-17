@@ -19,23 +19,23 @@ playing around with the API.
 
         Removes a tag from an object. No exception is raised if the object
         doesn't have that tag.
-    
+
     .. method:: clear()
-        
+
         Removes all tags from an object.
-    
+
     .. method:: set(*tags)
 
         Removes all the current tags and then adds the specified tags to the
         object.
-    
+
     .. method: most_common()
 
         Returns a ``QuerySet`` of all tags, annotated with the number of times
         they appear, available as the ``num_times`` attribute on each tag. The
         ``QuerySet``is ordered by ``num_times``, descending.  The ``QuerySet``
         is lazily evaluated, and can be sliced efficiently.
-    
+
     .. method:: similar_objects()
 
         Returns a list (not a lazy ``QuerySet``) of other objects tagged
@@ -63,7 +63,7 @@ like so::
 If you're filtering on multiple tags, it's very common to get duplicate
 results, because of the way relational databases work.  Often you'll want to
 make use of the ``distinct()`` method on ``QuerySets``::
-    
+
     >>> Food.objects.filter(tags__name__in=["delicious", "red"])
     [<Food: apple>, <Food: apple>]
     >>> Food.objects.filter(tags__name__in=["delicious", "red"]).distinct()
@@ -71,3 +71,12 @@ make use of the ``distinct()`` method on ``QuerySets``::
 
 You can also filter by the slug on tags.  If you're using a custom ``Tag``
 model you can use this API to filter on any fields it has.
+
+Aggregation
+~~~~~~~~~~~
+
+Unfortunately, due to a
+`bug in Django <http://code.djangoproject.com/ticket/10870>`_, it is not
+currently possible to use aggregation in conjunction with ``taggit``.  This is
+a `documented interaction <http://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
+of generic relations (which ``taggit`` uses internally) and aggregates.
