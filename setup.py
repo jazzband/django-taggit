@@ -21,7 +21,6 @@ setup(
     package_data = {
         'taggit': [
             'locale/*/LC_MESSAGES/*',
-            'contrib/suggest/README.txt',
         ],
     },
     classifiers=[
