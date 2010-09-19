@@ -1,0 +1,24 @@
+External Applications
+=====================
+
+In addition to the features included in ``django-taggit`` directly, there are a
+number of external applications which provide additional features that may be
+of interest.
+
+.. note::
+
+    Despite their mention here, the following applications are in no way
+    official, nor have they in any way been reviewed or tested.
+
+
+If you have an application that you'd like to see listed here, simply fork
+``taggit`` on `github <http://github.com/alex/django-taggit>`_, add it to this
+list, and send a pull request.
+
+ * ``django-taggit-suggest``: Provides support for defining keyword and regular
+   expression rules for suggesting new tags for content.  This used to be
+   available at ``taggit.contrib.suggest``.  Available on
+   `github <http://github.com/frankwiles/django-taggit-suggest>`_.
+ * ``django-taggit-templatetags``: Provides several templatetags, including one
+   for tag clouds, to expose various ``taggit`` APIs directly to templates.
+   Available on `github <http://github.com/feuervogel/django-taggit-templatetags>`_.

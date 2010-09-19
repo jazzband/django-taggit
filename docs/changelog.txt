@@ -16,6 +16,8 @@ Unreleased.
    ``filter(tags__name__in=["foo"])``.
  * Added a German locale.
  * Added a Dutch locale.
+ * Removed ``taggit.contrib.suggest``, it now lives in an external application,
+   see :doc:`external_apps` for more information.
 
 0.8.0
 ~~~~~

@@ -9,12 +9,13 @@ for known issues with older versions of Django), and Python 2.4-2.X.
 
 .. toctree::
    :maxdepth: 2
-   
+
    getting_started
    forms
    api
    custom_tagging
    issues
+   external_apps
    changelog
 
 Indices and tables
@@ -23,4 +24,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
