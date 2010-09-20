@@ -52,12 +52,12 @@ class TaggableManager(RelatedField):
         models.Field.creation_counter += 1
 
     def __get__(self, instance, model):
-        manager = _TaggableManager(through=self.through)
-        manager.model = model
         if instance is not None and instance.pk is None:
             raise ValueError("%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__)
-        manager.instance = instance
+        manager = _TaggableManager(
+            through=self.through, model=model, instance=instance
+        )
         return manager
 
     def contribute_to_class(self, cls, name):
@@ -113,8 +113,10 @@ class TaggableManager(RelatedField):
 
 
 class _TaggableManager(models.Manager):
-    def __init__(self, through):
+    def __init__(self, through, model, instance):
         self.through = through
+        self.model = model
+        self.instance = instance
 
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
