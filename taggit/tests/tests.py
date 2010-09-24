@@ -8,7 +8,7 @@ from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
 from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
-    OfficialThroughModel, OfficialTag)
+    OfficialThroughModel, OfficialTag, Photo, Movie)
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
@@ -211,6 +211,21 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertEqual(
             unicode(self.taggeditem_model.objects.all()[0]),
             "ross tagged with president"
+        )
+    
+    def test_abstract_subclasses(self):
+        p = Photo.objects.create()
+        p.tags.add("outdoors", "pretty")
+        self.assert_tags_equal(
+            p.tags.all(),
+            ["outdoors", "pretty"]
+        )
+        
+        m = Movie.objects.create()
+        m.tags.add("hd")
+        self.assert_tags_equal(
+            m.tags.all(),
+            ["hd"],
         )
 
 

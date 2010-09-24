@@ -65,7 +65,7 @@ class TaggableManager(RelatedField):
         self.model = cls
         cls._meta.add_field(self)
         setattr(cls, name, self)
-        if self.use_gfk:
+        if self.use_gfk and not cls._meta.abstract:
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, "tagged_items")
 

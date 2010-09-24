@@ -103,3 +103,15 @@ class OfficialPet(models.Model):
 class OfficialHousePet(OfficialPet):
     trained = models.BooleanField()
 
+
+class Media(models.Model):
+    tags = TaggableManager()
+    
+    class Meta:
+        abstract = True
+
+class Photo(Media):
+    pass
+
+class Movie(Media):
+    pass
