@@ -1,5 +1,7 @@
 from unittest import TestCase as UnitTestCase
 
+from django.conf import settings
+from django.db import connection
 from django.test import TestCase, TransactionTestCase
 
 from taggit.models import Tag, TaggedItem
@@ -19,6 +21,19 @@ class BaseTaggingTest(object):
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
+    
+    def assert_num_queries(self, n, f, *args, **kwargs):
+        original_DEBUG = settings.DEBUG
+        settings.DEBUG = True
+        current = len(connection.queries)
+        try:
+            f(*args, **kwargs)
+            self.assertEqual(
+                len(connection.queries) - current,
+                n,
+            )
+        finally:
+            settings.DEBUG = original_DEBUG
 
 class BaseTaggingTestCase(TestCase, BaseTaggingTest):
     pass
@@ -96,6 +111,20 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
+    
+    def test_add_queries(self):
+        apple = self.food_model.objects.create(name="apple")
+        #   1 query to see which tags exist
+        # + 3 queries to create the tags.
+        # + 6 queries to create the intermediary things (including SELECTs, to
+        #     make sure we don't double create.
+        self.assert_num_queries(10, apple.tags.add, "red", "delicious", "green")
+        
+        pear = self.food_model.objects.create(name="pear")
+        #   1 query to see which tags exist
+        # + 4 queries to create the intermeidary things (including SELECTs, to
+        #   make sure we dont't double create.
+        self.assert_num_queries(5, pear.tags.add, "green", "delicious")
 
     def test_require_pk(self):
         food_instance = self.food_model()
