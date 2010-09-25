@@ -132,6 +132,8 @@ class _TaggableManager(models.Manager):
             if not isinstance(t, self.through.tag_model())
         ])
         tag_objs = set(tags) - str_tags
+        # If str_tags has 0 elements Django actually optimizes that to not do a
+        # query.  Malcolm is very smart.
         existing = self.through.tag_model().objects.filter(
             name__in=str_tags
         )

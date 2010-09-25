@@ -125,6 +125,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #   make sure we dont't double create.
         self.assert_num_queries(5, pear.tags.add, "green", "delicious")
+        
+        self.assert_num_queries(0, pear.tags.add)
 
     def test_require_pk(self):
         food_instance = self.food_model()
