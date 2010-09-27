@@ -36,11 +36,12 @@ class TaggableRel(ManyToManyRel):
 
 
 class TaggableManager(RelatedField):
-    def __init__(self, verbose_name=_("Tags"), through=None):
+    def __init__(self, verbose_name=_("Tags"), help_text=None, through=None):
         self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
         self.rel = TaggableRel(to=self.through._meta.get_field("tag").rel.to)
         self.verbose_name = verbose_name
+        self.help_text = help_text or _("A comma-separated list of tags.")
         self.editable = True
         self.unique = False
         self.creates_table = False
@@ -74,8 +75,8 @@ class TaggableManager(RelatedField):
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
-            "label": _("Tags"),
-            "help_text": _("A comma-separated list of tags.")
+            "label": self.verbose_name,
+            "help_text": self.help_text,
         }
         defaults.update(kwargs)
         return form_class(**defaults)
