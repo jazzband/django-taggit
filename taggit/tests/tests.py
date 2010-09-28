@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
 
+from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
@@ -430,3 +431,24 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), u'"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", "spa ces"')
+
+class TagAdminFormTestCase(BaseTaggingTestCase):
+    def test_managers(self):
+        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
+        self.assertEqual(tm.verbose_name, 'categories')
+        self.assertEqual(tm.help_text, u'Add some categories')
+        self.assertEqual(tm.blank, True)
+
+    def test_formfield(self):
+        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
+        ff = tm.formfield()
+        self.assertEqual(ff.label, 'categories')
+        self.assertEqual(ff.help_text, u'Add some categories')
+        self.assertEqual(ff.required, False)
+
+    def test_formfield_modified(self):
+        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
+        ff = tm.formfield(required=True, help_text='new help')
+        self.assertEqual(ff.label, 'categories')
+        self.assertEqual(ff.help_text, 'new help')
+        self.assertEqual(ff.required, True)
