@@ -36,7 +36,8 @@ class TaggableRel(ManyToManyRel):
 
 
 class TaggableManager(RelatedField):
-    def __init__(self, verbose_name=_("Tags"), help_text=None, through=None, blank=False):
+    def __init__(self, verbose_name=_("Tags"), help_text=None, through=None,
+        blank=False):
         self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
         self.rel = TaggableRel(to=self.through._meta.get_field("tag").rel.to)

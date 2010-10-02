@@ -1,6 +1,7 @@
 from unittest import TestCase as UnitTestCase
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
 
@@ -320,8 +321,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertEqual(self.food_model.objects.count(), 1)
 
         f = self.form_class({"name": "raspberry"})
-        raspberry = f.save()
-        self.assert_tags_equal(raspberry.tags.all(), [])
+        self.assertFalse(f.is_valid())
 
         f = self.form_class(instance=apple)
         self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
@@ -334,6 +334,18 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         f = self.form_class(instance=apple)
         self.assertEqual(str(f), """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>\n<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />A comma-separated list of tags.</td></tr>""")
 
+    def test_formfield(self):
+        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
+        ff = tm.formfield()
+        self.assertEqual(ff.label, 'categories')
+        self.assertEqual(ff.help_text, u'Add some categories')
+        self.assertEqual(ff.required, False)
+        
+        self.assertEqual(ff.clean(""), [])
+        
+        tm = TaggableManager()
+        ff = tm.formfield()
+        self.assertRaises(ValidationError, ff.clean, "")
 
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
@@ -431,24 +443,3 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), u'"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", "spa ces"')
-
-class TagAdminFormTestCase(BaseTaggingTestCase):
-    def test_managers(self):
-        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
-        self.assertEqual(tm.verbose_name, 'categories')
-        self.assertEqual(tm.help_text, u'Add some categories')
-        self.assertEqual(tm.blank, True)
-
-    def test_formfield(self):
-        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
-        ff = tm.formfield()
-        self.assertEqual(ff.label, 'categories')
-        self.assertEqual(ff.help_text, u'Add some categories')
-        self.assertEqual(ff.required, False)
-
-    def test_formfield_modified(self):
-        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
-        ff = tm.formfield(required=True, help_text='new help')
-        self.assertEqual(ff.label, 'categories')
-        self.assertEqual(ff.help_text, 'new help')
-        self.assertEqual(ff.required, True)
