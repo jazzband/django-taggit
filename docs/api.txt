@@ -4,7 +4,13 @@ The API
 After you've got your ``TaggableManager`` added to your model you can start
 playing around with the API.
 
-.. class:: TaggableManager
+.. class:: TaggableManager([verbose_name="Tags", help_text="A comma-separated list of tags.", through=None, blank=False])
+    
+    :param verbose_name: The verbose_name for this field.
+    :param help_text: The help_text to be used in forms (including the admin).
+    :param through: The through model, see :doc:`custom_tagging` for more
+        information.
+    :param blank: Controls whether this field is required.
 
     .. method:: add(*tags)
 
