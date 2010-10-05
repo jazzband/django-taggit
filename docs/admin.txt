@@ -1,0 +1,14 @@
+Using tags in the admin
+=======================
+
+By default if you have a :class:`TaggableManager` on your model it will show up
+in the admin, just as it will in any other form.  One important thing to note
+is that you *cannot* include a :class:`TaggableManager` in
+:attr:`ModelAdmin.list_display`, if you do you'll see an exception that looks
+like::
+    
+    AttributeError: 'TaggableManager' object has no attribute 'flatchoices'
+
+This is for the same reason that you cannot include a :class:`ManyToManyField`,
+it would result in an unreasonable number of queries being executed.  If you really would like to add it, you can read the
+`Django documentation <http://docs.djangoproject.com/en/1.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display>`_.
