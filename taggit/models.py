@@ -30,7 +30,12 @@ class TagBase(models.Model):
                 trans_kwargs = {"using": using}
             else:
                 trans_kwargs = {}
+            
             i = 0
+            
+            if self.slug == '':
+                self.slug = "%s_%d" % (slug, i)
+                
             while True:
                 try:
                     sid = transaction.savepoint(**trans_kwargs)
