@@ -9,6 +9,9 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True, auto_now_add=True)
 
     def __unicode__(self):
         return self.name

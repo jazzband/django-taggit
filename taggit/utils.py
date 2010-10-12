@@ -1,6 +1,16 @@
+from decimal import Decimal
+from django.utils.functional import Promise
+from django.utils.translation import force_unicode
+from django.utils.simplejson import JSONEncoder
 from django.utils.encoding import force_unicode
 from django.utils.functional import wraps
 
+class LazyEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Promise) or isinstance(o, Decimal):
+            return force_unicode(o)
+        else:
+            return super(LazyEncoder, self).default(o)
 
 def parse_tags(tagstring):
     """
