@@ -1,7 +1,8 @@
 from django.db import models
 
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase, GenericTaggedItemBase, TagBase
+from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
+    TagBase, Tag)
 
 
 class Food(models.Model):
@@ -106,7 +107,7 @@ class OfficialHousePet(OfficialPet):
 
 class Media(models.Model):
     tags = TaggableManager()
-    
+
     class Meta:
         abstract = True
 
@@ -115,3 +116,27 @@ class Photo(Media):
 
 class Movie(Media):
     pass
+
+
+class ArticleTag(Tag):
+    class Meta:
+        proxy = True
+
+    def slugify(self, tag, i=None):
+        slug = "category-%s" % tag
+        if i is not None:
+            slug += "-%d" % i
+        return slug
+
+class ArticleTaggedItem(TaggedItem):
+    class Meta:
+        proxy = True
+
+    # Basically we want to overide the tag ForeignKey to point at the proxy
+    # inherited ArticleTag so we can get the right slugify, unfortunately I
+    # can't seem to figure out how to do this, so we're on hold ATM.
+
+class Article(models.Model):
+    title = models.CharField(max_length=100)
+
+    tags = TaggableManager(through=ArticleTaggedItem)

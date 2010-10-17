@@ -12,18 +12,18 @@ from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
 from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
-    OfficialThroughModel, OfficialTag, Photo, Movie)
+    OfficialThroughModel, OfficialTag, Photo, Movie, Article)
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
 class BaseTaggingTest(object):
-    def assert_tags_equal(self, qs, tags, sort=True):
-        got = map(lambda tag: tag.name, qs)
+    def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
+        got = map(lambda tag: getattr(tag, attr), qs)
         if sort:
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
-    
+
     def assert_num_queries(self, n, f, *args, **kwargs):
         original_DEBUG = settings.DEBUG
         settings.DEBUG = True
@@ -60,6 +60,15 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
         apple = self.food_model.objects.create(name="apple")
         yummy = self.tag_model.objects.create(name="yummy")
         apple.tags.add(yummy)
+
+    def test_slugify(self):
+        a = Article.objects.create(title="django-taggit 1.0 Released")
+        a.tags.add("awesome", "release", "AWESOME")
+        self.assert_tags_equal(a.tags.all(), [
+            "category-awesome",
+            "category-release",
+            "category-awesome-1"
+        ], attr="slug")
 
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
@@ -113,7 +122,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
-    
+
     def test_add_queries(self):
         apple = self.food_model.objects.create(name="apple")
         #   1 query to see which tags exist
@@ -121,13 +130,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + 6 queries to create the intermediary things (including SELECTs, to
         #     make sure we don't double create.
         self.assert_num_queries(10, apple.tags.add, "red", "delicious", "green")
-        
+
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #   make sure we dont't double create.
         self.assert_num_queries(5, pear.tags.add, "green", "delicious")
-        
+
         self.assert_num_queries(0, pear.tags.add)
 
     def test_require_pk(self):
@@ -245,7 +254,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             unicode(self.taggeditem_model.objects.all()[0]),
             "ross tagged with president"
         )
-    
+
     def test_abstract_subclasses(self):
         p = Photo.objects.create()
         p.tags.add("outdoors", "pretty")
@@ -253,7 +262,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             p.tags.all(),
             ["outdoors", "pretty"]
         )
-        
+
         m = Movie.objects.create()
         m.tags.add("hd")
         self.assert_tags_equal(
@@ -340,9 +349,9 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertEqual(ff.label, 'categories')
         self.assertEqual(ff.help_text, u'Add some categories')
         self.assertEqual(ff.required, False)
-        
+
         self.assertEqual(ff.clean(""), [])
-        
+
         tm = TaggableManager()
         ff = tm.formfield()
         self.assertRaises(ValidationError, ff.clean, "")
