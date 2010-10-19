@@ -123,7 +123,8 @@ class ArticleTag(Tag):
         proxy = True
 
     def slugify(self, tag, i=None):
-        slug = "category-%s" % tag
+        slug = "category-%s" % tag.lower()
+
         if i is not None:
             slug += "-%d" % i
         return slug
@@ -132,9 +133,9 @@ class ArticleTaggedItem(TaggedItem):
     class Meta:
         proxy = True
 
-    # Basically we want to overide the tag ForeignKey to point at the proxy
-    # inherited ArticleTag so we can get the right slugify, unfortunately I
-    # can't seem to figure out how to do this, so we're on hold ATM.
+    @classmethod
+    def tag_model(self):
+        return ArticleTag
 
 class Article(models.Model):
     title = models.CharField(max_length=100)

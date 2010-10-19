@@ -32,6 +32,7 @@ class TagBase(models.Model):
                 trans_kwargs = {}
             i = 0
             while True:
+                i += 1
                 try:
                     sid = transaction.savepoint(**trans_kwargs)
                     res = super(TagBase, self).save(*args, **kwargs)
