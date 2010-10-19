@@ -20,10 +20,10 @@ model named ``content_object``. Pass this intermediary model as the
     from taggit.managers import TaggableManager
     from taggit.models import TaggedItemBase
 
-    
+
     class TaggedFood(TaggedItemBase):
         content_object = models.ForeignKey('Food')
-    
+
     class Food(models.Model):
         # ... fields here
 
@@ -44,3 +44,15 @@ Class name                Behavior
 ========================= ===========================================================
 
 When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag model named ``"tag"``.
+
+.. class:: TagBase
+
+    .. method:: slugify(tag, i=None)
+
+        By default ``taggit`` uses :func:`django.template.defaultfilters.slugify`
+        to calculate a slug for a given tag.  However, if you want to implement
+        your own logic you can override this method, which receives the ``tag``
+        (a string), and ``i``, which is either ``None`` or an integer, which
+        signifies how many times the slug for this tag has been attempted to be
+        calculated, it is ``None`` on the first time, and the counting begins
+        at ``1`` thereafter.
