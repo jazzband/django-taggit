@@ -51,7 +51,7 @@ class TagBase(models.Model):
             
     def update_views(self):
         from django.db.models import F
-        self.viewed = F('viewed') + 1
+        self.viewed = F('viewed') or 0 + 1
         self.save()
 
 class Tag(TagBase):
