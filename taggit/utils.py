@@ -82,7 +82,7 @@ def parse_tags(tagstring):
             delimiter = u' '
         for chunk in to_be_split:
             words.extend(split_strip(chunk, delimiter))
-    words = list(set(words))
+    words = list(set(map(unicode.lower, words)))
     words.sort()
     return words
 
