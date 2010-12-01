@@ -19,12 +19,13 @@ class TagWidget(forms.TextInput):
                 jQuery("#id_%s").autocomplete(tagsExisting, {
                     width: 150,
                     max: 10,
+                    min: 3,
                     highlight: false,
                     multiple: true,
                     multipleSeparator: ", ",
                     scroll: true,
                     scrollHeight: 300,
-                    matchContains: true,
+                    //matchContains: true,
                     autoFill: true,
                     selectFirst: false
                 });
