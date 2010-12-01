@@ -25,7 +25,7 @@ class TagWidget(forms.TextInput):
                     scroll: true,
                     scrollHeight: 300,
                     matchContains: true,
-                    //autoFill: true,
+                    autoFill: true,
                     selectFirst: false
                 });
             });
