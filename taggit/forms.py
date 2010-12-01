@@ -11,7 +11,7 @@ class TagWidget(forms.TextInput):
         if value is not None and not isinstance(value, basestring):
             value = edit_string_for_tags([o.tag for o in value.select_related("tag")])
         output = super(TagWidget, self).render(name, value, attrs)
-        tags = dumps([tag.name for tag in Tag.objects.all()], cls=LazyEncoder)
+        tags = dumps([tag.name for tag in Tag.objects.all().order_by('name')], cls=LazyEncoder)
         
         return output + mark_safe(u'''<script type="text/javascript">
             jQuery(document).ready(function() {
@@ -24,8 +24,8 @@ class TagWidget(forms.TextInput):
                     multipleSeparator: ", ",
                     scroll: true,
                     scrollHeight: 300,
-                    //matchContains: true,
-                    autoFill: true,
+                    matchContains: true,
+                    //autoFill: true,
                     selectFirst: false
                 });
             });
