@@ -15,7 +15,7 @@ class TagWidget(forms.TextInput):
         
         return output + mark_safe(u'''<script type="text/javascript">
             jQuery(document).ready(function() {
-                var tagsExisting = %s;
+                tagsExisting = %s;
                 jQuery("#id_%s").autocomplete(tagsExisting, {
                     width: 150,
                     max: 10,
