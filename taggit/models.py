@@ -82,6 +82,12 @@ class ItemBase(models.Model):
             'content_object': instance
         }
 
+    @classmethod
+    def bulk_lookup_kwargs(cls, instances):
+        return {
+            "content_object__in": instances,
+        }
+
 
 class TaggedItemBase(ItemBase):
     if django.VERSION < (1, 2):
@@ -127,6 +133,14 @@ class GenericTaggedItemBase(ItemBase):
         return {
             'object_id': instance.pk,
             'content_type': ContentType.objects.get_for_model(instance)
+        }
+
+    @classmethod
+    def bulk_lookup_kwargs(cls, instances):
+        # TODO: instances[0], can we assume there are instances.
+        return {
+            "object_id__in": [instance.pk for instance in instances],
+            "content_type": ContentType.objects.get_for_model(instances[0]),
         }
 
     @classmethod
