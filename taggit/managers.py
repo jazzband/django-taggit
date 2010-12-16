@@ -131,9 +131,7 @@ class TaggableManager(RelatedField):
         return [("%s__content_type__in" % prefix, cts)]
 
     def bulk_related_objects(self, new_objs, using):
-        return self.through._base_manager.db_manager(using).filter(
-            **self.through.bulk_lookup_kwargs(new_objs)
-        )
+        return []
 
 
 class _TaggableManager(models.Manager):
