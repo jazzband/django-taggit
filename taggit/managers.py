@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.related import ManyToManyRel, RelatedField
 from django.db.models.related import RelatedObject
+from django.db.models.fields.related import add_lazy_relation
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
@@ -26,8 +27,7 @@ except NameError:
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self, to):
-        self.to = to
+    def __init__(self):
         self.related_name = None
         self.limit_choices_to = {}
         self.symmetrical = True
@@ -38,9 +38,8 @@ class TaggableRel(ManyToManyRel):
 class TaggableManager(RelatedField):
     def __init__(self, verbose_name=_("Tags"),
         help_text=_("A comma-separated list of tags."), through=None, blank=False):
-        self.use_gfk = through is None or issubclass(through, GenericTaggedItemBase)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(to=self.through._meta.get_field("tag").rel.to)
+        self.rel = TaggableRel()
         self.verbose_name = verbose_name
         self.help_text = help_text
         self.blank = blank
@@ -68,7 +67,23 @@ class TaggableManager(RelatedField):
         self.model = cls
         cls._meta.add_field(self)
         setattr(cls, name, self)
-        if self.use_gfk and not cls._meta.abstract:
+        if not cls._meta.abstract:
+            if isinstance(self.through, basestring):
+                def resolve_related_class(field, model, cls):
+                    self.through = model
+                    self.post_through_setup(cls)
+                add_lazy_relation(
+                    cls, self, self.through, resolve_related_class
+                )
+            else:
+                self.post_through_setup(cls)
+
+    def post_through_setup(self, cls):
+        self.use_gfk = (
+            self.through is None or issubclass(self.through, GenericTaggedItemBase)
+        )
+        self.rel.to = self.through._meta.get_field("tag").rel.to
+        if self.use_gfk:
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, "tagged_items")
 

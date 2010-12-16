@@ -36,7 +36,7 @@ class TaggedPet(TaggedItemBase):
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
-    tags = TaggableManager(through=TaggedFood)
+    tags = TaggableManager(through="TaggedFood")
 
 class DirectPet(models.Model):
     name = models.CharField(max_length=50)
