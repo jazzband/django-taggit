@@ -1,7 +1,6 @@
 #!/usr/bin/env python
+import os
 import sys
-
-from os.path import dirname, abspath
 
 from django.conf import settings
 
@@ -21,7 +20,11 @@ from django.test.simple import run_tests
 def runtests(*test_args):
     if not test_args:
         test_args = ['tests']
-    parent = dirname(abspath(__file__))
+    parent = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..",
+        "..",
+    )
     sys.path.insert(0, parent)
     failures = run_tests(test_args, verbosity=1, interactive=True)
     sys.exit(failures)

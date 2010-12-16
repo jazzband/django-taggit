@@ -32,6 +32,6 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    test_suite='runtests.runtests'
+    test_suite='taggit.tests.runtests.runtests'
 )
 
