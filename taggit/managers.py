@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.fields.related import ManyToManyRel, RelatedField
 from django.db.models.related import RelatedObject
 from django.db.models.fields.related import add_lazy_relation
+from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
@@ -92,7 +93,7 @@ class TaggableManager(RelatedField):
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {
-            "label": self.verbose_name,
+            "label": capfirst(self.verbose_name),
             "help_text": self.help_text,
             "required": not self.blank
         }
