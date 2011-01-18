@@ -4,6 +4,7 @@ Changelog
 0.9.2
 ~~~~~
 
+ * Added a French locale.
  * *Backwards incompatible*  Forms containing a :class:`TaggableManager` by
    default now require tags, to change this provide ``blank=True`` to the
    :class:`TaggableManager`.
