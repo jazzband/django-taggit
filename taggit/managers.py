@@ -110,6 +110,12 @@ class TaggableManager(RelatedField):
     def m2m_reverse_name(self):
         return self.through._meta.get_field_by_name("tag")[0].column
 
+    def m2m_target_field_name(self):
+        return self.model._meta.pk.name
+
+    def m2m_reverse_target_field_name(self):
+        return self.rel.to._meta.pk.name
+
     def m2m_column_name(self):
         if self.use_gfk:
             return self.through._meta.virtual_fields[0].fk_field
