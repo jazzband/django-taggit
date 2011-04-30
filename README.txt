@@ -13,7 +13,6 @@ django-taggit
 
         tags = TaggableManager()
 
-
 Then you can use the API like so::
 
     >>> apple = Food.objects.create(name="apple")
@@ -27,6 +26,12 @@ Then you can use the API like so::
     [<Food: apple>, <Food: cherry>]
 
 Tags will show up for you automatically in forms and the admin.
+
+If you want to enforce lowercase tags everywhere (recommended, to avoid
+ending up with tags 'Music' and 'music' which are functionally identical
+but show up in different taxonomies), add to settings.py:
+
+``TAGGIT_FORCE_LOWERCASE = True``
 
 ``django-taggit`` requires Django 1.1 or greater.
 
