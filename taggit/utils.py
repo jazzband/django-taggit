@@ -18,9 +18,10 @@ def parse_tags(tagstring):
         return []
 
     # Should all tags be handled as lowercase?
-    if settings.TAGGIT_FORCE_LOWERCASE == True:
+    try:
+        settings.TAGGIT_FORCE_LOWERCASE
         tagstring = lower(force_unicode(tagstring))
-    else:
+    except:
         tagstring = force_unicode(tagstring)
 
     # Special case - if there are no commas or double quotes in the
@@ -78,6 +79,15 @@ def parse_tags(tagstring):
             words.extend(split_strip(chunk, delimiter))
     words = list(set(words))
     words.sort()
+    
+    # shacker fork - remove any defined stopwords
+
+    try:
+        stoplist = settings.TAGGIT_STOPWORDS
+        words = list(set(words) - set(stoplist))
+    except:
+        pass
+
     return words
 
 
