@@ -32,8 +32,7 @@ playing around with the API.
 
     .. method:: set(*tags)
 
-        Removes all the current tags and then adds the specified tags to the
-        object.
+        Adds and removes tags from an object to match the tags specified.
 
     .. method: most_common()
 

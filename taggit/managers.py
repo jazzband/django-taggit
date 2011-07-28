@@ -174,9 +174,15 @@ class _TaggableManager(models.Manager):
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 
     @require_instance_manager
-    def set(self, *tags):
-        self.clear()
-        self.add(*tags)
+    def set(self,*tags):
+        have = set(tag.name for tag in self.get_query_set().all())
+        wanted = set([tag.name if isinstance(tag, self.through.tag_model()) else tag for tag in tags])
+        
+        add = wanted - have
+        remove = have - wanted
+        
+        self.add(*list(add))
+        self.remove(*list(remove))
 
     @require_instance_manager
     def remove(self, *tags):
