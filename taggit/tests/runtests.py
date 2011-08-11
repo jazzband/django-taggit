@@ -8,7 +8,9 @@ if not settings.configured:
     settings.configure(
         DATABASE_ENGINE='sqlite3',
         DATABASES = {
-            'default': {'ENGINE': 'django.db.backends.sqlite3'}
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3'
+            }
         },
         INSTALLED_APPS=[
             'django.contrib.contenttypes',
