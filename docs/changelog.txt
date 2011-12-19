@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.9.4
+~~~~~
+
+Unreleased.
+
+ * *Backwards incompatible*  The ``name`` field of the ``Tag`` model is
+   now marked as unique. You should update your database schema using
+   ``ALTER TABLE taggit_tag ADD UNIQUE (name)``.
+
 0.9.2
 ~~~~~
 
