@@ -162,9 +162,12 @@ class _TaggableManager(models.Manager):
         tag_objs = set(tags) - str_tags
         # If str_tags has 0 elements Django actually optimizes that to not do a
         # query.  Malcolm is very smart.
-        existing = self.through.tag_model().objects.filter(
-            name__regex=r'(' + '|'.join(str_tags) + ')'
-        )
+        if len(str_tags) > 0:
+	        existing = self.through.tag_model().objects.filter(
+	            name__regex=r'(' + '|'.join(str_tags) + ')'
+	        )
+		else:
+			existing = {}
         tag_objs.update(existing)
 
         for new_tag in str_tags - set(t.name for t in existing):
