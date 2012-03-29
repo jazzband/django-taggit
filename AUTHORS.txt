@@ -14,3 +14,5 @@ idle sign <idlesign@yandex.ru>
 Charles Leifer
 Diederik van der Boor <vdboor@edoburu.nl>
 Henrique Carvalho Alves <hcarvalhoalves@gmail.com>
+Marco Fucci <info@marcofucci.com>
+
