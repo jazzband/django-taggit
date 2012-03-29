@@ -211,8 +211,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         cat.tags.add("fuzzy")
 
         self.assertEqual(
-            map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"])),
-            [kitty.pk, cat.pk]
+            set(map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"]))),
+            set([kitty.pk, cat.pk])
         )
 
     def test_lookup_bulk(self):
