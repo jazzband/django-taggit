@@ -1,5 +1,17 @@
 from django.utils.encoding import force_unicode
 from django.utils.functional import wraps
+from django.template.defaultfilters import lower
+from django.conf import settings
+
+def stopwords(words):
+    # Shacker fork - remove any stopwords defined in settings
+    try:
+        stoplist = settings.TAGGIT_STOPWORDS
+        words = list(set(words) - set(stoplist))
+    except:
+        pass
+
+    return words
 
 
 def parse_tags(tagstring):
@@ -16,7 +28,12 @@ def parse_tags(tagstring):
     if not tagstring:
         return []
 
-    tagstring = force_unicode(tagstring)
+    # Should all tags be handled as lowercase?
+    try:
+        settings.TAGGIT_FORCE_LOWERCASE
+        tagstring = lower(force_unicode(tagstring))
+    except:
+        tagstring = force_unicode(tagstring)
 
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to
@@ -24,6 +41,10 @@ def parse_tags(tagstring):
     if u',' not in tagstring and u'"' not in tagstring:
         words = list(set(split_strip(tagstring, u' ')))
         words.sort()
+
+        # shacker fork - remove any defined stopwords
+        words = stopwords(words)
+
         return words
 
     words = []
@@ -73,6 +94,10 @@ def parse_tags(tagstring):
             words.extend(split_strip(chunk, delimiter))
     words = list(set(words))
     words.sort()
+
+    # shacker fork - remove any defined stopwords
+    words = stopwords(words)
+
     return words
 
 
