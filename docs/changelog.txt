@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.9.3
+~~~~~
+
+ * Added a French locale.
+
 0.9.2
 ~~~~~
 
