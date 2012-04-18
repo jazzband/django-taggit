@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase as UnitTestCase
 
 import django
@@ -68,6 +69,11 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
     def test_unique_slug(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("Red", "red")
+
+    def test_slug_non_empty(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add(u"сочное")
+        self.assertNotEqual(apple.tags.all()[0].slug, '')
 
     def test_update(self):
         special = self.tag_model.objects.create(name="special")
