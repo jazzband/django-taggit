@@ -5,6 +5,7 @@ from django.db import models, IntegrityError, transaction
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
+from psycopg2 import InternalError
 
 
 class TagBase(models.Model):
@@ -39,7 +40,7 @@ class TagBase(models.Model):
                     res = super(TagBase, self).save(*args, **kwargs)
                     transaction.savepoint_commit(sid, **trans_kwargs)
                     return res
-                except IntegrityError:
+                except (InternalError, IntegrityError):
                     transaction.savepoint_rollback(sid, **trans_kwargs)
                     self.slug = self.slugify(self.name, i)
         else:
