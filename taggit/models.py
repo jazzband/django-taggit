@@ -40,7 +40,7 @@ class TagBase(models.Model):
                     res = super(TagBase, self).save(*args, **kwargs)
                     transaction.savepoint_commit(sid, **trans_kwargs)
                     return res
-                except (utils.IntegrityError, utils.DatabaseError):
+                except utils.IntegrityError:
                     transaction.savepoint_rollback(sid, **trans_kwargs)
                     self.slug = self.slugify(self.name, i)
         else:
