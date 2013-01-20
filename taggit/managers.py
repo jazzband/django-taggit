@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields import Field
 from django.db.models.fields.related import ManyToManyRel, RelatedField, add_lazy_relation
-from django.db.models.related import RelatedObject
+from django.db.models.related import RelatedObject, PathInfo
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six
@@ -16,20 +16,46 @@ from taggit.utils import require_instance_manager
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self):
+    def __init__(self, field):
         self.related_name = None
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
         self.through = None
+        self.field = field
 
+    def get_joining_columns(self):
+        return self.field.get_reverse_joining_columns()
+
+    def get_extra_restriction(self, where_class, alias, related_alias):
+        return self.field.get_extra_restriction(where_class, related_alias, alias)
+
+
+class ExtraJoinRestriction(object):
+    """
+    An extra restriction used for contenttype restriction in joins.
+    """
+    def __init__(self, alias, col, content_types):
+        self.alias = alias
+        self.col = col
+        self.content_types = content_types
+
+    def as_sql(self, qn, connection):
+        if len(self.content_types) == 1:
+            extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
+            params = [self.content_types[0]]
+        else:
+            extra_where = "%s.%s IN (%s)" % (qn(self.alias), qn(self.col),
+                                             ','.join(['%s'] * len(self.content_types)))
+            params = self.content_types
+        return extra_where, params
 
 class TaggableManager(RelatedField, Field):
     def __init__(self, verbose_name=_("Tags"),
         help_text=_("A comma-separated list of tags."), through=None, blank=False):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank)
         self.through = through or TaggedItem
-        self.rel = TaggableRel()
+        self.rel = TaggableRel(self)
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
@@ -98,6 +124,9 @@ class TaggableManager(RelatedField, Field):
     def m2m_reverse_name(self):
         return self.through._meta.get_field_by_name("tag")[0].column
 
+    def m2m_reverse_field_name(self):
+        return self.through._meta.get_field_by_name("tag")[0].name
+
     def m2m_target_field_name(self):
         return self.model._meta.pk.name
 
@@ -128,6 +157,72 @@ class TaggableManager(RelatedField, Field):
     def bulk_related_objects(self, new_objs, using):
         return []
 
+    # This and all the methods till the end of class are only used in django >= 1.6
+    def _get_mm_case_path_info(self, direct=False):
+        pathinfos = []
+        linkfield1 = self.through._meta.get_field_by_name('content_object')[0]
+        linkfield2 = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
+        if direct:
+            join1infos = linkfield1.get_reverse_path_info()
+            join2infos = linkfield2.get_path_info()
+        else:
+            join1infos = linkfield2.get_reverse_path_info()
+            join2infos = linkfield1.get_path_info()
+        pathinfos.extend(join1infos)
+        pathinfos.extend(join2infos)
+        return pathinfos
+
+    def _get_gfk_case_path_info(self, direct=False):
+        pathinfos = []
+        from_field = self.model._meta.pk
+        opts = self.through._meta
+        object_id_field = opts.get_field_by_name('object_id')[0]
+        linkfield = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
+        if direct:
+            join1infos = [PathInfo(self.model._meta, opts, [from_field], self.rel, True, False)]
+            join2infos = linkfield.get_path_info()
+        else:
+            join1infos = linkfield.get_reverse_path_info()
+            join2infos = [PathInfo(opts, self.model._meta, [object_id_field], self, True, False)]
+        pathinfos.extend(join1infos)
+        pathinfos.extend(join2infos)
+        return pathinfos
+
+    def get_path_info(self):
+        if self.use_gfk:
+            return self._get_gfk_case_path_info(direct=True)
+        else:
+            return self._get_mm_case_path_info(direct=True)
+
+    def get_reverse_path_info(self):
+        if self.use_gfk:
+            return self._get_gfk_case_path_info(direct=False)
+        else:
+            return self._get_mm_case_path_info(direct=False)
+
+    def get_joining_columns(self, reverse_join=False):
+        if reverse_join:
+            return (("id", "object_id"),)
+        else:
+            return (("object_id", "id"),)
+
+    def get_extra_restriction(self, where_class, alias, related_alias):
+        extra_col = self.through._meta.get_field_by_name('content_type')[0].column
+        content_type_ids = [ContentType.objects.get_for_model(subclass).pk
+                            for subclass in _get_subclasses(self.model)]
+        return ExtraJoinRestriction(related_alias, extra_col, content_type_ids)
+
+    def get_reverse_joining_columns(self):
+        return self.get_joining_columns(reverse_join=True)
+
+    @property
+    def related_fields(self):
+        return [(self.through._meta.get_field_by_name('object_id')[0],
+                 self.model._meta.pk)]
+
+    @property
+    def foreign_related_fields(self):
+        return [self.related_fields[0][1]]
 
 class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance):
@@ -137,6 +232,9 @@ class _TaggableManager(models.Manager):
 
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
+
+    # Django 1.6 renamed this
+    get_queryset = get_query_set
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
