@@ -11,7 +11,8 @@ django-taggit
     class Food(models.Model):
         # ... fields here
 
-        tags = TaggableManager()
+        tags = TaggableManager() # Allow new tags
+        tags = TaggableManager(restricted=True) # Only allow existing tags.
 
 
 Then you can use the API like so::

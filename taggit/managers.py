@@ -37,7 +37,7 @@ class TaggableRel(ManyToManyRel):
 
 class TaggableManager(RelatedField):
     def __init__(self, verbose_name=_("Tags"),
-        help_text=_("A comma-separated list of tags."), through=None, blank=False):
+        help_text=_("A comma-separated list of tags."), through=None, blank=False, restricted=True):
         self.through = through or TaggedItem
         self.rel = TaggableRel()
         self.verbose_name = verbose_name
@@ -51,6 +51,7 @@ class TaggableManager(RelatedField):
         self.serialize = False
         self.null = True
         self.creation_counter = models.Field.creation_counter
+        self.restricted = restricted
         models.Field.creation_counter += 1
 
     def __get__(self, instance, model):
@@ -58,7 +59,8 @@ class TaggableManager(RelatedField):
             raise ValueError("%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__)
         manager = _TaggableManager(
-            through=self.through, model=model, instance=instance
+            through=self.through, model=model, instance=instance,
+            restricted=self.restricted
         )
         return manager
 
@@ -141,10 +143,11 @@ class TaggableManager(RelatedField):
 
 
 class _TaggableManager(models.Manager):
-    def __init__(self, through, model, instance):
+    def __init__(self, through, model, instance, restricted):
         self.through = through
         self.model = model
         self.instance = instance
+        self.restricted = restricted
 
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
@@ -159,6 +162,7 @@ class _TaggableManager(models.Manager):
             for t in tags
             if not isinstance(t, self.through.tag_model())
         ])
+
         tag_objs = set(tags) - str_tags
         # If str_tags has 0 elements Django actually optimizes that to not do a
         # query.  Malcolm is very smart.
@@ -167,8 +171,11 @@ class _TaggableManager(models.Manager):
         )
         tag_objs.update(existing)
 
-        for new_tag in str_tags - set(t.name for t in existing):
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+        # Only add the items to the list if they are existing tags already, do not
+        # create new ones.
+        if not self.restricted:
+            for new_tag in str_tags - set(t.name for t in existing):
+                tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
