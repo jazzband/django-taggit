@@ -5,7 +5,7 @@ After you've got your ``TaggableManager`` added to your model you can start
 playing around with the API.
 
 .. class:: TaggableManager([verbose_name="Tags", help_text="A comma-separated list of tags.", through=None, blank=False])
-    
+
     :param verbose_name: The verbose_name for this field.
     :param help_text: The help_text to be used in forms (including the admin).
     :param through: The through model, see :doc:`custom_tagging` for more
@@ -83,6 +83,6 @@ Aggregation
 
 Unfortunately, due to a
 `bug in Django <http://code.djangoproject.com/ticket/10870>`_, it is not
-currently possible to use aggregation in conjunction with ``taggit``.  This is
+currently (Django < 1.6) possible to use aggregation in conjunction with ``taggit``.  This is
 a `documented interaction <http://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
 of generic relations (which ``taggit`` uses internally) and aggregates.
