@@ -77,7 +77,7 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
         apple = self.food_model.objects.create(name="apple")
         yummy = self.tag_model.objects.create(name="yummy")
         apple.tags.add(yummy)
-
+        
     def test_slugify(self):
         a = Article.objects.create(title="django-taggit 1.0 Released")
         a.tags.add("awesome", "release", "AWESOME")
@@ -140,6 +140,41 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
+    def test_set_tag(self):
+        banana = self.food_model.objects.create(name="banana")
+        pear = self.food_model.objects.create(name="pear")
+         
+        tag = self.tag_model.objects.create(name="yellow")
+        banana.tags.add(tag)
+        tag2 = self.tag_model.objects.create(name="slippery")
+        banana.tags.add(tag2)
+        self.assert_tags_equal(self.food_model.tags.all(), ['yellow', 'slippery'])
+        self.assert_tags_equal(banana.tags.all(), ['yellow', 'slippery'])
+
+        taggeditem_banana_yellow = banana.tags.through.objects.filter(tag=tag).all()[0]
+        taggeditem_banana_slippery = banana.tags.through.objects.filter(tag=tag2).all()[0]
+
+        pear.tags.set('yellow','slippery');
+        self.assert_tags_equal(self.food_model.tags.all(), ['yellow', 'slippery'])
+        self.assert_tags_equal(pear.tags.all(), ['yellow', 'slippery'])
+
+        taggeditem_pear_yellow = pear.tags.through.objects.filter(tag=tag).all()[0]
+        taggeditem_pear_slippery = pear.tags.through.objects.filter(tag=tag2).all()[0]
+
+        banana.tags.set(tag2,tag,"funny","sweet","crazy","fruit")
+        self.assert_tags_equal(banana.tags.all(), ['yellow','slippery','funny','sweet','crazy','fruit'])
+        self.assert_tags_equal(pear.tags.all(), ['yellow', 'slippery'])
+        
+        # Test that the primary keys in the TaggedItem model are preserved
+        self.assertEqual(banana.tags.through.objects.filter(tag=tag).all()[0].pk,taggeditem_banana_yellow.id)
+        self.assertEqual(banana.tags.through.objects.filter(tag=tag2).all()[0].pk,taggeditem_banana_slippery.id)
+        self.assertEqual(pear.tags.through.objects.filter(tag=tag).all()[0].pk,taggeditem_pear_yellow.id)
+        self.assertEqual(pear.tags.through.objects.filter(tag=tag2).all()[0].pk,taggeditem_pear_slippery.id)
+
+        banana.tags.set()
+        self.assert_tags_equal(banana.tags.all(), [])
+        
+        
     def test_add_queries(self):
         apple = self.food_model.objects.create(name="apple")
         #   1 query to see which tags exist
