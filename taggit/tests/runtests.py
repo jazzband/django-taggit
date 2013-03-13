@@ -27,4 +27,5 @@ def runtests():
     sys.exit(failures)
 
 if __name__ == '__main__':
-    runtests()
+    runtests(*sys.argv[1:])
+
