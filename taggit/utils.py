@@ -1,6 +1,16 @@
+from decimal import Decimal
+from django.utils.functional import Promise
+from django.utils.translation import force_unicode
+from django.utils.simplejson import JSONEncoder
 from django.utils.encoding import force_unicode
 from django.utils.functional import wraps
 
+class LazyEncoder(JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Promise) or isinstance(o, Decimal):
+            return force_unicode(o)
+        else:
+            return super(LazyEncoder, self).default(o)
 
 def parse_tags(tagstring):
     """
@@ -22,8 +32,9 @@ def parse_tags(tagstring):
     # input, we don't *do* a recall... I mean, we know we only need to
     # split on spaces.
     if u',' not in tagstring and u'"' not in tagstring:
-        words = list(set(split_strip(tagstring, u' ')))
-        words.sort()
+        # words = list(set(split_strip(tagstring, u' ')))
+        # words.sort()
+        words = [tagstring]
         return words
 
     words = []
@@ -71,7 +82,7 @@ def parse_tags(tagstring):
             delimiter = u' '
         for chunk in to_be_split:
             words.extend(split_strip(chunk, delimiter))
-    words = list(set(words))
+    words = list(set(map(unicode.lower, words)))
     words.sort()
     return words
 
