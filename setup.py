@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 from taggit import VERSION
 
 
-f = open(os.path.join(os.path.dirname(__file__), 'README.txt'))
+f = open(os.path.join(os.path.dirname(__file__), 'README.md'))
 readme = f.read()
 f.close()
 
@@ -32,6 +32,5 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    test_suite='taggit.tests.runtests.runtests'
+    test_suite='taggit.tests.runtests.runtests',
 )
-
