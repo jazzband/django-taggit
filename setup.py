@@ -1,10 +1,9 @@
-import os
 from setuptools import setup, find_packages
 
 from taggit import VERSION
 
 
-f = open(os.path.join(os.path.dirname(__file__), 'README.md'))
+f = open('README.rst')
 readme = f.read()
 f.close()
 
@@ -24,7 +23,7 @@ setup(
         ],
     },
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
