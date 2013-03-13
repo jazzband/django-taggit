@@ -7,10 +7,13 @@ class TaggedItemInline(admin.StackedInline):
     model = TaggedItem
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ["name"]
     inlines = [
         TaggedItemInline
     ]
+    list_display = ["name", "slug"]
+    ordering = ["name", "slug"]
+    search_fields = ["name"]
+    prepopulated_fields = {"slug": ["name"]}
 
 
 admin.site.register(Tag, TagAdmin)

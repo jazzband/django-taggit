@@ -20,7 +20,11 @@ If you have an application that you'd like to see listed here, simply fork
  * ``django-taggit-templatetags``: Provides several templatetags, including one
    for tag clouds, to expose various ``taggit`` APIs directly to templates.
    Available on `github`__.
+ * ``django-cms-taggit``: Integration of the ``taggit`` and also some additional
+   meta data with `Django CMS <http://www.django-cms.org/>`_. Available on
+   `GW site`__.
 
 __ http://github.com/alex/django-taggit
 __ http://github.com/frankwiles/django-taggit-suggest
 __ http://github.com/feuervogel/django-taggit-templatetags
+__ http://gw.tnode.com/1012-django-cms/
