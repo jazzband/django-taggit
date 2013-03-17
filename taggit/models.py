@@ -2,6 +2,7 @@ import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
+from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
 
@@ -137,11 +138,18 @@ class GenericTaggedItemBase(ItemBase):
 
     @classmethod
     def bulk_lookup_kwargs(cls, instances):
-        # TODO: instances[0], can we assume there are instances.
-        return {
-            "object_id__in": [instance.pk for instance in instances],
-            "content_type": ContentType.objects.get_for_model(instances[0]),
-        }
+        if isinstance(instances, QuerySet):
+            # Can do a real object_id IN (SELECT ..) query.
+            return {
+                "object_id__in": instances,
+                "content_type": ContentType.objects.get_for_model(instances.model),
+            }
+        else:
+            # TODO: instances[0], can we assume there are instances.
+            return {
+                "object_id__in": [instance.pk for instance in instances],
+                "content_type": ContentType.objects.get_for_model(instances[0]),
+            }
 
     @classmethod
     def tags_for(cls, model, instance=None):
