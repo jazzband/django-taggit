@@ -287,6 +287,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ["hd"],
         )
 
+    def test_field_api(self):
+        # Check if tag field, which simulates m2m, has django-like api.
+        field = self.food_model._meta.get_field('tags')
+        self.assertTrue(hasattr(field, 'rel'))
+        self.assertTrue(hasattr(field, 'related'))
+        self.assertEqual(self.food_model, field.related.model)
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
