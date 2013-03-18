@@ -83,6 +83,7 @@ class TaggableManager(RelatedField):
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
         self.rel.to = self.through._meta.get_field("tag").rel.to
+        self.related = RelatedObject(self.through, cls, self)
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, "tagged_items")
