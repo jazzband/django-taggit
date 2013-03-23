@@ -52,7 +52,7 @@ class BaseTaggingTest(object):
         return form_str
 
     def assert_form_renders(self, form, html):
-        self.assertEqual(str(form), self._get_form_str(html))
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 class BaseTaggingTestCase(TestCase, BaseTaggingTest):
     pass
