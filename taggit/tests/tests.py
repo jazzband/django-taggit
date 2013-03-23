@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from unittest import TestCase as UnitTestCase
 
 import django
@@ -5,6 +7,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
+from django.utils import six
+from django.utils.encoding import force_text
 
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
@@ -19,7 +23,7 @@ from taggit.utils import parse_tags, edit_string_for_tags
 
 class BaseTaggingTest(object):
     def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
-        got = map(lambda tag: getattr(tag, attr), qs)
+        got = [getattr(obj, attr) for obj in qs] 
         if sort:
             got.sort()
             tags.sort()
@@ -52,7 +56,7 @@ class BaseTaggingTest(object):
         return form_str
 
     def assert_form_renders(self, form, html):
-        self.assertEqual(str(form), self._get_form_str(html))
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 class BaseTaggingTestCase(TestCase, BaseTaggingTest):
     pass
@@ -210,10 +214,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         cat = self.housepet_model.objects.create(name="cat", trained=True)
         cat.tags.add("fuzzy")
 
-        self.assertEqual(
-            map(lambda o: o.pk, self.pet_model.objects.filter(tags__name__in=["fuzzy"])),
-            [kitty.pk, cat.pk]
-        )
+        pks = self.pet_model.objects.filter(tags__name__in=["fuzzy"])
+        model_name = self.pet_model.__name__
+        self.assertQuerysetEqual(pks,
+            ['<{0}: kitty>'.format(model_name),
+             '<{0}: cat>'.format(model_name)],
+            ordered=False)
 
     def test_exclude(self):
         apple = self.food_model.objects.create(name="apple")
@@ -224,10 +230,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         guava = self.food_model.objects.create(name="guava")
 
-        self.assertEqual(
-            map(lambda o: o.pk, self.food_model.objects.exclude(tags__name__in=["red"])),
-            [pear.pk, guava.pk],
-        )
+        pks = self.food_model.objects.exclude(tags__name__in=["red"])
+        model_name = self.food_model.__name__
+        self.assertQuerysetEqual(pks,
+            ['<{0}: pear>'.format(model_name),
+             '<{0}: guava>'.format(model_name)],
+            ordered=False)
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
@@ -242,7 +250,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         similar_objs = apple.tags.similar_objects()
         self.assertEqual(similar_objs, [pear, watermelon])
-        self.assertEqual(map(lambda x: x.similar_tags, similar_objs), [3, 2])
+        self.assertEqual([obj.similar_tags for obj in similar_objs],
+                         [3, 2])
 
     def test_tag_reuse(self):
         apple = self.food_model.objects.create(name="apple")
@@ -268,7 +277,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         ross.tags.add("president")
 
         self.assertEqual(
-            unicode(self.taggeditem_model.objects.all()[0]),
+            force_text(self.taggeditem_model.objects.all()[0]),
             "ross tagged with president"
         )
 
@@ -328,10 +337,7 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         pear = self.food_model.objects.create(name="Pear")
         pear.tags.add("delicious")
 
-        self.assertEqual(
-            map(lambda o: o.pk, self.food_model.objects.filter(tags__official=False)),
-            [apple.pk],
-        )
+        self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
 
 
 class TaggableFormTestCase(BaseTaggingTestCase):
@@ -339,7 +345,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
     food_model = Food
 
     def test_form(self):
-        self.assertEqual(self.form_class.base_fields.keys(), ['name', 'tags'])
+        self.assertEqual(list(self.form_class.base_fields), ['name', 'tags'])
 
         f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy'})
         self.assert_form_renders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
@@ -375,7 +381,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
         ff = tm.formfield()
         self.assertEqual(ff.label, 'Categories')
-        self.assertEqual(ff.help_text, u'Add some categories')
+        self.assertEqual(ff.help_text, 'Add some categories')
         self.assertEqual(ff.required, False)
 
         self.assertEqual(ff.clean(""), [])
@@ -407,54 +413,54 @@ class TagStringParseTestCase(UnitTestCase):
         """
         Test with simple space-delimited tags.
         """
-        self.assertEqual(parse_tags('one'), [u'one'])
-        self.assertEqual(parse_tags('one two'), [u'one', u'two'])
-        self.assertEqual(parse_tags('one two three'), [u'one', u'three', u'two'])
-        self.assertEqual(parse_tags('one one two two'), [u'one', u'two'])
+        self.assertEqual(parse_tags('one'), ['one'])
+        self.assertEqual(parse_tags('one two'), ['one', 'two'])
+        self.assertEqual(parse_tags('one two three'), ['one', 'three', 'two'])
+        self.assertEqual(parse_tags('one one two two'), ['one', 'two'])
 
     def test_with_comma_delimited_multiple_words(self):
         """
         Test with comma-delimited multiple words.
         An unquoted comma in the input will trigger this.
         """
-        self.assertEqual(parse_tags(',one'), [u'one'])
-        self.assertEqual(parse_tags(',one two'), [u'one two'])
-        self.assertEqual(parse_tags(',one two three'), [u'one two three'])
+        self.assertEqual(parse_tags(',one'), ['one'])
+        self.assertEqual(parse_tags(',one two'), ['one two'])
+        self.assertEqual(parse_tags(',one two three'), ['one two three'])
         self.assertEqual(parse_tags('a-one, a-two and a-three'),
-            [u'a-one', u'a-two and a-three'])
+            ['a-one', 'a-two and a-three'])
 
     def test_with_double_quoted_multiple_words(self):
         """
         Test with double-quoted multiple words.
         A completed quote will trigger this.  Unclosed quotes are ignored.
         """
-        self.assertEqual(parse_tags('"one'), [u'one'])
-        self.assertEqual(parse_tags('"one two'), [u'one', u'two'])
-        self.assertEqual(parse_tags('"one two three'), [u'one', u'three', u'two'])
-        self.assertEqual(parse_tags('"one two"'), [u'one two'])
+        self.assertEqual(parse_tags('"one'), ['one'])
+        self.assertEqual(parse_tags('"one two'), ['one', 'two'])
+        self.assertEqual(parse_tags('"one two three'), ['one', 'three', 'two'])
+        self.assertEqual(parse_tags('"one two"'), ['one two'])
         self.assertEqual(parse_tags('a-one "a-two and a-three"'),
-            [u'a-one', u'a-two and a-three'])
+            ['a-one', 'a-two and a-three'])
 
     def test_with_no_loose_commas(self):
         """
         Test with no loose commas -- split on spaces.
         """
-        self.assertEqual(parse_tags('one two "thr,ee"'), [u'one', u'thr,ee', u'two'])
+        self.assertEqual(parse_tags('one two "thr,ee"'), ['one', 'thr,ee', 'two'])
 
     def test_with_loose_commas(self):
         """
         Loose commas - split on commas
         """
-        self.assertEqual(parse_tags('"one", two three'), [u'one', u'two three'])
+        self.assertEqual(parse_tags('"one", two three'), ['one', 'two three'])
 
     def test_tags_with_double_quotes_can_contain_commas(self):
         """
         Double quotes can contain commas
         """
         self.assertEqual(parse_tags('a-one "a-two, and a-three"'),
-            [u'a-one', u'a-two, and a-three'])
+            ['a-one', 'a-two, and a-three'])
         self.assertEqual(parse_tags('"two", one, one, two, "one"'),
-            [u'one', u'two'])
+            ['one', 'two'])
 
     def test_with_naughty_input(self):
         """
@@ -467,16 +473,16 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(parse_tags('""'), [])
         self.assertEqual(parse_tags('"' * 7), [])
         self.assertEqual(parse_tags(',,,,,,'), [])
-        self.assertEqual(parse_tags('",",",",",",","'), [u','])
+        self.assertEqual(parse_tags('",",",",",",","'), [','])
         self.assertEqual(parse_tags('a-one "a-two" and "a-three'),
-            [u'a-one', u'a-three', u'a-two', u'and'])
+            ['a-one', 'a-three', 'a-two', 'and'])
 
     def test_recreation_of_tag_list_string_representations(self):
         plain = Tag.objects.create(name='plain')
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
-        self.assertEqual(edit_string_for_tags([plain]), u'plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces]), u'"spa ces", plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), u'"com,ma", "spa ces", plain')
-        self.assertEqual(edit_string_for_tags([plain, comma]), u'"com,ma", plain')
-        self.assertEqual(edit_string_for_tags([comma, spaces]), u'"com,ma", "spa ces"')
+        self.assertEqual(edit_string_for_tags([plain]), 'plain')
+        self.assertEqual(edit_string_for_tags([plain, spaces]), '"spa ces", plain')
+        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
+        self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
+        self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')

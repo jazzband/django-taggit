@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -5,25 +7,11 @@ from django.db.models.fields.related import ManyToManyRel, RelatedField, add_laz
 from django.db.models.related import RelatedObject
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
+from django.utils import six
 
 from taggit.forms import TagField
 from taggit.models import TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
-
-
-try:
-    all
-except NameError:
-    # 2.4 compat
-    try:
-        from django.utils.itercompat import all
-    except ImportError:
-        # 1.1.X compat
-        def all(iterable):
-            for item in iterable:
-                if not item:
-                    return False
-            return True
 
 
 class TaggableRel(ManyToManyRel):
@@ -68,7 +56,7 @@ class TaggableManager(RelatedField):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
-            if isinstance(self.through, basestring):
+            if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
                     self.through = model
                     self.post_through_setup(cls)
@@ -77,6 +65,9 @@ class TaggableManager(RelatedField):
                 )
             else:
                 self.post_through_setup(cls)
+
+    def __lt__(self, other):
+        return False
 
     def post_through_setup(self, cls):
         self.use_gfk = (
@@ -132,7 +123,8 @@ class TaggableManager(RelatedField):
         if negate or not self.use_gfk:
             return []
         prefix = "__".join(["tagged_items"] + pieces[:pos-2])
-        cts = map(ContentType.objects.get_for_model, _get_subclasses(self.model))
+        get = ContentType.objects.get_for_model
+        cts = [get(obj) for obj in _get_subclasses(self.model)]
         if len(cts) == 1:
             return [("%s__content_type" % prefix, cts[0])]
         return [("%s__content_type__in" % prefix, cts)]
@@ -197,7 +189,7 @@ class _TaggableManager(models.Manager):
     def similar_objects(self):
         lookup_kwargs = self._lookup_kwargs()
         lookup_keys = sorted(lookup_kwargs)
-        qs = self.through.objects.values(*lookup_kwargs.keys())
+        qs = self.through.objects.values(*six.iterkeys(lookup_kwargs))
         qs = qs.annotate(n=models.Count('pk'))
         qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
@@ -220,7 +212,7 @@ class _TaggableManager(models.Manager):
                 preload.setdefault(result['content_type'], set())
                 preload[result["content_type"]].add(result["object_id"])
 
-            for ct, obj_ids in preload.iteritems():
+            for ct, obj_ids in preload.items():
                 ct = ContentType.objects.get_for_id(ct)
                 for obj in ct.model_class()._default_manager.filter(pk__in=obj_ids):
                     items[(ct.pk, obj.pk)] = obj
@@ -243,3 +235,11 @@ def _get_subclasses(model):
             getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
     return subclasses
+
+
+# `total_ordering` does not exist in Django 1.4, as such
+# we special case this import to be py3k specific which
+# is not supported by Django 1.4
+if six.PY3:
+    from django.utils.functional import total_ordering
+    TaggableManager = total_ordering(TaggableManager)

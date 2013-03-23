@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import django
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
@@ -10,7 +12,7 @@ class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -57,9 +59,8 @@ class Tag(TagBase):
         verbose_name_plural = _("Tags")
 
 
-
 class ItemBase(models.Model):
-    def __unicode__(self):
+    def __str__(self):
         return ugettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
             "tag": self.tag
@@ -90,10 +91,7 @@ class ItemBase(models.Model):
 
 
 class TaggedItemBase(ItemBase):
-    if django.VERSION < (1, 2):
-        tag = models.ForeignKey(Tag, related_name="%(class)s_items")
-    else:
-        tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
 
     class Meta:
         abstract = True
