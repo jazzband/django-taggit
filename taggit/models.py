@@ -6,8 +6,10 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
@@ -59,6 +61,7 @@ class Tag(TagBase):
         verbose_name_plural = _("Tags")
 
 
+@python_2_unicode_compatible
 class ItemBase(models.Model):
     def __str__(self):
         return ugettext("%(object)s tagged with %(tag)s") % {
