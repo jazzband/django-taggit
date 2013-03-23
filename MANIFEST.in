@@ -1,2 +1,3 @@
+include README.rst AUTHORS CHANGES.rst LICENSE
 recursive-include docs *.txt
 recursive-include taggit/locale *
