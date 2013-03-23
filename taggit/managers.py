@@ -67,6 +67,11 @@ class TaggableManager(RelatedField):
                 self.post_through_setup(cls)
 
     def __lt__(self, other):
+        """
+        Required contribute_to_class as Django uses bisect
+        for ordered class contribution and bisect requires
+        a orderable type in py3.
+        """
         return False
 
     def post_through_setup(self, cls):
