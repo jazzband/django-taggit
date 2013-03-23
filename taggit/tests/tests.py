@@ -52,7 +52,11 @@ class BaseTaggingTest(object):
         return form_str
 
     def assert_form_renders(self, form, html):
-        self.assertHTMLEqual(str(form), self._get_form_str(html))
+        try:
+            self.assertHTMLEqual(str(form), self._get_form_str(html))
+        except AttributeError:
+            self.assertEqual(str(form), self._get_form_str(html))
+
 
 class BaseTaggingTestCase(TestCase, BaseTaggingTest):
     pass
