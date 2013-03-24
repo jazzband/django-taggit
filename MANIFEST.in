@@ -1,2 +1,6 @@
+include LICENSE
+include CHANGELOG.txt
+include AUTHOR
+include README.rst
 recursive-include docs *.txt
 recursive-include taggit/locale *
