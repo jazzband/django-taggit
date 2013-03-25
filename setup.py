@@ -34,7 +34,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Framework :: Django',
     ],
-    test_suite='runtests.runtests',
     include_package_data=True,
     zip_safe=False,
 )
