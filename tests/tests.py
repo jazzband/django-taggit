@@ -29,19 +29,6 @@ class BaseTaggingTest(object):
             tags.sort()
         self.assertEqual(got, tags)
 
-    def assert_num_queries(self, n, f, *args, **kwargs):
-        original_DEBUG = settings.DEBUG
-        settings.DEBUG = True
-        current = len(connection.queries)
-        try:
-            f(*args, **kwargs)
-            self.assertEqual(
-                len(connection.queries) - current,
-                n,
-            )
-        finally:
-            settings.DEBUG = original_DEBUG
-
     def _get_form_str(self, form_str):
         if django.VERSION >= (1, 3):
             form_str %= {
@@ -152,15 +139,15 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + 3 queries to create the tags.
         # + 6 queries to create the intermediary things (including SELECTs, to
         #     make sure we don't double create.
-        self.assert_num_queries(10, apple.tags.add, "red", "delicious", "green")
+        self.assertNumQueries(10, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #   make sure we dont't double create.
-        self.assert_num_queries(5, pear.tags.add, "green", "delicious")
+        self.assertNumQueries(5, pear.tags.add, "green", "delicious")
 
-        self.assert_num_queries(0, pear.tags.add)
+        self.assertNumQueries(0, pear.tags.add)
 
     def test_require_pk(self):
         food_instance = self.food_model()
