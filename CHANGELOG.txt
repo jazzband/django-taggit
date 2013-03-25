@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.11.0 (unreleased)
+~~~~~~~~~~~~~~~~~~~
+
+ * Python3 support
+ * *Backwards incompatible* Dropped support for Django < 1.4.5.
+
 0.10.0
 ~~~~~~
 
