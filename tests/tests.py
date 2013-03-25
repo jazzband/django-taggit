@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
 
@@ -12,9 +12,9 @@ from django.utils.encoding import force_text
 
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
-from taggit.tests.forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
+from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
-from taggit.tests.models import (Food, Pet, HousePet, DirectFood, DirectPet,
+from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
     OfficialThroughModel, OfficialTag, Photo, Movie, Article)
