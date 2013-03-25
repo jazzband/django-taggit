@@ -228,8 +228,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             lookup = self.taggeditem_model.bulk_lookup_kwargs(objects)
             list(self.taggeditem_model.objects.filter(**lookup))
 
-        self.assert_num_queries(1, lookup_qs)
-        self.assert_num_queries(2, lookup_list)
+        self.assertNumQueries(1, lookup_qs)
+        self.assertNumQueries(2, lookup_list)
 
     def test_exclude(self):
         apple = self.food_model.objects.create(name="apple")
