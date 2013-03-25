@@ -210,6 +210,27 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
              '<{0}: cat>'.format(model_name)],
             ordered=False)
 
+    def test_lookup_bulk(self):
+        apple = self.food_model.objects.create(name="apple")
+        pear = self.food_model.objects.create(name="pear")
+        apple.tags.add('fruit', 'green')
+        pear.tags.add('fruit', 'yummie')
+
+        def lookup_qs():
+            # New fix: directly allow WHERE object_id IN (SELECT id FROM ..)
+            objects = self.food_model.objects.all()
+            lookup = self.taggeditem_model.bulk_lookup_kwargs(objects)
+            list(self.taggeditem_model.objects.filter(**lookup))
+
+        def lookup_list():
+            # Simulate old situation: iterate over a list.
+            objects = list(self.food_model.objects.all())
+            lookup = self.taggeditem_model.bulk_lookup_kwargs(objects)
+            list(self.taggeditem_model.objects.filter(**lookup))
+
+        self.assert_num_queries(1, lookup_qs)
+        self.assert_num_queries(2, lookup_list)
+
     def test_exclude(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red", "green", "delicious")
