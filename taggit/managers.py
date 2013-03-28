@@ -150,6 +150,9 @@ class _TaggableManager(models.Manager):
     def get_query_set(self):
         return self.through.tags_for(self.model, self.instance)
 
+    def names(self):
+        return (tag.name for tag in self.get_query_set())
+
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
 
