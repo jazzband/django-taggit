@@ -24,17 +24,14 @@ class TagBase(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
             self.slug = self.slugify(self.name)
-            if django.VERSION >= (1, 2):
-                from django.db import router
-                using = kwargs.get("using") or router.db_for_write(
-                    type(self), instance=self)
-                # Make sure we write to the same db for all attempted writes,
-                # with a multi-master setup, theoretically we could try to
-                # write and rollback on different DBs
-                kwargs["using"] = using
-                trans_kwargs = {"using": using}
-            else:
-                trans_kwargs = {}
+            from django.db import router
+            using = kwargs.get("using") or router.db_for_write(
+                type(self), instance=self)
+            # Make sure we write to the same db for all attempted writes,
+            # with a multi-master setup, theoretically we could try to
+            # write and rollback on different DBs
+            kwargs["using"] = using
+            trans_kwargs = {"using": using}
             i = 0
             while True:
                 i += 1
@@ -113,18 +110,11 @@ class TaggedItemBase(ItemBase):
 
 class GenericTaggedItemBase(ItemBase):
     object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
-    if django.VERSION < (1, 2):
-        content_type = models.ForeignKey(
-            ContentType,
-            verbose_name=_('Content type'),
-            related_name="%(class)s_tagged_items"
-        )
-    else:
-        content_type = models.ForeignKey(
-            ContentType,
-            verbose_name=_('Content type'),
-            related_name="%(app_label)s_%(class)s_tagged_items"
-        )
+    content_type = models.ForeignKey(
+        ContentType,
+        verbose_name=_('Content type'),
+        related_name="%(app_label)s_%(class)s_tagged_items"
+    )
     content_object = GenericForeignKey()
 
     class Meta:
