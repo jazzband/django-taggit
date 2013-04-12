@@ -4,3 +4,6 @@ dist/
 _build/
 MyProject.kpf
 .tox/
+.*project*
+.idea
+.settings
