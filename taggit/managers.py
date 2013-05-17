@@ -44,10 +44,8 @@ class TaggableManager(RelatedField):
         self.help_text = help_text
         self.blank = blank
         self.editable = True
-        self.unique = False
         self.creates_table = False
         self.db_column = None
-        self.choices = None
         self.serialize = False
         self.null = True
         self.creation_counter = models.Field.creation_counter
@@ -139,6 +137,14 @@ class TaggableManager(RelatedField):
 
     def bulk_related_objects(self, new_objs, using):
         return []
+
+    @property
+    def unique(self):
+        return False
+
+    @property
+    def choices(self):
+        return None
 
 
 class _TaggableManager(models.Manager):
