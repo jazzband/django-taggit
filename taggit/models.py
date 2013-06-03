@@ -8,10 +8,7 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 
 
 class TagBase(models.Model):
-    if hasattr(settings, 'TAGGIT_FIELD_MAX_LENGTH'):
-        _max_length = settings.TAGGIT_FIELD_MAX_LENGTH
-    else:
-        _max_length = 100
+    _max_length = getattr(settings, 'TAGGIT_FIELD_MAX_LENGTH', 100)
 
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=_max_length)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=_max_length)
