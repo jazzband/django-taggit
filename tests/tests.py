@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
@@ -18,7 +19,7 @@ from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
     DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
     TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
     OfficialThroughModel, OfficialTag, Photo, Movie, Article)
-from taggit.utils import parse_tags, edit_string_for_tags
+from taggit.utils import parse_tags, edit_string_for_tags, normalize_tags
 
 
 class BaseTaggingTest(object):
@@ -411,6 +412,26 @@ class TaggableFormCustomPKTestCase(TaggableFormTestCase):
 class TaggableFormOfficialTestCase(TaggableFormTestCase):
     form_class = OfficialFoodForm
     food_model = OfficialFood
+
+
+class TagStringNormalizeTestCase(UnitTestCase):
+    """
+    """
+    def test_with_simple_list_seat(self):
+        """
+        Simples test remove seat
+        """
+        self.assertEqual(normalize_tags(['é']), ['e'])
+
+    def test_generate_equal_slug_word_with_seat(self):
+        """
+        Generate equal slug, word with seat
+        """
+        self.assertEqual(normalize_tags(['é', 'e']), ['e', 'e'])
+
+    def test_generate_word_with_seat(self):
+        self.assertEqual(normalize_tags(['á', 'é', 'í', 'ó', 'ú']),
+                         ['a', 'e', 'i', 'o', 'u'])
 
 
 class TagStringParseTestCase(UnitTestCase):
