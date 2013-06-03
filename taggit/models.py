@@ -1,4 +1,5 @@
 import django
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
@@ -7,8 +8,10 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 
 
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    _max_length = getattr(settings, 'TAGGIT_FIELD_MAX_LENGTH', 100)
+
+    name = models.CharField(verbose_name=_('Name'), unique=True, max_length=_max_length)
+    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=_max_length)
 
     def __unicode__(self):
         return self.name
