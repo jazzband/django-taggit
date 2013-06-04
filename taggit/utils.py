@@ -18,7 +18,9 @@ def normalize_tags(tags):
         return [
             unicodedata.normalize(
                 'NFKD', tag.lower().strip()
-            ).encode('ASCII', 'ignore')
+            )
+            .encode('ASCII', 'ignore')
+            .decode("utf-8")
             for tag in tags
         ]
     except:
