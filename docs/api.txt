@@ -54,6 +54,16 @@ playing around with the API.
         model with its own tagging through table, only other instances of the
         same model will be returned.
 
+    .. method:: names()
+    
+        Convenience method, returning a ``ValuesListQuerySet`` (basically
+        just an iterable) containing the name of each tag as a string::
+
+            >>> apple.tags.names()
+            [u'green', u'red']
+            >>> 'green' in apple.tags.names()
+            True
+
 Filtering
 ~~~~~~~~~
 

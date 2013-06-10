@@ -172,6 +172,10 @@ class _TaggableManager(models.Manager):
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 
     @require_instance_manager
+    def names(self):
+        return self.get_query_set().values_list('name', flat=True)
+
+    @require_instance_manager
     def set(self, *tags):
         self.clear()
         self.add(*tags)
