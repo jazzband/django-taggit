@@ -176,6 +176,10 @@ class _TaggableManager(models.Manager):
         return self.get_query_set().values_list('name', flat=True)
 
     @require_instance_manager
+    def slugs(self):
+        return self.get_query_set().values_list('slug', flat=True)
+
+    @require_instance_manager
     def set(self, *tags):
         self.clear()
         self.add(*tags)
