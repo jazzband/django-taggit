@@ -97,7 +97,7 @@ class CustomPKHousePet(CustomPKPet):
 # Test custom through model to a custom tag model
 
 class OfficialTag(TagBase):
-    official = models.BooleanField()
+    official = models.BooleanField(default=False)
 
 class OfficialThroughModel(GenericTaggedItemBase):
     tag = models.ForeignKey(OfficialTag, related_name="tagged_items")

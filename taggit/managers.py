@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import django
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -32,12 +33,17 @@ class TaggableManager(RelatedField):
         self.help_text = help_text
         self.blank = blank
         self.editable = True
-        self.unique = False
         self.creates_table = False
         self.db_column = None
-        self.choices = None
         self.serialize = False
         self.null = True
+        self.primary_key = False
+        self._choices = []
+        self._unique = False
+        # Remove once we drop 1.5 support.
+        if django.VERSION < (1, 6):
+            self.choices = None
+            self.unique = False
         self.creation_counter = models.Field.creation_counter
         models.Field.creation_counter += 1
 
