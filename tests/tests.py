@@ -10,6 +10,8 @@ from django.test import TestCase, TransactionTestCase
 from django.utils import six
 from django.utils.encoding import force_text
 
+from django.contrib.contenttypes.models import ContentType
+
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
@@ -134,18 +136,28 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
     def test_add_queries(self):
+        # Prefill content type cache:
+        ContentType.objects.get_for_model(self.food_model)
         apple = self.food_model.objects.create(name="apple")
-        #   1 query to see which tags exist
-        # + 3 queries to create the tags.
-        # + 6 queries to create the intermediary things (including SELECTs, to
-        #     make sure we don't double create.
-        self.assertNumQueries(10, apple.tags.add, "red", "delicious", "green")
+        #   1  query to see which tags exist
+        # + 3  queries to create the tags.
+        # + 6  queries to create the intermediary things (including SELECTs, to
+        #      make sure we don't double create.
+        # + 12 on Django 1.6 for save points.
+        queries = 22
+        if django.VERSION < (1,6):
+            queries -= 12
+        self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
         # + 4 queries to create the intermeidary things (including SELECTs, to
-        #   make sure we dont't double create.
-        self.assertNumQueries(5, pear.tags.add, "green", "delicious")
+        #     make sure we dont't double create.
+        # + 4 on Django 1.6 for save points.
+        queries = 9
+        if django.VERSION < (1,6):
+            queries -= 4
+        self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
 
         self.assertNumQueries(0, pear.tags.add)
 
