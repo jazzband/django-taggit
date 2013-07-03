@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
-import django
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models.fields import Field
 from django.db.models.fields.related import ManyToManyRel, RelatedField, add_lazy_relation
 from django.db.models.related import RelatedObject
 from django.utils.text import capfirst
@@ -24,28 +24,12 @@ class TaggableRel(ManyToManyRel):
         self.through = None
 
 
-class TaggableManager(RelatedField):
+class TaggableManager(RelatedField, Field):
     def __init__(self, verbose_name=_("Tags"),
         help_text=_("A comma-separated list of tags."), through=None, blank=False):
+        Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank)
         self.through = through or TaggedItem
         self.rel = TaggableRel()
-        self.verbose_name = verbose_name
-        self.help_text = help_text
-        self.blank = blank
-        self.editable = True
-        self.creates_table = False
-        self.db_column = None
-        self.serialize = False
-        self.null = True
-        self.primary_key = False
-        self._choices = []
-        self._unique = False
-        # Remove once we drop 1.5 support.
-        if django.VERSION < (1, 6):
-            self.choices = None
-            self.unique = False
-        self.creation_counter = models.Field.creation_counter
-        models.Field.creation_counter += 1
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
