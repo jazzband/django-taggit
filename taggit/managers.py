@@ -10,6 +10,11 @@ from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six
 
+try:
+    from django.db.models.related import PathInfo
+except ImportError:
+    pass  # PathInfo is not used on Django < 1.6
+
 from taggit.forms import TagField
 from taggit.models import TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
@@ -97,6 +102,9 @@ class TaggableManager(RelatedField, Field):
     def m2m_reverse_name(self):
         return self.through._meta.get_field_by_name("tag")[0].column
 
+    def m2m_reverse_field_name(self):
+        return self.through._meta.get_field_by_name("tag")[0].name
+
     def m2m_target_field_name(self):
         return self.model._meta.pk.name
 
@@ -114,6 +122,9 @@ class TaggableManager(RelatedField, Field):
     def m2m_db_table(self):
         return self.through._meta.db_table
 
+    def bulk_related_objects(self, new_objs, using):
+        return []
+
     def extra_filters(self, pieces, pos, negate):
         if negate or not self.use_gfk:
             return []
@@ -124,8 +135,67 @@ class TaggableManager(RelatedField, Field):
             return [("%s__content_type" % prefix, cts[0])]
         return [("%s__content_type__in" % prefix, cts)]
 
-    def bulk_related_objects(self, new_objs, using):
-        return []
+    def get_extra_join_sql(self, connection, qn, lhs_alias, rhs_alias):
+        if rhs_alias == '%s_%s' % (self.through._meta.app_label, self.through._meta.module_name):
+            alias_to_join = rhs_alias
+        else:
+            alias_to_join = lhs_alias
+        extra_col = self.through._meta.get_field_by_name('content_type')[0].column
+        content_type_ids = [ContentType.objects.get_for_model(subclass).pk for subclass in _get_subclasses(self.model)]
+        if len(content_type_ids) == 1:
+            content_type_id = content_type_ids[0]
+            extra_where = " AND %s.%s = %%s" % (qn(alias_to_join), qn(extra_col))
+            params = [content_type_id]
+        else:
+            extra_where = " AND %s.%s IN (%s)" % (qn(alias_to_join), qn(extra_col), ','.join(['%s']*len(content_type_ids)))
+            params = content_type_ids
+        return extra_where, params
+
+    def _get_mm_case_path_info(self, direct=False):
+        pathinfos = []
+        linkfield1 = self.through._meta.get_field_by_name('content_object')[0]
+        linkfield2 = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
+        if direct:
+            join1infos, _, _, _ = linkfield1.get_reverse_path_info()
+            join2infos, opts, target, final = linkfield2.get_path_info()
+        else:
+            join1infos, _, _, _ = linkfield2.get_reverse_path_info()
+            join2infos, opts, target, final = linkfield1.get_path_info()
+        pathinfos.extend(join1infos)
+        pathinfos.extend(join2infos)
+        return pathinfos, opts, target, final
+
+    def _get_gfk_case_path_info(self, direct=False):
+        pathinfos = []
+        from_field = self.model._meta.pk
+        opts = self.through._meta
+        object_id_field = opts.get_field_by_name('object_id')[0]
+        linkfield = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
+        if direct:
+            join1infos = [PathInfo(from_field, object_id_field, self.model._meta, opts, self, True, False)]
+            join2infos, opts, target, final = linkfield.get_path_info()
+        else:
+            join1infos, _, _, _ = linkfield.get_reverse_path_info()
+            join2infos = [PathInfo(object_id_field, from_field, opts, self.model._meta, self, True, False)]
+            target = from_field
+            final = self
+            opts = self.model._meta
+
+        pathinfos.extend(join1infos)
+        pathinfos.extend(join2infos)
+        return pathinfos, opts, target, final
+
+    def get_path_info(self):
+        if self.use_gfk:
+            return self._get_gfk_case_path_info(direct=True)
+        else:
+            return self._get_mm_case_path_info(direct=True)
+
+    def get_reverse_path_info(self):
+        if self.use_gfk:
+            return self._get_gfk_case_path_info(direct=False)
+        else:
+            return self._get_mm_case_path_info(direct=False)
 
 
 class _TaggableManager(models.Manager):
