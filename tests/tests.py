@@ -313,6 +313,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertTrue(hasattr(field, 'related'))
         self.assertEqual(self.food_model, field.related.model)
 
+    def test_names_method(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        apple.tags.add('red')
+        self.assertEqual(list(apple.tags.names()), ['green', 'red'])
+
+    def test_slugs_method(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green and juicy')
+        apple.tags.add('red')
+        self.assertEqual(list(apple.tags.slugs()), ['green-and-juicy', 'red'])
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
