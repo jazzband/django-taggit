@@ -15,7 +15,7 @@ class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True,
                             max_length=100, db_index=True)
     slug = models.SlugField(verbose_name=_('Slug'), unique=True,
-                            max_length=100, db_index=True)
+                            max_length=100)
 
     def __str__(self):
         return self.name
