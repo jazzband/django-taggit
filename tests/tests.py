@@ -351,8 +351,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         with self.assertNumQueries(0):
             foods = dict((f.name, set(t.name for t in f.tags.all())) for f in l)
             self.assertEqual(foods, {
-                u'orange': {'2', '4'},
-                u'apple': {'1', '2'}
+                u'orange': set(['2', '4']),
+                u'apple': set(['1', '2'])
             })
 
 
