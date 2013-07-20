@@ -349,7 +349,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         with self.assertNumQueries(2):
             l = list(self.food_model.objects.prefetch_related('tags').all())
         with self.assertNumQueries(0):
-            foods = {f.name : set(t.name for t in f.tags.all()) for f in l}
+            foods = dict((f.name, set(t.name for t in f.tags.all())) for f in l)
             self.assertEqual(foods, {
                 u'orange': {'2', '4'},
                 u'apple': {'1', '2'}
