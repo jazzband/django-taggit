@@ -190,7 +190,6 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("red", "green")
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green")
-
         self.assertEqual(
             list(self.food_model.objects.filter(tags__name__in=["red"])),
             [apple]
