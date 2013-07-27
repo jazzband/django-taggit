@@ -4,12 +4,9 @@ Changelog
 0.11.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~~
 
+ * Support for Django 1.6.
  * Python3 support
  * *Backwards incompatible* Dropped support for Django < 1.4.5.
-
-0.10.0
-~~~~~~
-
  * Tag names are unique now, use the provided South migrations to upgrade.
 
 0.9.2

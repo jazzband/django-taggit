@@ -7,8 +7,8 @@ python:
   - "3.3"
 
 env:
-#  - DJANGO=https://github.com/django/django/archive/master.tar.gz
-  - DJANGO=django==1.5 --use-mirrors
+  - DJANGO=https://github.com/django/django/archive/master.tar.gz
+  - DJANGO=django==1.5.1 --use-mirrors
   - DJANGO=django==1.4.5 --use-mirrors
 
 install:
