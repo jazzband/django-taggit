@@ -8,7 +8,7 @@ python:
 
 env:
   - DJANGO=https://github.com/django/django/archive/master.tar.gz
-  - DJANGO=https://github.com/django/django/archive/stable./1.6.x.tar.gz
+  - DJANGO=https://github.com/django/django/archive/stable/1.6.x.tar.gz
   - DJANGO=django==1.5.1 --use-mirrors
   - DJANGO=django==1.4.5 --use-mirrors
 
