@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django import VERSION
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -72,7 +73,10 @@ class TaggableManager(RelatedField, Field):
         return manager
 
     def contribute_to_class(self, cls, name):
-        self.name = self.column = name
+        if VERSION < (1, 7):
+            self.name = self.column = name
+        else:
+            self.set_attributes_from_name(name)
         self.model = cls
         cls._meta.add_field(self)
         setattr(cls, name, self)
