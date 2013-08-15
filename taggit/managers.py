@@ -22,8 +22,8 @@ from taggit.utils import require_instance_manager
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self, field):
-        self.related_name = None
+    def __init__(self, field, related_name):
+        self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
@@ -58,10 +58,12 @@ class ExtraJoinRestriction(object):
 
 class TaggableManager(RelatedField, Field):
     def __init__(self, verbose_name=_("Tags"),
-        help_text=_("A comma-separated list of tags."), through=None, blank=False):
+        help_text=_("A comma-separated list of tags."), through=None, blank=False,
+        related_name=None):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self)
+        # related_name arg is unusable. It needs to avoid "Accessor clashes with related" error
+        self.rel = TaggableRel(self, related_name=related_name)
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
