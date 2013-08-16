@@ -21,6 +21,13 @@ from taggit.models import TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
 
 
+def _model_name(model):
+    if VERSION < (1, 7):
+        return model._meta.module_name
+    else:
+        return model._meta.model_name
+
+
 class TaggableRel(ManyToManyRel):
     def __init__(self, field):
         self.related_name = None
@@ -128,7 +135,7 @@ class TaggableManager(RelatedField, Field):
         return self.through.objects.none()
 
     def related_query_name(self):
-        return self.model._meta.module_name
+        return _model_name(self.model)
 
     def m2m_reverse_name(self):
         return self.through._meta.get_field_by_name("tag")[0].column
@@ -167,7 +174,8 @@ class TaggableManager(RelatedField, Field):
         return [("%s__content_type__in" % prefix, cts)]
 
     def get_extra_join_sql(self, connection, qn, lhs_alias, rhs_alias):
-        if rhs_alias == '%s_%s' % (self.through._meta.app_label, self.through._meta.module_name):
+        model_name = _model_name(self.through)
+        if rhs_alias == '%s_%s' % (self.through._meta.app_label, model_name):
             alias_to_join = rhs_alias
         else:
             alias_to_join = lhs_alias

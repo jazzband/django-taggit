@@ -12,7 +12,7 @@ from django.utils.encoding import force_text
 
 from django.contrib.contenttypes.models import ContentType
 
-from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager, _model_name
 from taggit.models import Tag, TaggedItem
 from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
@@ -285,7 +285,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         spot.tags.add('scary')
         spike.tags.add('fluffy')
         lookup_kwargs = {
-            '%s__name' % self.pet_model._meta.module_name: 'Spot'
+            '%s__name' % _model_name(self.pet_model): 'Spot'
         }
         self.assert_tags_equal(
            self.tag_model.objects.filter(**lookup_kwargs),
