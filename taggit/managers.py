@@ -63,6 +63,10 @@ class ExtraJoinRestriction(object):
             params = self.content_types
         return extra_where, params
 
+    def relabel_aliases(self, change_map):
+        self.alias = change_map.get(self.alias, self.alias)
+
+
 class TaggableManager(RelatedField, Field):
     def __init__(self, verbose_name=_("Tags"),
         help_text=_("A comma-separated list of tags."), through=None, blank=False):
@@ -302,6 +306,7 @@ class TaggableManager(RelatedField, Field):
     @property
     def foreign_related_fields(self):
         return [self.related_fields[0][1]]
+
 
 class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance):
