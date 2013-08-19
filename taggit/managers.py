@@ -119,7 +119,7 @@ class TaggableManager(RelatedField, Field):
         self.related = RelatedObject(self.through, cls, self)
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
-            tagged_items.contribute_to_class(cls, "tagged_items")
+            tagged_items.contribute_to_class(cls, "%s_tagged_items" % cls.__name__.lower())
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
