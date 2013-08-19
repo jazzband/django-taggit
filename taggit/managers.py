@@ -66,6 +66,9 @@ class ExtraJoinRestriction(object):
     def relabel_aliases(self, change_map):
         self.alias = change_map.get(self.alias, self.alias)
 
+    def clone(self):
+        return self.__class__(self.alias, self.col, self.content_types[:])
+
 
 class TaggableManager(RelatedField, Field):
     def __init__(self, verbose_name=_("Tags"),
