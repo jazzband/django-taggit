@@ -43,7 +43,50 @@ Class name                Behavior
 ``ItemBase``              Allows custom ``Tag`` models and ``ForeignKeys`` to models.
 ========================= ===========================================================
 
-When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag model named ``"tag"``.
+When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag
+model named ``"tag"``:
+
+  .. code-block:: python
+
+    from django.db import models
+    from django.utils.translation import ugettext_lazy as _
+
+    from taggit.managers import TaggableManager
+    from taggit.models import TagBase, GenericTaggedItemBase
+
+
+    class MyCustomTag(TagBase):
+        # ... fields here
+
+        class Meta:
+            verbose_name = _("Tag")
+            verbose_name_plural = _("Tags")
+
+        # ... methods (if any) here
+
+
+    class TaggedWhatever(GenericTaggedItemBase):
+        # TaggedWhatever can also extend TaggedItemBase or a combination of
+        # both TaggedItemBase and GenericTaggedItemBase. GenericTaggedItemBase
+        # allows using the same tag for different kinds of objects, in this
+        # example Food and Drink.
+
+        # Here is where you provide your custom Tag class.
+        tag = models.ForeignKey(MyCustomTag,
+                                related_name="%(app_label)s_%(class)s_items")
+
+
+    class Food(models.Model):
+        # ... fields here
+
+        tags = TaggableManager(through=TaggedWhatever)
+
+
+    class Drink(models.Model):
+        # ... fields here
+
+        tags = TaggableManager(through=TaggedWhatever)
+
 
 .. class:: TagBase
 
