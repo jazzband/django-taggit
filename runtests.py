@@ -17,7 +17,11 @@ if not settings.configured:
             'django.contrib.contenttypes',
             'taggit',
             'tests',
-        ]
+        ],
+        TEMPLATE_LOADERS = (
+            'django.template.loaders.app_directories.Loader',
+        ),
+        ROOT_URLCONF=''
     )
 
 

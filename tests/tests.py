@@ -519,3 +519,23 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+
+
+class ViewsTestCase(TestCase):
+    urls = 'tests.urls'
+
+    def setUp(self):
+        self.apple = Food.objects.create(name="apple")
+        self.dog = Pet.objects.create(name="jack")
+        self.tag_yummy = Tag.objects.create(name="yummy")
+        self.apple.tags.add(self.tag_yummy)
+
+    def test_view_returns_tagged_objects(self):
+        response = self.client.get('/tagged/%s/' % self.tag_yummy.slug)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([o.pk for o in response.context['object_list']], [self.apple.pk])
+        self.assertEqual(response.context['tag'].pk, self.tag_yummy.pk)
+
+    def test_404_for_unknown_tag(self):
+        response = self.client.get('/tagged/unknown-tag/')
+        self.assertEqual(response.status_code, 404)
