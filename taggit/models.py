@@ -55,6 +55,7 @@ class TagBase(models.Model):
 
 class Tag(TagBase):
     class Meta:
+        ordering = ['name']
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
 
