@@ -6,6 +6,16 @@ tagging to your project easy and fun.
 
 ``django-taggit`` works with Django 1.4.5+ and Python 2.7-3.X.
 
+.. warning::
+
+   Since version 0.10.0 taggit uses South for database migrations.
+   This means that users who are upgrading to 0.10.0 and up will have to fake the initial migration, like so::
+      
+      python manage.py migrate taggit --fake 0001
+      python manage.py migrate
+   
+   For more information, see `south documentation`__
+
 .. toctree::
    :maxdepth: 2
 
@@ -23,3 +33,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+__ http://south.readthedocs.org/en/latest/
