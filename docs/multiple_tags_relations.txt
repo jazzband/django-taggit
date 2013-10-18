@@ -1,0 +1,58 @@
+Multiple tags relations
+=======================
+
+Sometimes it needs to define a few relations between entity model and tag model.
+
+Let's assume that we have the model `Event` and there are an author of an event who can specify a set of tags and visitors of this event who can also specify a set of tags for the event. In order to supply this feature we need to keep a set of tags for the author and for visitors::
+    
+    from django.db import models
+    
+    from taggit.managers import TaggableManager
+    from taggit.models import GenericTaggedItemBase, TaggedItemBase
+    from django.utils.translation import ugettext_lazy as _
+    
+    
+    class AuthorTaggedItem(GenericTaggedItemBase, TaggedItemBase):
+        class Meta:
+            verbose_name = _("Tagged Item by author")
+            verbose_name_plural = _("Tagged Items by author")
+    
+    
+    class VisitorsTaggedItem(GenericTaggedItemBase, TaggedItemBase):
+        class Meta:
+            verbose_name = _("Tagged Item by visotors")
+            verbose_name_plural = _("Tagged Items by visitors")
+    
+    
+    class Event(models.Model):
+        # ... fields here
+
+        author_tags = TaggableManager(through=AuthorTaggedItem,
+                                      related_name='events_by_author_tag')
+        visitors_tags = TaggableManager(through=VisitorsTaggedItem,
+                                        related_name='events_by_visitors_tag')
+
+Taggit API usage:
+
+>>> from myapp.models import Event
+>>>
+>>> e = Event.objects.create(name='PyCon2013')
+>>> e.visitors_tags.add('py3k', 'taggit')
+>>> e.author_tags.add('python', 'django', 'taggit')
+>>> e.visitors_tags.all()
+[<Tag: taggit>, <Tag: py3k>]
+>>> e.author_tags.all()
+[<Tag: python>, <Tag: taggit>, <Tag: django>]
+>>>
+>>> Event.objects.filter(author_tags__name__in=['python'])
+[<Event: PyCon2013>
+>>>
+>>> Event.objects.filter(visitors_tags__name__in=['taggit'])
+[<Event: PyCon2013>
+>>>
+>>> tag_taggit = e.author_tags.all()[1]
+>>> Event.objects.filter(author_tags__in=[tag_taggit])
+[<Event: PyCon2013>
+>>>
+>>> Event.objects.filter(visitors_tags__in=[tag_taggit])
+[<Event: PyCon2013>

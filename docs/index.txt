@@ -24,6 +24,7 @@ tagging to your project easy and fun.
    admin
    api
    custom_tagging
+   multiple_tags_relations
    external_apps
    changelog
 
