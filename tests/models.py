@@ -8,6 +8,11 @@ from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 
 
+class MultipleTags(models.Model):
+    tags1 = TaggableManager()
+    tags2 = TaggableManager(related_name='+')
+
+
 @python_2_unicode_compatible
 class Food(models.Model):
     name = models.CharField(max_length=50)

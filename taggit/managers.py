@@ -29,8 +29,8 @@ def _model_name(model):
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self, field):
-        self.related_name = None
+    def __init__(self, field, related_name):
+        self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
@@ -69,11 +69,13 @@ class ExtraJoinRestriction(object):
 
 
 class TaggableManager(RelatedField, Field):
-    def __init__(self, verbose_name=_("Tags"),
-        help_text=_("A comma-separated list of tags."), through=None, blank=False):
+    _related_name_counter = 0
+
+    def __init__(self, verbose_name=_("Tags"), help_text=_("A comma-separated list of tags."),
+            through=None, blank=False, related_name=None):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self)
+        self.rel = TaggableRel(self, related_name)
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
@@ -119,8 +121,10 @@ class TaggableManager(RelatedField, Field):
         self.rel.to = self.through._meta.get_field("tag").rel.to
         self.related = RelatedObject(self.through, cls, self)
         if self.use_gfk:
-            tagged_items = GenericRelation(self.through)
-            tagged_items.contribute_to_class(cls, "tagged_items")
+            self.__class__._related_name_counter += 1
+            related_name = '+%d' % self.__class__._related_name_counter
+            tagged_items = GenericRelation(self.through, related_name=related_name)
+            tagged_items.contribute_to_class(cls, 'tagged_items')
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
