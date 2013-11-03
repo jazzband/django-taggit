@@ -10,6 +10,9 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.encoding import python_2_unicode_compatible
 
 
+class DuplicateTagError(Exception):
+    pass
+
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
@@ -42,6 +45,13 @@ class TagBase(models.Model):
                     return res
                 except IntegrityError:
                     transaction.savepoint_rollback(sid, **trans_kwargs)
+                    # raise DuplicateTagError if name collision
+                    # otherwise this will sit in infinite loop
+                    existing_tag = self.__class__.objects.filter(name__iexact=self.name)
+                    try:
+                        raise DuplicateTagError('trying to insert new tag "%s", existing tag id==%s' % (self, existing_tag[0].pk))
+                    except IndexError:
+                        pass
                     self.slug = self.slugify(self.name, i)
         else:
             return super(TagBase, self).save(*args, **kwargs)
