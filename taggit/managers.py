@@ -342,7 +342,7 @@ class _TaggableManager(models.Manager):
         tag_objs.update(existing)
 
         for new_tag_lower in set(str_tags_lower) - set(t.name.lower() for t in existing):
-            new_tag = str_tags[str_tags_lower.index(new_tag)]
+            new_tag = str_tags[str_tags_lower.index(new_tag_lower)]
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
         for tag in tag_objs:
