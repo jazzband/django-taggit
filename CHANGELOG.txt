@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.11.0
+~~~~~~~~~~~~~~~~~~~
+ * Added support for prefetch_related on tags fields
+
 0.10.0 (17.08.2013)
 ~~~~~~~~~~~~~~~~~~~
 
