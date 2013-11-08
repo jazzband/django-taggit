@@ -334,7 +334,10 @@ class _TaggableManager(models.Manager):
         except (AttributeError, KeyError):
             return self.through.tags_for(self.model, self.instance)
 
-    def get_prefetch_query_set(self, instances):
+    def get_prefetch_query_set(self, instances, queryset = None):
+        if queryset is not None:
+            raise ValueError("Custom queryset can't be used for this lookup.")
+        
         instance = instances[0]
         from django.db import connections
         db = self._db or router.db_for_read(instance.__class__, instance=instance)
