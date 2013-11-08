@@ -83,7 +83,10 @@ class TaggableManager(RelatedField, Field):
             raise ValueError("%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__)
         manager = _TaggableManager(
-            through=self.through, model=model, instance=instance, prefetch_cache_name = self.name
+            through=self.through,
+            model=model,
+            instance=instance,
+            prefetch_cache_name = self.name
         )
         return manager
 
@@ -336,15 +339,22 @@ class _TaggableManager(models.Manager):
         from django.db import connections
         db = self._db or router.db_for_read(instance.__class__, instance=instance)
 
-        fk = self.through._meta.get_field('object_id' if issubclass(self.through, GenericTaggedItemBase) else 'content_object')
+        fieldname = ('object_id' if issubclass(self.through, GenericTaggedItemBase)
+                     else 'content_object')
+        fk = self.through._meta.get_field(fieldname)
         query = {
-            '%s__%s__in' % (self.through.tag_relname(), fk.name) : set(obj._get_pk_val() for obj in instances)
+            '%s__%s__in' % (self.through.tag_relname(), fk.name) :
+                set(obj._get_pk_val() for obj in instances)
         }
         join_table = self.through._meta.db_table
         source_col = fk.column
         connection = connections[db]
         qn = connection.ops.quote_name
-        qs = self.get_query_set().using(db)._next_is_sticky().filter(**query).extra(select = { '_prefetch_related_val' : '%s.%s' % (qn(join_table), qn(source_col))})
+        qs = self.get_query_set().using(db)._next_is_sticky().filter(**query).extra(
+            select = {
+                '_prefetch_related_val' : '%s.%s' % (qn(join_table), qn(source_col))
+            }
+        )
         return (qs,
                 attrgetter('_prefetch_related_val'),
                 attrgetter(instance._meta.pk.name),
