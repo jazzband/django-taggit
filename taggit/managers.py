@@ -125,9 +125,7 @@ class TaggableManager(RelatedField, Field):
         self.rel.to = self.through._meta.get_field("tag").rel.to
         self.related = RelatedObject(self.through, cls, self)
         if self.use_gfk:
-            self.__class__._related_name_counter += 1
-            related_name = '+%d' % self.__class__._related_name_counter
-            tagged_items = GenericRelation(self.through, related_name=related_name)
+            tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, 'tagged_items')
 
     def save_form_data(self, instance, value):
