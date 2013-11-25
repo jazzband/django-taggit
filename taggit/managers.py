@@ -203,52 +203,6 @@ class TaggableManager(RelatedField, Field):
             params = content_type_ids
         return extra_where, params
 
-    def _get_mm_case_path_info(self, direct=False):
-        pathinfos = []
-        linkfield1 = self.through._meta.get_field_by_name('content_object')[0]
-        linkfield2 = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
-        if direct:
-            join1infos, _, _, _ = linkfield1.get_reverse_path_info()
-            join2infos, opts, target, final = linkfield2.get_path_info()
-        else:
-            join1infos, _, _, _ = linkfield2.get_reverse_path_info()
-            join2infos, opts, target, final = linkfield1.get_path_info()
-        pathinfos.extend(join1infos)
-        pathinfos.extend(join2infos)
-        return pathinfos, opts, target, final
-
-    def _get_gfk_case_path_info(self, direct=False):
-        pathinfos = []
-        from_field = self.model._meta.pk
-        opts = self.through._meta
-        object_id_field = opts.get_field_by_name('object_id')[0]
-        linkfield = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
-        if direct:
-            join1infos = [PathInfo(from_field, object_id_field, self.model._meta, opts, self, True, False)]
-            join2infos, opts, target, final = linkfield.get_path_info()
-        else:
-            join1infos, _, _, _ = linkfield.get_reverse_path_info()
-            join2infos = [PathInfo(object_id_field, from_field, opts, self.model._meta, self, True, False)]
-            target = from_field
-            final = self
-            opts = self.model._meta
-
-        pathinfos.extend(join1infos)
-        pathinfos.extend(join2infos)
-        return pathinfos, opts, target, final
-
-    def get_path_info(self):
-        if self.use_gfk:
-            return self._get_gfk_case_path_info(direct=True)
-        else:
-            return self._get_mm_case_path_info(direct=True)
-
-    def get_reverse_path_info(self):
-        if self.use_gfk:
-            return self._get_gfk_case_path_info(direct=False)
-        else:
-            return self._get_mm_case_path_info(direct=False)
-
     # This and all the methods till the end of class are only used in django >= 1.6
     def _get_mm_case_path_info(self, direct=False):
         pathinfos = []
