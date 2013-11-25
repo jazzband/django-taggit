@@ -7,7 +7,7 @@ f.close()
 
 setup(
     name='django-taggit',
-    version='0.10',
+    version='0.11',
     description='django-taggit is a reusable Django application for simple tagging.',
     long_description=readme,
     author='Alex Gaynor',

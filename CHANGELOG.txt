@@ -1,9 +1,13 @@
 Changelog
 =========
 
-0.11.0
+0.11.0 (25.11.2013)
 ~~~~~~~~~~~~~~~~~~~
- * Added support for prefetch_related on tags fields
+ * Added support for prefetch_related on tags fields.
+ * Fixed support for Django 1.7.
+ * Made the tagging relations unserializeable again.
+ * Allow more than one TaggableManager on models (assuming concrete FKs are
+   used for the relations).
 
 0.10.0 (17.08.2013)
 ~~~~~~~~~~~~~~~~~~~
