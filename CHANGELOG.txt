@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.11.1 (25.11.2013)
+~~~~~~~~~~~~~~~~~~~
+ * Fixed support for Django 1.4 and 1.5.
+
 0.11.0 (25.11.2013)
 ~~~~~~~~~~~~~~~~~~~
  * Added support for prefetch_related on tags fields.
