@@ -8,9 +8,18 @@ from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
     TagBase, Tag)
 
 
+# Ensure that two TaggableManagers with custom through model are allowed.
+class Through1(TaggedItemBase):
+    content_object = models.ForeignKey('MultipleTags')
+
+
+class Through2(TaggedItemBase):
+    content_object = models.ForeignKey('MultipleTags')
+
+
 class MultipleTags(models.Model):
-    tags1 = TaggableManager()
-    tags2 = TaggableManager(related_name='+')
+    tags1 = TaggableManager(through=Through1, related_name='tags1')
+    tags2 = TaggableManager(through=Through2, related_name='tags2')
 
 
 @python_2_unicode_compatible
@@ -50,7 +59,7 @@ class TaggedPet(TaggedItemBase):
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
-    tags = TaggableManager(through="TaggedFood")
+    tags = TaggableManager(through='TaggedFood')
 
     def __str__(self):
         return self.name

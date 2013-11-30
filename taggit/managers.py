@@ -96,6 +96,7 @@ class TaggableManager(RelatedField, Field):
         else:
             self.set_attributes_from_name(name)
         self.model = cls
+
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
@@ -108,6 +109,7 @@ class TaggableManager(RelatedField, Field):
                 )
             else:
                 self.post_through_setup(cls)
+
 
     def __lt__(self, other):
         """
@@ -125,10 +127,13 @@ class TaggableManager(RelatedField, Field):
         self.rel.to = self.through._meta.get_field("tag").rel.to
         self.related = RelatedObject(self.through, cls, self)
         if self.use_gfk:
-            self.__class__._related_name_counter += 1
-            related_name = '+%d' % self.__class__._related_name_counter
-            tagged_items = GenericRelation(self.through, related_name=related_name)
+            tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, 'tagged_items')
+
+            for rel in cls._meta.local_many_to_many:
+                if isinstance(rel, TaggableManager) and rel.use_gfk and rel != self:
+                    raise ValueError('You can only have one TaggableManager per model'
+                        ' using generic relations.')
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
@@ -291,7 +296,7 @@ class _TaggableManager(models.Manager):
     def get_prefetch_query_set(self, instances, queryset = None):
         if queryset is not None:
             raise ValueError("Custom queryset can't be used for this lookup.")
-        
+
         instance = instances[0]
         from django.db import connections
         db = self._db or router.db_for_read(instance.__class__, instance=instance)
