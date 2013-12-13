@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.11.2 (13.12.2013)
+~~~~~~~~~~~~~~~~~~~
+ * Forbid multiple TaggableManagers via generic foreign keys.
+
 0.11.1 (25.11.2013)
 ~~~~~~~~~~~~~~~~~~~
  * Fixed support for Django 1.4 and 1.5.
