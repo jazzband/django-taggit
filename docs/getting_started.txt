@@ -9,6 +9,8 @@ To get started using ``django-taggit`` simply install it with
 
 Add ``"taggit"`` to your project's ``INSTALLED_APPS`` setting.
 
+Run `./manage.py syncdb` or `./manage.py migrate taggit` if using South.
+
 And then to any model you want tagging on do the following::
 
     from django.db import models
