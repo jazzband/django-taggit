@@ -21,6 +21,14 @@ class MultipleTags(models.Model):
     tags1 = TaggableManager(through=Through1, related_name='tags1')
     tags2 = TaggableManager(through=Through2, related_name='tags2')
 
+# Ensure that two TaggableManagers with GFK via different through models are allowed.
+class ThroughGFK(GenericTaggedItemBase):
+    tag = models.ForeignKey(Tag, related_name='tagged_items')
+
+class MultipleTagsGFK(models.Model):
+    tags1 = TaggableManager(related_name='tagsgfk1')
+    tags2 = TaggableManager(through=ThroughGFK, related_name='tagsgfk2')
+
 
 @python_2_unicode_compatible
 class Food(models.Model):

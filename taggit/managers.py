@@ -130,10 +130,12 @@ class TaggableManager(RelatedField, Field):
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, 'tagged_items')
 
-            for rel in cls._meta.local_many_to_many:
-                if isinstance(rel, TaggableManager) and rel.use_gfk and rel != self:
-                    raise ValueError('You can only have one TaggableManager per model'
-                        ' using generic relations.')
+        for rel in cls._meta.local_many_to_many:
+            if rel == self or not isinstance(rel, TaggableManager):
+                continue
+            if rel.through == self.through:
+                raise ValueError('You can\'t have two TaggableManagers with the'
+                                 ' same through model.')
 
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
