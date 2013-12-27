@@ -57,6 +57,13 @@ class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
     pass
 
 
+class TagModelDirectAccess(TestCase):
+
+    def test_unique_name(self):
+        Tag.objects.create(name='Hello')
+        Tag.objects.create(name='Hello')
+
+
 class TagModelTestCase(BaseTaggingTransactionTestCase):
     food_model = Food
     tag_model = Tag
