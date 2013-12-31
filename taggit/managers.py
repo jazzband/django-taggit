@@ -327,6 +327,7 @@ class _TaggableManager(models.Manager):
 
     # Django 1.6 renamed this
     get_queryset = get_query_set
+    get_prefetch_queryset = get_prefetch_query_set
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
