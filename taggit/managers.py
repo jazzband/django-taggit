@@ -289,13 +289,13 @@ class _TaggableManager(models.Manager):
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
 
-    def get_query_set(self):
+    def get_queryset(self):
         try:
             return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
             return self.through.tags_for(self.model, self.instance)
 
-    def get_prefetch_query_set(self, instances, queryset = None):
+    def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is not None:
             raise ValueError("Custom queryset can't be used for this lookup.")
 
@@ -314,7 +314,7 @@ class _TaggableManager(models.Manager):
         source_col = fk.column
         connection = connections[db]
         qn = connection.ops.quote_name
-        qs = self.get_query_set().using(db)._next_is_sticky().filter(**query).extra(
+        qs = self.get_queryset().using(db)._next_is_sticky().filter(**query).extra(
             select = {
                 '_prefetch_related_val' : '%s.%s' % (qn(join_table), qn(source_col))
             }
@@ -325,9 +325,9 @@ class _TaggableManager(models.Manager):
                 False,
                 self.prefetch_cache_name)
 
-    # Django 1.6 renamed this
-    get_queryset = get_query_set
-    get_prefetch_queryset = get_prefetch_query_set
+    # Django < 1.6 uses the previous name of query_set
+    get_query_set = get_queryset
+    get_prefetch_query_set = get_prefetch_queryset
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
@@ -355,11 +355,11 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def names(self):
-        return self.get_query_set().values_list('name', flat=True)
+        return self.get_queryset().values_list('name', flat=True)
 
     @require_instance_manager
     def slugs(self):
-        return self.get_query_set().values_list('slug', flat=True)
+        return self.get_queryset().values_list('slug', flat=True)
 
     @require_instance_manager
     def set(self, *tags):
@@ -376,7 +376,7 @@ class _TaggableManager(models.Manager):
         self.through.objects.filter(**self._lookup_kwargs()).delete()
 
     def most_common(self):
-        return self.get_query_set().annotate(
+        return self.get_queryset().annotate(
             num_times=models.Count(self.through.tag_relname())
         ).order_by('-num_times')
 
