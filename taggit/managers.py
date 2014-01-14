@@ -333,6 +333,7 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def add(self, *tags):
+        tags = [str(tag) for tag in tags]
         str_tags = set([
             t
             for t in tags

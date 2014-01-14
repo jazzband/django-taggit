@@ -83,6 +83,13 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
             "category-awesome-1"
         ], attr="slug")
 
+    def test_duplicated_compound_tag(self):
+        apple = self.food_model.objects.create(name="apple")
+        tag = ('foo', 'spam')
+        apple.tags.add(tag)
+        apple.tags.add(tag)
+
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
