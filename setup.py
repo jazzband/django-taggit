@@ -13,8 +13,9 @@ setup(
     author='Alex Gaynor',
     author_email='alex.gaynor@gmail.com',
     url='http://github.com/alex/django-taggit/tree/master',
+    install_requires=('django-autoslug',),
     packages=find_packages(exclude=('tests*',)),
-    package_data = {
+    package_data={
         'taggit': [
             'locale/*/LC_MESSAGES/*',
         ],
