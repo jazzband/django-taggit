@@ -50,7 +50,7 @@ class Pet(models.Model):
 
 
 class HousePet(Pet):
-    trained = models.BooleanField()
+    trained = models.BooleanField(default=False)
 
 
 # Test direct-tagging with custom through model
@@ -84,7 +84,7 @@ class DirectPet(models.Model):
 
 
 class DirectHousePet(DirectPet):
-    trained = models.BooleanField()
+    trained = models.BooleanField(default=False)
 
 
 # Test custom through model to model with custom PK
@@ -114,7 +114,7 @@ class CustomPKPet(models.Model):
         return self.name
 
 class CustomPKHousePet(CustomPKPet):
-    trained = models.BooleanField()
+    trained = models.BooleanField(default=False)
 
 # Test custom through model to a custom tag model
 
@@ -143,7 +143,7 @@ class OfficialPet(models.Model):
         return self.name
 
 class OfficialHousePet(OfficialPet):
-    trained = models.BooleanField()
+    trained = models.BooleanField(default=False)
 
 
 class Media(models.Model):
