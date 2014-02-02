@@ -78,9 +78,9 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
         a = Article.objects.create(title="django-taggit 1.0 Released")
         a.tags.add("awesome", "release", "AWESOME")
         self.assert_tags_equal(a.tags.all(), [
-            "category-awesome",
-            "category-release",
-            "category-awesome-1"
+            "awesome",
+            "release",
+            "awesome_2"
         ], attr="slug")
 
 class TagModelDirectTestCase(TagModelTestCase):
@@ -138,16 +138,17 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
     def test_add_queries(self):
         # Prefill content type cache:
+        from django.db import connection
         ContentType.objects.get_for_model(self.food_model)
         apple = self.food_model.objects.create(name="apple")
         #   1  query to see which tags exist
-        # + 3  queries to create the tags.
+        # + 6  queries to create the tags.
         # + 6  queries to create the intermediary things (including SELECTs, to
         #      make sure we don't double create.
-        # + 12 on Django 1.6 for save points.
-        queries = 22
+        # + 6  on Django 1.6+ for save points.
+        queries = 19
         if django.VERSION < (1,6):
-            queries -= 12
+            queries -= 6
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")

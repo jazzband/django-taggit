@@ -12,7 +12,8 @@ from autoslug import AutoSlugField
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = AutoSlugField(verbose_name=_('Slug'), unique=True, max_length=100, populate_from='short', editable=True)
+    slug = AutoSlugField(verbose_name=_('Slug'), unique=True, max_length=100,
+        populate_from='name', editable=True, sep='_')
 
     def __str__(self):
         return self.name
