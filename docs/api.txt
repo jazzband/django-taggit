@@ -67,7 +67,7 @@ playing around with the API.
         Convenience method, returning a ``ValuesListQuerySet`` (basically
         just an iterable) containing the slug of each tag as a string::
 
-            >>> apple.slugs.names()
+            >>> apple.tags.slugs()
             [u'green-and-juicy', u'red']
 
 Filtering
