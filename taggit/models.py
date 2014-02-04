@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
@@ -35,12 +36,18 @@ class TagBase(models.Model):
             while True:
                 i += 1
                 try:
-                    sid = transaction.savepoint(**trans_kwargs)
-                    res = super(TagBase, self).save(*args, **kwargs)
-                    transaction.savepoint_commit(sid, **trans_kwargs)
-                    return res
+                    if VERSION >= (1, 6):
+                        with transaction.atomic(**trans_kwargs):
+                            res = super(TagBase, self).save(*args, **kwargs)
+                            return res
+                    else:
+                        sid = transaction.savepoint(**trans_kwargs)
+                        res = super(TagBase, self).save(*args, **kwargs)
+                        transaction.savepoint_commit(sid, **trans_kwargs)
+                        return res
                 except IntegrityError:
-                    transaction.savepoint_rollback(sid, **trans_kwargs)
+                    if VERSION < (1, 6):
+                        transaction.savepoint_rollback(sid, **trans_kwargs)
                     self.slug = self.slugify(self.name, i)
         else:
             return super(TagBase, self).save(*args, **kwargs)
