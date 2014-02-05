@@ -167,7 +167,7 @@ class ArticleTag(Tag):
         slug = "category-%s" % tag.lower()
 
         if i is not None:
-            slug += "-%d" % i
+            slug += "_%d" % i
         return slug
 
 

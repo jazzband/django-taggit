@@ -2,54 +2,24 @@ from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
-from django.db import models, IntegrityError, transaction
+from django.db import models
 from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.encoding import python_2_unicode_compatible
+from autoslug import AutoSlugField
 
 
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    slug = AutoSlugField(verbose_name=_('Slug'), unique=True, max_length=100,
+        populate_from='name', editable=True, sep='_')
 
     def __str__(self):
         return self.name
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        if not self.pk and not self.slug:
-            self.slug = self.slugify(self.name)
-            from django.db import router
-            using = kwargs.get("using") or router.db_for_write(
-                type(self), instance=self)
-            # Make sure we write to the same db for all attempted writes,
-            # with a multi-master setup, theoretically we could try to
-            # write and rollback on different DBs
-            kwargs["using"] = using
-            trans_kwargs = {"using": using}
-            i = 0
-            while True:
-                i += 1
-                try:
-                    sid = transaction.savepoint(**trans_kwargs)
-                    res = super(TagBase, self).save(*args, **kwargs)
-                    transaction.savepoint_commit(sid, **trans_kwargs)
-                    return res
-                except IntegrityError:
-                    transaction.savepoint_rollback(sid, **trans_kwargs)
-                    self.slug = self.slugify(self.name, i)
-        else:
-            return super(TagBase, self).save(*args, **kwargs)
-
-    def slugify(self, tag, i=None):
-        slug = default_slugify(tag)
-        if i is not None:
-            slug += "_%d" % i
-        return slug
 
 
 class Tag(TagBase):
@@ -117,7 +87,7 @@ class GenericTaggedItemBase(ItemBase):
     content_object = GenericForeignKey()
 
     class Meta:
-        abstract=True
+        abstract = True
 
     @classmethod
     def lookup_kwargs(cls, instance):
