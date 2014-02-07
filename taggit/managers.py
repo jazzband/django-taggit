@@ -92,7 +92,7 @@ class TaggableManager(RelatedField, Field):
 
     def contribute_to_class(self, cls, name):
         if VERSION < (1, 7):
-            self.name = self.column = name
+            self.name = self.column = self.attname = name
         else:
             self.set_attributes_from_name(name)
         self.model = cls
