@@ -133,6 +133,17 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add(tag)
         self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
 
+        apple.tags.add('Marlene')
+        self.assert_tags_equal(apple.tags.all(), ["red", "delicious", "Marlene"])
+        apple.tags.remove('Marlene')
+
+        settings.TAGGIT_FORCE_LOWERCASE = True
+        apple.tags.add('Marlene')
+        self.assert_tags_equal(apple.tags.all(), ["red", "delicious", "marlene"])
+
+        apple.tags.remove('Marlene')
+        settings.TAGGIT_FORCE_LOWERCASE = False
+
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
