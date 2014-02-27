@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
+import re
 
+from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
@@ -30,18 +32,23 @@ class TagBase(models.Model):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            trans_kwargs = {"using": using}
-            i = 0
-            while True:
-                i += 1
-                try:
-                    sid = transaction.savepoint(**trans_kwargs)
-                    res = super(TagBase, self).save(*args, **kwargs)
-                    transaction.savepoint_commit(sid, **trans_kwargs)
-                    return res
-                except IntegrityError:
-                    transaction.savepoint_rollback(sid, **trans_kwargs)
-                    self.slug = self.slugify(self.name, i)
+
+            # If a tag already exists with this slug, generate a unique slug.
+            if type(self).objects.filter(slug=self.slug).exists():
+                # Find all slugs that match this one but end with an underscore
+                # and an integer value.  We generate a value greater than any
+                # integer value observed and append it to the slug.
+                regex = re.compile("^" + re.escape(self.slug) + "_\d+$")
+                query_set = type(self).objects.filter(
+                    slug__regex=regex.pattern).order_by("-slug")
+                if not query_set.exists():
+                    self.slug = self.slugify(self.name, 1)
+                else:
+                    max_value = int(query_set[0].slug.rsplit("_", 1)[1])
+                    self.slug = self.slugify(self.name, max_value + 1)
+            res = super(TagBase, self).save(*args, **kwargs)
+            return res
+
         else:
             return super(TagBase, self).save(*args, **kwargs)
 
