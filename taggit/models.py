@@ -9,6 +9,23 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.encoding import python_2_unicode_compatible
 
 
+try:
+    atomic = transaction.atomic
+except AttributeError:
+    from contextlib import contextmanager
+
+    @contextmanager
+    def atomic(using=None):
+        sid = transaction.savepoint(using=using)
+        try:
+            yield
+        except IntegrityError:
+            transaction.savepoint_rollback(sid, using=using)
+            raise
+        else:
+            transaction.savepoint_commit(sid, using=using)
+
+
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
@@ -30,17 +47,14 @@ class TagBase(models.Model):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            trans_kwargs = {"using": using}
             i = 0
             while True:
                 i += 1
                 try:
-                    sid = transaction.savepoint(**trans_kwargs)
-                    res = super(TagBase, self).save(*args, **kwargs)
-                    transaction.savepoint_commit(sid, **trans_kwargs)
+                    with atomic(using=using):
+                        res = super(TagBase, self).save(*args, **kwargs)
                     return res
                 except IntegrityError:
-                    transaction.savepoint_rollback(sid, **trans_kwargs)
                     self.slug = self.slugify(self.name, i)
         else:
             return super(TagBase, self).save(*args, **kwargs)
