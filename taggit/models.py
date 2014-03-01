@@ -47,15 +47,26 @@ class TagBase(models.Model):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            i = 0
+            # Be oportunistic and try to save the tag, this should work for
+            # most cases ;)
+            try:
+                with atomic(using=using):
+                    res = super(TagBase, self).save(*args, **kwargs)
+                return res
+            except IntegrityError:
+                pass
+            # Now try to find existing slugs with similar names
+            slugs = set(Tag.objects.filter(slug__startswith=self.slug)\
+                                   .values_list('slug', flat=True))
+            i = 1
             while True:
+                slug = self.slugify(self.name, i)
+                if slug not in slugs:
+                    self.slug = slug
+                    # We purposely ignore concurrecny issues here for now.
+                    # (That is, till we found a nice solution...)
+                    return super(TagBase, self).save(*args, **kwargs)
                 i += 1
-                try:
-                    with atomic(using=using):
-                        res = super(TagBase, self).save(*args, **kwargs)
-                    return res
-                except IntegrityError:
-                    self.slug = self.slugify(self.name, i)
         else:
             return super(TagBase, self).save(*args, **kwargs)
 
