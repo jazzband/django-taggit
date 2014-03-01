@@ -1,8 +1,30 @@
 from __future__ import unicode_literals
 
+import unicodedata
+
 from django.utils.encoding import force_text
 from django.utils.functional import wraps
 from django.utils import six
+
+
+def normalize_tags(tags):
+    """ Normalise (normalize) unicode data in Python to remove umlauts,
+    accents etc. """
+
+    if not tags:
+        return []
+
+    try:
+        return [
+            unicodedata.normalize(
+                'NFKD', tag.lower().strip()
+            )
+            .encode('ASCII', 'ignore')
+            .decode("utf-8")
+            for tag in tags
+        ]
+    except:
+        return tags
 
 
 def parse_tags(tagstring):
@@ -27,7 +49,7 @@ def parse_tags(tagstring):
     if ',' not in tagstring and '"' not in tagstring:
         words = list(set(split_strip(tagstring, ' ')))
         words.sort()
-        return words
+        return normalize_tags(words)
 
     words = []
     buffer = []
@@ -76,7 +98,7 @@ def parse_tags(tagstring):
             words.extend(split_strip(chunk, delimiter))
     words = list(set(words))
     words.sort()
-    return words
+    return normalize_tags(words)
 
 
 def split_strip(string, delimiter=','):
