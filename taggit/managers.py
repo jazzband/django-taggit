@@ -30,12 +30,12 @@ def _model_name(model):
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self, field, related_name):
+    def __init__(self, field, related_name, through):
         self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
-        self.through = None
+        self.through = through
         self.field = field
 
     def get_joining_columns(self):
@@ -76,7 +76,8 @@ class TaggableManager(RelatedField, Field):
             through=None, blank=False, related_name=None):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self, related_name)
+        self.rel = TaggableRel(self, related_name, self.through)
+        self.swappable = False
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
@@ -89,6 +90,12 @@ class TaggableManager(RelatedField, Field):
             prefetch_cache_name = self.name
         )
         return manager
+
+    def deconstruct(self):
+        name, path, args, kwargs = super(TaggableManager, self).deconstruct()
+        for kwarg in ['serialize', 'null']:
+            del kwargs[kwarg]
+        return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
         if VERSION < (1, 7):
