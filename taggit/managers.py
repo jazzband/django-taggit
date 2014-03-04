@@ -347,8 +347,10 @@ class _TaggableManager(models.Manager):
         )
         tag_objs.update(existing)
 
-        for new_tag in str_tags - set(t.name for t in existing):
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+        for probably_new_tag in str_tags - set(t.name for t in existing):
+            tag_obj, created = self.through.tag_model().objects.get_or_create(
+                name=probably_new_tag)
+            tag_objs.add(tag_obj)
 
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
