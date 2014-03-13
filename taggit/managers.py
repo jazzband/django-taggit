@@ -92,9 +92,16 @@ class TaggableManager(RelatedField, Field):
         return manager
 
     def deconstruct(self):
+        """
+        Deconstruct the object, used with migrations.
+        """
         name, path, args, kwargs = super(TaggableManager, self).deconstruct()
+        # Remove forced kwargs.
         for kwarg in ['serialize', 'null']:
             del kwargs[kwarg]
+        # Add non-default arguments.
+        if self.through is not TaggedItem:
+            kwargs['through'] = self.through
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
