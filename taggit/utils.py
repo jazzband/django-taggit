@@ -1,8 +1,14 @@
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from django.utils.encoding import force_text
 from django.utils.functional import wraps
 from django.utils import six
+
+
+TAG_DELIMITER = getattr(settings, 'TAGGIT_TAG_DELIMITER', ',')
+TAG_SEPARATOR = getattr(settings, 'TAGGIT_TAG_SEPARATOR', ', ')
 
 
 def parse_tags(tagstring):
@@ -79,7 +85,7 @@ def parse_tags(tagstring):
     return words
 
 
-def split_strip(string, delimiter=','):
+def split_strip(string, delimiter=TAG_DELIMITER):
     """
     Splits ``string`` on ``delimiter``, stripping each resulting string
     and returning a list of non-empty strings.
@@ -113,11 +119,11 @@ def edit_string_for_tags(tags):
     names = []
     for tag in tags:
         name = tag.name
-        if ',' in name or ' ' in name:
+        if TAG_DELIMITER in name:
             names.append('"%s"' % name)
         else:
             names.append(name)
-    return ', '.join(sorted(names))
+    return TAG_SEPARATOR.join(sorted(names))
 
 
 def require_instance_manager(func):
