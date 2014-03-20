@@ -144,6 +144,14 @@ class TaggableManager(RelatedField, Field):
                 raise ValueError('You can\'t have two TaggableManagers with the'
                                  ' same through model.')
 
+        # Set the field to be auto created. This is required for Django 1.7
+        # (https://github.com/alex/django-taggit/issues/211).
+        # It is meant to trigger the `_alter_many_to_many` code path in
+        # alter_field (db.backends.schema) and needs to be set to the class,
+        # like it gets done in `create_many_to_many_intermediary_model`.
+        if VERSION >= (1, 7):
+            rel.through._meta.auto_created = cls
+
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
 
