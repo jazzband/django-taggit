@@ -35,7 +35,7 @@ class TaggableRel(ManyToManyRel):
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
-        self.through = through
+        self.through = None if VERSION < (1, 7) else through
         self.field = field
 
     def get_joining_columns(self):
@@ -97,7 +97,7 @@ class TaggableManager(RelatedField, Field):
         """
         name, path, args, kwargs = super(TaggableManager, self).deconstruct()
         # Remove forced kwargs.
-        for kwarg in ['serialize', 'null']:
+        for kwarg in ('serialize', 'null'):
             del kwargs[kwarg]
         # Add non-default arguments.
         if self.through is not TaggedItem:
