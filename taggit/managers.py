@@ -73,11 +73,12 @@ class TaggableManager(RelatedField, Field):
     _related_name_counter = 0
 
     def __init__(self, verbose_name=_("Tags"), help_text=_("A comma-separated list of tags."),
-            through=None, blank=False, related_name=None):
+            through=None, blank=False, related_name=None, to=None):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
         self.rel = TaggableRel(self, related_name, self.through)
         self.swappable = False
+        # NOTE: `to` is ignored, only used via `deconstruct`.
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
@@ -99,9 +100,10 @@ class TaggableManager(RelatedField, Field):
         # Remove forced kwargs.
         for kwarg in ('serialize', 'null'):
             del kwargs[kwarg]
-        # Add non-default arguments.
-        if self.through is not TaggedItem:
-            kwargs['through'] = self.through
+        # Add arguments related to relations.
+        # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
+        kwargs['through'] = self.through
+        kwargs['to'] = self.through._meta.get_field("tag").rel.to
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
