@@ -73,17 +73,18 @@ class TaggableManager(RelatedField, Field):
     _related_name_counter = 0
 
     def __init__(self, verbose_name=_("Tags"), help_text=_("A comma-separated list of tags."),
-            through=None, blank=False, related_name=None):
+            through=None, blank=False, related_name=None, manager=None):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
         self.rel = TaggableRel(self, related_name, self.through)
         self.swappable = False
+        self.manager = manager or _TaggableManager
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
             raise ValueError("%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__)
-        manager = _TaggableManager(
+        manager = self.manager(
             through=self.through,
             model=model,
             instance=instance,
