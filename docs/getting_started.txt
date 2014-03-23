@@ -16,7 +16,7 @@ Run `./manage.py syncdb` or `./manage.py migrate` if using migrations.
     If you are using South you'll have to add the following setting, since
     taggit uses Django migrations by default::
 
-      SOUTH_MIGRATIONS_MODULES = {
+      SOUTH_MIGRATION_MODULES = {
           'taggit': 'taggit.south_migrations',
       }
 
