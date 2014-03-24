@@ -184,3 +184,11 @@ class Article(models.Model):
     title = models.CharField(max_length=100)
 
     tags = TaggableManager(through=ArticleTaggedItem)
+
+
+class CustomManager(models.Model):
+    class Foo(object):
+        def __init__(*args, **kwargs):
+            pass
+
+    tags = TaggableManager(manager=Foo)
