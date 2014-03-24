@@ -539,3 +539,7 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", plain, spa ces')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", spa ces')
+
+    def test_with_custom_separator(self):
+        self.assertEqual(parse_tags('Cued Speech, people, adaptations'),
+                         ['adaptations', 'Cued Speech', 'people'])
