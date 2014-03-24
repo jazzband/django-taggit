@@ -393,6 +393,7 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
 
 
 class TaggableFormTestCase(BaseTaggingTestCase):
+    maxDiff = None
     form_class = FoodForm
     food_model = Food
 
@@ -427,7 +428,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         apple.tags.add('has space')
         f = self.form_class(instance=apple)
         self.assert_form_renders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, has space, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
     def test_formfield(self):
         tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
@@ -534,7 +535,11 @@ class TagStringParseTestCase(UnitTestCase):
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
         self.assertEqual(edit_string_for_tags([plain]), 'plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces]), '"spa ces", plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
+        self.assertEqual(edit_string_for_tags([plain, spaces]), 'plain, spa ces')
+        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", plain, spa ces')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
-        self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+        self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", spa ces')
+
+    def test_with_custom_separator(self):
+        self.assertEqual(parse_tags('Cued Speech, people, adaptations'),
+                         ['adaptations', 'Cued Speech', 'people'])

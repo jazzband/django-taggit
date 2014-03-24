@@ -1,15 +1,26 @@
 from __future__ import unicode_literals
 
+import re
+
+from django.conf import settings
+
 from django.utils.encoding import force_text
 from django.utils.functional import wraps
-from django.utils import six
 
 
-def parse_tags(tagstring):
+# Regular expression that will split tag on spaces, except when the tag is
+# surrounded by quotation marks.
+DEFAULT_TAG_DELIMITER = r"(?: |\"(.*?)\"|'.*?'),?"
+TAG_DELIMITER = getattr(settings, 'TAGGIT_TAG_DELIMITER',
+                        DEFAULT_TAG_DELIMITER)
+TAG_SEPARATOR = getattr(settings, 'TAGGIT_TAG_SEPARATOR', ', ')
+
+
+def parse_tags(tagstring, tag_delimiter=TAG_DELIMITER):
     """
-    Parses tag input, with multiple word input being activated and
-    delineated by commas and double quotes. Quotes take precedence, so
-    they may contain commas.
+    Parses tag input, with default behavior of multiple word input being
+    activated and delineated by commas and double quotes. Quotes take
+    precedence, so they may contain commas.
 
     Returns a sorted list of unique tag names.
 
@@ -21,65 +32,16 @@ def parse_tags(tagstring):
 
     tagstring = force_text(tagstring)
 
-    # Special case - if there are no commas or double quotes in the
-    # input, we don't *do* a recall... I mean, we know we only need to
-    # split on spaces.
-    if ',' not in tagstring and '"' not in tagstring:
-        words = list(set(split_strip(tagstring, ' ')))
-        words.sort()
-        return words
-
-    words = []
-    buffer = []
-    # Defer splitting of non-quoted sections until we know if there are
-    # any unquoted commas.
-    to_be_split = []
-    saw_loose_comma = False
-    open_quote = False
-    i = iter(tagstring)
-    try:
-        while True:
-            c = six.next(i)
-            if c == '"':
-                if buffer:
-                    to_be_split.append(''.join(buffer))
-                    buffer = []
-                # Find the matching quote
-                open_quote = True
-                c = six.next(i)
-                while c != '"':
-                    buffer.append(c)
-                    c = six.next(i)
-                if buffer:
-                    word = ''.join(buffer).strip()
-                    if word:
-                        words.append(word)
-                    buffer = []
-                open_quote = False
-            else:
-                if not saw_loose_comma and c == ',':
-                    saw_loose_comma = True
-                buffer.append(c)
-    except StopIteration:
-        # If we were parsing an open quote which was never closed treat
-        # the buffer as unquoted.
-        if buffer:
-            if open_quote and ',' in buffer:
-                saw_loose_comma = True
-            to_be_split.append(''.join(buffer))
-    if to_be_split:
-        if saw_loose_comma:
-            delimiter = ','
-        else:
-            delimiter = ' '
-        for chunk in to_be_split:
-            words.extend(split_strip(chunk, delimiter))
-    words = list(set(words))
+    # The default regex pattern will return each whitespace as a token, so we
+    # need to discard all whitespace tokens, keeping only the  as a
+    splitter = re.compile(TAG_DELIMITER)
+    words = set(w for w in splitter.split(tagstring) if w)
+    words = list(words)
     words.sort()
     return words
 
 
-def split_strip(string, delimiter=','):
+def split_strip(string, delimiter=TAG_DELIMITER):
     """
     Splits ``string`` on ``delimiter``, stripping each resulting string
     and returning a list of non-empty strings.
@@ -113,11 +75,11 @@ def edit_string_for_tags(tags):
     names = []
     for tag in tags:
         name = tag.name
-        if ',' in name or ' ' in name:
+        if TAG_DELIMITER in name:
             names.append('"%s"' % name)
         else:
             names.append(name)
-    return ', '.join(sorted(names))
+    return TAG_SEPARATOR.join(sorted(names))
 
 
 def require_instance_manager(func):
