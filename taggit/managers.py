@@ -2,7 +2,10 @@ from __future__ import unicode_literals
 from operator import attrgetter
 
 from django import VERSION
-from django.contrib.contenttypes.generic import GenericRelation
+try:
+    from django.contrib.contenttypes.fields import GenericRelation
+except ImportError:  # django < 1.7
+    from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models.fields import Field

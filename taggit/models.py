@@ -1,7 +1,10 @@
 from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.generic import GenericForeignKey
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:  # django < 1.7
+    from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
