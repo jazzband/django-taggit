@@ -69,6 +69,16 @@ playing around with the API.
 
             >>> apple.tags.slugs()
             [u'green-and-juicy', u'red']
+    
+    .. hint::
+
+       You can subclass ``_TaggableManager`` (note the underscore) to add 
+       methods or functionality. ``TaggableManager`` takes an optional 
+       manager keyword argument for your custom class, like this::
+
+          class Food(models.Model):
+              # ... fields here
+              tags = TaggableManager(manager=_CustomTaggableManager)
 
 Filtering
 ~~~~~~~~~
