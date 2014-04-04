@@ -154,7 +154,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + x queries to create the intermeidary things (including SELECTs, to
         #     make sure we dont't double create.
         # + x on Django 1.6 for save points.
-        queries = 13
+        queries = 9
         if django.VERSION < (1,6):
             queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
