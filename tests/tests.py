@@ -151,10 +151,10 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
-        # + 4 queries to create the intermeidary things (including SELECTs, to
+        # + x queries to create the intermeidary things (including SELECTs, to
         #     make sure we dont't double create.
-        # + 4 on Django 1.6 for save points.
-        queries = 9
+        # + x on Django 1.6 for save points.
+        queries = 13
         if django.VERSION < (1,6):
             queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
