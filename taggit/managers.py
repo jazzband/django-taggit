@@ -133,6 +133,7 @@ class _TaggableManager(models.Manager):
             for t in tags
             if not isinstance(t, self.through.tag_model())
         ])
+
         tag_objs = set(tags) - str_tags
         # If str_tags has 0 elements Django actually optimizes that to not do a
         # query.  Malcolm is very smart.
@@ -141,8 +142,14 @@ class _TaggableManager(models.Manager):
         )
         tag_objs.update(existing)
 
-        for new_tag in str_tags - set(t.name for t in existing):
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+        for probably_new_tag in str_tags - set(t.name for t in existing):
+            try:
+                tag_obj = self.through.tag_model().objects.filter(
+                    name__iexact=probably_new_tag)[0]
+            except IndexError:
+                tag_obj = self.through.tag_model().objects.create(
+                    name=probably_new_tag)
+            tag_objs.add(tag_obj)
 
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
