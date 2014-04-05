@@ -1,7 +1,10 @@
 from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
-from unittest import skipIf
+try:
+    from unittest import skipIf
+except:
+    from django.utils.unittest import skipIf
 
 import django
 from django.conf import settings
