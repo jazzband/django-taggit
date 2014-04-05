@@ -1,6 +1,7 @@
 from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
+from unittest import skipIf
 
 import django
 from django.conf import settings
@@ -547,3 +548,12 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+
+
+@skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
+class DeconstructTestCase(UnitTestCase):
+    def test_deconstruct_kwargs_kept(self):
+        instance = TaggableManager(through=OfficialThroughModel)
+        name, path, args, kwargs = instance.deconstruct()
+        new_instance = TaggableManager(*args, **kwargs)
+        self.assertEqual(instance.rel.through, new_instance.rel.through)
