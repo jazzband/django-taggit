@@ -2,13 +2,13 @@ from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
 try:
-    from unittest import skipIf
+    from unittest import skipIf, skipUnless
 except:
-    from django.utils.unittest import skipIf
+    from django.utils.unittest import skipIf, skipUnless
 
 import django
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core import serializers
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
@@ -560,3 +560,13 @@ class DeconstructTestCase(UnitTestCase):
         name, path, args, kwargs = instance.deconstruct()
         new_instance = TaggableManager(*args, **kwargs)
         self.assertEqual(instance.rel.through, new_instance.rel.through)
+
+
+@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
+class SouthSupportTests(TestCase):
+    def test_import_migrations_module(self):
+        try:
+            from taggit.migrations import __doc__  # noqa
+        except ImproperlyConfigured as e:
+            exception = e
+        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
