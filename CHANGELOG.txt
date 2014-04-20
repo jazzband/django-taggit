@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.12.0 (XX.XX.XXXX)
+0.12.0 (20.04.2014)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Support for Django 1.7 migrations. South users
    have to set ``SOUTH_MIGRATION_MODULES`` to use ``taggit.south_migrations``
@@ -12,6 +12,7 @@ Changelog
    try to save the tag and if that fails fall back to selecting existing
    similar tags and retry -- if that fails too an ``IntegrityError`` is
    raised by the database, your app will have to handle that.
+ * Added Italian and Esperanto translations.
 
 0.11.2 (13.12.2013)
 ~~~~~~~~~~~~~~~~~~~
