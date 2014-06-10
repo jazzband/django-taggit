@@ -86,6 +86,14 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
             "category-awesome-1"
         ], attr="slug")
 
+    def test_integers(self):
+        """Adding an integer as a tag should raise a ValueError (#237)."""
+        apple = self.food_model.objects.create(name="apple")
+        with self.assertRaisesRegexp(ValueError, (
+                r"Cannot add 1 \(<(type|class) 'int'>\). "
+                r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
+            apple.tags.add(1)
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
