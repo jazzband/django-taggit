@@ -129,12 +129,14 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def add(self, *tags):
-        str_tags = set([
-            t
-            for t in tags
-            if not isinstance(t, self.through.tag_model())
-        ])
-        tag_objs = set(tags) - str_tags
+        str_tags = set()
+        tag_objs = set()
+        for t in tags:
+            if not isinstance(t, self.through.tag_model()):
+                str_tags.add(str(t))
+            else:
+                tag_objs.add(t)
+
         # If str_tags has 0 elements Django actually optimizes that to not do a
         # query.  Malcolm is very smart.
         existing = self.through.tag_model().objects.filter(

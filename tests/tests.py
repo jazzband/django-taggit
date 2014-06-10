@@ -87,6 +87,12 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
             "category-awesome-1"
         ], attr="slug")
 
+    def test_integers(self):
+        apple = self.food_model.objects.create(name="apple")
+        orange = self.food_model.objects.create(name="orange")
+        apple.tags.add(1)
+        orange.tags.add(1)
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
