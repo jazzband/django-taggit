@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.fields import Field
 from django.db.models.fields.related import ManyToManyRel, RelatedField, add_lazy_relation
 from django.db.models.related import RelatedObject
+from django.dispatch import Signal
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six
@@ -20,6 +21,7 @@ from taggit.forms import TagField
 from taggit.models import TaggedItem, GenericTaggedItemBase
 from taggit.utils import require_instance_manager
 
+taggit_set = Signal(providing_args=["old_tags", "new_tags"])
 
 def _model_name(model):
     if VERSION < (1, 7):
@@ -359,8 +361,11 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def set(self, *tags):
+        old_tags = set(self.through.objects.filter(**self._lookup_kwargs()))
         self.clear()
         self.add(*tags)
+        new_tags = set(self.through.objects.filter(**self._lookup_kwargs()))
+        taggit_set.send(sender=self.through, instance=self.instance, old_tags=old_tags, new_tags=new_tags)
 
     @require_instance_manager
     def remove(self, *tags):
