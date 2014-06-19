@@ -226,10 +226,14 @@ class _TaggableManager(models.Manager):
     def clear(self):
         self.through.objects.filter(**self._lookup_kwargs()).delete()
 
-    def most_common(self):
-        return self.get_queryset().annotate(
+    def most_common(self, min_count=None):
+        queryset = self.get_queryset().annotate(
             num_times=models.Count(self.through.tag_relname())
         ).order_by('-num_times')
+        if min_count:
+            queryset = queryset.filter(num_times__gte=min_count)
+
+        return queryset
 
     @require_instance_manager
     def similar_objects(self):
