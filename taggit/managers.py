@@ -40,6 +40,7 @@ class TaggableRel(ManyToManyRel):
         self.multiple = True
         self.through = None if VERSION < (1, 7) else through
         self.field = field
+        self.to = field
 
     def get_joining_columns(self):
         return self.field.get_reverse_joining_columns()
