@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from operator import attrgetter
 
 from django import VERSION
+from django.utils.encoding import python_2_unicode_compatible
+
 try:
     from django.contrib.contenttypes.fields import GenericRelation
 except ImportError:  # django < 1.7
@@ -72,6 +74,7 @@ class ExtraJoinRestriction(object):
         return self.__class__(self.alias, self.col, self.content_types[:])
 
 
+@python_2_unicode_compatible
 class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance, prefetch_cache_name):
         self.through = through
@@ -214,6 +217,12 @@ class _TaggableManager(models.Manager):
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
+
+    def __str__(self):
+        model = self.model
+        app = model._meta.app_label
+        return '%s.%s.%s' % (app, model._meta.object_name, self.prefetch_cache_name)
+
 
 
 class TaggableManager(RelatedField, Field):
