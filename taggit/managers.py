@@ -347,9 +347,11 @@ class _TaggableManager(models.Manager):
             for new_tag_lower in set(str_tags_lower) - set(t.name.lower() for t in existing):
                 new_tag = str_tags[str_tags_lower.index(new_tag_lower)]
                 tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
-
+        self.new_tags = []
         for tag in tag_objs:
-            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            (obj, created) = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            self.new_tags.append(obj)
+        self.new_tags = set(self.new_tags)
 
     @require_instance_manager
     def names(self):
@@ -361,11 +363,9 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def set(self, *tags):
-        old_tags = set(self.through.objects.filter(**self._lookup_kwargs()))
         self.clear()
         self.add(*tags)
-        new_tags = set(self.through.objects.filter(**self._lookup_kwargs()))
-        taggit_set.send(sender=self.through, instance=self.instance, old_tags=old_tags, new_tags=new_tags)
+        taggit_set.send(sender=self.through, instance=self.instance, old_tags=self.old_tags, new_tags=self.new_tags)
 
     @require_instance_manager
     def remove(self, *tags):
@@ -374,7 +374,9 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def clear(self):
-        self.through.objects.filter(**self._lookup_kwargs()).delete()
+        query = self.through.objects.filter(**self._lookup_kwargs())
+        self.old_tags = set(query)
+        query.delete()
 
     def most_common(self):
         return self.get_query_set().annotate(
