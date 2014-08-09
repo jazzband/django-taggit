@@ -326,6 +326,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
         self.assertTrue(hasattr(field, 'rel'))
+        self.assertTrue(hasattr(field.rel, 'to'))
         self.assertTrue(hasattr(field, 'related'))
         self.assertEqual(self.food_model, field.related.model)
 

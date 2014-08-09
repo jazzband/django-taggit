@@ -33,7 +33,8 @@ def _model_name(model):
 
 
 class TaggableRel(ManyToManyRel):
-    def __init__(self, field, related_name, through):
+    def __init__(self, field, related_name, through, to=None):
+        self.to = to
         self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
@@ -224,7 +225,7 @@ class TaggableManager(RelatedField, Field):
             manager=_TaggableManager):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self, related_name, self.through)
+        self.rel = TaggableRel(self, related_name, self.through, to=to)
         self.swappable = False
         self.manager = manager
         # NOTE: `to` is ignored, only used via `deconstruct`.
