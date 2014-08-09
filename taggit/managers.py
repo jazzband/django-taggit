@@ -269,6 +269,7 @@ class TaggableManager(RelatedField, Field):
             if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
                     self.through = model
+                    self.rel.through = model
                     self.post_through_setup(cls)
                 add_lazy_relation(
                     cls, self, self.through, resolve_related_class
