@@ -22,8 +22,8 @@ from taggit.models import Tag, TaggedItem
 from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
 from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
-    DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
+    DirectHousePet, TaggedFood, CustomPKFood, CustomPKPet, CustomPKHousePet,
+    TaggedCustomPKFood, OfficialFood, OfficialPet, OfficialHousePet,
     OfficialThroughModel, OfficialTag, Photo, Movie, Article, CustomManager)
 from taggit.utils import parse_tags, edit_string_for_tags
 
@@ -298,13 +298,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         )
 
     def test_taggeditem_unicode(self):
-        ross = self.pet_model.objects.create(name="ross")
-        # I keep Ross Perot for a pet, what's it to you?
-        ross.tags.add("president")
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("juicy")
 
         self.assertEqual(
             force_text(self.taggeditem_model.objects.all()[0]),
-            "ross tagged with president"
+            "apple tagged with juicy"
         )
 
     def test_abstract_subclasses(self):
@@ -364,13 +363,13 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
     housepet_model = DirectHousePet
-    taggeditem_model = TaggedPet
+    taggeditem_model = TaggedFood
 
 class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     food_model = CustomPKFood
     pet_model = CustomPKPet
     housepet_model = CustomPKHousePet
-    taggeditem_model = TaggedCustomPKPet
+    taggeditem_model = TaggedCustomPKFood
 
     def test_require_pk(self):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
@@ -557,10 +556,11 @@ class TagStringParseTestCase(UnitTestCase):
 @skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
 class DeconstructTestCase(UnitTestCase):
     def test_deconstruct_kwargs_kept(self):
-        instance = TaggableManager(through=OfficialThroughModel)
+        instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
         name, path, args, kwargs = instance.deconstruct()
         new_instance = TaggableManager(*args, **kwargs)
-        self.assertEqual(instance.rel.through, new_instance.rel.through)
+        self.assertEqual('tests.OfficialThroughModel', new_instance.rel.through)
+        self.assertEqual('dummy.To', new_instance.rel.to)
 
 
 @skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
