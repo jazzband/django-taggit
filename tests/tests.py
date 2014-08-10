@@ -8,9 +8,6 @@ from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.test import TestCase, TransactionTestCase
 from django.utils.encoding import force_text
-from taggit.managers import _model_name, _TaggableManager, TaggableManager
-from taggit.models import Tag, TaggedItem
-from taggit.utils import edit_string_for_tags, parse_tags
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
 from .models import (Article, CustomManager, CustomPKFood, CustomPKHousePet,
@@ -19,6 +16,10 @@ from .models import (Article, CustomManager, CustomPKFood, CustomPKHousePet,
                      OfficialPet, OfficialTag, OfficialThroughModel, Pet,
                      Photo, TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
+
+from taggit.managers import _model_name, _TaggableManager, TaggableManager
+from taggit.models import Tag, TaggedItem
+from taggit.utils import edit_string_for_tags, parse_tags
 
 try:
     from unittest import skipIf, skipUnless

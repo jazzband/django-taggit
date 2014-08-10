@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+
 from taggit.managers import TaggableManager
 from taggit.models import (GenericTaggedItemBase, Tag, TagBase, TaggedItem,
                            TaggedItemBase)

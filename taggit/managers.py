@@ -12,6 +12,7 @@ from django.db.models.related import RelatedObject
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
+
 from taggit.forms import TagField
 from taggit.models import GenericTaggedItemBase, TaggedItem
 from taggit.utils import require_instance_manager
