@@ -252,8 +252,14 @@ class TaggableManager(RelatedField, Field):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
-        kwargs['through'] = self.through
-        kwargs['to'] = self.through._meta.get_field("tag").rel.to
+        if isinstance(self.rel.through, six.string_types):
+            kwargs['through'] = self.rel.through
+        elif not self.rel.through._meta.auto_created:
+            kwargs['through'] = "%s.%s" % (self.rel.through._meta.app_label, self.rel.through._meta.object_name)
+        if isinstance(self.rel.to, six.string_types):
+            kwargs['to'] = self.rel.to
+        else:
+            kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
@@ -266,6 +272,10 @@ class TaggableManager(RelatedField, Field):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
+            if isinstance(self.rel.to, six.string_types):
+                def resolve_related_class(field, model, cls):
+                    field.rel.to = model
+                add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
             if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
                     self.through = model
