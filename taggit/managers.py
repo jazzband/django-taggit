@@ -1,28 +1,31 @@
 from __future__ import unicode_literals
+
 from operator import attrgetter
 
 from django import VERSION
+from django.contrib.contenttypes.models import ContentType
+from django.db import models, router
+from django.db.models.fields import Field
+from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
+                                             RelatedField)
+from django.db.models.related import RelatedObject
+from django.utils import six
+from django.utils.text import capfirst
+from django.utils.translation import ugettext_lazy as _
+from taggit.forms import TagField
+from taggit.models import GenericTaggedItemBase, TaggedItem
+from taggit.utils import require_instance_manager
+
 try:
     from django.contrib.contenttypes.fields import GenericRelation
 except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericRelation
-from django.contrib.contenttypes.models import ContentType
-from django.db import models, router
-from django.db.models.fields import Field
-from django.db.models.fields.related import ManyToManyRel, RelatedField, add_lazy_relation
-from django.db.models.related import RelatedObject
-from django.utils.text import capfirst
-from django.utils.translation import ugettext_lazy as _
-from django.utils import six
 
 try:
     from django.db.models.related import PathInfo
 except ImportError:
     pass  # PathInfo is not used on Django < 1.6
 
-from taggit.forms import TagField
-from taggit.models import TaggedItem, GenericTaggedItemBase
-from taggit.utils import require_instance_manager
 
 
 def _model_name(model):

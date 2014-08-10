@@ -1,31 +1,29 @@
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
 from unittest import TestCase as UnitTestCase
-try:
-    from unittest import skipIf, skipUnless
-except:
-    from django.utils.unittest import skipIf, skipUnless
 
 import django
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured, ValidationError
-from django.core import serializers
-from django.db import connection
-from django.test import TestCase, TransactionTestCase
-from django.utils import six
-from django.utils.encoding import force_text
-
 from django.contrib.contenttypes.models import ContentType
-
-from taggit.managers import TaggableManager, _TaggableManager, _model_name
+from django.core import serializers
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.test import TestCase, TransactionTestCase
+from django.utils.encoding import force_text
+from taggit.managers import _model_name, _TaggableManager, TaggableManager
 from taggit.models import Tag, TaggedItem
-from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
-    OfficialFoodForm)
-from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
-    DirectHousePet, TaggedFood, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKFood, OfficialFood, OfficialPet, OfficialHousePet,
-    OfficialThroughModel, OfficialTag, Photo, Movie, Article, CustomManager)
-from taggit.utils import parse_tags, edit_string_for_tags
+from taggit.utils import edit_string_for_tags, parse_tags
+
+from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
+from .models import (Article, CustomManager, CustomPKFood, CustomPKHousePet,
+                     CustomPKPet, DirectFood, DirectHousePet, DirectPet, Food,
+                     HousePet, Movie, OfficialFood, OfficialHousePet,
+                     OfficialPet, OfficialTag, OfficialThroughModel, Pet,
+                     Photo, TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
+                     TaggedPet)
+
+try:
+    from unittest import skipIf, skipUnless
+except ImportError:
+    from django.utils.unittest import skipIf, skipUnless
 
 
 class BaseTaggingTest(object):

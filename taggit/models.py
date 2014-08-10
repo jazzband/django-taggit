@@ -1,15 +1,17 @@
 from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError, models, transaction
+from django.db.models.query import QuerySet
+from django.template.defaultfilters import slugify as default_slugify
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
+
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
 except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericForeignKey
-from django.db import models, IntegrityError, transaction
-from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
-from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.encoding import python_2_unicode_compatible
 
 
 try:

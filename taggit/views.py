@@ -3,8 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
-
-from taggit.models import TaggedItem, Tag
+from taggit.models import Tag, TaggedItem
 
 
 def tagged_object_list(request, slug, queryset, **kwargs):
