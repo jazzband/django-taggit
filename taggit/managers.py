@@ -102,7 +102,7 @@ class _TaggableManager(models.Manager):
                      else 'content_object')
         fk = self.through._meta.get_field(fieldname)
         query = {
-            '%s__%s__in' % (self.through.tag_relname(), fk.name) :
+            '%s__%s__in' % (self.through.tag_relname(), fk.name):
                 set(obj._get_pk_val() for obj in instances)
         }
         join_table = self.through._meta.db_table
@@ -110,8 +110,8 @@ class _TaggableManager(models.Manager):
         connection = connections[db]
         qn = connection.ops.quote_name
         qs = self.get_queryset().using(db)._next_is_sticky().filter(**query).extra(
-            select = {
-                '_prefetch_related_val' : '%s.%s' % (qn(join_table), qn(source_col))
+            select={
+                '_prefetch_related_val': '%s.%s' % (qn(join_table), qn(source_col))
             }
         )
         return (qs,
@@ -220,10 +220,12 @@ class _TaggableManager(models.Manager):
 class TaggableManager(RelatedField, Field):
     _related_name_counter = 0
 
-    def __init__(self, verbose_name=_("Tags"), help_text=_("A comma-separated list of tags."),
-            through=None, blank=False, related_name=None, to=None,
-            manager=_TaggableManager):
-        Field.__init__(self, verbose_name=verbose_name, help_text=help_text, blank=blank, null=True, serialize=False)
+    def __init__(self, verbose_name=_("Tags"),
+                 help_text=_("A comma-separated list of tags."),
+                 through=None, blank=False, related_name=None, to=None,
+                 manager=_TaggableManager):
+        Field.__init__(self, verbose_name=verbose_name, help_text=help_text,
+                       blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
         self.rel = TaggableRel(self, related_name, self.through, to=to)
         self.swappable = False
@@ -233,12 +235,12 @@ class TaggableManager(RelatedField, Field):
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
             raise ValueError("%s objects need to have a primary key value "
-                "before you can access their tags." % model.__name__)
+                             "before you can access their tags." % model.__name__)
         manager = self.manager(
             through=self.through,
             model=model,
             instance=instance,
-            prefetch_cache_name = self.name
+            prefetch_cache_name=self.name
         )
         return manager
 
@@ -286,7 +288,6 @@ class TaggableManager(RelatedField, Field):
                 )
             else:
                 self.post_through_setup(cls)
-
 
     def __lt__(self, other):
         """
@@ -364,7 +365,7 @@ class TaggableManager(RelatedField, Field):
     def extra_filters(self, pieces, pos, negate):
         if negate or not self.use_gfk:
             return []
-        prefix = "__".join(["tagged_items"] + pieces[:pos-2])
+        prefix = "__".join(["tagged_items"] + pieces[:pos - 2])
         get = ContentType.objects.get_for_model
         cts = [get(obj) for obj in _get_subclasses(self.model)]
         if len(cts) == 1:
@@ -378,13 +379,18 @@ class TaggableManager(RelatedField, Field):
         else:
             alias_to_join = lhs_alias
         extra_col = self.through._meta.get_field_by_name('content_type')[0].column
-        content_type_ids = [ContentType.objects.get_for_model(subclass).pk for subclass in _get_subclasses(self.model)]
+        content_type_ids = [ContentType.objects.get_for_model(subclass).pk for
+                            subclass in _get_subclasses(self.model)]
         if len(content_type_ids) == 1:
             content_type_id = content_type_ids[0]
-            extra_where = " AND %s.%s = %%s" % (qn(alias_to_join), qn(extra_col))
+            extra_where = " AND %s.%s = %%s" % (qn(alias_to_join),
+                                                qn(extra_col))
             params = [content_type_id]
         else:
-            extra_where = " AND %s.%s IN (%s)" % (qn(alias_to_join), qn(extra_col), ','.join(['%s']*len(content_type_ids)))
+            extra_where = " AND %s.%s IN (%s)" % (qn(alias_to_join),
+                                                  qn(extra_col),
+                                                  ','.join(['%s'] *
+                                                           len(content_type_ids)))
             params = content_type_ids
         return extra_where, params
 
@@ -461,7 +467,7 @@ def _get_subclasses(model):
     for f in model._meta.get_all_field_names():
         field = model._meta.get_field_by_name(f)[0]
         if (isinstance(field, RelatedObject) and
-            getattr(field.field.rel, "parent_link", None)):
+                getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
     return subclasses
 

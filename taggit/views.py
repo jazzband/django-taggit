@@ -18,4 +18,3 @@ def tagged_object_list(request, slug, queryset, **kwargs):
         kwargs["extra_context"] = {}
     kwargs["extra_context"]["tag"] = tag
     return ListView.as_view(request, qs, **kwargs)
-

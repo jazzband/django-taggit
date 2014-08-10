@@ -6,7 +6,7 @@ from .models import Food, DirectFood, CustomPKFood, OfficialFood
 
 
 fields = None
-if VERSION >= (1,6):
+if VERSION >= (1, 6):
     fields = '__all__'
 
 

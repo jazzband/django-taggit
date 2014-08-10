@@ -59,7 +59,7 @@ class TagBase(models.Model):
             except IntegrityError:
                 pass
             # Now try to find existing slugs with similar names
-            slugs = set(Tag.objects.filter(slug__startswith=self.slug)\
+            slugs = set(Tag.objects.filter(slug__startswith=self.slug)
                                    .values_list('slug', flat=True))
             i = 1
             while True:
@@ -145,7 +145,7 @@ class GenericTaggedItemBase(ItemBase):
     content_object = GenericForeignKey()
 
     class Meta:
-        abstract=True
+        abstract = True
 
     @classmethod
     def lookup_kwargs(cls, instance):
