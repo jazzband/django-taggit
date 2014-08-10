@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.12.1 (10.08.2014)
+~~~~~~~~~~~~~~~~~~~
+ * Final (hopefully) fixes for the upcoming Django 1.7 release.
+ * Added Japanese translation.
+
 0.12.0 (20.04.2014)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Support for Django 1.7 migrations. South users
