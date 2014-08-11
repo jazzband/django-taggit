@@ -42,6 +42,8 @@ playing around with the API.
         ``QuerySet``is ordered by ``num_times``, descending.  The ``QuerySet``
         is lazily evaluated, and can be sliced efficiently.
 
+        :param min_count: Specify a min count to limit the returned queryset
+
     .. method:: similar_objects()
 
         Returns a list (not a lazy ``QuerySet``) of other objects tagged
