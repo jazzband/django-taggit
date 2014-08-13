@@ -7,13 +7,13 @@ f.close()
 
 setup(
     name='django-taggit',
-    version='0.10',
+    version='0.12.1',
     description='django-taggit is a reusable Django application for simple tagging.',
     long_description=readme,
     author='Alex Gaynor',
     author_email='alex.gaynor@gmail.com',
     url='http://github.com/alex/django-taggit/tree/master',
-    packages=find_packages(),
+    packages=find_packages(exclude=('tests*',)),
     package_data = {
         'taggit': [
             'locale/*/LC_MESSAGES/*',
@@ -32,6 +32,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Framework :: Django',
     ],
     include_package_data=True,

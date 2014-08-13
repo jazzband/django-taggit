@@ -1,10 +1,14 @@
 from __future__ import unicode_literals, absolute_import
 
 from unittest import TestCase as UnitTestCase
+try:
+    from unittest import skipIf, skipUnless
+except:
+    from django.utils.unittest import skipIf, skipUnless
 
 import django
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core import serializers
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
@@ -13,14 +17,14 @@ from django.utils.encoding import force_text
 
 from django.contrib.contenttypes.models import ContentType
 
-from taggit.managers import TaggableManager, _model_name
+from taggit.managers import TaggableManager, _TaggableManager, _model_name
 from taggit.models import Tag, TaggedItem
 from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
     OfficialFoodForm)
 from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
-    DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
-    OfficialThroughModel, OfficialTag, Photo, Movie, Article)
+    DirectHousePet, TaggedFood, CustomPKFood, CustomPKPet, CustomPKHousePet,
+    TaggedCustomPKFood, OfficialFood, OfficialPet, OfficialHousePet,
+    OfficialThroughModel, OfficialTag, Photo, Movie, Article, CustomManager)
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
@@ -294,13 +298,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         )
 
     def test_taggeditem_unicode(self):
-        ross = self.pet_model.objects.create(name="ross")
-        # I keep Ross Perot for a pet, what's it to you?
-        ross.tags.add("president")
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("juicy")
 
         self.assertEqual(
             force_text(self.taggeditem_model.objects.all()[0]),
-            "ross tagged with president"
+            "apple tagged with juicy"
         )
 
     def test_abstract_subclasses(self):
@@ -322,6 +325,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
         self.assertTrue(hasattr(field, 'rel'))
+        self.assertTrue(hasattr(field.rel, 'to'))
         self.assertTrue(hasattr(field, 'related'))
         self.assertEqual(self.food_model, field.related.model)
 
@@ -341,18 +345,31 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple = self.food_model.objects.create(name="apple")
         serializers.serialize("json", (apple,))
 
+    def test_prefetch_related(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('1', '2')
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add('2', '4')
+        with self.assertNumQueries(2):
+            l = list(self.food_model.objects.prefetch_related('tags').all())
+        with self.assertNumQueries(0):
+            foods = dict((f.name, set(t.name for t in f.tags.all())) for f in l)
+            self.assertEqual(foods, {
+                'orange': set(['2', '4']),
+                'apple': set(['1', '2'])
+            })
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
     housepet_model = DirectHousePet
-    taggeditem_model = TaggedPet
+    taggeditem_model = TaggedFood
 
 class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     food_model = CustomPKFood
     pet_model = CustomPKPet
     housepet_model = CustomPKHousePet
-    taggeditem_model = TaggedCustomPKPet
+    taggeditem_model = TaggedCustomPKFood
 
     def test_require_pk(self):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
@@ -377,6 +394,16 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
 
         self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
 
+class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
+    """Make sure manager override defaults and sets correctly."""
+    food_model = Food
+    custom_manager_model = CustomManager
+
+    def test_default_manager(self):
+        self.assertEqual(self.food_model.tags.__class__, _TaggableManager)
+
+    def test_custom_manager(self):
+        self.assertEqual(self.custom_manager_model.tags.__class__, CustomManager.Foo)
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
@@ -524,3 +551,23 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+
+
+@skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
+class DeconstructTestCase(UnitTestCase):
+    def test_deconstruct_kwargs_kept(self):
+        instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
+        name, path, args, kwargs = instance.deconstruct()
+        new_instance = TaggableManager(*args, **kwargs)
+        self.assertEqual('tests.OfficialThroughModel', new_instance.rel.through)
+        self.assertEqual('dummy.To', new_instance.rel.to)
+
+
+@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
+class SouthSupportTests(TestCase):
+    def test_import_migrations_module(self):
+        try:
+            from taggit.migrations import __doc__  # noqa
+        except ImproperlyConfigured as e:
+            exception = e
+        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])

@@ -9,11 +9,19 @@ tagging to your project easy and fun.
 .. warning::
 
    Since version 0.10.0 taggit uses South for database migrations.
-   This means that users who are upgrading to 0.10.0 and up will have to fake the initial migration, like so::
-      
+   This means that users who are upgrading to 0.10.0 and up will have to fake
+   the initial migration, like this::
+
       python manage.py migrate taggit --fake 0001
       python manage.py migrate
-   
+
+   Since version 0.12.0 taggit uses Django migrations by default. South users
+   have to adjust their settings::
+
+      SOUTH_MIGRATION_MODULES = {
+          'taggit': 'taggit.south_migrations',
+      }
+
    For more information, see `south documentation`__
 
 .. toctree::

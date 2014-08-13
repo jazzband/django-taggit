@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
 
-import django
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.generic import GenericForeignKey
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:  # django < 1.7
+    from django.contrib.contenttypes.generic import GenericForeignKey
 from django.db import models, IntegrityError, transaction
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
@@ -10,8 +12,22 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.encoding import python_2_unicode_compatible
 
 
-class DuplicateTagError(Exception):
-    pass
+
+try:
+    atomic = transaction.atomic
+except AttributeError:
+    from contextlib import contextmanager
+
+    @contextmanager
+    def atomic(using=None):
+        sid = transaction.savepoint(using=using)
+        try:
+            yield
+        except IntegrityError:
+            transaction.savepoint_rollback(sid, using=using)
+            raise
+        else:
+            transaction.savepoint_commit(sid, using=using)
 
 @python_2_unicode_compatible
 class TagBase(models.Model):
@@ -34,25 +50,26 @@ class TagBase(models.Model):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            trans_kwargs = {"using": using}
-            i = 0
-            while True:
-                i += 1
-                try:
-                    sid = transaction.savepoint(**trans_kwargs)
+            # Be oportunistic and try to save the tag, this should work for
+            # most cases ;)
+            try:
+                with atomic(using=using):
                     res = super(TagBase, self).save(*args, **kwargs)
-                    transaction.savepoint_commit(sid, **trans_kwargs)
-                    return res
-                except IntegrityError:
-                    transaction.savepoint_rollback(sid, **trans_kwargs)
-                    # raise DuplicateTagError if name collision
-                    # otherwise this will sit in infinite loop
-                    existing_tag = self.__class__.objects.filter(name__iexact=self.name)
-                    try:
-                        raise DuplicateTagError('trying to insert new tag "%s", existing tag id==%s' % (self, existing_tag[0].pk))
-                    except IndexError:
-                        pass
-                    self.slug = self.slugify(self.name, i)
+                return res
+            except IntegrityError:
+                pass
+            # Now try to find existing slugs with similar names
+            slugs = set(Tag.objects.filter(slug__startswith=self.slug)\
+                                   .values_list('slug', flat=True))
+            i = 1
+            while True:
+                slug = self.slugify(self.name, i)
+                if slug not in slugs:
+                    self.slug = slug
+                    # We purposely ignore concurrecny issues here for now.
+                    # (That is, till we found a nice solution...)
+                    return super(TagBase, self).save(*args, **kwargs)
+                i += 1
         else:
             return super(TagBase, self).save(*args, **kwargs)
 
