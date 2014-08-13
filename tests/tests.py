@@ -10,15 +10,17 @@ from django.test import TestCase, TransactionTestCase
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
-from .models import (Article, CustomManager, CustomPKFood, CustomPKHousePet,
-                     CustomPKPet, DirectFood, DirectHousePet, DirectPet, Food,
-                     HousePet, Movie, OfficialFood, OfficialHousePet,
-                     OfficialPet, OfficialTag, OfficialThroughModel, Pet,
-                     Photo, TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
+from .models import (Article, ChildModel, CustomManager, CustomPKFood,
+                     CustomPKHousePet, CustomPKPet, DirectFood,
+                     DirectHousePet, DirectPet, Food, HousePet, Movie,
+                     OfficialFood, OfficialHousePet, OfficialPet,
+                     OfficialTag, OfficialThroughModel, Pet, Photo,
+                     TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
 
 from taggit.managers import _model_name, _TaggableManager, TaggableManager
 from taggit.models import Tag, TaggedItem
+
 from taggit.utils import edit_string_for_tags, parse_tags
 
 try:
@@ -578,3 +580,20 @@ class SouthSupportTests(TestCase):
         except ImproperlyConfigured as e:
             exception = e
         self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
+
+
+class InheritedPrefetchTests(TestCase):
+
+    def test_inherited_tags_with_prefetch(self):
+        child = ChildModel()
+        child.save()
+        child.tags.add('tag 1', 'tag 2', 'tag 3', 'tag 4')
+
+        child = ChildModel.objects.get()
+        no_prefetch_tags = child.tags.all()
+        self.assertEquals(4, no_prefetch_tags.count())
+        child = ChildModel.objects.prefetch_related('tags').get()
+        prefetch_tags = child.tags.all()
+        self.assertEquals(4, prefetch_tags.count())
+        self.assertEquals(set([t.name for t in no_prefetch_tags]),
+                          set([t.name for t in prefetch_tags]))
