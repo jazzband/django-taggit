@@ -120,7 +120,7 @@ class _TaggableManager(models.Manager):
         )
         return (qs,
                 attrgetter('_prefetch_related_val'),
-                attrgetter(instance._meta.pk.name),
+                lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name)
 

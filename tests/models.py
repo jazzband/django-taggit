@@ -192,3 +192,12 @@ class CustomManager(models.Model):
             pass
 
     tags = TaggableManager(manager=Foo)
+
+
+
+class ParentModel(models.Model):
+    tags = TaggableManager()
+
+
+class ChildModel(ParentModel):
+    pass
