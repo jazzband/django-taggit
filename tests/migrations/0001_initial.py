@@ -448,4 +448,21 @@ class Migration(migrations.Migration):
             field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.ArticleTaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
         ),
+        migrations.CreateModel(
+            name='Parent',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Child',
+            fields=[
+            ],
+            options={
+            },
+            bases=('tests.Parent',),
+        ),
     ]
