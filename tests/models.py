@@ -4,8 +4,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
-from taggit.models import (TaggedItemBase, GenericTaggedItemBase, TaggedItem,
-    TagBase, Tag)
+from taggit.models import (GenericTaggedItemBase, Tag, TagBase, TaggedItem,
+                           TaggedItemBase)
 
 
 # Ensure that two TaggableManagers with custom through model are allowed.
