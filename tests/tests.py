@@ -10,7 +10,7 @@ from django.test import TestCase, TransactionTestCase
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
-from .models import (Article, ChildModel, CustomManager, CustomPKFood,
+from .models import (Article, Child, CustomManager, CustomPKFood,
                      CustomPKHousePet, CustomPKPet, DirectFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet,
@@ -585,14 +585,14 @@ class SouthSupportTests(TestCase):
 class InheritedPrefetchTests(TestCase):
 
     def test_inherited_tags_with_prefetch(self):
-        child = ChildModel()
+        child = Child()
         child.save()
         child.tags.add('tag 1', 'tag 2', 'tag 3', 'tag 4')
 
-        child = ChildModel.objects.get()
+        child = Child.objects.get()
         no_prefetch_tags = child.tags.all()
         self.assertEquals(4, no_prefetch_tags.count())
-        child = ChildModel.objects.prefetch_related('tags').get()
+        child = Child.objects.prefetch_related('tags').get()
         prefetch_tags = child.tags.all()
         self.assertEquals(4, prefetch_tags.count())
         self.assertEquals(set([t.name for t in no_prefetch_tags]),
