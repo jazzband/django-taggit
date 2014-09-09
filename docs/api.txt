@@ -55,7 +55,7 @@ playing around with the API.
         same model will be returned.
 
     .. method:: names()
-    
+
         Convenience method, returning a ``ValuesListQuerySet`` (basically
         just an iterable) containing the name of each tag as a string::
 
@@ -69,11 +69,11 @@ playing around with the API.
 
             >>> apple.tags.slugs()
             [u'green-and-juicy', u'red']
-    
+
     .. hint::
 
-       You can subclass ``_TaggableManager`` (note the underscore) to add 
-       methods or functionality. ``TaggableManager`` takes an optional 
+       You can subclass ``_TaggableManager`` (note the underscore) to add
+       methods or functionality. ``TaggableManager`` takes an optional
        manager keyword argument for your custom class, like this::
 
           class Food(models.Model):
