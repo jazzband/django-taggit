@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.test import TestCase, TransactionTestCase
+from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
@@ -367,6 +368,14 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 'orange': set(['2', '4']),
                 'apple': set(['1', '2'])
             })
+
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_with_case_insensitive_option(self):
+        spain = self.tag_model.objects.create(name="Spain", slug="spain")
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add('spain')
+        self.assertEqual(list(orange.tags.all()), [spain])
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
