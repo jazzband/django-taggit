@@ -153,7 +153,7 @@ class SubmodelManagerPet(models.Model):
     def __str__(self):
         return self.name
 
-class SubmodelManegerHousePet(SubmodelManagerPet):
+class SubmodelManagerHousePet(SubmodelManagerPet):
     trained = models.BooleanField(default=False)
 
     tags = TaggableManager()

@@ -15,7 +15,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet,
                      OfficialTag, OfficialThroughModel, Pet, Photo,
-                     SubmodelManegerHousePet, SubmodelManagerPet,
+                     SubmodelManagerHousePet, SubmodelManagerPet,
                      TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
 
@@ -405,9 +405,9 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
 
         self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
 
-class TaggableManagerSubmodelManegerTestCase(BaseTaggingTestCase):
+class TaggableManagerSubmodelManagerTestCase(BaseTaggingTestCase):
     pet_model = SubmodelManagerPet
-    housepet_model = SubmodelManegerHousePet
+    housepet_model = SubmodelManagerHousePet
 
     def test_filter_join_on_tags(self):
         cat = self.housepet_model.objects.create(name="cat", trained=True)
