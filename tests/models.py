@@ -145,6 +145,19 @@ class OfficialPet(models.Model):
 class OfficialHousePet(OfficialPet):
     trained = models.BooleanField(default=False)
 
+# Test tag manager only defined on submodel
+
+class SubmodelManagerPet(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class SubmodelManegerHousePet(SubmodelManagerPet):
+    trained = models.BooleanField(default=False)
+
+    tags = TaggableManager()
+
 
 class Media(models.Model):
     tags = TaggableManager()

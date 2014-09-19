@@ -15,6 +15,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet,
                      OfficialTag, OfficialThroughModel, Pet, Photo,
+                     SubmodelManegerHousePet, SubmodelManagerPet,
                      TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
 
@@ -368,6 +369,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 'apple': set(['1', '2'])
             })
 
+
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
@@ -402,6 +404,17 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         pear.tags.add("delicious")
 
         self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
+
+class TaggableManagerSubmodelManegerTestCase(BaseTaggingTestCase):
+    pet_model = SubmodelManagerPet
+    housepet_model = SubmodelManegerHousePet
+
+    def test_filter_join_on_tags(self):
+        cat = self.housepet_model.objects.create(name="cat", trained=True)
+        cat.tags.add("fuzzy")
+        self.assertTrue(self.housepet_model.objects
+                        .filter(trained=True, tags__name="fuzzy")
+                        .exists())
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""
