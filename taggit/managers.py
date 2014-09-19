@@ -447,10 +447,8 @@ class TaggableManager(RelatedField, Field):
             return self._get_mm_case_path_info(direct=False)
 
     def get_joining_columns(self, reverse_join=False):
-        if reverse_join:
-            return (("id", "object_id"),)
-        else:
-            return (("object_id", "id"),)
+        source = self.reverse_related_fields if reverse_join else self.related_fields
+        return tuple([(lhs_field.column, rhs_field.column) for lhs_field, rhs_field in source])
 
     def get_extra_restriction(self, where_class, alias, related_alias):
         extra_col = self.through._meta.get_field_by_name('content_type')[0].column
@@ -465,6 +463,10 @@ class TaggableManager(RelatedField, Field):
     def related_fields(self):
         return [(self.through._meta.get_field_by_name('object_id')[0],
                  self.model._meta.pk)]
+
+    @property
+    def reverse_related_fields(self):
+        return [(rhs_field, lhs_field) for lhs_field, rhs_field in self.related_fields]
 
     @property
     def foreign_related_fields(self):
