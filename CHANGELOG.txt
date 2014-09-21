@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.12.2 (21.09.2014)
+~~~~~~~~~~~~~~~~~~~
+ * Fixed 1.7 migrations.
+
 0.12.1 (10.08.2014)
 ~~~~~~~~~~~~~~~~~~~
  * Final (hopefully) fixes for the upcoming Django 1.7 release.

@@ -1,12 +1,11 @@
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
 from django import forms, VERSION
 
-from .models import Food, DirectFood, CustomPKFood, OfficialFood
-
+from .models import CustomPKFood, DirectFood, Food, OfficialFood
 
 fields = None
-if VERSION >= (1,6):
+if VERSION >= (1, 6):
     fields = '__all__'
 
 
