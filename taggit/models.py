@@ -138,12 +138,11 @@ class TaggedItemBase(ItemBase):
 
 
 class GenericTaggedItemBase(ItemBase):
-    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
+    object_id = models.CharField(_('object ID'), max_length=255, db_index=True)
     content_type = models.ForeignKey(
         ContentType,
         verbose_name=_('Content type'),
-        related_name="%(app_label)s_%(class)s_tagged_items"
-    )
+        related_name="%(app_label)s_%(x
     content_object = GenericForeignKey()
 
     class Meta:
