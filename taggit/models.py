@@ -5,8 +5,7 @@ from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
+from transliterate import translit
 
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
@@ -76,6 +75,7 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
+        tag = translit(tag, reversed=True)
         slug = default_slugify(tag)
         if i is not None:
             slug += "_%d" % i
