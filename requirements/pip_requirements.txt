@@ -1,0 +1,6 @@
+Django==1.7
+argparse==1.2.1
+lorem-ipsum-generator==0.3
+six==1.8.0
+transliterate==1.7.3
+wsgiref==0.1.2
