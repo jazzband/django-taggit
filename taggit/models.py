@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
-from transliterate import translit
+from django.utils.translation import ugettext_lazy as _, ugettext
+from transliterate import slugify as trans_slugify
 
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
@@ -75,8 +75,8 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        tag = translit(tag, reversed=True)
-        slug = default_slugify(tag)
+        # May be need more tests for language detect and slugify to uk
+        slug = trans_slugify(tag, 'uk')
         if i is not None:
             slug += "_%d" % i
         return slug
