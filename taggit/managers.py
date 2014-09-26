@@ -152,7 +152,14 @@ class _TaggableManager(models.Manager):
         tag_objs.update(existing)
 
         for new_tag in str_tags - set(t.name for t in existing):
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+            try:
+                tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+            except Exception as e:
+                # We should pass here for case-insensitive tables
+                if len(e.args) > 1 and 'duplicate entry' in e.args[1].lower():
+                    pass
+                else:
+                    raise e
 
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
