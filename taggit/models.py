@@ -1,15 +1,17 @@
 from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError, models, transaction
+from django.db.models.query import QuerySet
+from django.template.defaultfilters import slugify as default_slugify
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
+
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
 except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericForeignKey
-from django.db import models, IntegrityError, transaction
-from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
-from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.encoding import python_2_unicode_compatible
 
 
 try:
@@ -59,7 +61,7 @@ class TagBase(models.Model):
             except IntegrityError:
                 pass
             # Now try to find existing slugs with similar names
-            slugs = set(Tag.objects.filter(slug__startswith=self.slug)\
+            slugs = set(Tag.objects.filter(slug__startswith=self.slug)
                                    .values_list('slug', flat=True))
             i = 1
             while True:
@@ -145,7 +147,7 @@ class GenericTaggedItemBase(ItemBase):
     content_object = GenericForeignKey()
 
     class Meta:
-        abstract=True
+        abstract = True
 
     @classmethod
     def lookup_kwargs(cls, instance):

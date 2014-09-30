@@ -1,152 +1,165 @@
-from __future__ import unicode_literals, absolute_import
+    from __future__ import absolute_import, unicode_literals
 
-from unittest import TestCase as UnitTestCase
+    from unittest import TestCase as UnitTestCase
 
-import django
-from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.core import serializers
-from django.db import connection
-from django.test import TestCase, TransactionTestCase
-from django.utils import six
-from django.utils.encoding import force_text
+    import django
+    from django.contrib.contenttypes.models import ContentType
+    from django.core import serializers
+    from django.core.exceptions import ImproperlyConfigured, ValidationError
+    from django.test import TestCase, TransactionTestCase
+    from django.utils.encoding import force_text
 
-from django.contrib.contenttypes.models import ContentType
+    from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
+    from .models import (Article, Child, CustomManager, CustomPKFood,
+                        CustomPKHousePet, CustomPKPet, DirectFood,
+                        DirectHousePet, DirectPet, Food, HousePet, Movie,
+                        OfficialFood, OfficialHousePet, OfficialPet,
+                        OfficialTag, OfficialThroughModel, Pet, Photo,
+                        TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
+                        TaggedPet)
 
-from taggit.managers import TaggableManager, _TaggableManager, _model_name
-from taggit.models import Tag, TaggedItem
-from .forms import (FoodForm, DirectFoodForm, CustomPKFoodForm,
-    OfficialFoodForm)
-from .models import (Food, Pet, HousePet, DirectFood, DirectPet,
-    DirectHousePet, TaggedPet, CustomPKFood, CustomPKPet, CustomPKHousePet,
-    TaggedCustomPKPet, OfficialFood, OfficialPet, OfficialHousePet,
-    OfficialThroughModel, OfficialTag, Photo, Movie, Article, CustomManager)
-from taggit.utils import parse_tags, edit_string_for_tags
+    from taggit.managers import _model_name, _TaggableManager, TaggableManager
+    from taggit.models import Tag, TaggedItem
 
+    from taggit.utils import edit_string_for_tags, parse_tags
 
-class BaseTaggingTest(object):
-    def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
-        got = [getattr(obj, attr) for obj in qs]
-        if sort:
-            got.sort()
-            tags.sort()
-        self.assertEqual(got, tags)
-
-    def _get_form_str(self, form_str):
-        if django.VERSION >= (1, 3):
-            form_str %= {
-                "help_start": '<span class="helptext">',
-                "help_stop": "</span>"
-            }
-        else:
-            form_str %= {
-                "help_start": "",
-                "help_stop": ""
-            }
-        return form_str
-
-    def assert_form_renders(self, form, html):
-        self.assertHTMLEqual(str(form), self._get_form_str(html))
+    try:
+        from unittest import skipIf, skipUnless
+    except ImportError:
+        from django.utils.unittest import skipIf, skipUnless
 
 
-class BaseTaggingTestCase(TestCase, BaseTaggingTest):
-    pass
+    class BaseTaggingTest(object):
+        def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
+            got = [getattr(obj, attr) for obj in qs]
+            if sort:
+                got.sort()
+                tags.sort()
+            self.assertEqual(got, tags)
+
+        def _get_form_str(self, form_str):
+            if django.VERSION >= (1, 3):
+                form_str %= {
+                    "help_start": '<span class="helptext">',
+                    "help_stop": "</span>"
+                }
+            else:
+                form_str %= {
+                    "help_start": "",
+                    "help_stop": ""
+                }
+            return form_str
+
+        def assert_form_renders(self, form, html):
+            self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 
-class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
-    pass
+    class BaseTaggingTestCase(TestCase, BaseTaggingTest):
+        pass
 
 
-class TagModelTestCase(BaseTaggingTransactionTestCase):
-    food_model = Food
-    tag_model = Tag
+    class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
+        pass
 
-    def test_unique_slug(self):
-        apple = self.food_model.objects.create(name="apple")
-        apple.tags.add("Red", "red")
 
-    def test_update(self):
-        special = self.tag_model.objects.create(name="special")
-        special.save()
+    class TagModelTestCase(BaseTaggingTransactionTestCase):
+        food_model = Food
+        tag_model = Tag
 
-    def test_add(self):
-        apple = self.food_model.objects.create(name="apple")
-        yummy = self.tag_model.objects.create(name="yummy")
-        apple.tags.add(yummy)
+        def test_unique_slug(self):
+            apple = self.food_model.objects.create(name="apple")
+            apple.tags.add("Red", "red")
 
-    def test_slugify(self):
-        a = Article.objects.create(title="django-taggit 1.0 Released")
-        a.tags.add("awesome", "release", "AWESOME")
-        self.assert_tags_equal(a.tags.all(), [
-            "category-awesome",
-            "category-release",
-        ], attr="slug")
+        def test_update(self):
+            special = self.tag_model.objects.create(name="special")
+            special.save()
 
-class TagModelDirectTestCase(TagModelTestCase):
-    food_model = DirectFood
-    tag_model = Tag
+        def test_add(self):
+            apple = self.food_model.objects.create(name="apple")
+            yummy = self.tag_model.objects.create(name="yummy")
+            apple.tags.add(yummy)
 
-class TagModelCustomPKTestCase(TagModelTestCase):
-    food_model = CustomPKFood
-    tag_model = Tag
+        def test_slugify(self):
+            a = Article.objects.create(title="django-taggit 1.0 Released")
+            a.tags.add("awesome", "release", "AWESOME")
+            self.assert_tags_equal(a.tags.all(), [
+                "category-awesome",
+                "category-release",
+            ], attr="slug")
 
-class TagModelOfficialTestCase(TagModelTestCase):
-    food_model = OfficialFood
-    tag_model = OfficialTag
+        def test_integers(self):
+            """Adding an integer as a tag should raise a ValueError (#237)."""
+            apple = self.food_model.objects.create(name="apple")
+            with self.assertRaisesRegexp(ValueError, (
+                    r"Cannot add 1 \(<(type|class) 'int'>\). "
+                    r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
+                apple.tags.add(1)
 
-class TaggableManagerTestCase(BaseTaggingTestCase):
-    food_model = Food
-    pet_model = Pet
-    housepet_model = HousePet
-    taggeditem_model = TaggedItem
-    tag_model = Tag
+    class TagModelDirectTestCase(TagModelTestCase):
+        food_model = DirectFood
+        tag_model = Tag
 
-    def test_add_tag(self):
-        apple = self.food_model.objects.create(name="apple")
-        self.assertEqual(list(apple.tags.all()), [])
-        self.assertEqual(list(self.food_model.tags.all()),  [])
+    class TagModelCustomPKTestCase(TagModelTestCase):
+        food_model = CustomPKFood
+        tag_model = Tag
 
-        apple.tags.add('green')
-        self.assert_tags_equal(apple.tags.all(), ['green'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green'])
+    class TagModelOfficialTestCase(TagModelTestCase):
+        food_model = OfficialFood
+        tag_model = OfficialTag
 
-        pear = self.food_model.objects.create(name="pear")
-        pear.tags.add('green')
-        self.assert_tags_equal(pear.tags.all(), ['green'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green'])
+    class TaggableManagerTestCase(BaseTaggingTestCase):
+        food_model = Food
+        pet_model = Pet
+        housepet_model = HousePet
+        taggeditem_model = TaggedItem
+        tag_model = Tag
 
-        apple.tags.add('red')
-        self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
+        def test_add_tag(self):
+            apple = self.food_model.objects.create(name="apple")
+            self.assertEqual(list(apple.tags.all()), [])
+            self.assertEqual(list(self.food_model.tags.all()), [])
 
-        self.assert_tags_equal(
-            self.food_model.tags.most_common(),
-            ['green', 'red'],
-            sort=False
-        )
+            apple.tags.add('green')
+            self.assert_tags_equal(apple.tags.all(), ['green'])
+            self.assert_tags_equal(self.food_model.tags.all(), ['green'])
 
-        apple.tags.remove('green')
-        self.assert_tags_equal(apple.tags.all(), ['red'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
-        tag = self.tag_model.objects.create(name="delicious")
-        apple.tags.add(tag)
-        self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
+            pear = self.food_model.objects.create(name="pear")
+            pear.tags.add('green')
+            self.assert_tags_equal(pear.tags.all(), ['green'])
+            self.assert_tags_equal(self.food_model.tags.all(), ['green'])
 
-        apple.delete()
-        self.assert_tags_equal(self.food_model.tags.all(), ["green"])
+            apple.tags.add('red')
+            self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
+            self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
 
-    def test_add_queries(self):
-        # Prefill content type cache:
-        ContentType.objects.get_for_model(self.food_model)
-        apple = self.food_model.objects.create(name="apple")
-        #   1  query to see which tags exist
-        # + x  queries to create the tags.
-        # + x  queries to create the intermediary things (including SELECTs, to
-        #      make sure we don't double create.
-        # + 16 on Django 1.6 for save points.
-        queries = 25
-        if django.VERSION < (1,6):
-            queries -= 16
+            self.assert_tags_equal(
+                self.food_model.tags.most_common(),
+                ['green', 'red'],
+                sort=False
+            )
+
+            apple.tags.remove('green')
+            self.assert_tags_equal(apple.tags.all(), ['red'])
+            self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
+            tag = self.tag_model.objects.create(name="delicious")
+            apple.tags.add(tag)
+            self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
+
+            apple.delete()
+            self.assert_tags_equal(self.food_model.tags.all(), ["green"])
+
+        def test_add_queries(self):
+            # Prefill content type cache:
+            ContentType.objects.get_for_model(self.food_model)
+            apple = self.food_model.objects.create(name="apple")
+            #   1  query to see which tags exist
+            # + x  queries to create the tags.
+            # + x  queries to create the intermediary things (including SELECTs, to
+            #      make sure we don't double create.
+            # + 12 on Django 1.6 for save points.
+            queries = 22
+            if django.VERSION < (1, 6):
+                queries -= 12
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
@@ -155,7 +168,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         #     make sure we dont't double create.
         # + x on Django 1.6 for save points.
         queries = 9
-        if django.VERSION < (1,6):
+        if django.VERSION < (1, 6):
             queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
 
@@ -176,7 +189,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
     def test_delete_bulk(self):
         apple = self.food_model.objects.create(name="apple")
-        kitty = self.pet_model.objects.create(pk=apple.pk,  name="kitty")
+        kitty = self.pet_model.objects.create(pk=apple.pk, name="kitty")
 
         apple.tags.add("red", "delicious", "fruit")
         kitty.tags.add("feline")
@@ -217,9 +230,9 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         pks = self.pet_model.objects.filter(tags__name__in=["fuzzy"])
         model_name = self.pet_model.__name__
         self.assertQuerysetEqual(pks,
-            ['<{0}: kitty>'.format(model_name),
-             '<{0}: cat>'.format(model_name)],
-            ordered=False)
+                                 ['<{0}: kitty>'.format(model_name),
+                                  '<{0}: cat>'.format(model_name)],
+                                 ordered=False)
 
     def test_lookup_bulk(self):
         apple = self.food_model.objects.create(name="apple")
@@ -249,14 +262,14 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green", "delicious")
 
-        guava = self.food_model.objects.create(name="guava")
+        self.food_model.objects.create(name="guava")
 
         pks = self.food_model.objects.exclude(tags__name__in=["red"])
         model_name = self.food_model.__name__
         self.assertQuerysetEqual(pks,
-            ['<{0}: pear>'.format(model_name),
-             '<{0}: guava>'.format(model_name)],
-            ordered=False)
+                                 ['<{0}: pear>'.format(model_name),
+                                  '<{0}: guava>'.format(model_name)],
+                                 ordered=False)
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
@@ -288,18 +301,17 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             '%s__name' % _model_name(self.pet_model): 'Spot'
         }
         self.assert_tags_equal(
-           self.tag_model.objects.filter(**lookup_kwargs),
-           ['scary']
+            self.tag_model.objects.filter(**lookup_kwargs),
+            ['scary']
         )
 
     def test_taggeditem_unicode(self):
-        ross = self.pet_model.objects.create(name="ross")
-        # I keep Ross Perot for a pet, what's it to you?
-        ross.tags.add("president")
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("juicy")
 
         self.assertEqual(
             force_text(self.taggeditem_model.objects.all()[0]),
-            "ross tagged with president"
+            "apple tagged with juicy"
         )
 
     def test_abstract_subclasses(self):
@@ -321,6 +333,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
         self.assertTrue(hasattr(field, 'rel'))
+        self.assertTrue(hasattr(field.rel, 'to'))
         self.assertTrue(hasattr(field, 'related'))
         self.assertEqual(self.food_model, field.related.model)
 
@@ -358,13 +371,13 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet
     housepet_model = DirectHousePet
-    taggeditem_model = TaggedPet
+    taggeditem_model = TaggedFood
 
 class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     food_model = CustomPKFood
     pet_model = CustomPKPet
     housepet_model = CustomPKHousePet
-    taggeditem_model = TaggedCustomPKPet
+    taggeditem_model = TaggedCustomPKFood
 
     def test_require_pk(self):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
@@ -487,7 +500,7 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(parse_tags(',one two'), ['one two'])
         self.assertEqual(parse_tags(',one two three'), ['one two three'])
         self.assertEqual(parse_tags('a-one, a-two and a-three'),
-            ['a-one', 'a-two and a-three'])
+                         ['a-one', 'a-two and a-three'])
 
     def test_with_double_quoted_multiple_words(self):
         """
@@ -499,7 +512,7 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(parse_tags('"one two three'), ['one', 'three', 'two'])
         self.assertEqual(parse_tags('"one two"'), ['one two'])
         self.assertEqual(parse_tags('a-one "a-two and a-three"'),
-            ['a-one', 'a-two and a-three'])
+                         ['a-one', 'a-two and a-three'])
 
     def test_with_no_loose_commas(self):
         """
@@ -518,9 +531,9 @@ class TagStringParseTestCase(UnitTestCase):
         Double quotes can contain commas
         """
         self.assertEqual(parse_tags('a-one "a-two, and a-three"'),
-            ['a-one', 'a-two, and a-three'])
+                         ['a-one', 'a-two, and a-three'])
         self.assertEqual(parse_tags('"two", one, one, two, "one"'),
-            ['one', 'two'])
+                         ['one', 'two'])
 
     def test_with_naughty_input(self):
         """
@@ -535,7 +548,7 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(parse_tags(',,,,,,'), [])
         self.assertEqual(parse_tags('",",",",",",","'), [','])
         self.assertEqual(parse_tags('a-one "a-two" and "a-three'),
-            ['a-one', 'a-three', 'a-two', 'and'])
+                         ['a-one', 'a-three', 'a-two', 'and'])
 
     def test_recreation_of_tag_list_string_representations(self):
         plain = Tag.objects.create(name='plain')
@@ -546,3 +559,40 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+
+
+@skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
+class DeconstructTestCase(UnitTestCase):
+    def test_deconstruct_kwargs_kept(self):
+        instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
+        name, path, args, kwargs = instance.deconstruct()
+        new_instance = TaggableManager(*args, **kwargs)
+        self.assertEqual('tests.OfficialThroughModel', new_instance.rel.through)
+        self.assertEqual('dummy.To', new_instance.rel.to)
+
+
+@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
+class SouthSupportTests(TestCase):
+    def test_import_migrations_module(self):
+        try:
+            from taggit.migrations import __doc__  # noqa
+        except ImproperlyConfigured as e:
+            exception = e
+        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
+
+
+class InheritedPrefetchTests(TestCase):
+
+    def test_inherited_tags_with_prefetch(self):
+        child = Child()
+        child.save()
+        child.tags.add('tag 1', 'tag 2', 'tag 3', 'tag 4')
+
+        child = Child.objects.get()
+        no_prefetch_tags = child.tags.all()
+        self.assertEquals(4, no_prefetch_tags.count())
+        child = Child.objects.prefetch_related('tags').get()
+        prefetch_tags = child.tags.all()
+        self.assertEquals(4, prefetch_tags.count())
+        self.assertEquals(set([t.name for t in no_prefetch_tags]),
+                          set([t.name for t in prefetch_tags]))
