@@ -368,6 +368,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 'apple': set(['1', '2'])
             })
 
+    def test_internal_type_is_manytomany(self):
+        self.assertEqual(
+            TaggableManager().get_internal_type(), 'ManyToManyField'
+        )
+
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
     pet_model = DirectPet

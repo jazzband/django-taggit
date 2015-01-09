@@ -298,6 +298,9 @@ class TaggableManager(RelatedField, Field):
             else:
                 self.post_through_setup(cls)
 
+    def get_internal_type(self):
+        return 'ManyToManyField'
+
     def __lt__(self, other):
         """
         Required contribute_to_class as Django uses bisect
