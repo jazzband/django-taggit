@@ -253,6 +253,9 @@ class TaggableManager(RelatedField, Field):
         )
         return manager
 
+    def get_internal_type(self):
+        return 'ManyToManyField'
+
     def deconstruct(self):
         """
         Deconstruct the object, used with migrations.
