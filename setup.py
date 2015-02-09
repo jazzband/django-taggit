@@ -5,6 +5,10 @@ f = open('README.rst')
 readme = f.read()
 f.close()
 
+install_requires = (
+	"Unidecode>=0.04.14"
+)
+
 setup(
     name='django-taggit',
     version='0.12.2',
@@ -37,4 +41,5 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
+    install_requires=install_requires,
 )
