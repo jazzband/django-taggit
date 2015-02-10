@@ -4,6 +4,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.utils import six
 
+from taggit.models import Tag
 from taggit.utils import parse_tags, edit_string_for_tags
 
 
@@ -18,7 +19,16 @@ class TagField(forms.CharField):
 
     def clean(self, value):
         value = super(TagField, self).clean(value)
+
         try:
-            return parse_tags(value)
+            tags = parse_tags(value)
+            max_length = Tag._meta.get_field('name').max_length
+
+            for tag in tags:
+                if len(tag) > max_length:
+                    raise forms.ValidationError(_("Tag '{0}' is longer than the {1} character limit.".format(tag, max_length)))
+
+            return tags
+
         except ValueError:
             raise forms.ValidationError(_("Please provide a comma-separated list of tags."))
