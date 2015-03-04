@@ -6,7 +6,7 @@ in the admin, just as it will in any other form.  One important thing to note
 is that you *cannot* include a :class:`TaggableManager` in
 :attr:`ModelAdmin.list_display`, if you do you'll see an exception that looks
 like::
-    
+
     AttributeError: 'TaggableManager' object has no attribute 'flatchoices'
 
 This is for the same reason that you cannot include a :class:`ManyToManyField`,

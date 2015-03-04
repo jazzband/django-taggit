@@ -18,7 +18,7 @@ tagging to your project easy and fun.
    Since version 0.12.0 taggit uses Django migrations by default. South users
    have to adjust their settings::
 
-      SOUTH_MIGRATIONS_MODULES = {
+      SOUTH_MIGRATION_MODULES = {
           'taggit': 'taggit.south_migrations',
       }
 

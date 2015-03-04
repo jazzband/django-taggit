@@ -17,7 +17,8 @@ if not settings.configured:
             'django.contrib.contenttypes',
             'taggit',
             'tests',
-        ]
+        ],
+        MIDDLEWARE_CLASSES=[],
     )
 
 
@@ -28,4 +29,3 @@ def runtests():
 
 if __name__ == '__main__':
     runtests()
-
