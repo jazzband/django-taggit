@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.12.3 (03.03.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Specify that the internal type of the TaggitManager is a ManyToManyField
+
 0.12.2 (21.09.2014)
 ~~~~~~~~~~~~~~~~~~~
  * Fixed 1.7 migrations.
