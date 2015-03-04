@@ -14,9 +14,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(unique=True, max_length=100, verbose_name='Name')),
-                ('slug', models.SlugField(unique=True, max_length=100, verbose_name='Slug')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', unique=True, max_length=100, verbose_name='Name')),
+                ('slug', models.SlugField(help_text='', unique=True, max_length=100, verbose_name='Slug')),
             ],
             options={
                 'verbose_name': 'Tag',
@@ -27,10 +27,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TaggedItem',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('object_id', models.IntegerField(verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='taggit_taggeditem_tagged_items', verbose_name='Content type', to='contenttypes.ContentType')),
-                ('tag', models.ForeignKey(related_name='taggit_taggeditem_items', to='taggit.Tag')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
+                ('content_type', models.ForeignKey(related_name='taggit_taggeditem_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
+                ('tag', models.ForeignKey(related_name='taggit_taggeditem_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'verbose_name': 'Tagged Item',
