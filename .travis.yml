@@ -14,7 +14,9 @@ env:
   - TOXENV=py34-1.6.x
   - TOXENV=py34-1.7.x
 install:
-  - pip install tox
+  - pip install flake8 tox
+before_script:
+  - flake8 taggit
 script:
   - tox
 notifications:
