@@ -2,7 +2,9 @@ django-taggit
 =============
 
 ``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
-``INSTALLED_APPS`` then just add a TaggableManager to your model and go::
+``INSTALLED_APPS`` then just add a TaggableManager to your model and go:
+
+.. code:: python
 
     from django.db import models
 
@@ -14,7 +16,9 @@ django-taggit
         tags = TaggableManager()
 
 
-Then you can use the API like so::
+Then you can use the API like so:
+
+.. code:: python
 
     >>> apple = Food.objects.create(name="apple")
     >>> apple.tags.add("red", "green", "delicious")
