@@ -28,7 +28,6 @@ except ImportError:
     pass  # PathInfo is not used on Django < 1.6
 
 
-
 def _model_name(model):
     if VERSION < (1, 7):
         return model._meta.module_name
