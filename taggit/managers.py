@@ -239,7 +239,7 @@ class TaggableManager(RelatedField, Field):
         Field.__init__(self, verbose_name=verbose_name, help_text=help_text,
                        blank=blank, null=True, serialize=False)
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self, related_name, self.through, to=to)
+        self.tRel = TaggableRel(self, related_name, self.through, to=to)
         self.swappable = False
         self.manager = manager
         # NOTE: `to` is ignored, only used via `deconstruct`.
@@ -266,14 +266,14 @@ class TaggableManager(RelatedField, Field):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
-        if isinstance(self.rel.through, six.string_types):
-            kwargs['through'] = self.rel.through
-        elif not self.rel.through._meta.auto_created:
-            kwargs['through'] = "%s.%s" % (self.rel.through._meta.app_label, self.rel.through._meta.object_name)
-        if isinstance(self.rel.to, six.string_types):
-            kwargs['to'] = self.rel.to
+        if isinstance(self.tRel.through, six.string_types):
+            kwargs['through'] = self.tRel.through
+        elif not self.tRel.through._meta.auto_created:
+            kwargs['through'] = "%s.%s" % (self.tRel.through._meta.app_label, self.tRel.through._meta.object_name)
+        if isinstance(self.tRel.to, six.string_types):
+            kwargs['to'] = self.tRel.to
         else:
-            kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
+            kwargs['to'] = '%s.%s' % (self.tRel.to._meta.app_label, self.tRel.to._meta.object_name)
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
@@ -286,14 +286,14 @@ class TaggableManager(RelatedField, Field):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
-            if isinstance(self.rel.to, six.string_types):
+            if isinstance(self.tRel.to, six.string_types):
                 def resolve_related_class(field, model, cls):
                     field.rel.to = model
-                add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
+                add_lazy_relation(cls, self, self.tRel.to, resolve_related_class)
             if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
                     self.through = model
-                    self.rel.through = model
+                    self.tRel.through = model
                     self.post_through_setup(cls)
                 add_lazy_relation(
                     cls, self, self.through, resolve_related_class
@@ -317,8 +317,8 @@ class TaggableManager(RelatedField, Field):
         self.use_gfk = (
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
-        if not self.rel.to:
-            self.rel.to = self.through._meta.get_field("tag").rel.to
+        if not self.tRel.to:
+            self.tRel.to = self.through._meta.get_field("tag").rel.to
         self.rel = ForeignObjectRel(self.through, cls, self)
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
@@ -361,7 +361,7 @@ class TaggableManager(RelatedField, Field):
         return self.model._meta.pk.name
 
     def m2m_reverse_target_field_name(self):
-        return self.rel.to._meta.pk.name
+        return self.tRel.to._meta.pk.name
 
     def m2m_column_name(self):
         if self.use_gfk:
@@ -431,7 +431,7 @@ class TaggableManager(RelatedField, Field):
         object_id_field = opts.get_field_by_name('object_id')[0]
         linkfield = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
         if direct:
-            join1infos = [PathInfo(self.model._meta, opts, [from_field], self.rel, True, False)]
+            join1infos = [PathInfo(self.model._meta, opts, [from_field], self.tRel, True, False)]
             join2infos = linkfield.get_path_info()
         else:
             join1infos = linkfield.get_reverse_path_info()
