@@ -8,7 +8,12 @@ from django.db import models, router
 from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
                                              RelatedField)
-from django.db.models.related import RelatedObject
+
+try:
+    from django.db.models.related import RelatedObject
+except ImportError:  # Django 1.8 +
+    RelatedObject = None
+
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
@@ -309,13 +314,18 @@ class TaggableManager(RelatedField, Field):
         return False
 
     def post_through_setup(self, cls):
-        self.related = RelatedObject(cls, self.model, self)
+        if RelatedObject is not None:  # Django < 1.8
+            self.related = RelatedObject(cls, self.model, self)
+
         self.use_gfk = (
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
         if not self.rel.to:
             self.rel.to = self.through._meta.get_field("tag").rel.to
-        self.related = RelatedObject(self.through, cls, self)
+
+        if RelatedObject is not None:  # Django < 1.8
+            self.related = RelatedObject(self.through, cls, self)
+
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, 'tagged_items')
@@ -477,7 +487,7 @@ def _get_subclasses(model):
     subclasses = [model]
     for f in model._meta.get_all_field_names():
         field = model._meta.get_field_by_name(f)[0]
-        if (isinstance(field, RelatedObject) and
+        if (RelatedObject and isinstance(field, RelatedObject) and
                 getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
     return subclasses
