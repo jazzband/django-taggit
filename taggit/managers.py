@@ -231,6 +231,12 @@ class _TaggableManager(models.Manager):
 
 
 class TaggableManager(RelatedField, Field):
+    # Field flags
+    many_to_many = True
+    many_to_one = False
+    one_to_many = False
+    one_to_one = False
+
     _related_name_counter = 0
 
     def __init__(self, verbose_name=_("Tags"),
