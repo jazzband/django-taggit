@@ -28,9 +28,12 @@ except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericRelation
 
 try:
-    from django.db.models.related import PathInfo
-except ImportError:
-    pass  # PathInfo is not used on Django < 1.6
+    from django.db.models.query_utils import PathInfo
+except ImportError:  # Django < 1.8
+    try:
+        from django.db.models.related import PathInfo
+    except ImportError:
+        pass  # PathInfo is not used on Django < 1.6
 
 
 def _model_name(model):
