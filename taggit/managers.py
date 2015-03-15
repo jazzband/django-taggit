@@ -243,12 +243,22 @@ class TaggableManager(RelatedField, Field):
                  help_text=_("A comma-separated list of tags."),
                  through=None, blank=False, related_name=None, to=None,
                  manager=_TaggableManager):
-        Field.__init__(self, verbose_name=verbose_name, help_text=help_text,
-                       blank=blank, null=True, serialize=False)
+
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self, related_name, self.through, to=to)
         self.swappable = False
         self.manager = manager
+
+        rel = TaggableRel(self, related_name, self.through, to=to)
+
+        Field.__init__(
+            self,
+            verbose_name=verbose_name,
+            help_text=help_text,
+            blank=blank,
+            null=True,
+            serialize=False,
+            rel=rel,
+        )
         # NOTE: `to` is ignored, only used via `deconstruct`.
 
     def __get__(self, instance, model):
