@@ -7,12 +7,15 @@ env:
   - TOXENV=py27-1.5.x
   - TOXENV=py27-1.6.x
   - TOXENV=py27-1.7.x
+  - TOXENV=py27-1.8.x
   - TOXENV=py33-1.5.x
   - TOXENV=py33-1.6.x
   - TOXENV=py33-1.7.x
+  - TOXENV=py33-1.8.x
   - TOXENV=py34-1.5.x
   - TOXENV=py34-1.6.x
   - TOXENV=py34-1.7.x
+  - TOXENV=py34-1.8.x
 install:
   - pip install flake8 tox
 before_script:
