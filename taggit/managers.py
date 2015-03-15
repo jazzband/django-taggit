@@ -232,6 +232,12 @@ class _TaggableManager(models.Manager):
             results.append(obj)
         return results
 
+    # _TaggableManager needs to be hashable but BaseManagers in Django 1.8+ overrides
+    # the __eq__ method which makes the default __hash__ method disappear.
+    # This checks if the __hash__ attribute is None, and if so, it reinstates the original method.
+    if models.Manager.__hash__ is None:
+        __hash__ = object.__hash__
+
 
 class TaggableManager(RelatedField, Field):
     # Field flags
