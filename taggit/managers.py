@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
-                                             RelatedField)
+                                             OneToOneRel, RelatedField)
 
 try:
     from django.db.models.related import RelatedObject
@@ -512,6 +512,13 @@ def _get_subclasses(model):
     subclasses = [model]
     for f in model._meta.get_all_field_names():
         field = model._meta.get_field_by_name(f)[0]
+
+        # Django 1.8 +
+        if (not RelatedObject and isinstance(field, OneToOneRel) and
+                getattr(field.field.rel, "parent_link", None)):
+            subclasses.extend(_get_subclasses(field.related_model))
+
+        # < Django 1.8
         if (RelatedObject and isinstance(field, RelatedObject) and
                 getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
