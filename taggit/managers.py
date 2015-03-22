@@ -9,9 +9,15 @@ from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
                                              OneToOneRel, RelatedField)
 
-try:
+if VERSION < (1, 8):
+    # related.py was removed in Django 1.8
+
+    # Depending on how Django was updated, related.py could still exist
+    # on the users system even on Django 1.8+, so we check the Django
+    # version before importing it to make sure this doesn't get imported
+    # accidentally.
     from django.db.models.related import RelatedObject
-except ImportError:  # Django 1.8 +
+else:
     RelatedObject = None
 
 from django.utils import six
