@@ -431,7 +431,7 @@ class TaggableManager(RelatedField, Field):
             join2infos = linkfield.get_path_info()
         else:
             join1infos = linkfield.get_reverse_path_info()
-            join2infos = [PathInfo(opts, self.model._meta, [object_id_field], self, True, False)]
+            join2infos = [PathInfo(opts, self.model._meta, [from_field], self, True, False)]
         pathinfos.extend(join1infos)
         pathinfos.extend(join2infos)
         return pathinfos
