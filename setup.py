@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 
-f = open('README.rst')
-readme = f.read()
-f.close()
+
+with open('README.rst') as f:
+    readme = f.read()
 
 setup(
     name='django-taggit',
