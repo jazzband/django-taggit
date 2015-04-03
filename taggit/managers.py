@@ -7,8 +7,19 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
-                                             RelatedField)
-from django.db.models.related import RelatedObject
+                                             OneToOneRel, RelatedField)
+
+if VERSION < (1, 8):
+    # related.py was removed in Django 1.8
+
+    # Depending on how Django was updated, related.py could still exist
+    # on the users system even on Django 1.8+, so we check the Django
+    # version before importing it to make sure this doesn't get imported
+    # accidentally.
+    from django.db.models.related import RelatedObject
+else:
+    RelatedObject = None
+
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
@@ -23,9 +34,12 @@ except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericRelation
 
 try:
-    from django.db.models.related import PathInfo
-except ImportError:
-    pass  # PathInfo is not used on Django < 1.6
+    from django.db.models.query_utils import PathInfo
+except ImportError:  # Django < 1.8
+    try:
+        from django.db.models.related import PathInfo
+    except ImportError:
+        pass  # PathInfo is not used on Django < 1.6
 
 
 def _model_name(model):
@@ -224,20 +238,42 @@ class _TaggableManager(models.Manager):
             results.append(obj)
         return results
 
+    # _TaggableManager needs to be hashable but BaseManagers in Django 1.8+ overrides
+    # the __eq__ method which makes the default __hash__ method disappear.
+    # This checks if the __hash__ attribute is None, and if so, it reinstates the original method.
+    if models.Manager.__hash__ is None:
+        __hash__ = object.__hash__
+
 
 class TaggableManager(RelatedField, Field):
+    # Field flags
+    many_to_many = True
+    many_to_one = False
+    one_to_many = False
+    one_to_one = False
+
     _related_name_counter = 0
 
     def __init__(self, verbose_name=_("Tags"),
                  help_text=_("A comma-separated list of tags."),
                  through=None, blank=False, related_name=None, to=None,
                  manager=_TaggableManager):
-        Field.__init__(self, verbose_name=verbose_name, help_text=help_text,
-                       blank=blank, null=True, serialize=False)
+
         self.through = through or TaggedItem
-        self.rel = TaggableRel(self, related_name, self.through, to=to)
         self.swappable = False
         self.manager = manager
+
+        rel = TaggableRel(self, related_name, self.through, to=to)
+
+        Field.__init__(
+            self,
+            verbose_name=verbose_name,
+            help_text=help_text,
+            blank=blank,
+            null=True,
+            serialize=False,
+            rel=rel,
+        )
         # NOTE: `to` is ignored, only used via `deconstruct`.
 
     def __get__(self, instance, model):
@@ -309,13 +345,18 @@ class TaggableManager(RelatedField, Field):
         return False
 
     def post_through_setup(self, cls):
-        self.related = RelatedObject(cls, self.model, self)
+        if RelatedObject is not None:  # Django < 1.8
+            self.related = RelatedObject(cls, self.model, self)
+
         self.use_gfk = (
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
         if not self.rel.to:
             self.rel.to = self.through._meta.get_field("tag").rel.to
-        self.related = RelatedObject(self.through, cls, self)
+
+        if RelatedObject is not None:  # Django < 1.8
+            self.related = RelatedObject(self.through, cls, self)
+
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
             tagged_items.contribute_to_class(cls, 'tagged_items')
@@ -477,7 +518,14 @@ def _get_subclasses(model):
     subclasses = [model]
     for f in model._meta.get_all_field_names():
         field = model._meta.get_field_by_name(f)[0]
-        if (isinstance(field, RelatedObject) and
+
+        # Django 1.8 +
+        if (not RelatedObject and isinstance(field, OneToOneRel) and
+                getattr(field.field.rel, "parent_link", None)):
+            subclasses.extend(_get_subclasses(field.related_model))
+
+        # < Django 1.8
+        if (RelatedObject and isinstance(field, RelatedObject) and
                 getattr(field.field.rel, "parent_link", None)):
             subclasses.extend(_get_subclasses(field.model))
     return subclasses
