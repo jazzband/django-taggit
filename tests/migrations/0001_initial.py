@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Article',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=100)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('title', models.CharField(help_text='', max_length=100)),
             ],
             options={
             },
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomManager',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomPKFood',
             fields=[
-                ('name', models.CharField(max_length=50, serialize=False, primary_key=True)),
+                ('name', models.CharField(help_text='', max_length=50, serialize=False, primary_key=True)),
             ],
             options={
             },
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomPKPet',
             fields=[
-                ('name', models.CharField(max_length=50, serialize=False, primary_key=True)),
+                ('name', models.CharField(help_text='', max_length=50, serialize=False, primary_key=True)),
             ],
             options={
             },
@@ -54,8 +54,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomPKHousePet',
             fields=[
-                ('custompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.CustomPKPet')),
-                ('trained', models.BooleanField(default=False)),
+                ('custompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.CustomPKPet', help_text='')),
+                ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
             },
@@ -64,8 +64,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DirectFood',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
             ],
             options={
             },
@@ -74,8 +74,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DirectPet',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
             ],
             options={
             },
@@ -84,8 +84,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DirectHousePet',
             fields=[
-                ('directpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectPet')),
-                ('trained', models.BooleanField(default=False)),
+                ('directpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectPet', help_text='')),
+                ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
             },
@@ -94,8 +94,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Food',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
@@ -105,7 +105,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Movie',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MultipleTags',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
             ],
             options={
             },
@@ -125,7 +125,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MultipleTagsGFK',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('tags1', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
@@ -135,8 +135,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialFood',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
             ],
             options={
             },
@@ -145,8 +145,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialPet',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
             ],
             options={
             },
@@ -155,8 +155,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialHousePet',
             fields=[
-                ('officialpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.OfficialPet')),
-                ('trained', models.BooleanField(default=False)),
+                ('officialpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.OfficialPet', help_text='')),
+                ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
             },
@@ -165,10 +165,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialTag',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(unique=True, max_length=100, verbose_name='Name')),
-                ('slug', models.SlugField(unique=True, max_length=100, verbose_name='Slug')),
-                ('official', models.BooleanField(default=False)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', unique=True, max_length=100, verbose_name='Name')),
+                ('slug', models.SlugField(help_text='', unique=True, max_length=100, verbose_name='Slug')),
+                ('official', models.BooleanField(default=False, help_text='')),
             ],
             options={
                 'abstract': False,
@@ -178,32 +178,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialThroughModel',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('object_id', models.IntegerField(verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='tests_officialthroughmodel_tagged_items', verbose_name='Content type', to='contenttypes.ContentType')),
-                ('tag', models.ForeignKey(related_name='tagged_items', to='tests.OfficialTag')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
+                ('content_type', models.ForeignKey(related_name='tests_officialthroughmodel_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
+                ('tag', models.ForeignKey(related_name='tagged_items', to='tests.OfficialTag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
         ),
-        migrations.AddField(
-            model_name='officialfood',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='tests.OfficialTag', through='tests.OfficialThroughModel', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='officialpet',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='tests.OfficialTag', through='tests.OfficialThroughModel', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
         migrations.CreateModel(
             name='Parent',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
             ],
             options={
             },
@@ -212,23 +200,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Child',
             fields=[
-                ('parent_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Parent')),
+                ('parent_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Parent', help_text='')),
             ],
             options={
             },
             bases=('tests.parent',),
         ),
-        migrations.AddField(
-            model_name='parent',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
         migrations.CreateModel(
             name='Pet',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('name', models.CharField(help_text='', max_length=50)),
             ],
             options={
             },
@@ -237,23 +219,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HousePet',
             fields=[
-                ('pet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Pet')),
-                ('trained', models.BooleanField(default=False)),
+                ('pet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Pet', help_text='')),
+                ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
             },
             bases=('tests.pet',),
         ),
-        migrations.AddField(
-            model_name='pet',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
         migrations.CreateModel(
             name='Photo',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
@@ -264,124 +240,117 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TaggedCustomPKFood',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.CustomPKFood')),
+                ('tag', models.ForeignKey(related_name='tests_taggedcustompkfood_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='custompkfood',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedCustomPKFood', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedcustompkfood',
-            name='content_object',
-            field=models.ForeignKey(to='tests.CustomPKFood'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedcustompkfood',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_taggedcustompkfood_items', to='taggit.Tag'),
-            preserve_default=True,
         ),
         migrations.CreateModel(
             name='TaggedCustomPKPet',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.CustomPKPet')),
+                ('tag', models.ForeignKey(related_name='tests_taggedcustompkpet_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='custompkpet',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedCustomPKPet', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedcustompkpet',
-            name='content_object',
-            field=models.ForeignKey(to='tests.CustomPKPet'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedcustompkpet',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_taggedcustompkpet_items', to='taggit.Tag'),
-            preserve_default=True,
         ),
         migrations.CreateModel(
             name='TaggedFood',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectFood')),
+                ('tag', models.ForeignKey(related_name='tests_taggedfood_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='directfood',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedFood', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedfood',
-            name='content_object',
-            field=models.ForeignKey(to='tests.DirectFood'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedfood',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_taggedfood_items', to='taggit.Tag'),
-            preserve_default=True,
         ),
         migrations.CreateModel(
             name='TaggedPet',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectPet')),
+                ('tag', models.ForeignKey(related_name='tests_taggedpet_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='directpet',
-            name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedPet', help_text='A comma-separated list of tags.', verbose_name='Tags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedpet',
-            name='content_object',
-            field=models.ForeignKey(to='tests.DirectPet'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='taggedpet',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_taggedpet_items', to='taggit.Tag'),
-            preserve_default=True,
         ),
         migrations.CreateModel(
             name='Through1',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags')),
+                ('tag', models.ForeignKey(related_name='tests_through1_items', to='taggit.Tag', help_text='')),
             ],
             options={
                 'abstract': False,
             },
             bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Through2',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags')),
+                ('tag', models.ForeignKey(related_name='tests_through2_items', to='taggit.Tag', help_text='')),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ThroughGFK',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
+                ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
+                ('content_type', models.ForeignKey(related_name='tests_throughgfk_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
+                ('tag', models.ForeignKey(related_name='tagged_items', to='taggit.Tag', help_text='')),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='pet',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='parent',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='officialpet',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='tests.OfficialTag', through='tests.OfficialThroughModel', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='officialfood',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='tests.OfficialTag', through='tests.OfficialThroughModel', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='multipletagsgfk',
+            name='tags2',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.ThroughGFK', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='multipletags',
@@ -390,62 +359,33 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='through1',
-            name='content_object',
-            field=models.ForeignKey(to='tests.MultipleTags'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='through1',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_through1_items', to='taggit.Tag'),
-            preserve_default=True,
-        ),
-        migrations.CreateModel(
-            name='Through2',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'abstract': False,
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AddField(
             model_name='multipletags',
             name='tags2',
             field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.Through2', help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='through2',
-            name='content_object',
-            field=models.ForeignKey(to='tests.MultipleTags'),
+            model_name='directpet',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedPet', help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='through2',
-            name='tag',
-            field=models.ForeignKey(related_name='tests_through2_items', to='taggit.Tag'),
+            model_name='directfood',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedFood', help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
         ),
-        migrations.CreateModel(
-            name='ThroughGFK',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('object_id', models.IntegerField(verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='tests_throughgfk_tagged_items', verbose_name='Content type', to='contenttypes.ContentType')),
-                ('tag', models.ForeignKey(related_name='tagged_items', to='taggit.Tag')),
-            ],
-            options={
-                'abstract': False,
-            },
-            bases=(models.Model,),
+        migrations.AddField(
+            model_name='custompkpet',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedCustomPKPet', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
         ),
         migrations.AddField(
-            model_name='multipletagsgfk',
-            name='tags2',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.ThroughGFK', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            model_name='custompkfood',
+            name='tags',
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='tests.TaggedCustomPKFood', help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
         ),
         migrations.CreateModel(

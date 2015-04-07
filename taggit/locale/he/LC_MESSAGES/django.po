@@ -66,4 +66,3 @@ msgstr ""
 #: contrib/suggest/models.py:57
 msgid "Enter a valid Regular Expression. To make it case-insensitive include \"(?i)\" in your expression."
 msgstr ""
-

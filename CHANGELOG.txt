@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.13.0 (04.02.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Django 1.8 support
+  * https://github.com/alex/django-taggit/pull/297
+
+0.12.3 (03.03.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Specify that the internal type of the TaggitManager is a ManyToManyField
+
 0.12.2 (21.09.2014)
 ~~~~~~~~~~~~~~~~~~~
  * Fixed 1.7 migrations.

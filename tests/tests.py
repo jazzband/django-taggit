@@ -336,7 +336,14 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertTrue(hasattr(field, 'rel'))
         self.assertTrue(hasattr(field.rel, 'to'))
         self.assertTrue(hasattr(field, 'related'))
-        self.assertEqual(self.food_model, field.related.model)
+
+        # This API has changed in Django 1.8
+        # https://code.djangoproject.com/ticket/21414
+        if django.VERSION >= (1, 8):
+            self.assertEqual(self.food_model, field.model)
+            self.assertEqual(self.tag_model, field.related.model)
+        else:
+            self.assertEqual(self.food_model, field.related.model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
@@ -367,6 +374,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 'orange': set(['2', '4']),
                 'apple': set(['1', '2'])
             })
+
+    def test_internal_type_is_manytomany(self):
+        self.assertEqual(
+            TaggableManager().get_internal_type(), 'ManyToManyField'
+        )
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
