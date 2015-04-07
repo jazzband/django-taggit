@@ -57,6 +57,7 @@ class TaggableRel(ManyToManyRel):
         self.symmetrical = True
         self.multiple = True
         self.through = None if VERSION < (1, 7) else through
+        self.through_fields = None
         self.field = field
 
     def get_joining_columns(self):
