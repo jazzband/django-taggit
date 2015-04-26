@@ -8,6 +8,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
+from taggit.utils import _get_field
+
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey
 except ImportError:  # django < 1.7
@@ -101,11 +103,11 @@ class ItemBase(models.Model):
 
     @classmethod
     def tag_model(cls):
-        return cls._meta.get_field_by_name("tag")[0].rel.to
+        return _get_field(cls, 'tag').rel.to
 
     @classmethod
     def tag_relname(cls):
-        return cls._meta.get_field_by_name('tag')[0].rel.related_name
+        return _get_field(cls, 'tag').rel.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
