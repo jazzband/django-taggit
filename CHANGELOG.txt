@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.14.0 (04.26.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Prevent extra JOIN when prefetching
+  * https://github.com/alex/django-taggit/pull/275
+ * Prevent _meta warnings with Django 1.8
+  * https://github.com/alex/django-taggit/pull/299
+
 0.13.0 (04.02.2015)
 ~~~~~~~~~~~~~~~~~~~
  * Django 1.8 support
