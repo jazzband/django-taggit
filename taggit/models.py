@@ -127,14 +127,17 @@ class TaggedItemBase(ItemBase):
         abstract = True
 
     @classmethod
-    def tags_for(cls, model, instance=None):
+    def tags_for(cls, model, instance=None, **extra_filters):
+        kwargs = extra_filters or {}
         if instance is not None:
-            return cls.tag_model().objects.filter(**{
+            kwargs.update({
                 '%s__content_object' % cls.tag_relname(): instance
             })
-        return cls.tag_model().objects.filter(**{
+            return cls.tag_model().objects.filter(**kwargs)
+        kwargs.update({
             '%s__content_object__isnull' % cls.tag_relname(): False
-        }).distinct()
+        })
+        return cls.tag_model().objects.filter(**kwargs).distinct()
 
 
 class GenericTaggedItemBase(ItemBase):
@@ -172,13 +175,15 @@ class GenericTaggedItemBase(ItemBase):
             }
 
     @classmethod
-    def tags_for(cls, model, instance=None):
+    def tags_for(cls, model, instance=None, **extra_filters):
         ct = ContentType.objects.get_for_model(model)
         kwargs = {
             "%s__content_type" % cls.tag_relname(): ct
         }
         if instance is not None:
             kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
+        if extra_filters:
+            kwargs.update(extra_filters)
         return cls.tag_model().objects.filter(**kwargs).distinct()
 
 

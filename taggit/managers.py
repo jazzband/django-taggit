@@ -101,11 +101,12 @@ class _TaggableManager(models.Manager):
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
 
-    def get_queryset(self):
+    def get_queryset(self, extra_filters=None):
         try:
             return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
-            return self.through.tags_for(self.model, self.instance)
+            kwargs = extra_filters if extra_filters else {}
+            return self.through.tags_for(self.model, self.instance, **kwargs)
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is not None:
@@ -126,7 +127,7 @@ class _TaggableManager(models.Manager):
         source_col = fk.column
         connection = connections[db]
         qn = connection.ops.quote_name
-        qs = self.get_queryset().using(db)._next_is_sticky().filter(**query).extra(
+        qs = self.get_queryset(query).using(db).extra(
             select={
                 '_prefetch_related_val': '%s.%s' % (qn(join_table), qn(source_col))
             }
