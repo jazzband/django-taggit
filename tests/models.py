@@ -4,8 +4,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
-from taggit.models import (GenericTaggedItemBase, Tag, TagBase, TaggedItem,
-                           TaggedItemBase)
+from taggit.models import (ItemBase, GenericTaggedItemBase, Tag, TagBase,
+                           TaggedItem, TaggedItemBase)
 
 
 # Ensure that two TaggableManagers with custom through model are allowed.
@@ -115,6 +115,21 @@ class CustomPKPet(models.Model):
 
 class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField(default=False)
+
+# Test custom through model to model with custom FK
+class TaggedCustomFKFood(ItemBase):
+    tag = models.ForeignKey(Tag, related_name='custom_fk_food')
+
+    content_object = models.ForeignKey('CustomFKFood')
+
+@python_2_unicode_compatible
+class CustomFKFood(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomFKFood)
+
+    def __str__(self):
+        return self.name
 
 # Test custom through model to a custom tag model
 

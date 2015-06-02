@@ -121,13 +121,6 @@ class ItemBase(models.Model):
             "content_object__in": instances,
         }
 
-
-class TaggedItemBase(ItemBase):
-    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
-
-    class Meta:
-        abstract = True
-
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         kwargs = extra_filters or {}
@@ -140,6 +133,13 @@ class TaggedItemBase(ItemBase):
             '%s__content_object__isnull' % cls.tag_relname(): False
         })
         return cls.tag_model().objects.filter(**kwargs).distinct()
+
+
+class TaggedItemBase(ItemBase):
+    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+
+    class Meta:
+        abstract = True
 
 
 class GenericTaggedItemBase(ItemBase):
