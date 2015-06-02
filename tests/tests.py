@@ -11,11 +11,11 @@ from django.test import TestCase, TransactionTestCase
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
-from .models import (Article, Child, CustomManager, CustomFKFood, CustomPKFood,
-                     CustomPKHousePet, CustomPKPet, DirectFood,
-                     DirectHousePet, DirectPet, Food, HousePet, Movie,
-                     OfficialFood, OfficialHousePet, OfficialPet,
-                     OfficialTag, OfficialThroughModel, Pet, Photo,
+from .models import (Article, Child, CustomManager, CustomFKFood,
+                     CustomFKFoodNoRelatedName, CustomPKFood, CustomPKHousePet,
+                     CustomPKPet, DirectFood, DirectHousePet, DirectPet, Food,
+                     HousePet, Movie, OfficialFood, OfficialHousePet,
+                     OfficialPet, OfficialTag, OfficialThroughModel, Pet, Photo,
                      TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
 
@@ -115,6 +115,10 @@ class TagModelCustomPKTestCase(TagModelTestCase):
 
 class TagModelCustomFKTestCase(TagModelTestCase):
     food_model = CustomFKFood
+    tag_model = Tag
+
+class TagModelCustomFKNoRelatedNameTestCase(TagModelTestCase):
+    food_model = CustomFKFoodNoRelatedName
     tag_model = Tag
 
 class TagModelOfficialTestCase(TagModelTestCase):

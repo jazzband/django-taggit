@@ -122,11 +122,26 @@ class TaggedCustomFKFood(ItemBase):
 
     content_object = models.ForeignKey('CustomFKFood')
 
+# Test custom through model to model with custom FK
+class TaggedCustomFKFoodNoRelatedName(ItemBase):
+    tag = models.ForeignKey(Tag)
+
+    content_object = models.ForeignKey('CustomFKFoodNoRelatedName')
+
 @python_2_unicode_compatible
 class CustomFKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomFKFood)
+
+    def __str__(self):
+        return self.name
+
+@python_2_unicode_compatible
+class CustomFKFoodNoRelatedName(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomFKFoodNoRelatedName)
 
     def __str__(self):
         return self.name

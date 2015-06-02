@@ -124,13 +124,15 @@ class ItemBase(models.Model):
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         kwargs = extra_filters or {}
+        relname = cls.tag_relname() or cls.__name__.lower()
+
         if instance is not None:
             kwargs.update({
-                '%s__content_object' % cls.tag_relname(): instance
+                '%s__content_object' % relname: instance
             })
             return cls.tag_model().objects.filter(**kwargs)
         kwargs.update({
-            '%s__content_object__isnull' % cls.tag_relname(): False
+            '%s__content_object__isnull' % relname: False
         })
         return cls.tag_model().objects.filter(**kwargs).distinct()
 
