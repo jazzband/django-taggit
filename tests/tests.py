@@ -97,6 +97,14 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
                 r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
             apple.tags.add(1)
 
+    def test_tags_for_model(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("Red", "red")
+
+        self.assert_tags_equal(apple.tags.through.tags_for(self.food_model,
+                                                           apple),
+                               ['Red', 'red'])
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
