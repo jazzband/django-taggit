@@ -20,7 +20,12 @@ If you have an application that you'd like to see listed here, simply fork
  * ``django-taggit-templatetags``: Provides several templatetags, including one
    for tag clouds, to expose various ``taggit`` APIs directly to templates.
    Available on `github`__.
+ * ``django-taggit-helpers``: Makes it easier to work with admin pages of models
+   associated with ``taggit`` tags by adding helper classes: ``TaggitCounter``,
+   ``TaggitListFilter``, ``TaggitStackedInline``, ``TaggitTabularInline``.
+   Available on `github`__.
 
 __ http://github.com/alex/django-taggit
 __ http://github.com/frankwiles/django-taggit-suggest
 __ http://github.com/feuervogel/django-taggit-templatetags
+__ http://github.com/mfcovington/django-taggit-helpers
