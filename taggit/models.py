@@ -9,7 +9,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
 from taggit.utils import _get_field
-from unidecode import unidecode
+try:
+    from unidecode import unidecode
+except ImportError:
+    unidecode = lambda tag: tag
+
 
 try:
     from django.contrib.contenttypes.fields import GenericForeignKey

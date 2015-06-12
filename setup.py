@@ -6,10 +6,6 @@ import taggit
 with open('README.rst') as f:
     readme = f.read()
 
-install_requires = (
-    "Unidecode>=0.04.14",
-)
-
 setup(
     name='django-taggit',
     version='.'.join(str(i) for i in taggit.VERSION),
