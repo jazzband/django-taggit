@@ -24,8 +24,11 @@ If you have an application that you'd like to see listed here, simply fork
    associated with ``taggit`` tags by adding helper classes: ``TaggitCounter``,
    ``TaggitListFilter``, ``TaggitStackedInline``, ``TaggitTabularInline``.
    Available on `github`__.
+ * ``django-taggit-labels``: Provides a clickable label widget for the
+   Django admin for user friendly selection from managed tag sets.
 
 __ http://github.com/alex/django-taggit
 __ http://github.com/frankwiles/django-taggit-suggest
 __ http://github.com/feuervogel/django-taggit-templatetags
 __ http://github.com/mfcovington/django-taggit-helpers
+__ https://github.com/bennylope/django-taggit-labels
