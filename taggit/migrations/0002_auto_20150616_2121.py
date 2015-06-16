@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterIndexTogether(
             name='taggeditem',
-            index_together=set([('object_id', 'content_type')]),
+            index_together=set([('content_type', 'object_id')]),
         ),
     ]
