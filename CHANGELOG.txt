@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.15.0 (06.23.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Fix wrong slugs for non-latin chars
+  * Only works if optional GPL dependency (unidecode) is installed
+	* https://github.com/alex/django-taggit/pull/315
+	* https://github.com/alex/django-taggit/pull/273
+
 0.14.0 (04.26.2015)
 ~~~~~~~~~~~~~~~~~~~
  * Prevent extra JOIN when prefetching
