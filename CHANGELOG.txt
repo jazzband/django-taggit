@@ -5,8 +5,8 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~
  * Fix wrong slugs for non-latin chars
   * Only works if optional GPL dependency (unidecode) is installed
-	* https://github.com/alex/django-taggit/pull/315
-	* https://github.com/alex/django-taggit/pull/273
+  * https://github.com/alex/django-taggit/pull/315
+  * https://github.com/alex/django-taggit/pull/273
 
 0.14.0 (04.26.2015)
 ~~~~~~~~~~~~~~~~~~~
