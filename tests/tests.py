@@ -8,6 +8,7 @@ from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.db import connection
 from django.test import TestCase, TransactionTestCase
+from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
@@ -388,6 +389,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             l = list(self.food_model.objects.prefetch_related('tags').all())
             join_clause = 'INNER JOIN "%s"' % self.taggeditem_model._meta.db_table
             self.assertEqual(connection.queries[-1]['sql'].count(join_clause), 1, connection.queries[-2:])
+
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_with_case_insensitive_option(self):
+        spain = self.tag_model.objects.create(name="Spain", slug="spain")
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add('spain')
+        self.assertEqual(list(orange.tags.all()), [spain])
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):

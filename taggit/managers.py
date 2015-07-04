@@ -4,6 +4,7 @@ from operator import attrgetter
 
 from django import VERSION
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 from django.db import models, router
 from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
@@ -158,14 +159,30 @@ class _TaggableManager(models.Manager):
                 raise ValueError("Cannot add {0} ({1}). Expected {2} or str.".format(
                     t, type(t), type(self.through.tag_model())))
 
-        # If str_tags has 0 elements Django actually optimizes that to not do a
-        # query.  Malcolm is very smart.
-        existing = self.through.tag_model().objects.filter(
-            name__in=str_tags
-        )
+        if getattr(settings, 'TAGGIT_CASE_INSENSITIVE', False):
+            # Some databases can do case-insensitive comparison with IN, which
+            # would be faster, but we can't rely on it or easily detect it.
+            existing = []
+            tags_to_create = []
+
+            for name in str_tags:
+                try:
+                    tag = self.through.tag_model().objects.get(name__iexact=name)
+                    existing.append(tag)
+                except self.through.tag_model().DoesNotExist:
+                    tags_to_create.append(name)
+        else:
+            # If str_tags has 0 elements Django actually optimizes that to not do a
+            # query.  Malcolm is very smart.
+            existing = self.through.tag_model().objects.filter(
+                name__in=str_tags
+            )
+
+            tags_to_create = str_tags - set(t.name for t in existing)
+
         tag_objs.update(existing)
 
-        for new_tag in str_tags - set(t.name for t in existing):
+        for new_tag in tags_to_create:
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
         for tag in tag_objs:
