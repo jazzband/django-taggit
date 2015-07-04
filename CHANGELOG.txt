@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.16.0 (07.04.2015)
+~~~~~~~~~~~~~~~~~~~
+ * Add option to allow case-insensitive tags
+  * https://github.com/alex/django-taggit/pull/325
+
 0.15.0 (06.23.2015)
 ~~~~~~~~~~~~~~~~~~~
  * Fix wrong slugs for non-latin chars
