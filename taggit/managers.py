@@ -494,7 +494,7 @@ class TaggableManager(RelatedField, Field):
         if reverse_join:
             return ((self.model._meta.pk.column, "object_id"),)
         else:
-            return ((self.model._meta.pk.column, "id"),)
+            return (("object_id", self.model._meta.pk.column),)
 
     def get_extra_restriction(self, where_class, alias, related_alias):
         extra_col = _get_field(self.through, 'content_type').column
