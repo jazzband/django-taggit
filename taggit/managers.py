@@ -76,6 +76,8 @@ class ExtraJoinRestriction(object):
     """
     An extra restriction used for contenttype restriction in joins.
     """
+    contains_aggregate = False
+
     def __init__(self, alias, col, content_types):
         self.alias = alias
         self.col = col
