@@ -6,7 +6,9 @@ import django
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.db import connection
 from django.test import TestCase, TransactionTestCase
+from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
@@ -336,7 +338,14 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertTrue(hasattr(field, 'rel'))
         self.assertTrue(hasattr(field.rel, 'to'))
         self.assertTrue(hasattr(field, 'related'))
-        self.assertEqual(self.food_model, field.related.model)
+
+        # This API has changed in Django 1.8
+        # https://code.djangoproject.com/ticket/21414
+        if django.VERSION >= (1, 8):
+            self.assertEqual(self.food_model, field.model)
+            self.assertEqual(self.tag_model, field.related.model)
+        else:
+            self.assertEqual(self.food_model, field.related.model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
@@ -372,6 +381,22 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertEqual(
             TaggableManager().get_internal_type(), 'ManyToManyField'
         )
+
+    def test_prefetch_no_extra_join(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('1', '2')
+        with self.assertNumQueries(2):
+            l = list(self.food_model.objects.prefetch_related('tags').all())
+            join_clause = 'INNER JOIN "%s"' % self.taggeditem_model._meta.db_table
+            self.assertEqual(connection.queries[-1]['sql'].count(join_clause), 1, connection.queries[-2:])
+
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_with_case_insensitive_option(self):
+        spain = self.tag_model.objects.create(name="Spain", slug="spain")
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add('spain')
+        self.assertEqual(list(orange.tags.all()), [spain])
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood

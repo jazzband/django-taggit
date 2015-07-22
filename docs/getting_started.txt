@@ -30,3 +30,10 @@ And then to any model you want tagging on do the following::
         # ... fields here
 
         tags = TaggableManager()
+
+.. note::
+
+    If you want ``django-taggit`` to be **CASE INSENSITIVE** when looking up existing tags, you'll have to set to ``True`` the TAGGIT_CASE_INSENSITIVE setting (by default ``False``)::
+
+      TAGGIT_CASE_INSENSITIVE = True
+
