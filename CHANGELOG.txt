@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.16.3 (2015-08-08)
+~~~~~~~~~~~~~~~~~~~
+ * Prevent IntegrityError with custom TagBase classes
+  * https://github.com/alex/django-taggit/pull/334
+
 0.16.2 (2015-07-13)
 ~~~~~~~~~~~~~~~~~~~
  * Fix an admin bug related to the `Manager` property `through_fields`
