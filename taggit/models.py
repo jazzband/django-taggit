@@ -96,6 +96,7 @@ class Tag(TagBase):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
+        app_label = 'taggit'
 
 
 @python_2_unicode_compatible
@@ -201,3 +202,4 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
+        app_label = 'taggit'
