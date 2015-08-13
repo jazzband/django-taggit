@@ -69,7 +69,7 @@ class TagBase(models.Model):
                 pass
             # Now try to find existing slugs with similar names
             slugs = set(
-                self._default_manager
+                self.__class__._default_manager
                 .filter(slug__startswith=self.slug)
                 .values_list('slug', flat=True)
             )
