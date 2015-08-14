@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import django
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
@@ -201,3 +202,7 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
+        if django.VERSION >= (1, 5):
+            index_together = [
+                ["content_type", "object_id"],
+            ]

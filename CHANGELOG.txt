@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.0 (2015-08-14)
+~~~~~~~~~~~~~~~~~~~
+ * Database index added on TaggedItem fields content_type & object_id
+  * https://github.com/alex/django-taggit/pull/319
+
 0.16.4 (2015-08-13)
 ~~~~~~~~~~~~~~~~~~~
  * Access default manager via class instead of instance
