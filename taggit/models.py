@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import django
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
@@ -37,6 +38,22 @@ except AttributeError:
             raise
         else:
             transaction.savepoint_commit(sid, using=using)
+
+# Default tag states
+default_states = (
+    (0, _('Published')), (1, _('Hidden')),
+)
+
+
+def get_states():
+    """
+    Defining of tag states
+    """
+    if hasattr(settings, 'TAG_STATES'):
+        states = settings.TAG_STATES
+    else:
+        states = default_states
+    return states
 
 
 @python_2_unicode_compatible
@@ -94,6 +111,8 @@ class TagBase(models.Model):
 
 
 class Tag(TagBase):
+    state = models.PositiveSmallIntegerField(default=0, choices=get_states(), )
+
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
