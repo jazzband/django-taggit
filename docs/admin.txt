@@ -11,4 +11,4 @@ like::
 
 This is for the same reason that you cannot include a :class:`ManyToManyField`,
 it would result in an unreasonable number of queries being executed.  If you really would like to add it, you can read the
-`Django documentation <http://docs.djangoproject.com/en/1.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display>`_.
+`Django documentation <http://docs.djangoproject.com/en/1.8/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display>`_.
