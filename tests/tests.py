@@ -6,7 +6,7 @@ import django
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
-from django.db import connection
+from django.db import connection, models
 from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
@@ -432,6 +432,15 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         pear.tags.add("delicious")
 
         self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
+
+    def test_get_tags_with_count(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green", "delicious")
+        pear = self.food_model.objects.create(name="pear")
+        pear.tags.add("green", "delicious")
+
+        tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id],name='green').annotate(models.Count('name'))
+        self.assertEqual(tag_info[0].name__count, 2)
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""
