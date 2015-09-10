@@ -484,7 +484,6 @@ class TaggableManager(RelatedField, Field):
         pathinfos = []
         from_field = self.model._meta.pk
         opts = self.through._meta
-        linkfield = self.through._meta.get_field_by_name(self.m2m_reverse_field_name())[0]
         linkfield = _get_field(self.through, self.m2m_reverse_field_name())
         if direct:
             join1infos = [PathInfo(self.model._meta, opts, [from_field], self.rel, True, False)]
