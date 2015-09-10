@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.1 (2015-09-10)
+~~~~~~~~~~~~~~~~~~~
+ * Fix unknown column `object_id` issue with Django 1.6+
+  * https://github.com/alex/django-taggit/pull/305
+
 0.17.0 (2015-08-14)
 ~~~~~~~~~~~~~~~~~~~
  * Database index added on TaggedItem fields content_type & object_id
