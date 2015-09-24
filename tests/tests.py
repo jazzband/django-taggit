@@ -20,7 +20,13 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
                      TaggedPet)
 
-from taggit.managers import _model_name, _TaggableManager, TaggableManager
+from taggit.managers import (
+    _model_name,
+    _TaggableManager,
+    TaggableManager,
+    taggablerel_model_attr
+)
+
 from taggit.models import Tag, TaggedItem
 
 from taggit.utils import edit_string_for_tags, parse_tags
@@ -336,7 +342,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
         self.assertTrue(hasattr(field, 'rel'))
-        self.assertTrue(hasattr(field.rel, 'to'))
+        self.assertTrue(hasattr(field.rel, taggablerel_model_attr))
         self.assertTrue(hasattr(field, 'related'))
 
         # This API has changed in Django 1.8

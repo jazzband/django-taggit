@@ -21,6 +21,16 @@ if VERSION < (1, 8):
 else:
     RelatedObject = None
 
+if VERSION < (1, 9):
+    # ForeignObjectRel.to is a property in Django 1.9 and removed in 2.0.
+    # It is replaced by ForeignObjectRel.model.
+
+    # TaggableRel is a subclass of ForeignObjectRel so the appropriate
+    # attribute is needed.
+    taggablerel_model_attr = 'to'
+else:
+    taggablerel_model_attr = 'model'
+
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
@@ -52,7 +62,7 @@ def _model_name(model):
 
 class TaggableRel(ManyToManyRel):
     def __init__(self, field, related_name, through, to=None):
-        self.to = to
+        setattr(self, taggablerel_model_attr, to)
         self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
@@ -339,7 +349,7 @@ class TaggableManager(RelatedField, Field):
         if not cls._meta.abstract:
             if isinstance(self.rel.to, six.string_types):
                 def resolve_related_class(field, model, cls):
-                    field.rel.to = model
+                    setattr(field.rel, taggablerel_model_attr, model)
                 add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
             if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
@@ -370,8 +380,11 @@ class TaggableManager(RelatedField, Field):
         self.use_gfk = (
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
-        if not self.rel.to:
-            self.rel.to = self.through._meta.get_field("tag").rel.to
+        if not getattr(self.rel, taggablerel_model_attr):
+            setattr(
+                self.rel, taggablerel_model_attr,
+                getattr(self.through._meta.get_field("tag").rel, taggablerel_model_attr)
+            )
 
         if RelatedObject is not None:  # Django < 1.8
             self.related = RelatedObject(self.through, cls, self)
