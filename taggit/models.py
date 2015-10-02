@@ -22,6 +22,7 @@ except ImportError:  # django < 1.7
     from django.contrib.contenttypes.generic import GenericForeignKey
 
 
+
 try:
     atomic = transaction.atomic
 except AttributeError:
@@ -37,7 +38,6 @@ except AttributeError:
             raise
         else:
             transaction.savepoint_commit(sid, using=using)
-
 
 @python_2_unicode_compatible
 class TagBase(models.Model):

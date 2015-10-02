@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.db import models, router
 from django.db.models.fields import Field
+from django.dispatch import Signal
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
                                              OneToOneRel, RelatedField)
 
@@ -41,6 +42,8 @@ except ImportError:  # Django < 1.8
         from django.db.models.related import PathInfo
     except ImportError:
         pass  # PathInfo is not used on Django < 1.6
+
+taggit_set = Signal(providing_args=["old_tags", "new_tags"])
 
 
 def _model_name(model):
@@ -147,10 +150,10 @@ class _TaggableManager(models.Manager):
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
 
-    @require_instance_manager
     def add(self, *tags):
         str_tags = set()
         tag_objs = set()
+        self.new_tags = []
         for t in tags:
             if isinstance(t, self.through.tag_model()):
                 tag_objs.add(t)
@@ -187,7 +190,9 @@ class _TaggableManager(models.Manager):
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
         for tag in tag_objs:
-            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            (obj, created) = self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            self.new_tags.append(obj)
+        self.new_tags = set(self.new_tags)
 
     @require_instance_manager
     def names(self):
@@ -201,6 +206,7 @@ class _TaggableManager(models.Manager):
     def set(self, *tags):
         self.clear()
         self.add(*tags)
+        taggit_set.send(sender=self.through, instance=self.instance, old_tags=self.old_tags, new_tags=self.new_tags)
 
     @require_instance_manager
     def remove(self, *tags):
@@ -209,7 +215,9 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def clear(self):
-        self.through.objects.filter(**self._lookup_kwargs()).delete()
+        query = self.through.objects.filter(**self._lookup_kwargs())
+        self.old_tags = set(query)
+        query.delete()
 
     def most_common(self):
         return self.get_queryset().annotate(
