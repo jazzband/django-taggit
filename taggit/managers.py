@@ -52,7 +52,11 @@ def _model_name(model):
 
 class TaggableRel(ManyToManyRel):
     def __init__(self, field, related_name, through, to=None):
-        self.to = to
+        # rel.to renamed to rel.model in Django 1.9
+        if VERSION >= (1, 9):
+            self.model = to
+        else:
+            self.to = to
         self.related_name = related_name
         self.limit_choices_to = {}
         self.symmetrical = True
@@ -72,6 +76,8 @@ class ExtraJoinRestriction(object):
     """
     An extra restriction used for contenttype restriction in joins.
     """
+    contains_aggregate = False
+
     def __init__(self, alias, col, content_types):
         self.alias = alias
         self.col = col
@@ -232,7 +238,8 @@ class _TaggableManager(models.Manager):
             # Can we do this without a second query by using a select_related()
             # somehow?
             f = _get_field(self.through, lookup_keys[0])
-            objs = f.rel.to._default_manager.filter(**{
+            rel_model = f.rel.model if VERSION >= (1, 9) else f.rel.to
+            objs = rel_model._default_manager.filter(**{
                 "%s__in" % f.rel.field_name: [r["content_object"] for r in qs]
             })
             for obj in objs:
@@ -321,10 +328,19 @@ class TaggableManager(RelatedField, Field):
             kwargs['through'] = self.rel.through
         elif not self.rel.through._meta.auto_created:
             kwargs['through'] = "%s.%s" % (self.rel.through._meta.app_label, self.rel.through._meta.object_name)
-        if isinstance(self.rel.to, six.string_types):
-            kwargs['to'] = self.rel.to
+
+        # rel.to renamed to remote_field.model in Django 1.9
+        if VERSION >= (1, 9):
+            if isinstance(self.remote_field.model, six.string_types):
+                kwargs['to'] = self.remote_field.model
+            else:
+                kwargs['to'] = '%s.%s' % (self.remote_field.model._meta.app_label, self.remote_field.model._meta.object_name)
         else:
-            kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
+            if isinstance(self.rel.to, six.string_types):
+                kwargs['to'] = self.rel.to
+            else:
+                kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
+
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
@@ -337,10 +353,18 @@ class TaggableManager(RelatedField, Field):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
-            if isinstance(self.rel.to, six.string_types):
-                def resolve_related_class(field, model, cls):
-                    field.rel.to = model
-                add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
+            # rel.to renamed to remote_field.model in Django 1.9
+            if VERSION >= (1, 9):
+                if isinstance(self.remote_field.model, six.string_types):
+                    def resolve_related_class(field, model, cls):
+                        field.remote_field.model = model
+                    add_lazy_relation(cls, self, self.remote_field.model, resolve_related_class)
+            else:
+                if isinstance(self.rel.to, six.string_types):
+                    def resolve_related_class(field, model, cls):
+                        field.rel.to = model
+                    add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
+
             if isinstance(self.through, six.string_types):
                 def resolve_related_class(field, model, cls):
                     self.through = model
@@ -370,8 +394,14 @@ class TaggableManager(RelatedField, Field):
         self.use_gfk = (
             self.through is None or issubclass(self.through, GenericTaggedItemBase)
         )
-        if not self.rel.to:
-            self.rel.to = self.through._meta.get_field("tag").rel.to
+
+        # rel.to renamed to remote_field.model in Django 1.9
+        if VERSION >= (1, 9):
+            if not self.remote_field.model:
+                self.remote_field.model = self.through._meta.get_field("tag").remote_field.model
+        else:
+            if not self.rel.to:
+                self.rel.to = self.through._meta.get_field("tag").rel.to
 
         if RelatedObject is not None:  # Django < 1.8
             self.related = RelatedObject(self.through, cls, self)
@@ -417,7 +447,11 @@ class TaggableManager(RelatedField, Field):
         return self.model._meta.pk.name
 
     def m2m_reverse_target_field_name(self):
-        return self.rel.to._meta.pk.name
+        # rel.to renamed to remote_field.model in Django 1.9
+        if VERSION >= (1, 9):
+            return self.remote_field.model._meta.pk.name
+        else:
+            return self.rel.to._meta.pk.name
 
     def m2m_column_name(self):
         if self.use_gfk:
