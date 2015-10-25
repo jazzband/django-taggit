@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.2 (2015-10-25)
+~~~~~~~~~~~~~~~~~~~
+ * Django 1.9 beta compatibility
+  * https://github.com/alex/django-taggit/pull/352
+
 0.17.1 (2015-09-10)
 ~~~~~~~~~~~~~~~~~~~
  * Fix unknown column `object_id` issue with Django 1.6+
