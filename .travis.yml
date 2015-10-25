@@ -13,7 +13,6 @@ env:
   - TOXENV=py33-1.6.x
   - TOXENV=py33-1.7.x
   - TOXENV=py33-1.8.x
-  - TOXENV=py33-1.9.x
   - TOXENV=py34-1.5.x
   - TOXENV=py34-1.6.x
   - TOXENV=py34-1.7.x
