@@ -132,7 +132,7 @@ class ItemBase(models.Model):
 
 
 class TaggedItemBase(ItemBase):
-    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items")
+    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
@@ -155,6 +155,7 @@ class GenericTaggedItemBase(ItemBase):
     object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
     content_type = models.ForeignKey(
         ContentType,
+        on_delete=models.CASCADE,
         verbose_name=_('Content type'),
         related_name="%(app_label)s_%(class)s_tagged_items"
     )
