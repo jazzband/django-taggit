@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='taggit_taggeditem_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
-                ('tag', models.ForeignKey(related_name='taggit_taggeditem_items', to='taggit.Tag', help_text='')),
+                ('content_type', models.ForeignKey(related_name='taggit_taggeditem_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='taggit_taggeditem_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Tagged Item',
