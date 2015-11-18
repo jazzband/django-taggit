@@ -163,6 +163,9 @@ class GenericTaggedItemBase(ItemBase):
 
     class Meta:
         abstract = True
+        unique_together = (
+            ('object_id', 'content_type', 'tag'),
+        )
 
     @classmethod
     def lookup_kwargs(cls, instance):

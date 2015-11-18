@@ -6,7 +6,7 @@ import django
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
-from django.db import connection, models
+from django.db import connection, models, IntegrityError
 from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
@@ -97,6 +97,7 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
                 r"Cannot add 1 \(<(type|class) 'int'>\). "
                 r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
             apple.tags.add(1)
+
 
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
@@ -397,6 +398,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         orange.tags.add('spain')
         self.assertEqual(list(orange.tags.all()), [spain])
 
+    def test_tag_uniqueness(self):
+        apple = self.food_model.objects.create(name="apple")
+        tag = self.tag_model.objects.create(name='juice', slug='juicy')
+        self.taggeditem_model.objects.create(tag=tag, content_object=apple)
+        with self.assertRaises(IntegrityError):
+            self.taggeditem_model.objects.create(tag=tag, content_object=apple)
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
