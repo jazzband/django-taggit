@@ -11,14 +11,16 @@ from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
-from .forms import CustomPKFoodForm, DirectFoodForm, FoodForm, OfficialFoodForm
+from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
+                    FoodForm, OfficialFoodForm)
 from .models import (Article, Child, CustomManager, CustomPKFood,
-                     CustomPKHousePet, CustomPKPet, DirectFood,
+                     CustomPKHousePet, CustomPKPet, DirectCustomPKFood,
+                     DirectCustomPKHousePet, DirectCustomPKPet, DirectFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet,
                      OfficialTag, OfficialThroughModel, Pet, Photo,
-                     TaggedCustomPKFood, TaggedCustomPKPet, TaggedFood,
-                     TaggedPet)
+                     TaggedCustomPK, TaggedCustomPKFood, TaggedCustomPKPet,
+                     TaggedFood, TaggedPet)
 
 from taggit.managers import _model_name, _TaggableManager, TaggableManager
 from taggit.models import Tag, TaggedItem
@@ -100,6 +102,10 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
 
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
+    tag_model = Tag
+
+class TagModelDirectCustomPKTestCase(TagModelTestCase):
+    food_model = DirectCustomPKFood
     tag_model = Tag
 
 class TagModelCustomPKTestCase(TagModelTestCase):
@@ -404,11 +410,22 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     housepet_model = DirectHousePet
     taggeditem_model = TaggedFood
 
+class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):
+    food_model = DirectCustomPKFood
+    pet_model = DirectCustomPKPet
+    housepet_model = DirectCustomPKHousePet
+    taggeditem_model = TaggedCustomPKFood
+
+    def test_require_pk(self):
+        # TODO with a charfield pk, pk is never None, so taggit has no way to
+        # tell if the instance is saved or not
+        pass
+
 class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     food_model = CustomPKFood
     pet_model = CustomPKPet
     housepet_model = CustomPKHousePet
-    taggeditem_model = TaggedCustomPKFood
+    taggeditem_model = TaggedCustomPK
 
     def test_require_pk(self):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
@@ -506,6 +523,10 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
     food_model = DirectFood
+
+class TaggableFormDirectCustomPKTestCase(TaggableFormTestCase):
+    form_class = DirectCustomPKFoodForm
+    food_model = DirectCustomPKFood
 
 class TaggableFormCustomPKTestCase(TaggableFormTestCase):
     form_class = CustomPKFoodForm

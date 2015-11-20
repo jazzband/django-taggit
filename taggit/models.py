@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import django
+from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
@@ -151,8 +152,7 @@ class TaggedItemBase(ItemBase):
         return cls.tag_model().objects.filter(**kwargs).distinct()
 
 
-class GenericTaggedItemBase(ItemBase):
-    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
+class CommonGenericTaggedItemBase(ItemBase):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
@@ -197,6 +197,22 @@ class GenericTaggedItemBase(ItemBase):
         if extra_filters:
             kwargs.update(extra_filters)
         return cls.tag_model().objects.filter(**kwargs).distinct()
+
+
+class GenericTaggedItemBase(CommonGenericTaggedItemBase):
+    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
+
+    class Meta:
+        abstract = True
+
+
+if VERSION >= (1, 8):
+
+    class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
+        object_id = models.UUIDField(verbose_name=_('Object id'), db_index=True)
+
+        class Meta:
+            abstract = True
 
 
 class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
