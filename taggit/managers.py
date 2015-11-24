@@ -349,6 +349,7 @@ class TaggableManager(RelatedField, Field):
         else:
             self.set_attributes_from_name(name)
         self.model = cls
+        self.opts = cls._meta
 
         cls._meta.add_field(self)
         setattr(cls, name, self)
