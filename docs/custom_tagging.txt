@@ -10,6 +10,22 @@ want to store additional data about a tag, such as whether it is official.  In
 these cases ``django-taggit`` makes it easy to substitute your own through
 model, or ``Tag`` model.
 
+To change the behavior there are a number of classes you can subclass to obtain
+different behavior:
+
+=============================== =======================================================================
+Class name                      Behavior
+=============================== =======================================================================
+``TaggedItemBase``              Allows custom ``ForeignKeys`` to models.
+``GenericTaggedItemBase``       Allows custom ``Tag`` models. Tagged models use an integer primary key.
+``GenericUUIDTaggedItemBase``   Allows custom ``Tag`` models. Tagged models use a UUID primary key.
+``CommonGenericTaggedItemBase`` Allows custom ``Tag`` models and ``GenericForeignKeys`` to models.
+``ItemBase``                    Allows custom ``Tag`` models and ``ForeignKeys`` to models.
+=============================== =======================================================================
+
+Custom ForeignKeys
+~~~~~~~~~~~~~~~~~~
+
 Your intermediary model must be a subclass of
 ``taggit.models.TaggedItemBase`` with a foreign key to your content
 model named ``content_object``. Pass this intermediary model as the
@@ -32,16 +48,66 @@ model named ``content_object``. Pass this intermediary model as the
 
 Once this is done, the API works the same as for GFK-tagged models.
 
-To change the behavior in other ways there are a number of other classes you
-can subclass to obtain different behavior:
+Custom GenericForeignKeys
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-========================= ===========================================================
-Class name                Behavior
-========================= ===========================================================
-``TaggedItemBase``        Allows custom ``ForeignKeys`` to models.
-``GenericTaggedItemBase`` Allows custom ``Tag`` models.
-``ItemBase``              Allows custom ``Tag`` models and ``ForeignKeys`` to models.
-========================= ===========================================================
+The default ``GenericForeignKey`` used by ``django-taggit`` assume your
+tagged object use an integer primary key. For non-integer primary key,
+your intermediary model must be a subclass of ``taggit.models.CommonGenericTaggedItemBase``
+with a field named ``"object_id"`` of the type of your primary key.
+
+For example, if your primary key is a string::
+
+    from django.db import models
+
+    from taggit.managers import TaggableManager
+    from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
+
+    class GenericStringTaggedItem(CommonGenericTaggedItemBase, TaggedItemBase):
+        object_id = models.CharField(max_length=50, verbose_name=_('Object id'), db_index=True)
+
+    class Food(models.Model):
+        food_id = models.CharField(primary_key=True)
+        # ... fields here
+
+        tags = TaggableManager(through=GenericStringTaggedItem)
+
+GenericUUIDTaggedItemBase
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    ``GenericUUIDTaggedItemBase`` relies on Django UUIDField introduced with
+    Django 1.8. Therefore ``GenericUUIDTaggedItemBase`` is only defined
+    if you are using Django 1.8+.
+
+A common use case of a non-integer primary key, is UUID primary key.
+``django-taggit`` provides a base class ``GenericUUIDTaggedItemBase`` ready
+to use with models using an UUID primary key::
+
+    from django.db import models
+    from django.utils.translation import ugettext_lazy as _
+
+    from taggit.managers import TaggableManager
+    from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+
+    class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+        # If you only inherit GenericUUIDTaggedItemBase, you need to define
+        # a tag field. e.g.
+        # tag = models.ForeignKey(Tag, related_name="uuid_tagged_items", on_delete=models.CASCADE)
+
+        class Meta:
+            verbose_name = _("Tag")
+            verbose_name_plural = _("Tags")
+
+    class Food(models.Model):
+        id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+        # ... fields here
+
+        tags = TaggableManager(through=UUIDTaggedItem)
+
+Custom tag
+~~~~~~~~~~
 
 When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag
 model named ``"tag"``:

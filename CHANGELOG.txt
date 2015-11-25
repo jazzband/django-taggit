@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.4 (2015-11-25)
+~~~~~~~~~~~~~~~~~~~
+ * Allows custom Through Model with GenericForeignKey
+  * https://github.com/alex/django-taggit/pull/359
+
 0.17.3 (2015-10-26)
 ~~~~~~~~~~~~~~~~~~~
  * Silence Django 1.9 warning about on_delete
