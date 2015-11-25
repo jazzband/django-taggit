@@ -4,8 +4,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
-from taggit.models import (GenericTaggedItemBase, Tag, TagBase, TaggedItem,
-                           TaggedItemBase)
+from taggit.models import (CommonGenericTaggedItemBase, GenericTaggedItemBase,
+                           Tag, TagBase, TaggedItem, TaggedItemBase)
 
 
 # Ensure that two TaggableManagers with custom through model are allowed.
@@ -90,13 +90,13 @@ class DirectHousePet(DirectPet):
 # Test custom through model to model with custom PK
 
 class TaggedCustomPKFood(TaggedItemBase):
-    content_object = models.ForeignKey('CustomPKFood')
+    content_object = models.ForeignKey('DirectCustomPKFood')
 
 class TaggedCustomPKPet(TaggedItemBase):
-    content_object = models.ForeignKey('CustomPKPet')
+    content_object = models.ForeignKey('DirectCustomPKPet')
 
 @python_2_unicode_compatible
-class CustomPKFood(models.Model):
+class DirectCustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKFood)
@@ -105,10 +105,36 @@ class CustomPKFood(models.Model):
         return self.name
 
 @python_2_unicode_compatible
-class CustomPKPet(models.Model):
+class DirectCustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
     tags = TaggableManager(through=TaggedCustomPKPet)
+
+    def __str__(self):
+        return self.name
+
+class DirectCustomPKHousePet(DirectCustomPKPet):
+    trained = models.BooleanField(default=False)
+
+# Test custom through model to model with custom PK using GenericForeignKey
+
+class TaggedCustomPK(CommonGenericTaggedItemBase, TaggedItemBase):
+    object_id = models.CharField(max_length=50, verbose_name='Object id', db_index=True)
+
+@python_2_unicode_compatible
+class CustomPKFood(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomPK)
+
+    def __str__(self):
+        return self.name
+
+@python_2_unicode_compatible
+class CustomPKPet(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
+    tags = TaggableManager(through=TaggedCustomPK)
 
     def __str__(self):
         return self.name
