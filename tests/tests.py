@@ -663,4 +663,7 @@ class InheritedPrefetchTests(TestCase):
 class DjangoCheckTests(UnitTestCase):
 
     def test_django_checks(self):
-        call_command('check' if django.VERSION >= (1, 6) else 'validate')
+        if django.VERSION >= (1, 6):
+            call_command('check', tag=['models'])
+        else:
+                    call_command('validate')
