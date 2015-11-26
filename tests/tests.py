@@ -6,6 +6,7 @@ import django
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.management import call_command
 from django.db import connection, models
 from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
@@ -657,3 +658,12 @@ class InheritedPrefetchTests(TestCase):
         self.assertEquals(4, prefetch_tags.count())
         self.assertEquals(set([t.name for t in no_prefetch_tags]),
                           set([t.name for t in prefetch_tags]))
+
+
+class DjangoCheckTests(UnitTestCase):
+
+    def test_django_checks(self):
+        if django.VERSION >= (1, 6):
+            call_command('check', tag=['models'])
+        else:
+                    call_command('validate')
