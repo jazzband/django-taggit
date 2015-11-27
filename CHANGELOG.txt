@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.5 (2015-11-27)
+~~~~~~~~~~~~~~~~~~~
+ * Django 1.9 compatibility fix
+  * https://github.com/alex/django-taggit/pull/364
+
 0.17.4 (2015-11-25)
 ~~~~~~~~~~~~~~~~~~~
  * Allows custom Through Model with GenericForeignKey
