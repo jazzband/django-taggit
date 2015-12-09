@@ -113,11 +113,13 @@ class ItemBase(models.Model):
 
     @classmethod
     def tag_model(cls):
-        return _get_field(cls, 'tag').rel.to
+        field = _get_field(cls, 'tag')
+        return field.remote_field.model if VERSION >= (1, 9) else field.rel.to
 
     @classmethod
     def tag_relname(cls):
-        return _get_field(cls, 'tag').rel.related_name
+        field = _get_field(cls, 'tag')
+        return field.remote_field.related_name if VERSION >= (1, 9) else field.rel.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
