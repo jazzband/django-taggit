@@ -20,8 +20,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet,
                      OfficialTag, OfficialThroughModel, Pet, Photo,
-                     TaggedCustomPK, TaggedCustomPKFood, TaggedCustomPKPet,
-                     TaggedFood, TaggedPet)
+                     TaggedCustomPK, TaggedCustomPKFood, TaggedFood)
 
 from taggit.managers import _model_name, _TaggableManager, TaggableManager
 from taggit.models import Tag, TaggedItem
@@ -393,7 +392,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add('1', '2')
         with self.assertNumQueries(2):
-            l = list(self.food_model.objects.prefetch_related('tags').all())
+            list(self.food_model.objects.prefetch_related('tags').all())
             join_clause = 'INNER JOIN "%s"' % self.taggeditem_model._meta.db_table
             self.assertEqual(connection.queries[-1]['sql'].count(join_clause), 1, connection.queries[-2:])
 
@@ -457,7 +456,7 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green", "delicious")
 
-        tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id],name='green').annotate(models.Count('name'))
+        tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id], name='green').annotate(models.Count('name'))
         self.assertEqual(tag_info[0].name__count, 2)
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
