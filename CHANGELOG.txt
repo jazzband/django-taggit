@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.17.6 (2015-12-09)
+~~~~~~~~~~~~~~~~~~~
+ * Silence Django 1.9 warning
+  * https://github.com/alex/django-taggit/pull/366
+
 0.17.5 (2015-11-27)
 ~~~~~~~~~~~~~~~~~~~
  * Django 1.9 compatibility fix
