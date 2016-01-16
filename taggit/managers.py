@@ -282,7 +282,8 @@ class TaggableManager(RelatedField, Field):
 
     def __init__(self, verbose_name=_("Tags"),
                  help_text=_("A comma-separated list of tags."),
-                 through=None, blank=False, related_name=None, to=None,
+                 through=None, blank=True, related_name=None, to=None,
+
                  manager=_TaggableManager):
 
         self.through = through or TaggedItem
