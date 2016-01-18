@@ -9,6 +9,13 @@ from django.db import models, router
 from django.db.models.fields import Field
 from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
                                              OneToOneRel, RelatedField)
+from django.utils import six
+from django.utils.text import capfirst
+from django.utils.translation import ugettext_lazy as _
+
+from taggit.forms import TagField
+from taggit.models import CommonGenericTaggedItemBase, TaggedItem
+from taggit.utils import _get_field, require_instance_manager
 
 if VERSION < (1, 8):
     # related.py was removed in Django 1.8
@@ -20,14 +27,6 @@ if VERSION < (1, 8):
     from django.db.models.related import RelatedObject
 else:
     RelatedObject = None
-
-from django.utils import six
-from django.utils.text import capfirst
-from django.utils.translation import ugettext_lazy as _
-
-from taggit.forms import TagField
-from taggit.models import CommonGenericTaggedItemBase, TaggedItem
-from taggit.utils import _get_field, require_instance_manager
 
 try:
     from django.contrib.contenttypes.fields import GenericRelation
