@@ -14,7 +14,8 @@ from taggit.utils import _get_field
 try:
     from unidecode import unidecode
 except ImportError:
-    unidecode = lambda tag: tag
+    def unidecode(tag):
+        return tag
 
 
 try:

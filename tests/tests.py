@@ -10,6 +10,7 @@ from django.core.management import call_command
 from django.db import connection, models
 from django.test import TestCase, TransactionTestCase
 from django.test.utils import override_settings
+from django.utils import six
 from django.utils.encoding import force_text
 
 from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
@@ -620,6 +621,20 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
+
+    @override_settings(TAGGIT_TAGS_FROM_STRING='tests.custom_parser.comma_splitter')
+    def test_custom_comma_splitter(self):
+        self.assertEqual(parse_tags('   Cued Speech '), ['Cued Speech'])
+        self.assertEqual(parse_tags(' ,Cued Speech, '), ['Cued Speech'])
+        self.assertEqual(parse_tags('Cued Speech'), ['Cued Speech'])
+        self.assertEqual(parse_tags('Cued Speech, dictionary'),
+                         ['Cued Speech', 'dictionary'])
+
+    @override_settings(TAGGIT_STRING_FROM_TAGS='tests.custom_parser.comma_joiner')
+    def test_custom_comma_joiner(self):
+        a = Tag.objects.create(name='Cued Speech')
+        b = Tag.objects.create(name='transliterator')
+        self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
 
 
 @skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
