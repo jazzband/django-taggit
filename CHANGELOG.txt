@@ -1,8 +1,10 @@
 Changelog
 =========
 
-HEAD
-~~~~
+0.18.0 (2016-01-18)
+~~~~~~~~~~~~~~~~~~~
+ * Add option to override default tag string parsing
+  * https://github.com/alex/django-taggit/pull/232
  * Drop support for Python 2.6
   * https://github.com/alex/django-taggit/pull/373
 
