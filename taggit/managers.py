@@ -82,12 +82,16 @@ class ExtraJoinRestriction(object):
         self.col = col
         self.content_types = content_types
 
-    def as_sql(self, qn, connection):
+    def as_sql(self, compiler, connection):
         if len(self.content_types) == 1:
-            extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
+            extra_where = "%s.%s = %%s" % (
+                compiler.quote_name_unless_alias(self.alias),
+                compiler.quote_name_unless_alias(self.col))
         else:
-            extra_where = "%s.%s IN (%s)" % (qn(self.alias), qn(self.col),
-                                             ','.join(['%s'] * len(self.content_types)))
+            extra_where = "%s.%s IN (%s)" % (
+                compiler.quote_name_unless_alias(self.alias),
+                compiler.quote_name_unless_alias(self.col),
+                ','.join(['%s'] * len(self.content_types)))
         return extra_where, self.content_types
 
     def relabel_aliases(self, change_map):

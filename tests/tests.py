@@ -344,15 +344,15 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         field = self.food_model._meta.get_field('tags')
         self.assertTrue(hasattr(field, 'rel'))
         self.assertTrue(hasattr(field.rel, 'to'))
-        self.assertTrue(hasattr(field, 'related'))
+        self.assertTrue(hasattr(field, 'remote_field'))
 
         # This API has changed in Django 1.8
         # https://code.djangoproject.com/ticket/21414
         if django.VERSION >= (1, 8):
             self.assertEqual(self.food_model, field.model)
-            self.assertEqual(self.tag_model, field.related.model)
+            self.assertEqual(self.tag_model, field.remote_field.model)
         else:
-            self.assertEqual(self.food_model, field.related.model)
+            self.assertEqual(self.food_model, field.remote_field.model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
