@@ -1,21 +1,41 @@
 language: python
 sudo: false
-env:
-  - TOXENV=py27-1.4.x
-  - TOXENV=py27-1.5.x
-  - TOXENV=py27-1.6.x
-  - TOXENV=py27-1.7.x
-  - TOXENV=py27-1.8.x
-  - TOXENV=py27-1.9.x
-  - TOXENV=py33-1.5.x
-  - TOXENV=py33-1.6.x
-  - TOXENV=py33-1.7.x
-  - TOXENV=py33-1.8.x
-  - TOXENV=py34-1.5.x
-  - TOXENV=py34-1.6.x
-  - TOXENV=py34-1.7.x
-  - TOXENV=py34-1.8.x
-  - TOXENV=py34-1.9.x
+matrix:
+  include:
+    - env: TOXENV=py27-1.4.x
+      python: 2.7
+    - env: TOXENV=py27-1.5.x
+      python: 2.7
+    - env: TOXENV=py27-1.6.x
+      python: 2.7
+    - env: TOXENV=py27-1.7.x
+      python: 2.7
+    - env: TOXENV=py27-1.8.x
+      python: 2.7
+    - env: TOXENV=py27-1.9.x
+      python: 2.7
+    - env: TOXENV=py33-1.5.x
+      python: 3.3
+    - env: TOXENV=py33-1.6.x
+      python: 3.3
+    - env: TOXENV=py33-1.7.x
+      python: 3.3
+    - env: TOXENV=py33-1.8.x
+      python: 3.3
+    - env: TOXENV=py34-1.5.x
+      python: 3.4
+    - env: TOXENV=py34-1.6.x
+      python: 3.4
+    - env: TOXENV=py34-1.7.x
+      python: 3.4
+    - env: TOXENV=py34-1.8.x
+      python: 3.4
+    - env: TOXENV=py34-1.9.x
+      python: 3.4
+    - env: TOXENV=py35-1.8.x
+      python: 3.5
+    - env: TOXENV=py35-1.9.x
+      python: 3.5
 install:
   - pip install flake8 tox
 before_script:
