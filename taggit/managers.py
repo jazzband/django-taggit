@@ -89,6 +89,10 @@ class ExtraJoinRestriction(object):
         self.content_types = content_types
 
     def as_sql(self, qn, connection):
+        # qn changed from a quoting function to be a compiler object in 1.8,
+        # which has a quote function
+        if VERSION >= (1, 8):
+            qn = qn.quote_name_unless_alias
         if len(self.content_types) == 1:
             extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
         else:
