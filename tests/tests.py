@@ -705,4 +705,4 @@ class DjangoCheckTests(UnitTestCase):
         if django.VERSION >= (1, 6):
             call_command('check', tag=['models'])
         else:
-                    call_command('validate')
+            call_command('validate')
