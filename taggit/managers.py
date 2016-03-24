@@ -3,12 +3,11 @@ from __future__ import unicode_literals
 from operator import attrgetter
 
 from django import VERSION
-from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models.fields import Field
-from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
-                                             OneToOneRel, RelatedField)
+from django.db.models.fields.related import ManyToManyRel, OneToOneRel, RelatedField
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
@@ -27,6 +26,13 @@ if VERSION < (1, 8):
     from django.db.models.related import RelatedObject
 else:
     RelatedObject = None
+
+
+if VERSION >= (1, 9):
+    from django.db.models.fields.related import lazy_related_operation
+else:
+    from django.db.models.fields.related import add_lazy_relation
+
 
 try:
     from django.contrib.contenttypes.fields import GenericRelation
@@ -356,9 +362,11 @@ class TaggableManager(RelatedField, Field):
             # rel.to renamed to remote_field.model in Django 1.9
             if VERSION >= (1, 9):
                 if isinstance(self.remote_field.model, six.string_types):
-                    def resolve_related_class(field, model, cls):
+                    def resolve_related_class(cls, model, field):
                         field.remote_field.model = model
-                    add_lazy_relation(cls, self, self.remote_field.model, resolve_related_class)
+                    lazy_related_operation(
+                        resolve_related_class, cls, self.remote_field.model, field=self
+                    )
             else:
                 if isinstance(self.rel.to, six.string_types):
                     def resolve_related_class(field, model, cls):
@@ -366,13 +374,22 @@ class TaggableManager(RelatedField, Field):
                     add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
 
             if isinstance(self.through, six.string_types):
-                def resolve_related_class(field, model, cls):
-                    self.through = model
-                    self.rel.through = model
-                    self.post_through_setup(cls)
-                add_lazy_relation(
-                    cls, self, self.through, resolve_related_class
-                )
+                if VERSION >= (1, 9):
+                    def resolve_related_class(cls, model, field):
+                        self.through = model
+                        self.remote_field.through = model
+                        self.post_through_setup(cls)
+                    lazy_related_operation(
+                        resolve_related_class, cls, self.through, field=self
+                    )
+                else:
+                    def resolve_related_class(field, model, cls):
+                        self.through = model
+                        _remote_field(self).through = model
+                        self.post_through_setup(cls)
+                    add_lazy_relation(
+                        cls, self, self.through, resolve_related_class
+                    )
             else:
                 self.post_through_setup(cls)
 
