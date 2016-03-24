@@ -44,7 +44,10 @@ except AttributeError:
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True,sl unique=True, max_length=100)
+    if VERSION >= (1, 9):
+        slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True, max_length=100)
+    else:
+        slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
 
     def __str__(self):
         return self.name.encode('utf8')
@@ -89,7 +92,10 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = default_slugify(unidecode(tag), allow_unicode=True)
+        if VERSION >= (1, 9):
+            slug = default_slugify(unidecode(tag), allow_unicode=True)
+        else:
+            slug = default_slugify(unidecode(tag))
         if i is not None:
             slug += "_%d" % i
         return slug
