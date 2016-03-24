@@ -10,11 +10,11 @@ from taggit.models import (CommonGenericTaggedItemBase, GenericTaggedItemBase,
 
 # Ensure that two TaggableManagers with custom through model are allowed.
 class Through1(TaggedItemBase):
-    content_object = models.ForeignKey('MultipleTags')
+    content_object = models.ForeignKey('MultipleTags', on_delete=models.CASCADE)
 
 
 class Through2(TaggedItemBase):
-    content_object = models.ForeignKey('MultipleTags')
+    content_object = models.ForeignKey('MultipleTags', on_delete=models.CASCADE)
 
 
 class MultipleTags(models.Model):
@@ -23,7 +23,7 @@ class MultipleTags(models.Model):
 
 # Ensure that two TaggableManagers with GFK via different through models are allowed.
 class ThroughGFK(GenericTaggedItemBase):
-    tag = models.ForeignKey(Tag, related_name='tagged_items')
+    tag = models.ForeignKey(Tag, related_name='tagged_items', on_delete=models.CASCADE)
 
 class MultipleTagsGFK(models.Model):
     tags1 = TaggableManager(related_name='tagsgfk1')
@@ -56,11 +56,11 @@ class HousePet(Pet):
 # Test direct-tagging with custom through model
 
 class TaggedFood(TaggedItemBase):
-    content_object = models.ForeignKey('DirectFood')
+    content_object = models.ForeignKey('DirectFood', on_delete=models.CASCADE)
 
 
 class TaggedPet(TaggedItemBase):
-    content_object = models.ForeignKey('DirectPet')
+    content_object = models.ForeignKey('DirectPet', on_delete=models.CASCADE)
 
 
 @python_2_unicode_compatible
@@ -90,10 +90,10 @@ class DirectHousePet(DirectPet):
 # Test custom through model to model with custom PK
 
 class TaggedCustomPKFood(TaggedItemBase):
-    content_object = models.ForeignKey('DirectCustomPKFood')
+    content_object = models.ForeignKey('DirectCustomPKFood', on_delete=models.CASCADE)
 
 class TaggedCustomPKPet(TaggedItemBase):
-    content_object = models.ForeignKey('DirectCustomPKPet')
+    content_object = models.ForeignKey('DirectCustomPKPet', on_delete=models.CASCADE)
 
 @python_2_unicode_compatible
 class DirectCustomPKFood(models.Model):
@@ -148,7 +148,7 @@ class OfficialTag(TagBase):
     official = models.BooleanField(default=False)
 
 class OfficialThroughModel(GenericTaggedItemBase):
-    tag = models.ForeignKey(OfficialTag, related_name="tagged_items")
+    tag = models.ForeignKey(OfficialTag, related_name="tagged_items", on_delete=models.CASCADE)
 
 @python_2_unicode_compatible
 class OfficialFood(models.Model):
