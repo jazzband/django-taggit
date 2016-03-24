@@ -49,7 +49,7 @@ except ImportError:  # Django < 1.8
 
 
 def _model_name(model):
-    if VERSION < (1, 7):
+    if VERSION < (1, 6):
         return model._meta.module_name
     else:
         return model._meta.model_name
