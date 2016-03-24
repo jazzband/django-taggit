@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
-from taggit.utils import _get_field, require_instance_manager
+from taggit.utils import _get_field, _related_model, _remote_field, require_instance_manager
 
 if VERSION < (1, 8):
     # related.py was removed in Django 1.8
@@ -247,12 +247,13 @@ class _TaggableManager(models.Manager):
             # Can we do this without a second query by using a select_related()
             # somehow?
             f = _get_field(self.through, lookup_keys[0])
-            rel_model = f.rel.model if VERSION >= (1, 9) else f.rel.to
+            remote_field = _remote_field(f)
+            rel_model = _related_model(_remote_field(f))
             objs = rel_model._default_manager.filter(**{
-                "%s__in" % f.rel.field_name: [r["content_object"] for r in qs]
+                "%s__in" % remote_field.field_name: [r["content_object"] for r in qs]
             })
             for obj in objs:
-                items[(getattr(obj, f.rel.field_name),)] = obj
+                items[(getattr(obj, remote_field.field_name),)] = obj
         else:
             preload = {}
             for result in qs:
@@ -333,22 +334,17 @@ class TaggableManager(RelatedField, Field):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
-        if isinstance(self.rel.through, six.string_types):
-            kwargs['through'] = self.rel.through
-        elif not self.rel.through._meta.auto_created:
-            kwargs['through'] = "%s.%s" % (self.rel.through._meta.app_label, self.rel.through._meta.object_name)
+        rel = _remote_field(self)
+        if isinstance(rel.through, six.string_types):
+            kwargs['through'] = rel.through
+        elif not rel.through._meta.auto_created:
+            kwargs['through'] = "%s.%s" % (rel.through._meta.app_label, rel.through._meta.object_name)
 
-        # rel.to renamed to remote_field.model in Django 1.9
-        if VERSION >= (1, 9):
-            if isinstance(self.remote_field.model, six.string_types):
-                kwargs['to'] = self.remote_field.model
-            else:
-                kwargs['to'] = '%s.%s' % (self.remote_field.model._meta.app_label, self.remote_field.model._meta.object_name)
+        related_model = _related_model(rel)
+        if isinstance(related_model, six.string_types):
+            kwargs['to'] = related_model
         else:
-            if isinstance(self.rel.to, six.string_types):
-                kwargs['to'] = self.rel.to
-            else:
-                kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
+            kwargs['to'] = '%s.%s' % (related_model._meta.app_label, related_model._meta.object_name)
 
         return name, path, args, kwargs
 
@@ -541,7 +537,7 @@ class TaggableManager(RelatedField, Field):
         opts = self.through._meta
         linkfield = _get_field(self.through, self.m2m_reverse_field_name())
         if direct:
-            join1infos = [PathInfo(self.model._meta, opts, [from_field], self.rel, True, False)]
+            join1infos = [PathInfo(self.model._meta, opts, [from_field], _remote_field(self), True, False)]
             join2infos = linkfield.get_path_info()
         else:
             join1infos = linkfield.get_reverse_path_info()
@@ -595,7 +591,7 @@ def _get_subclasses(model):
     for field in all_fields:
         # Django 1.8 +
         if (not RelatedObject and isinstance(field, OneToOneRel) and
-                getattr(field.field.rel, "parent_link", None)):
+                getattr(_remote_field(field.field), "parent_link", None)):
             subclasses.extend(_get_subclasses(field.related_model))
 
         # < Django 1.8

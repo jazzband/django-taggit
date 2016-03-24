@@ -26,7 +26,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
 from taggit.managers import _model_name, _TaggableManager, TaggableManager
 from taggit.models import Tag, TaggedItem
 
-from taggit.utils import edit_string_for_tags, parse_tags
+from taggit.utils import edit_string_for_tags, parse_tags, _remote_field, _related_model
 
 try:
     from unittest import skipIf, skipUnless
@@ -342,15 +342,24 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
     def test_field_api(self):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
-        self.assertTrue(hasattr(field, 'rel'))
-        self.assertTrue(hasattr(field.rel, 'to'))
-        self.assertTrue(hasattr(field, 'related'))
+        if django.VERSION >= (1, 9):
+            self.assertTrue(hasattr(field, 'remote_field'))
+            self.assertTrue(hasattr(field.remote_field, 'model'))
+        elif django.VERSION >= (1, 8):
+            self.assertTrue(hasattr(field, 'rel'))
+            self.assertTrue(hasattr(field.rel, 'to'))
+        else:
+            self.assertTrue(hasattr(field, 'rel'))
+            self.assertTrue(hasattr(field.rel, 'to'))
 
         # This API has changed in Django 1.8
         # https://code.djangoproject.com/ticket/21414
+        if django.VERSION >= (1, 9):
+            self.assertEqual(self.food_model, field.model)
+            self.assertEqual(self.tag_model, _remote_field(field).model)
         if django.VERSION >= (1, 8):
             self.assertEqual(self.food_model, field.model)
-            self.assertEqual(self.tag_model, field.related.model)
+            self.assertEqual(self.tag_model, _remote_field(field).model)
         else:
             self.assertEqual(self.food_model, field.related.model)
 
@@ -643,8 +652,8 @@ class DeconstructTestCase(UnitTestCase):
         instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
         name, path, args, kwargs = instance.deconstruct()
         new_instance = TaggableManager(*args, **kwargs)
-        self.assertEqual('tests.OfficialThroughModel', new_instance.rel.through)
-        self.assertEqual('dummy.To', new_instance.rel.to)
+        self.assertEqual('tests.OfficialThroughModel', _remote_field(new_instance).through)
+        self.assertEqual('dummy.To', _related_model(_remote_field(new_instance)))
 
 
 @skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
