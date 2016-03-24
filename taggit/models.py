@@ -93,8 +93,9 @@ class TagBase(models.Model):
 
     def slugify(self, tag, i=None):
         if VERSION >= (1, 9):
-            slug = default_slugify(unidecode(tag), allow_unicode=True)
+            slug = default_slugify(tag, allow_unicode=True)
         else:
+            # unidecode tries to convert chars to ASCII
             slug = default_slugify(unidecode(tag))
         if i is not None:
             slug += "_%d" % i
