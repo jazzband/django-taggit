@@ -5,7 +5,7 @@ from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
+from django.utils.text import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
@@ -44,10 +44,10 @@ except AttributeError:
 @python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True,sl unique=True, max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.name.encode('utf8')
 
     class Meta:
         abstract = True
@@ -89,7 +89,7 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = default_slugify(unidecode(tag))
+        slug = default_slugify(unidecode(tag), allow_unicode=True)
         if i is not None:
             slug += "_%d" % i
         return slug
