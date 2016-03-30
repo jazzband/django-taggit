@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CustomPKHousePet',
             fields=[
-                ('custompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.CustomPKPet', help_text='')),
+                ('custompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.CustomPKPet', help_text='', on_delete=models.CASCADE)),
                 ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DirectCustomPKHousePet',
             fields=[
-                ('directcustompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectCustomPKPet', help_text='')),
+                ('directcustompkpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectCustomPKPet', help_text='', on_delete=models.CASCADE)),
                 ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
@@ -112,7 +112,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DirectHousePet',
             fields=[
-                ('directpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectPet', help_text='')),
+                ('directpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.DirectPet', help_text='', on_delete=models.CASCADE)),
                 ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
@@ -183,7 +183,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfficialHousePet',
             fields=[
-                ('officialpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.OfficialPet', help_text='')),
+                ('officialpet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.OfficialPet', help_text='', on_delete=models.CASCADE)),
                 ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
@@ -208,8 +208,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='tests_officialthroughmodel_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
-                ('tag', models.ForeignKey(related_name='tagged_items', to='tests.OfficialTag', help_text='')),
+                ('content_type', models.ForeignKey(related_name='tests_officialthroughmodel_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tagged_items', to='tests.OfficialTag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -228,7 +228,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Child',
             fields=[
-                ('parent_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Parent', help_text='')),
+                ('parent_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Parent', help_text='', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -247,7 +247,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HousePet',
             fields=[
-                ('pet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Pet', help_text='')),
+                ('pet_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='tests.Pet', help_text='', on_delete=models.CASCADE)),
                 ('trained', models.BooleanField(default=False, help_text='')),
             ],
             options={
@@ -271,7 +271,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('object_id', models.CharField(help_text='', max_length=50, verbose_name='Object id', db_index=True)),
                 ('content_type', models.ForeignKey(related_name='tests_taggedcustompk_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='', on_delete=models.CASCADE)),
-                ('tag', models.ForeignKey(related_name='tests_taggedcustompk_items', to='taggit.Tag', help_text='')),
+                ('tag', models.ForeignKey(related_name='tests_taggedcustompk_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -282,8 +282,8 @@ class Migration(migrations.Migration):
             name='TaggedCustomPKFood',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.DirectCustomPKFood')),
-                ('tag', models.ForeignKey(related_name='tests_taggedcustompkfood_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectCustomPKFood', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_taggedcustompkfood_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -294,8 +294,8 @@ class Migration(migrations.Migration):
             name='TaggedCustomPKPet',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.DirectCustomPKPet')),
-                ('tag', models.ForeignKey(related_name='tests_taggedcustompkpet_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectCustomPKPet', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_taggedcustompkpet_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -306,8 +306,8 @@ class Migration(migrations.Migration):
             name='TaggedFood',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.DirectFood')),
-                ('tag', models.ForeignKey(related_name='tests_taggedfood_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectFood', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_taggedfood_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -318,8 +318,8 @@ class Migration(migrations.Migration):
             name='TaggedPet',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.DirectPet')),
-                ('tag', models.ForeignKey(related_name='tests_taggedpet_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.DirectPet', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_taggedpet_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -330,8 +330,8 @@ class Migration(migrations.Migration):
             name='Through1',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags')),
-                ('tag', models.ForeignKey(related_name='tests_through1_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_through1_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -342,8 +342,8 @@ class Migration(migrations.Migration):
             name='Through2',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
-                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags')),
-                ('tag', models.ForeignKey(related_name='tests_through2_items', to='taggit.Tag', help_text='')),
+                ('content_object', models.ForeignKey(help_text='', to='tests.MultipleTags', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tests_through2_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -355,8 +355,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, help_text='', verbose_name='ID')),
                 ('object_id', models.IntegerField(help_text='', verbose_name='Object id', db_index=True)),
-                ('content_type', models.ForeignKey(related_name='tests_throughgfk_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='')),
-                ('tag', models.ForeignKey(related_name='tagged_items', to='taggit.Tag', help_text='')),
+                ('content_type', models.ForeignKey(related_name='tests_throughgfk_tagged_items', verbose_name='Content type', to='contenttypes.ContentType', help_text='', on_delete=models.CASCADE)),
+                ('tag', models.ForeignKey(related_name='tagged_items', to='taggit.Tag', help_text='', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,

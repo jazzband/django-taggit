@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import warnings
 
 from django.conf import settings
 from django.core.management import execute_from_command_line
@@ -19,6 +20,10 @@ if not settings.configured:
         ],
         MIDDLEWARE_CLASSES=[],
     )
+
+
+warnings.simplefilter('default', DeprecationWarning)
+warnings.simplefilter('default', PendingDeprecationWarning)
 
 
 def runtests():
