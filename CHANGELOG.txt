@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.18.1 (2016-03-30)
+~~~~~~~~~~~~~~~~~~~
+ * Address deprecation warnings
+  * https://github.com/alex/django-taggit/pull/385
+
 0.18.0 (2016-01-18)
 ~~~~~~~~~~~~~~~~~~~
  * Add option to override default tag string parsing
