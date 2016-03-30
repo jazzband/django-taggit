@@ -16,6 +16,20 @@ def _get_field(model, name):
         return model._meta.get_field(name)
 
 
+def _remote_field(field):
+    if VERSION < (1, 9):
+        return field.rel
+    else:
+        return field.remote_field
+
+
+def _related_model(remote_field):
+    if VERSION >= (1, 9):
+        return remote_field.model
+    else:
+        return remote_field.to
+
+
 def _parse_tags(tagstring):
     """
     Parses tag input, with multiple word input being activated and

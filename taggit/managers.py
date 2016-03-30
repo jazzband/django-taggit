@@ -3,19 +3,18 @@ from __future__ import unicode_literals
 from operator import attrgetter
 
 from django import VERSION
-from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models.fields import Field
-from django.db.models.fields.related import (add_lazy_relation, ManyToManyRel,
-                                             OneToOneRel, RelatedField)
+from django.db.models.fields.related import ManyToManyRel, OneToOneRel, RelatedField
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
-from taggit.utils import _get_field, require_instance_manager
+from taggit.utils import _get_field, _related_model, _remote_field, require_instance_manager
 
 if VERSION < (1, 8):
     # related.py was removed in Django 1.8
@@ -27,6 +26,13 @@ if VERSION < (1, 8):
     from django.db.models.related import RelatedObject
 else:
     RelatedObject = None
+
+
+if VERSION >= (1, 9):
+    from django.db.models.fields.related import lazy_related_operation
+else:
+    from django.db.models.fields.related import add_lazy_relation
+
 
 try:
     from django.contrib.contenttypes.fields import GenericRelation
@@ -43,7 +49,7 @@ except ImportError:  # Django < 1.8
 
 
 def _model_name(model):
-    if VERSION < (1, 7):
+    if VERSION < (1, 6):
         return model._meta.module_name
     else:
         return model._meta.model_name
@@ -83,6 +89,10 @@ class ExtraJoinRestriction(object):
         self.content_types = content_types
 
     def as_sql(self, qn, connection):
+        # qn changed from a quoting function to be a compiler object in 1.8,
+        # which has a quote function
+        if VERSION >= (1, 8):
+            qn = qn.quote_name_unless_alias
         if len(self.content_types) == 1:
             extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
         else:
@@ -237,12 +247,13 @@ class _TaggableManager(models.Manager):
             # Can we do this without a second query by using a select_related()
             # somehow?
             f = _get_field(self.through, lookup_keys[0])
-            rel_model = f.rel.model if VERSION >= (1, 9) else f.rel.to
+            remote_field = _remote_field(f)
+            rel_model = _related_model(_remote_field(f))
             objs = rel_model._default_manager.filter(**{
-                "%s__in" % f.rel.field_name: [r["content_object"] for r in qs]
+                "%s__in" % remote_field.field_name: [r["content_object"] for r in qs]
             })
             for obj in objs:
-                items[(getattr(obj, f.rel.field_name),)] = obj
+                items[(getattr(obj, remote_field.field_name),)] = obj
         else:
             preload = {}
             for result in qs:
@@ -323,22 +334,17 @@ class TaggableManager(RelatedField, Field):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
-        if isinstance(self.rel.through, six.string_types):
-            kwargs['through'] = self.rel.through
-        elif not self.rel.through._meta.auto_created:
-            kwargs['through'] = "%s.%s" % (self.rel.through._meta.app_label, self.rel.through._meta.object_name)
+        rel = _remote_field(self)
+        if isinstance(rel.through, six.string_types):
+            kwargs['through'] = rel.through
+        elif not rel.through._meta.auto_created:
+            kwargs['through'] = "%s.%s" % (rel.through._meta.app_label, rel.through._meta.object_name)
 
-        # rel.to renamed to remote_field.model in Django 1.9
-        if VERSION >= (1, 9):
-            if isinstance(self.remote_field.model, six.string_types):
-                kwargs['to'] = self.remote_field.model
-            else:
-                kwargs['to'] = '%s.%s' % (self.remote_field.model._meta.app_label, self.remote_field.model._meta.object_name)
+        related_model = _related_model(rel)
+        if isinstance(related_model, six.string_types):
+            kwargs['to'] = related_model
         else:
-            if isinstance(self.rel.to, six.string_types):
-                kwargs['to'] = self.rel.to
-            else:
-                kwargs['to'] = '%s.%s' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name)
+            kwargs['to'] = '%s.%s' % (related_model._meta.app_label, related_model._meta.object_name)
 
         return name, path, args, kwargs
 
@@ -356,9 +362,11 @@ class TaggableManager(RelatedField, Field):
             # rel.to renamed to remote_field.model in Django 1.9
             if VERSION >= (1, 9):
                 if isinstance(self.remote_field.model, six.string_types):
-                    def resolve_related_class(field, model, cls):
+                    def resolve_related_class(cls, model, field):
                         field.remote_field.model = model
-                    add_lazy_relation(cls, self, self.remote_field.model, resolve_related_class)
+                    lazy_related_operation(
+                        resolve_related_class, cls, self.remote_field.model, field=self
+                    )
             else:
                 if isinstance(self.rel.to, six.string_types):
                     def resolve_related_class(field, model, cls):
@@ -366,13 +374,22 @@ class TaggableManager(RelatedField, Field):
                     add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
 
             if isinstance(self.through, six.string_types):
-                def resolve_related_class(field, model, cls):
-                    self.through = model
-                    self.rel.through = model
-                    self.post_through_setup(cls)
-                add_lazy_relation(
-                    cls, self, self.through, resolve_related_class
-                )
+                if VERSION >= (1, 9):
+                    def resolve_related_class(cls, model, field):
+                        self.through = model
+                        self.remote_field.through = model
+                        self.post_through_setup(cls)
+                    lazy_related_operation(
+                        resolve_related_class, cls, self.through, field=self
+                    )
+                else:
+                    def resolve_related_class(field, model, cls):
+                        self.through = model
+                        _remote_field(self).through = model
+                        self.post_through_setup(cls)
+                    add_lazy_relation(
+                        cls, self, self.through, resolve_related_class
+                    )
             else:
                 self.post_through_setup(cls)
 
@@ -520,7 +537,7 @@ class TaggableManager(RelatedField, Field):
         opts = self.through._meta
         linkfield = _get_field(self.through, self.m2m_reverse_field_name())
         if direct:
-            join1infos = [PathInfo(self.model._meta, opts, [from_field], self.rel, True, False)]
+            join1infos = [PathInfo(self.model._meta, opts, [from_field], _remote_field(self), True, False)]
             join2infos = linkfield.get_path_info()
         else:
             join1infos = linkfield.get_reverse_path_info()
@@ -574,7 +591,7 @@ def _get_subclasses(model):
     for field in all_fields:
         # Django 1.8 +
         if (not RelatedObject and isinstance(field, OneToOneRel) and
-                getattr(field.field.rel, "parent_link", None)):
+                getattr(_remote_field(field.field), "parent_link", None)):
             subclasses.extend(_get_subclasses(field.related_model))
 
         # < Django 1.8
