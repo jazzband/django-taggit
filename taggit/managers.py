@@ -283,7 +283,7 @@ class _TaggableManager(models.Manager):
 
 class TaggableManager(RelatedField, Field):
     # Field flags
-    many_to_many = True
+    many_to_many = False
     many_to_one = False
     one_to_many = False
     one_to_one = False
