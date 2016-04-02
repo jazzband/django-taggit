@@ -172,7 +172,7 @@ Changelog
 
 0.9.2 (2011-01-17)
 ~~~~~~~~~~~~~~~~~~
-* **Backwards incompatible:**  Forms containing a :class:`TaggableManager` by default now require tags, to change this provide ``blank=True`` to the :class:`TaggableManager`.
+* **Backwards incompatible:**  Forms containing a `TaggableManager` by default now require tags, to change this provide ``blank=True`` to the `TaggableManager`.
 * Now works with Django 1.3 (as of beta-1).
 
 0.9.0 (2010-09-22)
