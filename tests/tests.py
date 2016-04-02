@@ -950,16 +950,6 @@ class DeconstructTestCase(UnitTestCase):
         self.assertEqual('dummy.To', _related_model(_remote_field(new_instance)))
 
 
-@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
-class SouthSupportTests(TestCase):
-    def test_import_migrations_module(self):
-        try:
-            from taggit.migrations import __doc__  # noqa
-        except ImproperlyConfigured as e:
-            exception = e
-        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
-
-
 class InheritedPrefetchTests(TestCase):
 
     def test_inherited_tags_with_prefetch(self):
