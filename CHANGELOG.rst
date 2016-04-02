@@ -1,0 +1,199 @@
+Changelog
+=========
+
+0.19.0 (unreleased)
+~~~~~~~~~~~~~~~~~~~
+* Support for Django 1.4, 1.5, 1.6 has been dropped
+
+  * https://github.com/alex/django-taggit/pull/390
+
+* Support for South database migrations has been dropped
+
+  * https://github.com/alex/django-taggit/pull/387
+
+0.18.1 (2016-03-30)
+~~~~~~~~~~~~~~~~~~~
+* Address deprecation warnings
+
+  * https://github.com/alex/django-taggit/pull/385
+
+0.18.0 (2016-01-18)
+~~~~~~~~~~~~~~~~~~~
+* Add option to override default tag string parsing
+
+  * https://github.com/alex/django-taggit/pull/232
+
+* Drop support for Python 2.6
+
+  * https://github.com/alex/django-taggit/pull/373
+
+0.17.6 (2015-12-09)
+~~~~~~~~~~~~~~~~~~~
+* Silence Django 1.9 warning
+
+  * https://github.com/alex/django-taggit/pull/366
+
+0.17.5 (2015-11-27)
+~~~~~~~~~~~~~~~~~~~
+* Django 1.9 compatibility fix
+
+  * https://github.com/alex/django-taggit/pull/364
+
+0.17.4 (2015-11-25)
+~~~~~~~~~~~~~~~~~~~
+* Allows custom Through Model with GenericForeignKey
+
+  * https://github.com/alex/django-taggit/pull/359
+
+0.17.3 (2015-10-26)
+~~~~~~~~~~~~~~~~~~~
+* Silence Django 1.9 warning about on_delete
+
+  * https://github.com/alex/django-taggit/pull/338
+
+0.17.2 (2015-10-25)
+~~~~~~~~~~~~~~~~~~~
+* Django 1.9 beta compatibility
+
+  * https://github.com/alex/django-taggit/pull/352
+
+0.17.1 (2015-09-10)
+~~~~~~~~~~~~~~~~~~~
+* Fix unknown column `object_id` issue with Django 1.6+
+
+  * https://github.com/alex/django-taggit/pull/305
+
+0.17.0 (2015-08-14)
+~~~~~~~~~~~~~~~~~~~
+* Database index added on TaggedItem fields content_type & object_id
+
+  * https://github.com/alex/django-taggit/pull/319
+
+0.16.4 (2015-08-13)
+~~~~~~~~~~~~~~~~~~~
+* Access default manager via class instead of instance
+
+  * https://github.com/alex/django-taggit/pull/335
+
+0.16.3 (2015-08-08)
+~~~~~~~~~~~~~~~~~~~
+* Prevent IntegrityError with custom TagBase classes
+
+  * https://github.com/alex/django-taggit/pull/334
+
+0.16.2 (2015-07-13)
+~~~~~~~~~~~~~~~~~~~
+* Fix an admin bug related to the `Manager` property `through_fields`
+
+  * https://github.com/alex/django-taggit/pull/328
+
+0.16.1 (2015-07-09)
+~~~~~~~~~~~~~~~~~~~
+* Fix bug that assumed all primary keys are named 'id'
+
+  * https://github.com/alex/django-taggit/pull/322
+
+0.16.0 (2015-07-04)
+~~~~~~~~~~~~~~~~~~~
+* Add option to allow case-insensitive tags
+
+  * https://github.com/alex/django-taggit/pull/325
+
+0.15.0 (2015-06-23)
+~~~~~~~~~~~~~~~~~~~
+* Fix wrong slugs for non-latin chars
+
+  * Only works if optional GPL dependency (unidecode) is installed
+
+  * https://github.com/alex/django-taggit/pull/315
+
+  * https://github.com/alex/django-taggit/pull/273
+
+0.14.0 (2015-04-26)
+~~~~~~~~~~~~~~~~~~~
+* Prevent extra JOIN when prefetching
+
+  * https://github.com/alex/django-taggit/pull/275
+
+* Prevent _meta warnings with Django 1.8
+
+  * https://github.com/alex/django-taggit/pull/299
+
+0.13.0 (2015-04-02)
+~~~~~~~~~~~~~~~~~~~
+* Django 1.8 support
+
+  * https://github.com/alex/django-taggit/pull/297
+
+0.12.3 (2015-03-03)
+~~~~~~~~~~~~~~~~~~~
+* Specify that the internal type of the TaggitManager is a ManyToManyField
+
+0.12.2 (2014-21-09)
+~~~~~~~~~~~~~~~~~~~
+* Fixed 1.7 migrations.
+
+0.12.1 (2014-10-08)
+~~~~~~~~~~~~~~~~~~~
+* Final (hopefully) fixes for the upcoming Django 1.7 release.
+* Added Japanese translation.
+
+0.12.0 (2014-20-04)
+~~~~~~~~~~~~~~~~~~~
+* **Backwards incompatible:** Support for Django 1.7 migrations. South users have to set ``SOUTH_MIGRATION_MODULES`` to use ``taggit.south_migrations`` for taggit.
+
+* **Backwards incompatible:** Django's new transaction handling is used on Django 1.6 and newer.
+
+* **Backwards incompatible:** ``Tag.save`` got changed to opportunistically try to save the tag and if that fails fall back to selecting existing similar tags and retry -- if that fails too an ``IntegrityError`` is raised by the database, your app will have to handle that.
+
+* Added Italian and Esperanto translations.
+
+0.11.2 (2013-13-12)
+~~~~~~~~~~~~~~~~~~~
+* Forbid multiple TaggableManagers via generic foreign keys.
+
+0.11.1 (2013-25-11)
+~~~~~~~~~~~~~~~~~~~
+* Fixed support for Django 1.4 and 1.5.
+
+0.11.0 (2013-25-11)
+~~~~~~~~~~~~~~~~~~~
+* Added support for prefetch_related on tags fields.
+* Fixed support for Django 1.7.
+* Made the tagging relations unserializeable again.
+* Allow more than one TaggableManager on models (assuming concrete FKs are used for the relations).
+
+0.10.0 (2013-17-08)
+~~~~~~~~~~~~~~~~~~~
+* Support for Django 1.6 and 1.7.
+* Python3 support
+* **Backwards incompatible:** Dropped support for Django < 1.4.5.
+* Tag names are unique now, use the provided South migrations to upgrade.
+
+0.9.2 (2011-01-17)
+~~~~~~~~~~~~~~~~~~
+* **Backwards incompatible:**  Forms containing a :class:`TaggableManager` by default now require tags, to change this provide ``blank=True`` to the :class:`TaggableManager`.
+* Now works with Django 1.3 (as of beta-1).
+
+0.9.0 (2010-09-22)
+~~~~~~~~~~~~~~~~~~
+* Added a Hebrew locale.
+* Added an index on the ``object_id`` field of ``TaggedItem``.
+* When displaying tags always join them with commas, never spaces.
+* The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
+* Custom ``Tag`` models are now allowed.
+* **Backwards incompatible:**  Filtering on tags is no longer ``filter(tags__in=["foo"])``, it is written ``filter(tags__name__in=["foo"])``.
+* Added a German locale.
+* Added a Dutch locale.
+* Removed ``taggit.contrib.suggest``, it now lives in an external application, see :doc:`external_apps` for more information.
+
+0.8.0 (2010-06-22)
+~~~~~~~~~~~~~~~~~~
+* Fixed querying for objects using ``exclude(tags__in=tags)``.
+* Marked strings as translatable.
+* Added a Russian translation.
+* Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
+* Smarter tagstring parsing for form field; ported from Jonathan Buchanan's `django-tagging <http://django-tagging.googlecode.com>`_. Now supports tags containing commas. See :ref:`tags-in-forms` for details.
+* Switched to using savepoints around the slug generation for tags.  This ensures that it works fine on databases (such as Postgres) which dirty a transaction with an ``IntegrityError``.
+* Added Python 2.4 compatibility.
+* Added Django 1.1 compatibility.
