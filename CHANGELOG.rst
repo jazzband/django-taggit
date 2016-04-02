@@ -140,17 +140,11 @@ Changelog
 
 0.12.0 (2014-20-04)
 ~~~~~~~~~~~~~~~~~~~
-* **Backwards incompatible:** Support for Django 1.7 migrations. South users
-   have to set ``SOUTH_MIGRATION_MODULES`` to use ``taggit.south_migrations``
-   for taggit.
+* **Backwards incompatible:** Support for Django 1.7 migrations. South users have to set ``SOUTH_MIGRATION_MODULES`` to use ``taggit.south_migrations`` for taggit.
 
-* **Backwards incompatible:** Django's new transaction handling is used on
-   Django 1.6 and newer.
+* **Backwards incompatible:** Django's new transaction handling is used on Django 1.6 and newer.
 
-* **Backwards incompatible:** ``Tag.save`` got changed to opportunistically
-   try to save the tag and if that fails fall back to selecting existing
-   similar tags and retry -- if that fails too an ``IntegrityError`` is
-   raised by the database, your app will have to handle that.
+* **Backwards incompatible:** ``Tag.save`` got changed to opportunistically try to save the tag and if that fails fall back to selecting existing similar tags and retry -- if that fails too an ``IntegrityError`` is raised by the database, your app will have to handle that.
 
 * Added Italian and Esperanto translations.
 
