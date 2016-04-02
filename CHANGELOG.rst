@@ -29,7 +29,8 @@ Changelog
 
 0.17.6 (2015-12-09)
 ~~~~~~~~~~~~~~~~~~~
- * Silence Django 1.9 warning
+* Silence Django 1.9 warning
+
   * https://github.com/alex/django-taggit/pull/366
 
 0.17.5 (2015-11-27)
@@ -120,21 +121,22 @@ Changelog
 
 0.13.0 (2015-04-02)
 ~~~~~~~~~~~~~~~~~~~
- * Django 1.8 support
+* Django 1.8 support
+
   * https://github.com/alex/django-taggit/pull/297
 
 0.12.3 (2015-03-03)
 ~~~~~~~~~~~~~~~~~~~
- * Specify that the internal type of the TaggitManager is a ManyToManyField
+* Specify that the internal type of the TaggitManager is a ManyToManyField
 
 0.12.2 (2014-21-09)
 ~~~~~~~~~~~~~~~~~~~
- * Fixed 1.7 migrations.
+* Fixed 1.7 migrations.
 
 0.12.1 (2014-10-08)
 ~~~~~~~~~~~~~~~~~~~
- * Final (hopefully) fixes for the upcoming Django 1.7 release.
- * Added Japanese translation.
+* Final (hopefully) fixes for the upcoming Django 1.7 release.
+* Added Japanese translation.
 
 0.12.0 (2014-20-04)
 ~~~~~~~~~~~~~~~~~~~
