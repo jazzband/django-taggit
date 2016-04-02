@@ -4,12 +4,9 @@ Changelog
 0.19.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~~
 * Support for Django 1.4, 1.5, 1.6 has been dropped
-
- * https://github.com/alex/django-taggit/pull/390
-
+  * https://github.com/alex/django-taggit/pull/390
 * Support for South database migrations has been dropped
-
- * https://github.com/alex/django-taggit/pull/387
+  * https://github.com/alex/django-taggit/pull/387
 
 0.18.1 (2016-03-30)
 ~~~~~~~~~~~~~~~~~~~
