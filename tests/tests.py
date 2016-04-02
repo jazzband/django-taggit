@@ -44,7 +44,9 @@ class BaseTaggingTest(object):
         self.assertEqual(got, tags)
 
     def _get_form_str(self, form_str):
-        form_str %= {"help_start": "", "help_stop": ""}
+        form_str %= {
+            "help_start": '<span class="helptext">',
+            "help_stop": "</span>"}
         return form_str
 
     def assert_form_renders(self, form, html):
