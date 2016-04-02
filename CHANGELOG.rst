@@ -13,14 +13,18 @@ Changelog
 
 0.18.1 (2016-03-30)
 ~~~~~~~~~~~~~~~~~~~
- * Address deprecation warnings
+* Address deprecation warnings
+
   * https://github.com/alex/django-taggit/pull/385
 
 0.18.0 (2016-01-18)
 ~~~~~~~~~~~~~~~~~~~
- * Add option to override default tag string parsing
+* Add option to override default tag string parsing
+
   * https://github.com/alex/django-taggit/pull/232
- * Drop support for Python 2.6
+
+* Drop support for Python 2.6
+
   * https://github.com/alex/django-taggit/pull/373
 
 0.17.6 (2015-12-09)
@@ -30,71 +34,88 @@ Changelog
 
 0.17.5 (2015-11-27)
 ~~~~~~~~~~~~~~~~~~~
- * Django 1.9 compatibility fix
+* Django 1.9 compatibility fix
+
   * https://github.com/alex/django-taggit/pull/364
 
 0.17.4 (2015-11-25)
 ~~~~~~~~~~~~~~~~~~~
- * Allows custom Through Model with GenericForeignKey
+* Allows custom Through Model with GenericForeignKey
+
   * https://github.com/alex/django-taggit/pull/359
 
 0.17.3 (2015-10-26)
 ~~~~~~~~~~~~~~~~~~~
- * Silence Django 1.9 warning about on_delete
+* Silence Django 1.9 warning about on_delete
+
   * https://github.com/alex/django-taggit/pull/338
 
 0.17.2 (2015-10-25)
 ~~~~~~~~~~~~~~~~~~~
- * Django 1.9 beta compatibility
+* Django 1.9 beta compatibility
+
   * https://github.com/alex/django-taggit/pull/352
 
 0.17.1 (2015-09-10)
 ~~~~~~~~~~~~~~~~~~~
- * Fix unknown column `object_id` issue with Django 1.6+
+* Fix unknown column `object_id` issue with Django 1.6+
+
   * https://github.com/alex/django-taggit/pull/305
 
 0.17.0 (2015-08-14)
 ~~~~~~~~~~~~~~~~~~~
- * Database index added on TaggedItem fields content_type & object_id
+* Database index added on TaggedItem fields content_type & object_id
+
   * https://github.com/alex/django-taggit/pull/319
 
 0.16.4 (2015-08-13)
 ~~~~~~~~~~~~~~~~~~~
- * Access default manager via class instead of instance
+* Access default manager via class instead of instance
+
   * https://github.com/alex/django-taggit/pull/335
 
 0.16.3 (2015-08-08)
 ~~~~~~~~~~~~~~~~~~~
- * Prevent IntegrityError with custom TagBase classes
+* Prevent IntegrityError with custom TagBase classes
+
   * https://github.com/alex/django-taggit/pull/334
 
 0.16.2 (2015-07-13)
 ~~~~~~~~~~~~~~~~~~~
- * Fix an admin bug related to the `Manager` property `through_fields`
+* Fix an admin bug related to the `Manager` property `through_fields`
+
   * https://github.com/alex/django-taggit/pull/328
 
 0.16.1 (2015-07-09)
 ~~~~~~~~~~~~~~~~~~~
- * Fix bug that assumed all primary keys are named 'id'
+* Fix bug that assumed all primary keys are named 'id'
+
   * https://github.com/alex/django-taggit/pull/322
 
 0.16.0 (2015-07-04)
 ~~~~~~~~~~~~~~~~~~~
- * Add option to allow case-insensitive tags
+* Add option to allow case-insensitive tags
+
   * https://github.com/alex/django-taggit/pull/325
 
 0.15.0 (2015-06-23)
 ~~~~~~~~~~~~~~~~~~~
- * Fix wrong slugs for non-latin chars
+* Fix wrong slugs for non-latin chars
+
   * Only works if optional GPL dependency (unidecode) is installed
+
   * https://github.com/alex/django-taggit/pull/315
+
   * https://github.com/alex/django-taggit/pull/273
 
 0.14.0 (2015-04-26)
 ~~~~~~~~~~~~~~~~~~~
- * Prevent extra JOIN when prefetching
+* Prevent extra JOIN when prefetching
+
   * https://github.com/alex/django-taggit/pull/275
- * Prevent _meta warnings with Django 1.8
+
+* Prevent _meta warnings with Django 1.8
+
   * https://github.com/alex/django-taggit/pull/299
 
 0.13.0 (2015-04-02)
