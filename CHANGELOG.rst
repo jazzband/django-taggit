@@ -150,66 +150,50 @@ Changelog
 
 0.11.2 (2013-13-12)
 ~~~~~~~~~~~~~~~~~~~
- * Forbid multiple TaggableManagers via generic foreign keys.
+* Forbid multiple TaggableManagers via generic foreign keys.
 
 0.11.1 (2013-25-11)
 ~~~~~~~~~~~~~~~~~~~
- * Fixed support for Django 1.4 and 1.5.
+* Fixed support for Django 1.4 and 1.5.
 
 0.11.0 (2013-25-11)
 ~~~~~~~~~~~~~~~~~~~
- * Added support for prefetch_related on tags fields.
- * Fixed support for Django 1.7.
- * Made the tagging relations unserializeable again.
- * Allow more than one TaggableManager on models (assuming concrete FKs are
-   used for the relations).
+* Added support for prefetch_related on tags fields.
+* Fixed support for Django 1.7.
+* Made the tagging relations unserializeable again.
+* Allow more than one TaggableManager on models (assuming concrete FKs are used for the relations).
 
 0.10.0 (2013-17-08)
 ~~~~~~~~~~~~~~~~~~~
-
- * Support for Django 1.6 and 1.7.
- * Python3 support
- * **Backwards incompatible:** Dropped support for Django < 1.4.5.
- * Tag names are unique now, use the provided South migrations to upgrade.
+* Support for Django 1.6 and 1.7.
+* Python3 support
+* **Backwards incompatible:** Dropped support for Django < 1.4.5.
+* Tag names are unique now, use the provided South migrations to upgrade.
 
 0.9.2 (2011-01-17)
 ~~~~~~~~~~~~~~~~~~
-
- * **Backwards incompatible:**  Forms containing a :class:`TaggableManager` by
-   default now require tags, to change this provide ``blank=True`` to the
-   :class:`TaggableManager`.
- * Now works with Django 1.3 (as of beta-1).
+* **Backwards incompatible:**  Forms containing a :class:`TaggableManager` by default now require tags, to change this provide ``blank=True`` to the :class:`TaggableManager`.
+* Now works with Django 1.3 (as of beta-1).
 
 0.9.0 (2010-09-22)
 ~~~~~~~~~~~~~~~~~~
-
- * Added a Hebrew locale.
- * Added an index on the ``object_id`` field of ``TaggedItem``.
- * When displaying tags always join them with commas, never spaces.
- * The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
- * Custom ``Tag`` models are now allowed.
- * **Backwards incompatible:**  Filtering on tags is no longer
-   ``filter(tags__in=["foo"])``, it is written
-   ``filter(tags__name__in=["foo"])``.
- * Added a German locale.
- * Added a Dutch locale.
- * Removed ``taggit.contrib.suggest``, it now lives in an external application,
-   see :doc:`external_apps` for more information.
+* Added a Hebrew locale.
+* Added an index on the ``object_id`` field of ``TaggedItem``.
+* When displaying tags always join them with commas, never spaces.
+* The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
+* Custom ``Tag`` models are now allowed.
+* **Backwards incompatible:**  Filtering on tags is no longer ``filter(tags__in=["foo"])``, it is written ``filter(tags__name__in=["foo"])``.
+* Added a German locale.
+* Added a Dutch locale.
+* Removed ``taggit.contrib.suggest``, it now lives in an external application, see :doc:`external_apps` for more information.
 
 0.8.0 (2010-06-22)
 ~~~~~~~~~~~~~~~~~~
-
- * Fixed querying for objects using ``exclude(tags__in=tags)``.
- * Marked strings as translatable.
-
-   * Added a Russian translation.
- * Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
- * Smarter tagstring parsing for form field; ported from Jonathan
-   Buchanan's `django-tagging
-   <http://django-tagging.googlecode.com>`_. Now supports tags
-   containing commas. See :ref:`tags-in-forms` for details.
- * Switched to using savepoints around the slug generation for tags.  This
-   ensures that it works fine on databases (such as Postgres) which dirty a
-   transaction with an ``IntegrityError``.
- * Added Python 2.4 compatibility.
- * Added Django 1.1 compatibility.
+* Fixed querying for objects using ``exclude(tags__in=tags)``.
+* Marked strings as translatable.
+* Added a Russian translation.
+* Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
+* Smarter tagstring parsing for form field; ported from Jonathan Buchanan's `django-tagging <http://django-tagging.googlecode.com>`_. Now supports tags containing commas. See :ref:`tags-in-forms` for details.
+* Switched to using savepoints around the slug generation for tags.  This ensures that it works fine on databases (such as Postgres) which dirty a transaction with an ``IntegrityError``.
+* Added Python 2.4 compatibility.
+* Added Django 1.1 compatibility.
