@@ -1,8 +1,17 @@
 django-taggit
 =============
 
-``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
-``INSTALLED_APPS`` then just add a TaggableManager to your model and go:
+``django-taggit`` a simpler approach to tagging with Django.
+
+Add ``"taggit"`` to your ``INSTALLED_APPS``. 
+
+Apply migrations:
+
+.. code::
+    
+    python manage.py migrate
+
+Then just add a TaggableManager to your model and go:
 
 .. code:: python
 
