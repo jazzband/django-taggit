@@ -130,7 +130,7 @@ class ItemBase(models.Model):
         field = _get_field(cls, 'tag')
         return field.remote_field.model if VERSION >= (1, 9) else field.rel.to
 
-    @classmethod
+    @classmethod
     def tag_relname(cls):
         field = _get_field(cls, 'tag')
         return field.remote_field.related_name if VERSION >= (1, 9) else field.rel.related_name
