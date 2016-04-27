@@ -55,7 +55,8 @@ class TagBase(models.Model):
         slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
 
     def __str__(self):
-        return self.name.encode('utf8')
+        # return self.name.encode('utf8')
+        return self.name
 
     class Meta:
         abstract = True
@@ -129,7 +130,7 @@ class ItemBase(models.Model):
         field = _get_field(cls, 'tag')
         return field.remote_field.model if VERSION >= (1, 9) else field.rel.to
 
-    @classmethod
+    @classmethod
     def tag_relname(cls):
         field = _get_field(cls, 'tag')
         return field.remote_field.related_name if VERSION >= (1, 9) else field.rel.related_name
