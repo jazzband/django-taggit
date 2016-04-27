@@ -5,12 +5,17 @@ from django import VERSION
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
-from django.utils.text import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
 from taggit.utils import _get_field
+
+if VERSION >= (1, 9):
+    from django.utils.text import slugify as default_slugify
+else:
+    from django.template.defaultfilters import slugify as default_slugify
+
 try:
     from unidecode import unidecode
 except ImportError:
