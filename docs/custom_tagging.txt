@@ -191,7 +191,7 @@ a list of tags to a string representation and use the setting
 ``TAGGIT_STRING_FROM_TAGS`` to override the default value (which is
 :func:`taggit.utils._edit_string_for_tags`)::
 
-    def comma_joiner(tag_string):
+    def comma_joiner(tags):
         return ', '.join(t.name for t in tags)
 
 If the functions above were defined in a module, ``appname.utils``, then your
