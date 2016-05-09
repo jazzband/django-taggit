@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.18.2 (2016-05-08)
+~~~~~~~~~~~~~~~~~~~
+ * Add the min_count parameter to managers.most_common function
+  * https://github.com/alex/django-taggit/pull/400
+
 0.18.1 (2016-03-30)
 ~~~~~~~~~~~~~~~~~~~
  * Address deprecation warnings
