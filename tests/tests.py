@@ -164,6 +164,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             sort=False
         )
 
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(min_count=2),
+            ['green'],
+            sort=False
+        )
+
         apple.tags.remove('green')
         self.assert_tags_equal(apple.tags.all(), ['red'])
         self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
