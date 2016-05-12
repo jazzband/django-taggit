@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.18.3 (2016-05-12)
+~~~~~~~~~~~~~~~~~~~
+ * Added Spanish and Turkish translations
+  * https://github.com/alex/django-taggit/pull/402
+
 0.18.2 (2016-05-08)
 ~~~~~~~~~~~~~~~~~~~
  * Add the min_count parameter to managers.most_common function
