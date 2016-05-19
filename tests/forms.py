@@ -15,20 +15,24 @@ class FoodForm(forms.ModelForm):
         model = Food
         fields = fields
 
+
 class DirectFoodForm(forms.ModelForm):
     class Meta:
         model = DirectFood
         fields = fields
+
 
 class DirectCustomPKFoodForm(forms.ModelForm):
     class Meta:
         model = DirectCustomPKFood
         fields = fields
 
+
 class CustomPKFoodForm(forms.ModelForm):
     class Meta:
         model = CustomPKFood
         fields = fields
+
 
 class OfficialFoodForm(forms.ModelForm):
     class Meta:

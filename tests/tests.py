@@ -117,21 +117,26 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
                 r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
             apple.tags.add(1)
 
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
+
 
 class TagModelDirectCustomPKTestCase(TagModelTestCase):
     food_model = DirectCustomPKFood
     tag_model = Tag
 
+
 class TagModelCustomPKTestCase(TagModelTestCase):
     food_model = CustomPKFood
     tag_model = Tag
 
+
 class TagModelOfficialTestCase(TagModelTestCase):
     food_model = OfficialFood
     tag_model = OfficialTag
+
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
@@ -442,6 +447,7 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     housepet_model = DirectHousePet
     taggeditem_model = TaggedFood
 
+
 class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):
     food_model = DirectCustomPKFood
     pet_model = DirectCustomPKPet
@@ -453,6 +459,7 @@ class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):
         # tell if the instance is saved or not
         pass
 
+
 class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     food_model = CustomPKFood
     pet_model = CustomPKPet
@@ -463,6 +470,7 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
         # TODO with a charfield pk, pk is never None, so taggit has no way to
         # tell if the instance is saved or not
         pass
+
 
 class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
     food_model = OfficialFood
@@ -491,6 +499,7 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id], name='green').annotate(models.Count('name'))
         self.assertEqual(tag_info[0].name__count, 2)
 
+
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""
     food_model = Food
@@ -501,6 +510,7 @@ class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
 
     def test_custom_manager(self):
         self.assertEqual(self.custom_manager_model.tags.__class__, CustomManager.Foo)
+
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
@@ -552,17 +562,21 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         ff = tm.formfield()
         self.assertRaises(ValidationError, ff.clean, "")
 
+
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
     food_model = DirectFood
+
 
 class TaggableFormDirectCustomPKTestCase(TaggableFormTestCase):
     form_class = DirectCustomPKFoodForm
     food_model = DirectCustomPKFood
 
+
 class TaggableFormCustomPKTestCase(TaggableFormTestCase):
     form_class = CustomPKFoodForm
     food_model = CustomPKFood
+
 
 class TaggableFormOfficialTestCase(TaggableFormTestCase):
     form_class = OfficialFoodForm
