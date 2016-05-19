@@ -20,14 +20,14 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      CustomPKHousePet, CustomPKPet, DirectCustomPKFood,
                      DirectCustomPKHousePet, DirectCustomPKPet, DirectFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
-                     OfficialFood, OfficialHousePet, OfficialPet,
-                     OfficialTag, OfficialThroughModel, Pet, Photo,
-                     TaggedCustomPK, TaggedCustomPKFood, TaggedFood)
+                     OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
+                     OfficialThroughModel, Pet, Photo, TaggedCustomPK,
+                     TaggedCustomPKFood, TaggedFood)
 
-from taggit.managers import _model_name, _TaggableManager, TaggableManager
+from taggit.managers import TaggableManager, _model_name, _TaggableManager
 from taggit.models import Tag, TaggedItem
-
-from taggit.utils import edit_string_for_tags, parse_tags, _remote_field, _related_model
+from taggit.utils import (_related_model, _remote_field, edit_string_for_tags,
+                          parse_tags)
 
 try:
     from unittest import skipIf, skipUnless
