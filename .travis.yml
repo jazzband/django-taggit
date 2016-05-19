@@ -37,13 +37,11 @@ matrix:
     - env: TOXENV=py35-1.9.x
       python: 3.5
 install:
-  - pip install flake8 tox isort
+  - pip install flake8 tox isort coverage
 before_script:
   - flake8 taggit
   - python setup.py isort
 script:
   - tox
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
