@@ -6,6 +6,7 @@ from django import VERSION
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
+from django.db.models import signals
 from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
                                              RelatedField)
@@ -166,6 +167,8 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def add(self, *tags):
+        db = router.db_for_write(self.through, instance=self.instance)
+
         str_tags = set()
         tag_objs = set()
         for t in tags:
@@ -203,8 +206,32 @@ class _TaggableManager(models.Manager):
         for new_tag in tags_to_create:
             tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
 
+        new_ids = set(t.pk for t in tag_objs)
+
+        # NOTE: can we hardcode 'tag_id' here or should the column name be got
+        # dynamically from somewhere?
+        vals = (self.through._default_manager.using(db)
+                .values_list('tag_id', flat=True)
+                .filter(**self._lookup_kwargs()))
+
+        new_ids = list(new_ids - set(vals))
+
+        # TODO: Can we assume reverse=False?
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_add",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=new_ids, using=db,
+        )
+
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+
+        # TODO: Can we assume reverse=False?
+        signals.m2m_changed.send(
+            sender=self.through, action="post_add",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=new_ids, using=db,
+        )
 
     @require_instance_manager
     def names(self):
@@ -226,7 +253,23 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def clear(self):
+        db = router.db_for_read(self.through, instance=self.instance)
+
+        # TODO: Can we assume reverse=False?
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_clear",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=None, using=db,
+        )
+
         self.through.objects.filter(**self._lookup_kwargs()).delete()
+
+        # TODO: Can we assume reverse=False?
+        signals.m2m_changed.send(
+            sender=self.through, action="post_clear",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=None, using=db,
+        )
 
     def most_common(self, min_count=None):
         queryset = self.get_queryset().annotate(
