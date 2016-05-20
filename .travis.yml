@@ -36,14 +36,20 @@ matrix:
       python: 3.5
     - env: TOXENV=py35-1.9.x
       python: 3.5
+
 install:
   - pip install flake8 tox isort
+
 before_script:
   - flake8 taggit
   - python setup.py isort
+
 script:
-  - tox
+  - tox -e $TOX_ENV
+
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - pip install codecov
+  - codecov -e TOX_ENV TRAVIS_OS_NAME
+
 notifications:
   email: false
