@@ -3,3 +3,6 @@ django_taggit.egg-info/
 dist/
 _build/
 .tox/
+.cache/
+.coverage
+.eggs/
