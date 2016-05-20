@@ -45,7 +45,7 @@ before_script:
   - python setup.py isort
 
 script:
-  - tox -e $TOX_ENV
+  - tox -e $TOXENV
 
 after_success:
   - pip install codecov
