@@ -267,7 +267,36 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         )
 
     @mock.patch('django.db.models.signals.m2m_changed.send')
-    def test_remove_tag_sends_m2m_changed_signal(self, send_mock):
+    def test_remove_tag_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        green_pk = self.tag_model.objects.get(name='green').pk
+        send_mock.reset_mock()
+
+        apple.tags.remove('green')
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_remove',
+                instance=apple,
+                model=type(apple),
+                pk_set=[green_pk],
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_remove',
+                instance=apple,
+                model=type(apple),
+                pk_set=[green_pk],
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_clear_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add('red')
         send_mock.reset_mock()

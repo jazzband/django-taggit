@@ -216,7 +216,6 @@ class _TaggableManager(models.Manager):
 
         new_ids = list(new_ids - set(vals))
 
-        # TODO: Can we assume reverse=False?
         signals.m2m_changed.send(
             sender=self.through, action="pre_add",
             instance=self.instance, reverse=False,
@@ -226,7 +225,6 @@ class _TaggableManager(models.Manager):
         for tag in tag_objs:
             self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
 
-        # TODO: Can we assume reverse=False?
         signals.m2m_changed.send(
             sender=self.through, action="post_add",
             instance=self.instance, reverse=False,
@@ -248,14 +246,33 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def remove(self, *tags):
-        self.through.objects.filter(**self._lookup_kwargs()).filter(
-            tag__name__in=tags).delete()
+        if not tags:
+            return
+
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        qs = (self.through._default_manager.using(db)
+              .filter(**self._lookup_kwargs())
+              .filter(tag__name__in=tags))
+
+        old_ids = list(qs.values_list('tag_id', flat=True))
+
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_remove",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=old_ids, using=db,
+        )
+        qs.delete()
+        signals.m2m_changed.send(
+            sender=self.through, action="post_remove",
+            instance=self.instance, reverse=False,
+            model=self.model, pk_set=old_ids, using=db,
+        )
 
     @require_instance_manager
     def clear(self):
-        db = router.db_for_read(self.through, instance=self.instance)
+        db = router.db_for_write(self.through, instance=self.instance)
 
-        # TODO: Can we assume reverse=False?
         signals.m2m_changed.send(
             sender=self.through, action="pre_clear",
             instance=self.instance, reverse=False,
@@ -264,7 +281,6 @@ class _TaggableManager(models.Manager):
 
         self.through.objects.filter(**self._lookup_kwargs()).delete()
 
-        # TODO: Can we assume reverse=False?
         signals.m2m_changed.send(
             sender=self.through, action="post_clear",
             instance=self.instance, reverse=False,
