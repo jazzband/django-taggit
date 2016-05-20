@@ -49,7 +49,7 @@ script:
 
 after_success:
   - pip install codecov
-  - codecov -e TOX_ENV TRAVIS_OS_NAME
+  - codecov -e TOXENV CI TRAVIS_BUILD_ID TRAVIS TRAVIS_BRANCH TRAVIS_JOB_NUMBER TRAVIS_PULL_REQUEST TRAVIS_JOB_ID TRAVIS_REPO_SLUG TRAVIS_COMMIT
 
 notifications:
   email: false
