@@ -658,9 +658,9 @@ class TagStringParseTestCase(UnitTestCase):
                          ['a-one', 'a-three', 'a-two', 'and'])
 
     def test_recreation_of_tag_list_string_representations(self):
-        plain = Tag.objects.create(name='plain')
-        spaces = Tag.objects.create(name='spa ces')
-        comma = Tag.objects.create(name='com,ma')
+        plain = Tag(name='plain')
+        spaces = Tag(name='spa ces')
+        comma = Tag(name='com,ma')
         self.assertEqual(edit_string_for_tags([plain]), 'plain')
         self.assertEqual(edit_string_for_tags([plain, spaces]), '"spa ces", plain')
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
@@ -677,8 +677,8 @@ class TagStringParseTestCase(UnitTestCase):
 
     @override_settings(TAGGIT_STRING_FROM_TAGS='tests.custom_parser.comma_joiner')
     def test_custom_comma_joiner(self):
-        a = Tag.objects.create(name='Cued Speech')
-        b = Tag.objects.create(name='transliterator')
+        a = Tag(name='Cued Speech')
+        b = Tag(name='transliterator')
         self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
 
 
