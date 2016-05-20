@@ -36,11 +36,20 @@ matrix:
       python: 3.5
     - env: TOXENV=py35-1.9.x
       python: 3.5
+
 install:
-  - pip install flake8 tox
+  - pip install flake8 tox isort
+
 before_script:
   - flake8 taggit
+  - python setup.py isort
+
 script:
-  - tox
+  - tox -e $TOXENV
+
+after_success:
+  - pip install codecov
+  - codecov -e TOXENV CI TRAVIS_BUILD_ID TRAVIS TRAVIS_BRANCH TRAVIS_JOB_NUMBER TRAVIS_PULL_REQUEST TRAVIS_JOB_ID TRAVIS_REPO_SLUG TRAVIS_COMMIT
+
 notifications:
   email: false

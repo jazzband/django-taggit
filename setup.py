@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 import taggit
 
@@ -37,4 +37,7 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
+    setup_requires=[
+        'isort'
+    ],
 )

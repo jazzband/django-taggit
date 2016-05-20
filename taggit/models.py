@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
 from taggit.utils import _get_field
+
 try:
     from unidecode import unidecode
 except ImportError:
