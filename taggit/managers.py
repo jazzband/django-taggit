@@ -214,7 +214,7 @@ class _TaggableManager(models.Manager):
                 .values_list('tag_id', flat=True)
                 .filter(**self._lookup_kwargs()))
 
-        new_ids = list(new_ids - set(vals))
+        new_ids = set(new_ids - set(vals))
 
         signals.m2m_changed.send(
             sender=self.through, action="pre_add",
@@ -255,7 +255,7 @@ class _TaggableManager(models.Manager):
               .filter(**self._lookup_kwargs())
               .filter(tag__name__in=tags))
 
-        old_ids = list(qs.values_list('tag_id', flat=True))
+        old_ids = set(qs.values_list('tag_id', flat=True))
 
         signals.m2m_changed.send(
             sender=self.through, action="pre_remove",
