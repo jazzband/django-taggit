@@ -322,6 +322,53 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 using='default')]
         )
 
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_set_sends_m2m_changed_signal(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        send_mock.reset_mock()
+
+        apple.tags.set('red')
+
+        green_pk = self.tag_model.objects.get(name='green').pk
+        red_pk = self.tag_model.objects.get(name='red').pk
+
+        self.assertEqual(send_mock.call_count, 4)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'pre_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([red_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([red_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
     def test_add_queries(self):
         # Prefill content type cache:
         ContentType.objects.get_for_model(self.food_model)
