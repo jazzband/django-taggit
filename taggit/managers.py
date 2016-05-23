@@ -219,7 +219,7 @@ class _TaggableManager(models.Manager):
         signals.m2m_changed.send(
             sender=self.through, action="pre_add",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=new_ids, using=db,
+            model=self.through.tag_model(), pk_set=new_ids, using=db,
         )
 
         for tag in tag_objs:
@@ -228,7 +228,7 @@ class _TaggableManager(models.Manager):
         signals.m2m_changed.send(
             sender=self.through, action="post_add",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=new_ids, using=db,
+            model=self.through.tag_model(), pk_set=new_ids, using=db,
         )
 
     @require_instance_manager
@@ -260,13 +260,13 @@ class _TaggableManager(models.Manager):
         signals.m2m_changed.send(
             sender=self.through, action="pre_remove",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=old_ids, using=db,
+            model=self.through.tag_model(), pk_set=old_ids, using=db,
         )
         qs.delete()
         signals.m2m_changed.send(
             sender=self.through, action="post_remove",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=old_ids, using=db,
+            model=self.through.tag_model(), pk_set=old_ids, using=db,
         )
 
     @require_instance_manager
@@ -276,7 +276,7 @@ class _TaggableManager(models.Manager):
         signals.m2m_changed.send(
             sender=self.through, action="pre_clear",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=None, using=db,
+            model=self.through.tag_model(), pk_set=None, using=db,
         )
 
         self.through.objects.filter(**self._lookup_kwargs()).delete()
@@ -284,7 +284,7 @@ class _TaggableManager(models.Manager):
         signals.m2m_changed.send(
             sender=self.through, action="post_clear",
             instance=self.instance, reverse=False,
-            model=self.model, pk_set=None, using=db,
+            model=self.through.tag_model(), pk_set=None, using=db,
         )
 
     def most_common(self, min_count=None):

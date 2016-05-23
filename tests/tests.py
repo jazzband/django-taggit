@@ -197,7 +197,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'pre_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green_pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -205,7 +205,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'post_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green_pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -223,7 +223,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'pre_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green.pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -231,7 +231,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'post_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green.pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -251,7 +251,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'pre_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green.pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -259,7 +259,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'post_add',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green.pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -280,7 +280,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'pre_remove',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green_pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -288,7 +288,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'post_remove',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=set([green_pk]),
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -307,7 +307,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'pre_clear',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=None,
                 reverse=False,
                 sender=self.taggeditem_model,
@@ -315,7 +315,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             mock.call(
                 action=u'post_clear',
                 instance=apple,
-                model=type(apple),
+                model=self.tag_model,
                 pk_set=None,
                 reverse=False,
                 sender=self.taggeditem_model,
