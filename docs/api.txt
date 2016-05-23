@@ -30,10 +30,11 @@ playing around with the API.
 
         Removes all tags from an object.
 
-    .. method:: set(*tags)
+    .. method:: set(*tags, clear=False)
 
-        Removes all the current tags and then adds the specified tags to the
-        object.
+        If ``clear = True`` removes all the current tags and then adds the
+        specified tags to the object. Otherwise sets the object's tags to those
+        specified, removing only the missing tags and adding only the new tags.
 
     .. method: most_common()
 
