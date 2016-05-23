@@ -188,23 +188,26 @@ class _TaggableManager(models.Manager):
 
             for name in str_tags:
                 try:
-                    tag = self.through.tag_model().objects.get(name__iexact=name)
+                    tag = (self.through.tag_model()._default_manager
+                           .using(db)
+                           .get(name__iexact=name))
                     existing.append(tag)
                 except self.through.tag_model().DoesNotExist:
                     tags_to_create.append(name)
         else:
             # If str_tags has 0 elements Django actually optimizes that to not do a
             # query.  Malcolm is very smart.
-            existing = self.through.tag_model().objects.filter(
-                name__in=str_tags
-            )
+            existing = (self.through.tag_model()._default_manager
+                        .using(db)
+                        .filter(name__in=str_tags))
 
             tags_to_create = str_tags - set(t.name for t in existing)
 
         tag_objs.update(existing)
 
         for new_tag in tags_to_create:
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+            tag_objs.add(
+                self.through.tag_model()._default_manager.using(db).create(name=new_tag))
 
         new_ids = set(t.pk for t in tag_objs)
 
@@ -223,7 +226,8 @@ class _TaggableManager(models.Manager):
         )
 
         for tag in tag_objs:
-            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+            self.through._default_manager.using(db).get_or_create(
+                tag=tag, **self._lookup_kwargs())
 
         signals.m2m_changed.send(
             sender=self.through, action="post_add",
@@ -279,7 +283,8 @@ class _TaggableManager(models.Manager):
             model=self.through.tag_model(), pk_set=None, using=db,
         )
 
-        self.through.objects.filter(**self._lookup_kwargs()).delete()
+        self.through._default_manager.using(db).filter(
+            **self._lookup_kwargs()).delete()
 
         signals.m2m_changed.send(
             sender=self.through, action="post_clear",
