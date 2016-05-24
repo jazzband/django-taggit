@@ -5,6 +5,7 @@ import warnings
 from unittest import TestCase as UnitTestCase
 
 import django
+import mock
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
@@ -185,31 +186,217 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_add_new_tag_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        green_pk = self.tag_model.objects.get(name='green').pk
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_add_existing_tag_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        green = self.tag_model.objects.create(name='green')
+        apple.tags.add('green')
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green.pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green.pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_add_second_tag_sends_m2m_changed_signals_with_correct_new_pks(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        green = self.tag_model.objects.create(name='green')
+        apple.tags.add('red')
+        send_mock.reset_mock()
+        apple.tags.add('green', 'red')
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green.pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green.pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_remove_tag_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        green_pk = self.tag_model.objects.get(name='green').pk
+        send_mock.reset_mock()
+
+        apple.tags.remove('green')
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_clear_sends_m2m_changed_signal(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('red')
+        send_mock.reset_mock()
+        apple.tags.clear()
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_clear',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=None,
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_clear',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=None,
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
+    @mock.patch('django.db.models.signals.m2m_changed.send')
+    def test_set_sends_m2m_changed_signal(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add('green')
+        send_mock.reset_mock()
+
+        apple.tags.set('red')
+
+        green_pk = self.tag_model.objects.get(name='green').pk
+        red_pk = self.tag_model.objects.get(name='red').pk
+
+        self.assertEqual(send_mock.call_count, 4)
+        send_mock.assert_has_calls([
+            mock.call(
+                action=u'pre_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_remove',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([green_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'pre_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([red_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default'),
+            mock.call(
+                action=u'post_add',
+                instance=apple,
+                model=self.tag_model,
+                pk_set=set([red_pk]),
+                reverse=False,
+                sender=self.taggeditem_model,
+                using='default')]
+        )
+
     def test_add_queries(self):
         # Prefill content type cache:
         ContentType.objects.get_for_model(self.food_model)
         apple = self.food_model.objects.create(name="apple")
         #   1  query to see which tags exist
+        #   1  query to check existing ids for sending m2m_changed signal
         # + 3  queries to create the tags.
         # + 6  queries to create the intermediary things (including SELECTs, to
         #      make sure we don't double create.
-        # + 12 on Django 1.6 for save points.
-        queries = 22
+        # + 12 on Django 1.6+ for save points.
+        queries = 23
         if django.VERSION < (1, 6):
             queries -= 12
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
+        #   1  query to check existing ids for sending m2m_changed signal
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #     make sure we dont't double create.
-        # + 4 on Django 1.6 for save points.
-        queries = 9
+        # + 4 on Django 1.6+ for save points.
+        queries = 10
         if django.VERSION < (1, 6):
             queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
 
-        self.assertNumQueries(0, pear.tags.add)
+        #   1  query to check existing ids for sending m2m_changed signal
+        self.assertNumQueries(1, pear.tags.add)
 
     def test_require_pk(self):
         food_instance = self.food_model()

@@ -6,6 +6,7 @@ from django import VERSION
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
+from django.db.models import signals
 from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
                                              RelatedField)
@@ -166,16 +167,54 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def add(self, *tags):
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        tag_objs = self._to_tag_model_instances(tags)
+        new_ids = set(t.pk for t in tag_objs)
+
+        # NOTE: can we hardcode 'tag_id' here or should the column name be got
+        # dynamically from somewhere?
+        vals = (self.through._default_manager.using(db)
+                .values_list('tag_id', flat=True)
+                .filter(**self._lookup_kwargs()))
+
+        new_ids = new_ids - set(vals)
+
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_add",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=new_ids, using=db,
+        )
+
+        for tag in tag_objs:
+            self.through._default_manager.using(db).get_or_create(
+                tag=tag, **self._lookup_kwargs())
+
+        signals.m2m_changed.send(
+            sender=self.through, action="post_add",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=new_ids, using=db,
+        )
+
+    def _to_tag_model_instances(self, tags):
+        """
+        Takes an iterable containing either strings, tag objects, or a mixture
+        of both and returns set of tag objects.
+        """
+        db = router.db_for_write(self.through, instance=self.instance)
+
         str_tags = set()
         tag_objs = set()
+
         for t in tags:
             if isinstance(t, self.through.tag_model()):
                 tag_objs.add(t)
             elif isinstance(t, six.string_types):
                 str_tags.add(t)
             else:
-                raise ValueError("Cannot add {0} ({1}). Expected {2} or str.".format(
-                    t, type(t), type(self.through.tag_model())))
+                raise ValueError(
+                    "Cannot add {0} ({1}). Expected {2} or str.".format(
+                        t, type(t), type(self.through.tag_model())))
 
         if getattr(settings, 'TAGGIT_CASE_INSENSITIVE', False):
             # Some databases can do case-insensitive comparison with IN, which
@@ -185,26 +224,30 @@ class _TaggableManager(models.Manager):
 
             for name in str_tags:
                 try:
-                    tag = self.through.tag_model().objects.get(name__iexact=name)
+                    tag = (self.through.tag_model()._default_manager
+                           .using(db)
+                           .get(name__iexact=name))
                     existing.append(tag)
                 except self.through.tag_model().DoesNotExist:
                     tags_to_create.append(name)
         else:
-            # If str_tags has 0 elements Django actually optimizes that to not do a
-            # query.  Malcolm is very smart.
-            existing = self.through.tag_model().objects.filter(
-                name__in=str_tags
-            )
+            # If str_tags has 0 elements Django actually optimizes that to not
+            # do a query.  Malcolm is very smart.
+            existing = (self.through.tag_model()._default_manager
+                        .using(db)
+                        .filter(name__in=str_tags))
 
             tags_to_create = str_tags - set(t.name for t in existing)
 
         tag_objs.update(existing)
 
         for new_tag in tags_to_create:
-            tag_objs.add(self.through.tag_model().objects.create(name=new_tag))
+            tag_objs.add(
+                self.through.tag_model()._default_manager
+                .using(db)
+                .create(name=new_tag))
 
-        for tag in tag_objs:
-            self.through.objects.get_or_create(tag=tag, **self._lookup_kwargs())
+        return tag_objs
 
     @require_instance_manager
     def names(self):
@@ -215,18 +258,82 @@ class _TaggableManager(models.Manager):
         return self.get_queryset().values_list('slug', flat=True)
 
     @require_instance_manager
-    def set(self, *tags):
-        self.clear()
-        self.add(*tags)
+    def set(self, *tags, **kwargs):
+        """
+        Set the object's tags to the given n tags. If the clear kwarg is True
+        then all existing tags are removed (using `.clear()`) and the new tags
+        added. Otherwise, only those tags that are not present in the args are
+        removed and any new tags added.
+        """
+        db = router.db_for_write(self.through, instance=self.instance)
+        clear = kwargs.pop('clear', False)
+
+        if clear:
+            self.clear()
+            self.add(*tags)
+        else:
+            # make sure we're working with a collection of a uniform type
+            objs = self._to_tag_model_instances(tags)
+
+            # get the existing tag strings
+            old_tag_strs = set(self.through._default_manager
+                               .using(db)
+                               .filter(**self._lookup_kwargs())
+                               .values_list('tag__name', flat=True))
+
+            new_objs = []
+            for obj in objs:
+                if obj.name in old_tag_strs:
+                    old_tag_strs.remove(obj.name)
+                else:
+                    new_objs.append(obj)
+
+        self.remove(*old_tag_strs)
+        self.add(*new_objs)
 
     @require_instance_manager
     def remove(self, *tags):
-        self.through.objects.filter(**self._lookup_kwargs()).filter(
-            tag__name__in=tags).delete()
+        if not tags:
+            return
+
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        qs = (self.through._default_manager.using(db)
+              .filter(**self._lookup_kwargs())
+              .filter(tag__name__in=tags))
+
+        old_ids = set(qs.values_list('tag_id', flat=True))
+
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_remove",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=old_ids, using=db,
+        )
+        qs.delete()
+        signals.m2m_changed.send(
+            sender=self.through, action="post_remove",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=old_ids, using=db,
+        )
 
     @require_instance_manager
     def clear(self):
-        self.through.objects.filter(**self._lookup_kwargs()).delete()
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        signals.m2m_changed.send(
+            sender=self.through, action="pre_clear",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=None, using=db,
+        )
+
+        self.through._default_manager.using(db).filter(
+            **self._lookup_kwargs()).delete()
+
+        signals.m2m_changed.send(
+            sender=self.through, action="post_clear",
+            instance=self.instance, reverse=False,
+            model=self.through.tag_model(), pk_set=None, using=db,
+        )
 
     def most_common(self, min_count=None):
         queryset = self.get_queryset().annotate(
