@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.19.1 (2016-05-25)
+~~~~~~~~~~~~~~~~~~~
+ * Add app config, add simplified Chinese translation file
+  * https://github.com/alex/django-taggit/pull/410
+
 0.19.0 (2016-05-23)
 ~~~~~~~~~~~~~~~~~~~
  * Implementation of m2m_changed signal sending
