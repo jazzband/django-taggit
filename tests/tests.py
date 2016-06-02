@@ -182,6 +182,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         tag = self.tag_model.objects.create(name="delicious")
         apple.tags.add(tag)
         self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
+        apple.tags.remove(tag)
+        self.assert_tags_equal(apple.tags.all(), ["red"])
 
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
