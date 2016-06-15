@@ -38,6 +38,6 @@ Tags will show up for you automatically in forms and the admin.
 
 ``django-taggit`` requires Django 1.4.5 or greater.
 
-For more info check out the `documentation <https://django-taggit.readthedocs.org/en/latest/>`_.  And for questions about usage or
+For more info check out the `documentation <https://django-taggit.readthedocs.io/en/latest/>`_.  And for questions about usage or
 development you can contact the
 `mailinglist <http://groups.google.com/group/django-taggit>`_.
