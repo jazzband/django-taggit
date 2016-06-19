@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.20.0 (2016-06-19)
+~~~~~~~~~~~~~~~~~~~
+ * Fix UnboundLocalError in _TaggableManager.set(..)
+  * https://github.com/alex/django-taggit/pull/418
+ * Update doc links to reflect RTD domain changes
+  * https://github.com/alex/django-taggit/pull/417
+ * Improve Russian translations
+  * https://github.com/alex/django-taggit/pull/416
+
 0.19.1 (2016-05-25)
 ~~~~~~~~~~~~~~~~~~~
  * Add app config, add simplified Chinese translation file
