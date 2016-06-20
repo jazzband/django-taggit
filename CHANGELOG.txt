@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.20.0 (2016-06-19)
+~~~~~~~~~~~~~~~~~~~
+ * Fix UnboundLocalError in _TaggableManager.set(..)
+  * https://github.com/alex/django-taggit/pull/418
+ * Update doc links to reflect RTD domain changes
+  * https://github.com/alex/django-taggit/pull/417
+ * Improve Russian translations
+  * https://github.com/alex/django-taggit/pull/416
+
 0.19.1 (2016-05-25)
 ~~~~~~~~~~~~~~~~~~~
  * Add app config, add simplified Chinese translation file
@@ -178,7 +187,7 @@ Changelog
  * Added a Hebrew locale.
  * Added an index on the ``object_id`` field of ``TaggedItem``.
  * When displaying tags always join them with commas, never spaces.
- * The docs are now available `online <http://django-taggit.readthedocs.org/>`_.
+ * The docs are now available `online <https://django-taggit.readthedocs.io/>`_.
  * Custom ``Tag`` models are now allowed.
  * **Backwards incompatible:**  Filtering on tags is no longer
    ``filter(tags__in=["foo"])``, it is written

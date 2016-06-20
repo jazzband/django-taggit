@@ -287,9 +287,8 @@ class _TaggableManager(models.Manager):
                     old_tags.remove(obj)
                 else:
                     new_objs.append(obj)
-
-        self.remove(*old_tags)
-        self.add(*new_objs)
+            self.remove(*old_tags)
+            self.add(*new_objs)
 
     @require_instance_manager
     def remove(self, *tags):

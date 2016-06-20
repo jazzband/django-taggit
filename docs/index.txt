@@ -42,4 +42,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-__ http://south.readthedocs.org/en/latest/
+__ https://south.readthedocs.io/en/latest/
