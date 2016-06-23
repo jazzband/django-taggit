@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.20.1 (2016-06-23)
+~~~~~~~~~~~~~~~~~~~
+ * Specify `app_label` for `Tag` and `TaggedItem`
+  * https://github.com/alex/django-taggit/pull/420
+
 0.20.0 (2016-06-19)
 ~~~~~~~~~~~~~~~~~~~
  * Fix UnboundLocalError in _TaggableManager.set(..)
