@@ -733,6 +733,37 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id], name='green').annotate(models.Count('name'))
         self.assertEqual(tag_info[0].name__count, 2)
 
+    def test_most_common_extra_filters(self):
+        apple = self.food_model.objects.create(name='apple')
+        apple.tags.add('red')
+        apple.tags.add('green')
+
+        orange = self.food_model.objects.create(name='orange')
+        orange.tags.add('orange')
+        orange.tags.add('red')
+
+        pear = self.food_model.objects.create(name='pear')
+        pear.tags.add('green')
+        pear.tags.add('yellow')
+
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(
+                min_count=2, extra_filters={
+                    'officialfood__name__in': ['pear', 'apple']
+                })[:1],
+            ['green'],
+            sort=False
+        )
+
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(
+                min_count=2, extra_filters={
+                    'officialfood__name__in': ['orange', 'apple']
+                })[:1],
+            ['red'],
+            sort=False
+        )
+
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""

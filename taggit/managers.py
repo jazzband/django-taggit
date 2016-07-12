@@ -335,8 +335,8 @@ class _TaggableManager(models.Manager):
             model=self.through.tag_model(), pk_set=None, using=db,
         )
 
-    def most_common(self, min_count=None):
-        queryset = self.get_queryset().annotate(
+    def most_common(self, min_count=None, extra_filters=None):
+        queryset = self.get_queryset(extra_filters).annotate(
             num_times=models.Count(self.through.tag_relname())
         ).order_by('-num_times')
         if min_count:
