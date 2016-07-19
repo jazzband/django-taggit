@@ -365,7 +365,11 @@ class _TaggableManager(models.Manager):
             objs = rel_model._default_manager.filter(**{
                 "%s__in" % remote_field.field_name: [r["content_object"] for r in qs]
             })
-            actual_remote_field_name = f.target_field.get_attname()
+            actual_remote_field_name = remote_field.field_name
+            if VERSION > (1, 9):
+                actual_remote_field_name = f.target_field.get_attname()
+            else:
+                actual_remote_field_name = f.related_field.get_attname()
             for obj in objs:
                 items[(getattr(obj, actual_remote_field_name),)] = obj
         else:
