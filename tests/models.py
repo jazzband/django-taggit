@@ -43,6 +43,27 @@ class Food(models.Model):
 
 
 @python_2_unicode_compatible
+class BaseFood(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class MultiInheritanceLazyResolutionFoodTag(TaggedItemBase):
+    content_object = models.ForeignKey('MultiInheritanceFood', related_name='tagged_items')
+
+
+@python_2_unicode_compatible
+class MultiInheritanceFood(BaseFood):
+
+    tags = TaggableManager(through=MultiInheritanceLazyResolutionFoodTag)
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
 class Pet(models.Model):
     name = models.CharField(max_length=50)
 

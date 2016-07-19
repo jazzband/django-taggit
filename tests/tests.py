@@ -20,7 +20,7 @@ from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
 from .models import (Article, Child, CustomManager, CustomPKFood,
                      CustomPKHousePet, CustomPKPet, DirectCustomPKFood,
                      DirectCustomPKHousePet, DirectCustomPKPet, DirectFood,
-                     DirectHousePet, DirectPet, Food, HousePet, Movie,
+                     DirectHousePet, DirectPet, Food, HousePet, Movie, MultiInheritanceFood,
                      OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
                      OfficialThroughModel, Pet, Photo, TaggedCustomPK,
                      TaggedCustomPKFood, TaggedFood)
@@ -141,6 +141,7 @@ class TagModelOfficialTestCase(TagModelTestCase):
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
+    multi_inheritance_food_model = MultiInheritanceFood
     pet_model = Pet
     housepet_model = HousePet
     taggeditem_model = TaggedItem
@@ -541,6 +542,22 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                                  ['<{0}: pear>'.format(model_name),
                                   '<{0}: guava>'.format(model_name)],
                                  ordered=False)
+
+    def test_multi_inheritance_similarity_by_tag(self):
+        """Test that pears are more similar to apples than watermelons"""
+        apple = self.multi_inheritance_food_model.objects.create(name="apple")
+        apple.tags.add("green", "juicy", "small", "sour")
+
+        pear = self.multi_inheritance_food_model.objects.create(name="pear")
+        pear.tags.add("green", "juicy", "small", "sweet")
+
+        watermelon = self.multi_inheritance_food_model.objects.create(name="watermelon")
+        watermelon.tags.add("green", "juicy", "large", "sweet")
+
+        similar_objs = apple.tags.similar_objects()
+        self.assertEqual(similar_objs, [pear, watermelon])
+        self.assertEqual([obj.similar_tags for obj in similar_objs],
+                         [3, 2])
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
