@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-import os
 import sys
+import warnings
 
 from django.conf import settings
 from django.core.management import execute_from_command_line
-
 
 if not settings.configured:
     settings.configure(
@@ -17,8 +16,13 @@ if not settings.configured:
             'django.contrib.contenttypes',
             'taggit',
             'tests',
-        ]
+        ],
+        MIDDLEWARE_CLASSES=[],
     )
+
+
+warnings.simplefilter('default', DeprecationWarning)
+warnings.simplefilter('default', PendingDeprecationWarning)
 
 
 def runtests():
@@ -28,4 +32,3 @@ def runtests():
 
 if __name__ == '__main__':
     runtests()
-

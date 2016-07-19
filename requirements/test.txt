@@ -1,2 +1,6 @@
 Django
 coverage
+pytest
+pytest-cov
+pytest-django
+mock

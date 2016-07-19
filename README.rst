@@ -1,8 +1,14 @@
 django-taggit
 =============
+.. image:: https://travis-ci.org/alex/django-taggit.svg?branch=master
+    :target: https://travis-ci.org/alex/django-taggit
+.. image:: https://codecov.io/gh/alex/django-taggit/coverage.svg?branch=master
+    :target: https://codecov.io/gh/alex/django-taggit?branch=master
 
 ``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
-``INSTALLED_APPS`` then just add a TaggableManager to your model and go::
+``INSTALLED_APPS`` then just add a TaggableManager to your model and go:
+
+.. code:: python
 
     from django.db import models
 
@@ -14,7 +20,9 @@ django-taggit
         tags = TaggableManager()
 
 
-Then you can use the API like so::
+Then you can use the API like so:
+
+.. code:: python
 
     >>> apple = Food.objects.create(name="apple")
     >>> apple.tags.add("red", "green", "delicious")
@@ -30,6 +38,6 @@ Tags will show up for you automatically in forms and the admin.
 
 ``django-taggit`` requires Django 1.4.5 or greater.
 
-For more info checkout out the documentation.  And for questions about usage or
+For more info check out the `documentation <https://django-taggit.readthedocs.io/en/latest/>`_.  And for questions about usage or
 development you can contact the
 `mailinglist <http://groups.google.com/group/django-taggit>`_.

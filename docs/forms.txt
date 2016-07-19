@@ -40,7 +40,7 @@ apple "ball cat" dog   ``["apple", "ball cat", "dog"]``  No commas, so space del
 If, when saving a form, you use the ``commit=False`` option you'll need to call
 ``save_m2m()`` on the form after you save the object, just as you would for a
 form with normal many to many fields on it::
-    
+
     if request.method == "POST":
         form = MyFormClass(request.POST)
         if form.is_valid():

@@ -30,10 +30,11 @@ playing around with the API.
 
         Removes all tags from an object.
 
-    .. method:: set(*tags)
+    .. method:: set(*tags, clear=False)
 
-        Removes all the current tags and then adds the specified tags to the
-        object.
+        If ``clear = True`` removes all the current tags and then adds the
+        specified tags to the object. Otherwise sets the object's tags to those
+        specified, removing only the missing tags and adding only the new tags.
 
     .. method: most_common()
 
@@ -41,6 +42,8 @@ playing around with the API.
         they appear, available as the ``num_times`` attribute on each tag. The
         ``QuerySet``is ordered by ``num_times``, descending.  The ``QuerySet``
         is lazily evaluated, and can be sliced efficiently.
+
+        :param min_count: Specify a min count to limit the returned queryset
 
     .. method:: similar_objects()
 
@@ -55,7 +58,7 @@ playing around with the API.
         same model will be returned.
 
     .. method:: names()
-    
+
         Convenience method, returning a ``ValuesListQuerySet`` (basically
         just an iterable) containing the name of each tag as a string::
 
@@ -67,8 +70,18 @@ playing around with the API.
         Convenience method, returning a ``ValuesListQuerySet`` (basically
         just an iterable) containing the slug of each tag as a string::
 
-            >>> apple.slugs.names()
+            >>> apple.tags.slugs()
             [u'green-and-juicy', u'red']
+
+    .. hint::
+
+       You can subclass ``_TaggableManager`` (note the underscore) to add
+       methods or functionality. ``TaggableManager`` takes an optional
+       manager keyword argument for your custom class, like this::
+
+          class Food(models.Model):
+              # ... fields here
+              tags = TaggableManager(manager=_CustomTaggableManager)
 
 Filtering
 ~~~~~~~~~

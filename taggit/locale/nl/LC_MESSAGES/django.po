@@ -61,4 +61,3 @@ msgstr "Objecten getagged"
 #: contrib/suggest/models.py:57
 msgid "Enter a valid Regular Expression. To make it case-insensitive include \"(?i)\" in your expression."
 msgstr "Voer een valide reguliere expressie in. Voeg \"(?i)\" aan de expressie toe om deze hoofdletter ongevoelig te maken."
-

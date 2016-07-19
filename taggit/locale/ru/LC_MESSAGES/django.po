@@ -17,6 +17,9 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
 
+msgid "Taggit"
+msgstr "Метки"
+
 #: forms.py:20
 msgid "Please provide a comma-separated list of tags."
 msgstr "Укажите метки через запятую."
@@ -67,4 +70,3 @@ msgstr "Элементы с меткой"
 #: contrib/suggest/models.py:57
 msgid "Enter a valid Regular Expression. To make it case-insensitive include \"(?i)\" in your expression."
 msgstr "Введите регулярное выражение. Чтобы сделать его чувствительным к регистру укажите \"(?i)\"."
-
