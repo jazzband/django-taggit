@@ -166,10 +166,12 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     @require_instance_manager
-    def add(self, *tags, **extra_kwargs):
+    def add(self, *tags, **kwargs):
+        tag_kwargs = kwargs.pop('tag_kwargs', {})
+
         db = router.db_for_write(self.through, instance=self.instance)
 
-        tag_objs = self._to_tag_model_instances(tags, **extra_kwargs)
+        tag_objs = self._to_tag_model_instances(tags, tag_kwargs)
         new_ids = set(t.pk for t in tag_objs)
 
         # NOTE: can we hardcode 'tag_id' here or should the column name be got
@@ -196,7 +198,7 @@ class _TaggableManager(models.Manager):
             model=self.through.tag_model(), pk_set=new_ids, using=db,
         )
 
-    def _to_tag_model_instances(self, tags, **extra_kwargs):
+    def _to_tag_model_instances(self, tags, tag_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
         of both and returns set of tag objects.
@@ -245,7 +247,7 @@ class _TaggableManager(models.Manager):
             tag_objs.add(
                 self.through.tag_model()._default_manager
                 .using(db)
-                .create(name=new_tag, **extra_kwargs))
+                .create(name=new_tag, **tag_kwargs))
 
         return tag_objs
 
