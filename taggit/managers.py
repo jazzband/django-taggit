@@ -169,7 +169,7 @@ class _TaggableManager(models.Manager):
     def add(self, *tags, **extra_kwargs):
         db = router.db_for_write(self.through, instance=self.instance)
 
-        tag_objs = self._to_tag_model_instances(tags)
+        tag_objs = self._to_tag_model_instances(tags, **extra_kwargs)
         new_ids = set(t.pk for t in tag_objs)
 
         # NOTE: can we hardcode 'tag_id' here or should the column name be got
@@ -187,10 +187,8 @@ class _TaggableManager(models.Manager):
         )
 
         for tag in tag_objs:
-            kwargs = self._lookup_kwargs()
-            kwargs.update(extra_kwargs)
             self.through._default_manager.using(db).get_or_create(
-                tag=tag, **kwargs)
+                tag=tag, **self._lookup_kwargs())
 
         signals.m2m_changed.send(
             sender=self.through, action="post_add",
@@ -198,7 +196,7 @@ class _TaggableManager(models.Manager):
             model=self.through.tag_model(), pk_set=new_ids, using=db,
         )
 
-    def _to_tag_model_instances(self, tags):
+    def _to_tag_model_instances(self, tags, **extra_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
         of both and returns set of tag objects.
@@ -247,7 +245,7 @@ class _TaggableManager(models.Manager):
             tag_objs.add(
                 self.through.tag_model()._default_manager
                 .using(db)
-                .create(name=new_tag))
+                .create(name=new_tag, **extra_kwargs))
 
         return tag_objs
 
