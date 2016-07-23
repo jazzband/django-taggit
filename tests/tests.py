@@ -45,16 +45,9 @@ class BaseTaggingTest(object):
         self.assertEqual(got, tags)
 
     def _get_form_str(self, form_str):
-        if django.VERSION >= (1, 3):
-            form_str %= {
-                "help_start": '<span class="helptext">',
-                "help_stop": "</span>"
-            }
-        else:
-            form_str %= {
-                "help_start": "",
-                "help_stop": ""
-            }
+        form_str %= {
+            "help_start": '<span class="helptext">',
+            "help_stop": "</span>"}
         return form_str
 
     def assertFormRenders(self, form, html):
@@ -955,16 +948,6 @@ class DeconstructTestCase(UnitTestCase):
         new_instance = TaggableManager(*args, **kwargs)
         self.assertEqual('tests.OfficialThroughModel', _remote_field(new_instance).through)
         self.assertEqual('dummy.To', _related_model(_remote_field(new_instance)))
-
-
-@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
-class SouthSupportTests(TestCase):
-    def test_import_migrations_module(self):
-        try:
-            from taggit.migrations import __doc__  # noqa
-        except ImproperlyConfigured as e:
-            exception = e
-        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
 
 
 class InheritedPrefetchTests(TestCase):
