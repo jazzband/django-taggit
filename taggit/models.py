@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import django
 from django import VERSION
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
@@ -9,6 +10,7 @@ from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
+from django.utils.module_loading import import_string
 
 from taggit.utils import _get_field
 
@@ -90,6 +92,11 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
+        # Try take custom slugify that may be define in TAGGIT_SLUGIFY_METH.
+        # For example: pytils.translit.slugify
+        slugify_meth = getattr(settings, 'TAGGIT_SLUGIFY_METH', None)
+        if slugify_meth:
+            return import_string(slugify_meth)(tag)
         slug = default_slugify(unidecode(tag))
         if i is not None:
             slug += "_%d" % i
