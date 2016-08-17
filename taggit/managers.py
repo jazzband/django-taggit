@@ -237,7 +237,7 @@ class _TaggableManager(models.Manager):
             # do a query.  Malcolm is very smart.
             existing = (self.through.tag_model()._default_manager
                         .using(db)
-                        .filter(name__in=str_tags))
+                        .filter(name__in=str_tags, **tag_kwargs))
 
             tags_to_create = str_tags - set(t.name for t in existing)
 
