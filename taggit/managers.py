@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
+from functools import total_ordering
 from operator import attrgetter
 
 from django import VERSION
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, router
 from django.db.models import signals
@@ -36,27 +38,10 @@ if VERSION >= (1, 9):
 else:
     from django.db.models.fields.related import add_lazy_relation
 
-
-try:
-    from django.contrib.contenttypes.fields import GenericRelation
-except ImportError:  # django < 1.7
-    from django.contrib.contenttypes.generic import GenericRelation
-
 try:
     from django.db.models.query_utils import PathInfo
 except ImportError:  # Django < 1.8
-    try:
-        from django.db.models.related import PathInfo
-    except ImportError:
-        pass  # PathInfo is not used on Django < 1.6
-
-
-def _model_name(model):
-    if VERSION < (1, 6):
-        return model._meta.module_name
-    else:
-        return model._meta.model_name
-
+    from django.db.models.related import PathInfo
 
 class TaggableRel(ManyToManyRel):
     def __init__(self, field, related_name, through, to=None):
@@ -69,7 +54,7 @@ class TaggableRel(ManyToManyRel):
         self.limit_choices_to = {}
         self.symmetrical = True
         self.multiple = True
-        self.through = None if VERSION < (1, 7) else through
+        self.through = through
         self.field = field
         self.through_fields = None
 
@@ -157,10 +142,6 @@ class _TaggableManager(models.Manager):
                 lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name)
-
-    # Django < 1.6 uses the previous name of query_set
-    get_query_set = get_queryset
-    get_prefetch_query_set = get_prefetch_queryset
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
@@ -462,10 +443,7 @@ class TaggableManager(RelatedField, Field):
         return name, path, args, kwargs
 
     def contribute_to_class(self, cls, name):
-        if VERSION < (1, 7):
-            self.name = self.column = self.attname = name
-        else:
-            self.set_attributes_from_name(name)
+        self.set_attributes_from_name(name)
         self.model = cls
         self.opts = cls._meta
 
@@ -565,7 +543,7 @@ class TaggableManager(RelatedField, Field):
         return self.through.objects.none()
 
     def related_query_name(self):
-        return _model_name(self.model)
+        return self.model._meta.model_name
 
     def m2m_reverse_name(self):
         return _get_field(self.through, 'tag').column
@@ -608,7 +586,7 @@ class TaggableManager(RelatedField, Field):
         return [("%s__content_type__in" % prefix, cts)]
 
     def get_extra_join_sql(self, connection, qn, lhs_alias, rhs_alias):
-        model_name = _model_name(self.through)
+        model_name = self.through._meta.model_name
         if rhs_alias == '%s_%s' % (self.through._meta.app_label, model_name):
             alias_to_join = rhs_alias
         else:
@@ -629,7 +607,6 @@ class TaggableManager(RelatedField, Field):
             params = content_type_ids
         return extra_where, params
 
-    # This and all the methods till the end of class are only used in django >= 1.6
     def _get_mm_case_path_info(self, direct=False):
         pathinfos = []
         linkfield1 = _get_field(self.through, 'content_object')
@@ -714,9 +691,4 @@ def _get_subclasses(model):
     return subclasses
 
 
-# `total_ordering` does not exist in Django 1.4, as such
-# we special case this import to be py3k specific which
-# is not supported by Django 1.4
-if six.PY3:
-    from django.utils.functional import total_ordering
-    TaggableManager = total_ordering(TaggableManager)
+TaggableManager = total_ordering(TaggableManager)

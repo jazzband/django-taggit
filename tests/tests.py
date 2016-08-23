@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import warnings
 from unittest import TestCase as UnitTestCase
+from unittest import skipIf, skipUnless
 
 import django
 import mock
@@ -25,15 +26,10 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      OfficialThroughModel, Pet, Photo, TaggedCustomPK,
                      TaggedCustomPKFood, TaggedFood)
 
-from taggit.managers import TaggableManager, _model_name, _TaggableManager
+from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
 from taggit.utils import (_related_model, _remote_field, edit_string_for_tags,
                           parse_tags)
-
-try:
-    from unittest import skipIf, skipUnless
-except ImportError:
-    from django.utils.unittest import skipIf, skipUnless
 
 
 class BaseTaggingTest(object):
@@ -420,10 +416,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + 3  queries to create the tags.
         # + 6  queries to create the intermediary things (including SELECTs, to
         #      make sure we don't double create.
-        # + 12 on Django 1.6+ for save points.
+        # + 12 for save points.
         queries = 23
-        if django.VERSION < (1, 6):
-            queries -= 12
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
@@ -431,10 +425,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         #   1  query to check existing ids for sending m2m_changed signal
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #     make sure we dont't double create.
-        # + 4 on Django 1.6+ for save points.
+        # + 4 for save points.
         queries = 10
-        if django.VERSION < (1, 6):
-            queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
 
         #   1  query to check existing ids for sending m2m_changed signal
@@ -564,7 +556,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         spot.tags.add('scary')
         spike.tags.add('fluffy')
         lookup_kwargs = {
-            '%s__name' % _model_name(self.pet_model): 'Spot'
+            '%s__name' % self.pet_model._meta.model_name: 'Spot'
         }
         self.assert_tags_equal(
             self.tag_model.objects.filter(**lookup_kwargs),
@@ -601,18 +593,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         if django.VERSION >= (1, 9):
             self.assertTrue(hasattr(field, 'remote_field'))
             self.assertTrue(hasattr(field.remote_field, 'model'))
-        elif django.VERSION >= (1, 8):
-            self.assertTrue(hasattr(field, 'rel'))
-            self.assertTrue(hasattr(field.rel, 'to'))
         else:
             self.assertTrue(hasattr(field, 'rel'))
             self.assertTrue(hasattr(field.rel, 'to'))
 
         # This API has changed in Django 1.8
         # https://code.djangoproject.com/ticket/21414
-        if django.VERSION >= (1, 9):
-            self.assertEqual(self.food_model, field.model)
-            self.assertEqual(self.tag_model, _remote_field(field).model)
         if django.VERSION >= (1, 8):
             self.assertEqual(self.food_model, field.model)
             self.assertEqual(self.tag_model, _remote_field(field).model)
@@ -942,7 +928,6 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
 
 
-@skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
 class DeconstructTestCase(UnitTestCase):
     def test_deconstruct_kwargs_kept(self):
         instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
@@ -972,7 +957,4 @@ class InheritedPrefetchTests(TestCase):
 class DjangoCheckTests(UnitTestCase):
 
     def test_django_checks(self):
-        if django.VERSION >= (1, 6):
-            call_command('check', tag=['models'])
-        else:
-            call_command('validate')
+        call_command('check', tag=['models'])
