@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.21.0 (2016-08-22)
+~~~~~~~~~~~~~~~~~~~
+ * Fix form tests on Django 1.10
+  * https://github.com/alex/django-taggit/pull/433
+ * Address list_display and fieldsets in admin docs
+  * https://github.com/alex/django-taggit/pull/429
+ * external_apps.txt improvements
+  * https://github.com/alex/django-taggit/pull/428
+ * Remove support for Django 1.4-1.6, again.
+  * https://github.com/alex/django-taggit/pull/427
+
 0.20.2 (2016-07-11)
 ~~~~~~~~~~~~~~~~~~~
  * Add extra_filters argument to the manager's most_common method
