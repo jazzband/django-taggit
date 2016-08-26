@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
-import django
 from django import VERSION
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
 from django.db.models.query import QuerySet
@@ -17,29 +17,6 @@ try:
 except ImportError:
     def unidecode(tag):
         return tag
-
-
-try:
-    from django.contrib.contenttypes.fields import GenericForeignKey
-except ImportError:  # django < 1.7
-    from django.contrib.contenttypes.generic import GenericForeignKey
-
-
-try:
-    atomic = transaction.atomic
-except AttributeError:
-    from contextlib import contextmanager
-
-    @contextmanager
-    def atomic(using=None):
-        sid = transaction.savepoint(using=using)
-        try:
-            yield
-        except IntegrityError:
-            transaction.savepoint_rollback(sid, using=using)
-            raise
-        else:
-            transaction.savepoint_commit(sid, using=using)
 
 
 @python_2_unicode_compatible
@@ -66,7 +43,7 @@ class TagBase(models.Model):
             # Be oportunistic and try to save the tag, this should work for
             # most cases ;)
             try:
-                with atomic(using=using):
+                with transaction.atomic(using=using):
                     res = super(TagBase, self).save(*args, **kwargs)
                 return res
             except IntegrityError:
@@ -225,7 +202,6 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
         app_label = 'taggit'
-        if django.VERSION >= (1, 5):
-            index_together = [
-                ["content_type", "object_id"],
-            ]
+        index_together = [
+            ["content_type", "object_id"],
+        ]

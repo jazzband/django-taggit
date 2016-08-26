@@ -106,12 +106,3 @@ make use of the ``distinct()`` method on ``QuerySets``::
 
 You can also filter by the slug on tags.  If you're using a custom ``Tag``
 model you can use this API to filter on any fields it has.
-
-Aggregation
-~~~~~~~~~~~
-
-Unfortunately, due to a
-`bug in Django <http://code.djangoproject.com/ticket/10870>`_, it is not
-currently (Django < 1.6) possible to use aggregation in conjunction with ``taggit``.  This is
-a `documented interaction <http://docs.djangoproject.com/en/dev/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
-of generic relations (which ``taggit`` uses internally) and aggregates.
