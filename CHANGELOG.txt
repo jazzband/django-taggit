@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.21.1 (2016-08-25)
+~~~~~~~~~~~~~~~~~~~
+ * Document supported versions of Django; fix Travis to test these versions.
+  * https://github.com/alex/django-taggit/pull/435
+
 0.21.0 (2016-08-22)
 ~~~~~~~~~~~~~~~~~~~
  * Fix form tests on Django 1.10
