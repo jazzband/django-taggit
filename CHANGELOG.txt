@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.21.2 (2016-08-31)
+~~~~~~~~~~~~~~~~~~~
+ * Update Python version classifiers in setup.py
+  * https://github.com/alex/django-taggit/pull/438
+ * Add Greek translation
+  * https://github.com/alex/django-taggit/pull/439
+
 0.21.1 (2016-08-25)
 ~~~~~~~~~~~~~~~~~~~
  * Document supported versions of Django; fix Travis to test these versions.
