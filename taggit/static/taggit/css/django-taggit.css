@@ -1,0 +1,16 @@
+/* Custom styles to bring the jQuery Tag-It
+   widget closer to Django's admin styles */
+
+ul.tagit {
+  padding: 5px 8px !important;
+  border-radius: 4px;
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon {
+  line-height: 20px;
+}
+
+ul.tagit li.tagit-new {
+  padding: 0;
+  margin-top: 3px;
+}
