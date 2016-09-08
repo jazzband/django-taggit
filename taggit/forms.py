@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from django import forms
-from django.utils import six
 from django.forms import widgets
 from taggit.utils import parse_tags
 from django.utils.safestring import mark_safe
