@@ -2,10 +2,11 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.forms import widgets
-from taggit.utils import parse_tags
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from django.template.loader import render_to_string
+
+from taggit.utils import parse_tags
 
 
 class TagWidget(widgets.Widget):
