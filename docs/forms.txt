@@ -7,6 +7,17 @@ The ``TaggableManager`` will show up automatically as a field in a
 ``ModelForm`` or in the admin. Tags are easily changed using an interface
 powered by `jQuery Tag-It <http://aehlke.github.io/tag-it/>`_.
 
+You can change the default placeholder text of the widget by adding
+placeholder_text to the manager like so::
+
+    from django.db import models
+
+    from taggit.managers import TaggableManager
+
+    class Food(models.Model):
+        tags = TaggableManager(placeholder_text="Add a new food group")
+
+
 ``commit=False``
 ~~~~~~~~~~~~~~~~
 
