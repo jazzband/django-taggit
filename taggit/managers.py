@@ -385,7 +385,7 @@ class TaggableManager(RelatedField, Field):
     _related_name_counter = 0
 
     def __init__(self, verbose_name=_("Tags"),
-                 help_text=_("A list of tags."),
+                 help_text=_("A comma-separated list of tags."),
                  through=None, blank=False, related_name=None, to=None,
                  manager=_TaggableManager):
 
