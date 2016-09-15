@@ -54,7 +54,10 @@ class TagWidget(widgets.Widget):
         Renders the widget HTML, placing the widgets in alphabetical order.
         """
         # Alphabetize the tag list
-        tags = sorted(value.select_related("tag"), key=lambda x: x.tag.name)
+        if value:
+            tags = sorted(value.select_related("tag"), key=lambda x: x.tag.name)
+        else:
+            tags = []
         # Render the HTML
         output = render_to_string('taggit/widget.html', {
             'widget_name': name,
