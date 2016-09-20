@@ -1,0 +1,7 @@
+<ul class='jquery-tag-it-widget'
+  data-form-name="{{ widget_name }}"
+  data-placeholder-text="{{ placeholder_text }}">
+  {% for tag in tag_list %}
+    <li>{{ tag.tag.name }}</li>
+  {% endfor %}
+</ul>
