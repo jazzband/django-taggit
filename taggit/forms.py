@@ -4,12 +4,13 @@ from django import forms
 from django.forms import widgets
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.utils import six
 from django.utils.translation import ugettext as _
 
-from taggit.utils import parse_tags
+from taggit.utils import edit_string_for_tags, parse_tags
 
 
-class TagWidget(widgets.Widget):
+class TagWidget(widgets.Input):
     """
     A widget that allows users to easily input tags in an interface
     powered by jQuery Tag-It (https://github.com/aehlke/tag-it)
@@ -53,19 +54,20 @@ class TagWidget(widgets.Widget):
         """
         Renders the widget HTML, placing the widgets in alphabetical order.
         """
-        # Alphabetize the tag list
-        if value:
-            tags = sorted(value.select_related("tag"), key=lambda x: x.tag.name)
-        else:
-            tags = []
+        if value is not None and not isinstance(value, six.string_types):
+            value = edit_string_for_tags([
+                o.tag for o in value.select_related("tag")])
+
         # Render the HTML
-        output = render_to_string('taggit/widget.html', {
+        tag_it_html = render_to_string('taggit/widget.html', {
             'widget_name': name,
-            'tag_list': tags,
+            'tag_list': value,
             'placeholder_text': self.placeholder_text
         })
+        hidden_field = widgets.HiddenInput(attrs)
         # Return the safe HTML
-        return mark_safe(output)
+        print value
+        return mark_safe(u"{}{}".format(tag_it_html, hidden_field.render(name, value, attrs)))
 
 
 class TagField(forms.CharField):

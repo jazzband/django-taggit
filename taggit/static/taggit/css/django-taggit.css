@@ -4,6 +4,7 @@
 ul.tagit {
   padding: 5px 8px !important;
   border-radius: 4px;
+  line-height: 1.4em;
 }
 
 ul.tagit li.tagit-choice .tagit-close .text-icon {
