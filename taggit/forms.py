@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 from django import forms
 from django.forms import widgets
 from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
 from django.utils import six
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from taggit.utils import edit_string_for_tags, parse_tags
