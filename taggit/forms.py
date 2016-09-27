@@ -58,15 +58,17 @@ class TagWidget(widgets.Input):
             value = edit_string_for_tags([
                 o.tag for o in value.select_related("tag")])
 
-        # Render the HTML
+        # Render the HTML of the widget
         tag_it_html = render_to_string('taggit/widget.html', {
             'widget_name': name,
             'tag_list': value,
             'placeholder_text': self.placeholder_text
         })
+
+        # Render the hidden input
         hidden_field = widgets.HiddenInput(attrs)
-        # Return the safe HTML
-        print value
+
+        # Return the safe HTML combining the custom widgget and the hidden input
         return mark_safe(u"{}{}".format(tag_it_html, hidden_field.render(name, value, attrs)))
 
 

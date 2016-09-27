@@ -5,7 +5,6 @@
     $("ul.jquery-tag-it-widget").each(function(){
       var field_selector = "#id_" + $(this).data("field-id");
       $(this).tagit({
-        // fieldName: $(this).data("form-name"),
         singleField: true,
         allowSpaces: true,
         singleFieldDelimiter: ', ',
@@ -13,9 +12,9 @@
         placeholderText: $(this).data("placeholder-text"),
         caseSensitive: false,
         preprocessTag: function(tag){
+          /* Before the tag is added, the preprocessor removes any wrapping quotes */
           if (!tag) { return ''; }
           tag = tag.trim();
-          /* Remove the beginning and trailing quotes if they wrap the tag */
           if (tag.charAt(0) == '"' && tag.charAt(tag.length-1) == '"') {
             tag = tag.substring(1, tag.length-1);
           }
