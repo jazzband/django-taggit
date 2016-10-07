@@ -980,6 +980,18 @@ class TagListViewTests(BaseTaggingTestCase, TestCase):
         self.strawberry = self.model.objects.create(name='strawberry')
         self.strawberry.tags.add('red')
 
+    def test_url_request_returns_view(self):
+        request = self.factory.get('/food/tags/{}/'.format(self.slug))
+        queryset = self.model.objects.all()
+        response = tagged_object_list(request, self.slug, queryset)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.apple, response.context_data['object_list'])
+        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+        self.assertEqual(
+            self.apple.tags.first(),
+            response.context_data['extra_context']['tag']
+        )
+
     def test_list_view_returns_single(self):
         response = self.client.get('/food/tags/{}/'.format(self.slug))
         self.assertEqual(response.status_code, 200)

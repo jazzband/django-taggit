@@ -10,14 +10,17 @@ from taggit.models import Tag, TaggedItem
 def tagged_object_list(request, slug, queryset, **kwargs):
     if callable(queryset):
         queryset = queryset()
-    tag = get_object_or_404(Tag, slug=slug)
-    qs = queryset.filter(pk__in=TaggedItem.objects.filter(
-        tag=tag, content_type=ContentType.objects.get_for_model(queryset.model)
-    ).values_list("object_id", flat=True))
-    if "extra_context" not in kwargs:
-        kwargs["extra_context"] = {}
-    kwargs["extra_context"]["tag"] = tag
-    return ListView.as_view(request, qs, **kwargs)
+    queryset_model = ContentType.objects.get_for_model(queryset.model)
+    kwargs["slug"] = slug
+    tag_list_view = type(
+        'TagListView',
+        (TagListMixin, ListView),
+        {
+            'model': queryset_model,
+            'queryset': queryset
+         }
+    )
+    return tag_list_view.as_view()(request, **kwargs)
 
 
 class TagListMixin:
@@ -39,3 +42,10 @@ class TagListMixin:
         if self.tag_suffix:
             self.template_name_suffix = self.tag_suffix + self.template_name_suffix
         return super(TagListMixin, self).get_template_names()
+
+    def get_context_data(self, **kwargs):
+        context = super(TagListMixin, self).get_context_data(**kwargs)
+        if "extra_context" not in context:
+            context["extra_context"] = {}
+        context["extra_context"]["tag"] = self.tag
+        return context
