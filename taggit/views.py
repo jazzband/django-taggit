@@ -18,3 +18,19 @@ def tagged_object_list(request, slug, queryset, **kwargs):
         kwargs["extra_context"] = {}
     kwargs["extra_context"]["tag"] = tag
     return ListView.as_view(request, qs, **kwargs)
+
+
+class TagListMixin:
+    def dispatch(self, request, *args, **kwargs):
+        slug = kwargs.pop('slug')
+        self.tag = get_object_or_404(Tag, slug=slug)
+        return super(TagListMixin, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        qs = super(TagListMixin, self).get_queryset(**kwargs)
+        return qs.filter(
+            pk__in=TaggedItem.objects.filter(
+                tag=self.tag, content_type=ContentType.objects.get_for_model(qs.model)
+            ).values_list("object_id", flat=True))
+
+
