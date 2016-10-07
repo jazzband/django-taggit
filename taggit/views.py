@@ -18,7 +18,7 @@ def tagged_object_list(request, slug, queryset, **kwargs):
         {
             'model': queryset_model,
             'queryset': queryset
-         }
+        }
     )
     return tag_list_view.as_view()(request, **kwargs)
 
