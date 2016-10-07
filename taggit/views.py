@@ -21,6 +21,8 @@ def tagged_object_list(request, slug, queryset, **kwargs):
 
 
 class TagListMixin:
+    tag_suffix = '_tag'
+
     def dispatch(self, request, *args, **kwargs):
         slug = kwargs.pop('slug')
         self.tag = get_object_or_404(Tag, slug=slug)
@@ -34,5 +36,6 @@ class TagListMixin:
             ).values_list("object_id", flat=True))
 
     def get_template_names(self):
-        self.template_name_suffix = '_tag' + self.template_name_suffix
+        if self.tag_suffix:
+            self.template_name_suffix = self.tag_suffix + self.template_name_suffix
         return super(TagListMixin, self).get_template_names()
