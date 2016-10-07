@@ -33,4 +33,6 @@ class TagListMixin:
                 tag=self.tag, content_type=ContentType.objects.get_for_model(qs.model)
             ).values_list("object_id", flat=True))
 
-
+    def get_template_names(self):
+        self.template_name_suffix = '_tag' + self.template_name_suffix
+        return super(TagListMixin, self).get_template_names()
