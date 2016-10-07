@@ -13,7 +13,7 @@ def tagged_object_list(request, slug, queryset, **kwargs):
     queryset_model = ContentType.objects.get_for_model(queryset.model)
     kwargs["slug"] = slug
     tag_list_view = type(
-        'TagListView',
+        str('TagListView'),
         (TagListMixin, ListView),
         {
             'model': queryset_model,
@@ -23,7 +23,7 @@ def tagged_object_list(request, slug, queryset, **kwargs):
     return tag_list_view.as_view()(request, **kwargs)
 
 
-class TagListMixin:
+class TagListMixin(object):
     tag_suffix = '_tag'
 
     def dispatch(self, request, *args, **kwargs):
