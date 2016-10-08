@@ -12,7 +12,7 @@ from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.management import call_command
 from django.db import connection, models
-from django.test import TestCase, TransactionTestCase
+from django.test import RequestFactory, TestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
@@ -28,6 +28,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
 
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
+from taggit.views import tagged_object_list, TagListMixin
 from taggit.utils import (_related_model, _remote_field, edit_string_for_tags,
                           parse_tags)
 
@@ -958,3 +959,42 @@ class DjangoCheckTests(UnitTestCase):
 
     def test_django_checks(self):
         call_command('check', tag=['models'])
+
+
+from django.views.generic.list import ListView
+
+
+class FoodTagListView(TagListMixin, ListView):
+    model = Food
+
+
+@override_settings(ROOT_URLCONF='tests.urls')
+class TagListViewTests(BaseTaggingTestCase, TestCase):
+    model = Food
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.slug = 'green'
+        self.apple = self.model.objects.create(name='apple')
+        self.apple.tags.add(self.slug)
+        self.strawberry = self.model.objects.create(name='strawberry')
+        self.strawberry.tags.add('red')
+
+    def test_url_request_returns_view(self):
+        request = self.factory.get('/food/tags/{}/'.format(self.slug))
+        queryset = self.model.objects.all()
+        response = tagged_object_list(request, self.slug, queryset)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.apple, response.context_data['object_list'])
+        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+        self.assertEqual(
+            self.apple.tags.first(),
+            response.context_data['extra_context']['tag']
+        )
+
+    def test_list_view_returns_single(self):
+        response = self.client.get('/food/tags/{}/'.format(self.slug))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.apple, response.context_data['object_list'])
+        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+
