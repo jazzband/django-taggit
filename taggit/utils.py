@@ -46,7 +46,6 @@ def _parse_tags(tagstring):
 
     tagstring = force_text(tagstring)
 
-
     words = []
     buffer = []
     # Defer splitting of non-quoted sections until we know if there are
