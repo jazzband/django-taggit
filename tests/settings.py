@@ -30,6 +30,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(ROOT_DIR, 'templates'),
         ],
+        'APP_DIRS': True,
         'OPTIONS': {
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
