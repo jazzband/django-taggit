@@ -46,7 +46,6 @@ def _parse_tags(tagstring):
 
     tagstring = force_text(tagstring)
 
-    print tagstring
 
     words = []
     buffer = []
@@ -87,13 +86,11 @@ def _parse_tags(tagstring):
                 saw_loose_comma = True
             to_be_split.append(''.join(buffer))
     if to_be_split:
-        print "to be split", to_be_split
         delimiter = ','
         for chunk in to_be_split:
             words.extend(split_strip(chunk, delimiter))
     words = list(set(words))
     words.sort()
-    print words
     return words
 
 
