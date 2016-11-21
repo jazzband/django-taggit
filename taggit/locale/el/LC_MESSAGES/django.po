@@ -1,0 +1,62 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: django-taggit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-31 14:31+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Serafeim Papastefanos <spapas@gmail.com>\n"
+"Language-Team: Greek <el@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\apps.py:7
+msgid "Taggit"
+msgstr ""
+
+#: .\forms.py:27
+msgid "Please provide a comma-separated list of tags."
+msgstr "Παρακαλούμε συπληρώστε μια λίστα από ετικέτες χωρισμένη με κόμματα"
+
+#: .\managers.py:387 .\models.py:79
+msgid "Tags"
+msgstr "Ετικέτες"
+
+#: .\managers.py:388
+msgid "A comma-separated list of tags."
+msgstr "Μια χωρισμένη με κόμματα λίστα από ετικέτες"
+
+#: .\models.py:24
+msgid "Name"
+msgstr "Όνομα"
+
+#: .\models.py:25
+msgid "Slug"
+msgstr "Slug"
+
+#: .\models.py:78
+msgid "Tag"
+msgstr "Ετικέτα"
+
+#: .\models.py:86
+#, python-format
+msgid "%(object)s tagged with %(tag)s"
+msgstr "%(object)s μαρκαρισμένα με %(tag)s"
+
+#: .\models.py:141
+msgid "Content type"
+msgstr "Είδος περιεχομένου"
+
+#: .\models.py:185 .\models.py:194
+msgid "Object id"
+msgstr "Κωδικός αντικειμένου"
+
+#: .\models.py:202
+msgid "Tagged Item"
+msgstr "Αντικείμενο με ετικέτα"
+
+#: .\models.py:203
+msgid "Tagged Items"
+msgstr "Αντικείμενα με ετικέτα"

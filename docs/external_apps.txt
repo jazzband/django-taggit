@@ -14,21 +14,25 @@ of interest.
 If you have an application that you'd like to see listed here, simply fork
 ``taggit`` on `github`__, add it to this list, and send a pull request.
 
- * ``django-taggit-suggest``: Provides support for defining keyword and regular
-   expression rules for suggesting new tags for content.  This used to be
-   available at ``taggit.contrib.suggest``.  Available on `github`__.
- * ``django-taggit-templatetags``: Provides several templatetags, including one
-   for tag clouds, to expose various ``taggit`` APIs directly to templates.
-   Available on `github`__.
+
  * ``django-taggit-helpers``: Makes it easier to work with admin pages of models
    associated with ``taggit`` tags by adding helper classes: ``TaggitCounter``,
    ``TaggitListFilter``, ``TaggitStackedInline``, ``TaggitTabularInline``.
    Available on `github`__.
  * ``django-taggit-labels``: Provides a clickable label widget for the
    Django admin for user friendly selection from managed tag sets.
+ * ``django-taggit-serializer``: Adds functionality for using ``taggit`` with
+   ``django-rest-framework``. Available on `github`__.
+ * ``django-taggit-suggest``: Provides support for defining keyword and regular
+   expression rules for suggesting new tags for content.  This used to be
+   available at ``taggit.contrib.suggest``.  Available on `github`__.
+ * ``django-taggit-templatetags``: Provides several templatetags, including one
+   for tag clouds, to expose various ``taggit`` APIs directly to templates.
+   Available on `github`__.
 
-__ http://github.com/alex/django-taggit
-__ http://github.com/frankwiles/django-taggit-suggest
-__ http://github.com/feuervogel/django-taggit-templatetags
-__ http://github.com/mfcovington/django-taggit-helpers
+__ https://github.com/alex/django-taggit
+__ https://github.com/mfcovington/django-taggit-helpers
 __ https://github.com/bennylope/django-taggit-labels
+__ https://github.com/glemmaPaul/django-taggit-serializer
+__ https://github.com/frankwiles/django-taggit-suggest
+__ https://github.com/feuervogel/django-taggit-templatetags
