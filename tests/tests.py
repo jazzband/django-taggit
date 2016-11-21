@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import warnings
 from unittest import TestCase as UnitTestCase
+from unittest import skipIf, skipUnless
 
 import django
 import mock
@@ -11,7 +12,7 @@ from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.management import call_command
 from django.db import connection, models
-from django.test import TestCase, TransactionTestCase
+from django.test import RequestFactory, TestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
@@ -25,15 +26,11 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      OfficialThroughModel, Pet, Photo, TaggedCustomPK,
                      TaggedCustomPKFood, TaggedFood)
 
-from taggit.managers import TaggableManager, _model_name, _TaggableManager
+from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
+from taggit.views import tagged_object_list, TagListMixin
 from taggit.utils import (_related_model, _remote_field, edit_string_for_tags,
                           parse_tags)
-
-try:
-    from unittest import skipIf, skipUnless
-except ImportError:
-    from django.utils.unittest import skipIf, skipUnless
 
 
 class BaseTaggingTest(object):
@@ -45,16 +42,11 @@ class BaseTaggingTest(object):
         self.assertEqual(got, tags)
 
     def _get_form_str(self, form_str):
-        if django.VERSION >= (1, 3):
-            form_str %= {
-                "help_start": '<span class="helptext">',
-                "help_stop": "</span>"
-            }
-        else:
-            form_str %= {
-                "help_start": "",
-                "help_stop": ""
-            }
+        form_str %= {
+            "help_start": '<span class="helptext">',
+            "help_stop": "</span>",
+            "required": "required" if django.VERSION >= (1, 10) else "",
+        }
         return form_str
 
     def assertFormRenders(self, form, html):
@@ -427,10 +419,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # + 3  queries to create the tags.
         # + 6  queries to create the intermediary things (including SELECTs, to
         #      make sure we don't double create.
-        # + 12 on Django 1.6+ for save points.
+        # + 12 for save points.
         queries = 23
-        if django.VERSION < (1, 6):
-            queries -= 12
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
@@ -438,10 +428,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         #   1  query to check existing ids for sending m2m_changed signal
         # + 4 queries to create the intermeidary things (including SELECTs, to
         #     make sure we dont't double create.
-        # + 4 on Django 1.6+ for save points.
+        # + 4 for save points.
         queries = 10
-        if django.VERSION < (1, 6):
-            queries -= 4
         self.assertNumQueries(queries, pear.tags.add, "green", "delicious")
 
         #   1  query to check existing ids for sending m2m_changed signal
@@ -571,7 +559,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         spot.tags.add('scary')
         spike.tags.add('fluffy')
         lookup_kwargs = {
-            '%s__name' % _model_name(self.pet_model): 'Spot'
+            '%s__name' % self.pet_model._meta.model_name: 'Spot'
         }
         self.assert_tags_equal(
             self.tag_model.objects.filter(**lookup_kwargs),
@@ -608,18 +596,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         if django.VERSION >= (1, 9):
             self.assertTrue(hasattr(field, 'remote_field'))
             self.assertTrue(hasattr(field.remote_field, 'model'))
-        elif django.VERSION >= (1, 8):
-            self.assertTrue(hasattr(field, 'rel'))
-            self.assertTrue(hasattr(field.rel, 'to'))
         else:
             self.assertTrue(hasattr(field, 'rel'))
             self.assertTrue(hasattr(field.rel, 'to'))
 
         # This API has changed in Django 1.8
         # https://code.djangoproject.com/ticket/21414
-        if django.VERSION >= (1, 9):
-            self.assertEqual(self.food_model, field.model)
-            self.assertEqual(self.tag_model, _remote_field(field).model)
         if django.VERSION >= (1, 8):
             self.assertEqual(self.food_model, field.model)
             self.assertEqual(self.tag_model, _remote_field(field).model)
@@ -735,6 +717,37 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id], name='green').annotate(models.Count('name'))
         self.assertEqual(tag_info[0].name__count, 2)
 
+    def test_most_common_extra_filters(self):
+        apple = self.food_model.objects.create(name='apple')
+        apple.tags.add('red')
+        apple.tags.add('green')
+
+        orange = self.food_model.objects.create(name='orange')
+        orange.tags.add('orange')
+        orange.tags.add('red')
+
+        pear = self.food_model.objects.create(name='pear')
+        pear.tags.add('green')
+        pear.tags.add('yellow')
+
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(
+                min_count=2, extra_filters={
+                    'officialfood__name__in': ['pear', 'apple']
+                })[:1],
+            ['green'],
+            sort=False
+        )
+
+        self.assert_tags_equal(
+            self.food_model.tags.most_common(
+                min_count=2, extra_filters={
+                    'officialfood__name__in': ['orange', 'apple']
+                })[:1],
+            ['red'],
+            sort=False
+        )
+
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""
@@ -756,8 +769,8 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertEqual(list(self.form_class.base_fields), ['name', 'tags'])
 
         f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy'})
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
         f.save()
         apple = self.food_model.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
@@ -772,18 +785,18 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertFalse(f.is_valid())
 
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
         apple.tags.add('has,comma')
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
         apple.tags.add('has space')
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
     def test_formfield(self):
         tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
@@ -918,7 +931,6 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
 
 
-@skipIf(django.VERSION < (1, 7), "not relevant for Django < 1.7")
 class DeconstructTestCase(UnitTestCase):
     def test_deconstruct_kwargs_kept(self):
         instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
@@ -926,16 +938,6 @@ class DeconstructTestCase(UnitTestCase):
         new_instance = TaggableManager(*args, **kwargs)
         self.assertEqual('tests.OfficialThroughModel', _remote_field(new_instance).through)
         self.assertEqual('dummy.To', _related_model(_remote_field(new_instance)))
-
-
-@skipUnless(django.VERSION < (1, 7), "test only applies to 1.6 and below")
-class SouthSupportTests(TestCase):
-    def test_import_migrations_module(self):
-        try:
-            from taggit.migrations import __doc__  # noqa
-        except ImproperlyConfigured as e:
-            exception = e
-        self.assertIn("SOUTH_MIGRATION_MODULES", exception.args[0])
 
 
 class InheritedPrefetchTests(TestCase):
@@ -958,7 +960,43 @@ class InheritedPrefetchTests(TestCase):
 class DjangoCheckTests(UnitTestCase):
 
     def test_django_checks(self):
-        if django.VERSION >= (1, 6):
-            call_command('check', tag=['models'])
-        else:
-            call_command('validate')
+        call_command('check', tag=['models'])
+
+
+from django.views.generic.list import ListView
+
+
+class FoodTagListView(TagListMixin, ListView):
+    model = Food
+
+
+@override_settings(ROOT_URLCONF='tests.urls')
+class TagListViewTests(BaseTaggingTestCase, TestCase):
+    model = Food
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.slug = 'green'
+        self.apple = self.model.objects.create(name='apple')
+        self.apple.tags.add(self.slug)
+        self.strawberry = self.model.objects.create(name='strawberry')
+        self.strawberry.tags.add('red')
+
+    def test_url_request_returns_view(self):
+        request = self.factory.get('/food/tags/{}/'.format(self.slug))
+        queryset = self.model.objects.all()
+        response = tagged_object_list(request, self.slug, queryset)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.apple, response.context_data['object_list'])
+        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+        self.assertEqual(
+            self.apple.tags.first(),
+            response.context_data['extra_context']['tag']
+        )
+
+    def test_list_view_returns_single(self):
+        response = self.client.get('/food/tags/{}/'.format(self.slug))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.apple, response.context_data['object_list'])
+        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+

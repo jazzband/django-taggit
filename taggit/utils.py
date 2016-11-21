@@ -164,6 +164,7 @@ def get_func(key, default):
         get_func.cache[func_path] = func
         return func
 
+
 # Create a cache as an attribute on the function that way it can cache the
 # imported callable rather than re-importing it each time `parse_tags` or
 # `edit_string_for_tags` needs the callable.
