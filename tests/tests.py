@@ -768,14 +768,23 @@ class TaggableFormTestCase(BaseTaggingTestCase):
     def test_form(self):
         self.assertEqual(list(self.form_class.base_fields), ['name', 'tags'])
 
-        f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy'})
+        tags = []
+        for tag in ['green', 'red', 'yummy']:
+            tags.append(self.food_model.tags.create(name=tag))
+
+        f = self.form_class({'name': 'apple', 'tags': [tag.pk for tag in tags]})
         self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+<tr><th><label for="id_tags">Tags:</label></th><td><select multiple="multiple" id="id_tags" name="tags" %(required)s>
+<option value="1" selected="selected">green</option>
+<option value="2" selected="selected">red</option>
+<option value="3" selected="selected">yummy</option>
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
         f.save()
         apple = self.food_model.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
 
-        f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy, delicious'}, instance=apple)
+        tags.append(self.food_model.tags.create(name='delicious'))
+        f = self.form_class({'name': 'apple', 'tags': [tag.pk for tag in tags]}, instance=apple)
         f.save()
         apple = self.food_model.objects.get(name='apple')
         self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy', 'delicious'])
@@ -786,17 +795,47 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 
         f = self.form_class(instance=apple)
         self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+<tr><th><label for="id_tags">Tags:</label></th><td><select multiple="multiple" id="id_tags" name="tags" %(required)s>
+<option value="1" selected="selected">green</option>
+<option value="2" selected="selected">red</option>
+<option value="3" selected="selected">yummy</option>
+<option value="4" selected="selected">delicious</option>
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
         apple.tags.add('has,comma')
         f = self.form_class(instance=apple)
         self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+<tr><th><label for="id_tags">Tags:</label></th><td><select multiple="multiple" id="id_tags" name="tags" %(required)s>
+<option value="1" selected="selected">green</option>
+<option value="2" selected="selected">red</option>
+<option value="3" selected="selected">yummy</option>
+<option value="4" selected="selected">delicious</option>
+<option value="5" selected="selected">has,comma</option>
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
         apple.tags.add('has space')
         f = self.form_class(instance=apple)
         self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+<tr><th><label for="id_tags">Tags:</label></th><td><select multiple="multiple" id="id_tags" name="tags" %(required)s>
+<option value="1" selected="selected">green</option>
+<option value="2" selected="selected">red</option>
+<option value="3" selected="selected">yummy</option>
+<option value="4" selected="selected">delicious</option>
+<option value="5" selected="selected">has,comma</option>
+<option value="6" selected="selected">has space</option>
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+
+        apple.tags.remove('delicious')
+        f = self.form_class(instance=apple)
+        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><select multiple="multiple" id="id_tags" name="tags" %(required)s>
+<option value="1" selected="selected">green</option>
+<option value="2" selected="selected">red</option>
+<option value="3" selected="selected">yummy</option>
+<option value="4">delicious</option>
+<option value="5" selected="selected">has,comma</option>
+<option value="6" selected="selected">has space</option>
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
 
     def test_formfield(self):
         tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
@@ -804,8 +843,9 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertEqual(ff.label, 'Categories')
         self.assertEqual(ff.help_text, 'Add some categories')
         self.assertEqual(ff.required, False)
+        self.assertEqual(list(ff.queryset), list(self.food_model.tags.all()))
 
-        self.assertEqual(ff.clean(""), [])
+        self.assertEqual(list(ff.clean("")), [])
 
         tm = TaggableManager()
         ff = tm.formfield()
