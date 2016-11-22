@@ -16,7 +16,7 @@ from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
-from taggit.forms import TagField
+from taggit.forms import TagMultipleChoiceField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
 from taggit.utils import (_get_field, _related_model, _remote_field,
                           require_instance_manager)
@@ -528,11 +528,20 @@ class TaggableManager(RelatedField, Field):
     def save_form_data(self, instance, value):
         getattr(instance, self.name).set(*value)
 
-    def formfield(self, form_class=TagField, **kwargs):
+    def formfield(self, form_class=TagMultipleChoiceField, **kwargs):
+        db = kwargs.get('using', None)
+        queryset = self.through.objects.none()
+        if VERSION >= (1, 9):
+            if self.remote_field.model:
+                queryset = self.remote_field.model.objects.using(db)
+        else:
+            if self.rel.to:
+                queryset = self.rel.to.objects.using(db)
         defaults = {
             "label": capfirst(self.verbose_name),
             "help_text": self.help_text,
-            "required": not self.blank
+            "required": not self.blank,
+            "queryset": queryset
         }
         defaults.update(kwargs)
         return form_class(**defaults)

@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.db import models
 from django.utils import six
 from django.utils.translation import ugettext as _
 
@@ -25,3 +26,10 @@ class TagField(forms.CharField):
         except ValueError:
             raise forms.ValidationError(
                 _("Please provide a comma-separated list of tags."))
+
+
+class TagMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def prepare_value(self, data):
+        if isinstance(data, models.query.QuerySet):
+            data = [o.tag for o in data.select_related('tag')]
+        return super(TagMultipleChoiceField, self).prepare_value(data)
