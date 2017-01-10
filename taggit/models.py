@@ -28,10 +28,10 @@ class TagBase(models.Model):
         return self.name
 
     def __gt__(self, other):
-        return self.name > other.name
+        return self.name.lower() > other.name.lower()
 
     def __lt__(self, other):
-        return self.name < other.name
+        return self.name.lower() < other.name.lower()
 
     class Meta:
         abstract = True
