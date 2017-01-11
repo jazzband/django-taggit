@@ -110,6 +110,18 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
                 r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
             apple.tags.add(1)
 
+    def test_gt(self):
+        high = self.tag_model.objects.create(name='high')
+        low = self.tag_model.objects.create(name='Low')
+        self.assertTrue(low > high)
+        self.assertFalse(high > low)
+
+    def test_lt(self):
+        high = self.tag_model.objects.create(name='high')
+        low = self.tag_model.objects.create(name='Low')
+        self.assertTrue(high < low)
+        self.assertFalse(low < high)
+
 
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
