@@ -197,7 +197,10 @@ class _TaggableManager(models.Manager):
                     "Cannot add {0} ({1}). Expected {2} or str.".format(
                         t, type(t), type(self.through.tag_model())))
 
-        if getattr(settings, 'TAGGIT_CASE_INSENSITIVE', False):
+        case_insensitive = getattr(settings, 'TAGGIT_CASE_INSENSITIVE', False)
+        manager = self.through.tag_model()._default_manager.using(db)
+
+        if case_insensitive:
             # Some databases can do case-insensitive comparison with IN, which
             # would be faster, but we can't rely on it or easily detect it.
             existing = []
@@ -205,28 +208,28 @@ class _TaggableManager(models.Manager):
 
             for name in str_tags:
                 try:
-                    tag = (self.through.tag_model()._default_manager
-                           .using(db)
-                           .get(name__iexact=name))
+                    tag = manager.get(name__iexact=name)
                     existing.append(tag)
                 except self.through.tag_model().DoesNotExist:
                     tags_to_create.append(name)
         else:
             # If str_tags has 0 elements Django actually optimizes that to not
             # do a query.  Malcolm is very smart.
-            existing = (self.through.tag_model()._default_manager
-                        .using(db)
-                        .filter(name__in=str_tags))
-
+            existing = manager.filter(name__in=str_tags)
             tags_to_create = str_tags - set(t.name for t in existing)
 
         tag_objs.update(existing)
 
         for new_tag in tags_to_create:
-            tag_objs.add(
-                self.through.tag_model()._default_manager
-                .using(db)
-                .create(name=new_tag))
+            if case_insensitive:
+                try:
+                    tag = manager.get(name__iexact=name)
+                except self.through.tag_model().DoesNotExist:
+                    tag = manager.create(name=new_tag)
+            else:
+                tag = manager.create(name=new_tag)
+
+            tag_objs.add(tag)
 
         return tag_objs
 

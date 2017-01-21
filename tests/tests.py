@@ -668,6 +668,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         orange.tags.add('spain')
         self.assertEqual(list(orange.tags.all()), [spain])
 
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_with_case_insensitive_option_and_creation(self):
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add('spain', 'Spain')
+        tag_names = list(orange.tags.names())
+        self.assertEqual(len(tag_names), 1, tag_names)
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
