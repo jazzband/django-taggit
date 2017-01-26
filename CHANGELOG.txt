@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.21.6 (2017-01-25)
+~~~~~~~~~~~~~~~~~~~
+ * Fix case-insensitive tag creation when setting to a mix of new and existing tags are used
+  * https://github.com/alex/django-taggit/pull/464
+
 0.21.5 (2017-01-21)
 ~~~~~~~~~~~~~~~~~~~
  * Check for case-insensitive duplicates when creating new tags
