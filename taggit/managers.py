@@ -12,36 +12,21 @@ from django.db.models import signals
 from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
                                              RelatedField)
+from django.db.models.query_utils import PathInfo
 from django.utils import six
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
-from taggit.utils import (_get_field, _related_model, _remote_field,
+from taggit.utils import (_related_model, _remote_field,
                           require_instance_manager)
-
-if VERSION < (1, 8):
-    # related.py was removed in Django 1.8
-
-    # Depending on how Django was updated, related.py could still exist
-    # on the users system even on Django 1.8+, so we check the Django
-    # version before importing it to make sure this doesn't get imported
-    # accidentally.
-    from django.db.models.related import RelatedObject
-else:
-    RelatedObject = None
-
 
 if VERSION >= (1, 9):
     from django.db.models.fields.related import lazy_related_operation
 else:
     from django.db.models.fields.related import add_lazy_relation
 
-try:
-    from django.db.models.query_utils import PathInfo
-except ImportError:  # Django < 1.8
-    from django.db.models.related import PathInfo
 
 class TaggableRel(ManyToManyRel):
     def __init__(self, field, related_name, through, to=None):
@@ -76,11 +61,8 @@ class ExtraJoinRestriction(object):
         self.col = col
         self.content_types = content_types
 
-    def as_sql(self, qn, connection):
-        # qn changed from a quoting function to be a compiler object in 1.8,
-        # which has a quote function
-        if VERSION >= (1, 8):
-            qn = qn.quote_name_unless_alias
+    def as_sql(self, compiler, connection):
+        qn = compiler.quote_name_unless_alias
         if len(self.content_types) == 1:
             extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
         else:
@@ -343,7 +325,7 @@ class _TaggableManager(models.Manager):
         if len(lookup_keys) == 1:
             # Can we do this without a second query by using a select_related()
             # somehow?
-            f = _get_field(self.through, lookup_keys[0])
+            f = self.through._meta.get_field(lookup_keys[0])
             remote_field = _remote_field(f)
             rel_model = _related_model(_remote_field(f))
             objs = rel_model._default_manager.filter(**{
@@ -499,9 +481,6 @@ class TaggableManager(RelatedField, Field):
         return False
 
     def post_through_setup(self, cls):
-        if RelatedObject is not None:  # Django < 1.8
-            self.related = RelatedObject(cls, self.model, self)
-
         self.use_gfk = (
             self.through is None or issubclass(self.through, CommonGenericTaggedItemBase)
         )
@@ -513,9 +492,6 @@ class TaggableManager(RelatedField, Field):
         else:
             if not self.rel.to:
                 self.rel.to = self.through._meta.get_field("tag").rel.to
-
-        if RelatedObject is not None:  # Django < 1.8
-            self.related = RelatedObject(self.through, cls, self)
 
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
@@ -549,10 +525,10 @@ class TaggableManager(RelatedField, Field):
         return self.model._meta.model_name
 
     def m2m_reverse_name(self):
-        return _get_field(self.through, 'tag').column
+        return self.through._meta.get_field('tag').column
 
     def m2m_reverse_field_name(self):
-        return _get_field(self.through, 'tag').name
+        return self.through._meta.get_field('tag').name
 
     def m2m_target_field_name(self):
         return self.model._meta.pk.name
@@ -594,7 +570,7 @@ class TaggableManager(RelatedField, Field):
             alias_to_join = rhs_alias
         else:
             alias_to_join = lhs_alias
-        extra_col = _get_field(self.through, 'content_type').column
+        extra_col = self.through._meta.get_field('content_type').column
         content_type_ids = [ContentType.objects.get_for_model(subclass).pk for
                             subclass in _get_subclasses(self.model)]
         if len(content_type_ids) == 1:
@@ -612,8 +588,8 @@ class TaggableManager(RelatedField, Field):
 
     def _get_mm_case_path_info(self, direct=False):
         pathinfos = []
-        linkfield1 = _get_field(self.through, 'content_object')
-        linkfield2 = _get_field(self.through, self.m2m_reverse_field_name())
+        linkfield1 = self.through._meta.get_field('content_object')
+        linkfield2 = self.through._meta.get_field(self.m2m_reverse_field_name())
         if direct:
             join1infos = linkfield1.get_reverse_path_info()
             join2infos = linkfield2.get_path_info()
@@ -628,7 +604,7 @@ class TaggableManager(RelatedField, Field):
         pathinfos = []
         from_field = self.model._meta.pk
         opts = self.through._meta
-        linkfield = _get_field(self.through, self.m2m_reverse_field_name())
+        linkfield = self.through._meta.get_field(self.m2m_reverse_field_name())
         if direct:
             join1infos = [PathInfo(self.model._meta, opts, [from_field], _remote_field(self), True, False)]
             join2infos = linkfield.get_path_info()
@@ -658,7 +634,7 @@ class TaggableManager(RelatedField, Field):
             return (("object_id", self.model._meta.pk.column),)
 
     def get_extra_restriction(self, where_class, alias, related_alias):
-        extra_col = _get_field(self.through, 'content_type').column
+        extra_col = self.through._meta.get_field('content_type').column
         content_type_ids = [ContentType.objects.get_for_model(subclass).pk
                             for subclass in _get_subclasses(self.model)]
         return ExtraJoinRestriction(related_alias, extra_col, content_type_ids)
@@ -668,7 +644,7 @@ class TaggableManager(RelatedField, Field):
 
     @property
     def related_fields(self):
-        return [(_get_field(self.through, 'object_id'), self.model._meta.pk)]
+        return [(self.through._meta.get_field('object_id'), self.model._meta.pk)]
 
     @property
     def foreign_related_fields(self):
@@ -677,20 +653,9 @@ class TaggableManager(RelatedField, Field):
 
 def _get_subclasses(model):
     subclasses = [model]
-    if VERSION < (1, 8):
-        all_fields = (_get_field(model, f) for f in model._meta.get_all_field_names())
-    else:
-        all_fields = model._meta.get_fields()
-    for field in all_fields:
-        # Django 1.8 +
-        if (not RelatedObject and isinstance(field, OneToOneRel) and
-                getattr(_remote_field(field.field), "parent_link", None)):
+    for field in model._meta.get_fields():
+        if isinstance(field, OneToOneRel) and getattr(_remote_field(field.field), "parent_link", None):
             subclasses.extend(_get_subclasses(field.related_model))
-
-        # < Django 1.8
-        if (RelatedObject and isinstance(field, RelatedObject) and
-                getattr(field.field.rel, "parent_link", None)):
-            subclasses.extend(_get_subclasses(field.model))
     return subclasses
 
 
