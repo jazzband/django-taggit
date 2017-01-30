@@ -1,6 +1,10 @@
 Changelog
 =========
 
+UNRELEASED
+~~~~~~~~~~
+ * **Backwards incompatible:** Drop support for Django 1.7
+
 0.21.6 (2017-01-25)
 ~~~~~~~~~~~~~~~~~~~
  * Fix case-insensitive tag creation when setting to a mix of new and existing tags are used

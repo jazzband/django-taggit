@@ -610,13 +610,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             self.assertTrue(hasattr(field, 'rel'))
             self.assertTrue(hasattr(field.rel, 'to'))
 
-        # This API has changed in Django 1.8
-        # https://code.djangoproject.com/ticket/21414
-        if django.VERSION >= (1, 8):
-            self.assertEqual(self.food_model, field.model)
-            self.assertEqual(self.tag_model, _remote_field(field).model)
-        else:
-            self.assertEqual(self.food_model, field.related.model)
+        self.assertEqual(self.food_model, field.model)
+        self.assertEqual(self.tag_model, _remote_field(field).model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
@@ -1026,4 +1021,3 @@ class TagListViewTests(BaseTaggingTestCase, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.apple, response.context_data['object_list'])
         self.assertNotIn(self.strawberry, response.context_data['object_list'])
-
