@@ -1,9 +1,10 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
+0.22.0 (2017-01-29)
+~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Drop support for Django 1.7
+  * https://github.com/alex/django-taggit/pull/465
 
 0.21.6 (2017-01-25)
 ~~~~~~~~~~~~~~~~~~~
