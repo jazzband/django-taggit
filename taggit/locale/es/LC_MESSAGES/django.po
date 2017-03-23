@@ -20,7 +20,7 @@ msgstr ""
 
 #: forms.py:27
 msgid "Please provide a comma-separated list of tags."
-msgstr "Por favor provea una lista de etiquetas separadas por coma."
+msgstr "Por favor introduzca una lista de etiquetas separadas por coma."
 
 #: managers.py:297 models.py:101
 msgid "Tags"
@@ -36,7 +36,7 @@ msgstr "Nombre"
 
 #: models.py:47
 msgid "Slug"
-msgstr "Marquilla"
+msgstr "Slug"
 
 #: models.py:100
 msgid "Tag"
