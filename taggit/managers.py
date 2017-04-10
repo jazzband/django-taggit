@@ -356,14 +356,19 @@ class _TaggableManager(models.Manager):
 
             for ct, obj_ids in preload.items():
                 ct = ContentType.objects.get_for_id(ct)
-                for obj in ct.model_class()._default_manager.filter(pk__in=obj_ids):
+                model_class = ct.model_class()
+                if model_class is None:
+                    # obsolete content type. Skip it.
+                    continue
+                for obj in model_class._default_manager.filter(pk__in=obj_ids):
                     items[(ct.pk, obj.pk)] = obj
 
         results = []
         for result in qs:
-            obj = items[
-                tuple(result[k] for k in lookup_keys)
-            ]
+            res_items = tuple(result[k] for k in lookup_keys)
+            if res_items not in items:
+                continue
+            obj = items[res_items]
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
