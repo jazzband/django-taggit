@@ -2,7 +2,6 @@ from setuptools import find_packages, setup
 
 import taggit
 
-
 with open('README.rst') as f:
     readme = f.read()
 
@@ -15,7 +14,7 @@ setup(
     author_email='alex.gaynor@gmail.com',
     url='http://github.com/alex/django-taggit/tree/master',
     packages=find_packages(exclude=('tests*',)),
-    package_data = {
+    package_data={
         'taggit': [
             'locale/*/LC_MESSAGES/*',
         ],
