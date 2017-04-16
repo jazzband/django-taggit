@@ -18,7 +18,7 @@ if not settings.configured:
             'tests',
         ],
         MIDDLEWARE_CLASSES=[],
-        TEMPLATES = [
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'APP_DIRS': True,

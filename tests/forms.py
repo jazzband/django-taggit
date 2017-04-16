@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from django import VERSION, forms
+from django import forms
 
 from .models import (CustomPKFood, DirectCustomPKFood, DirectFood, Food,
                      OfficialFood)
