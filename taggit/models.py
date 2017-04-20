@@ -35,7 +35,7 @@ class TagBase(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
-        if not self.pk and not self.slug:
+        if self._state.adding and not self.slug:
             self.slug = self.slugify(self.name)
             from django.db import router
             using = kwargs.get("using") or router.db_for_write(
