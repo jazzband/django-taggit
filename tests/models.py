@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
 
+import uuid
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
 from taggit.models import (CommonGenericTaggedItemBase, GenericTaggedItemBase,
-                           Tag, TagBase, TaggedItem, TaggedItemBase)
+                           GenericUUIDTaggedItemBase, Tag, TagBase, TaggedItem,
+                           TaggedItemBase)
 
 
 # Ensure that two TaggableManagers with custom through model are allowed.
@@ -103,7 +106,6 @@ class TaggedCustomPKPet(TaggedItemBase):
 @python_2_unicode_compatible
 class DirectCustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
-
     tags = TaggableManager(through=TaggedCustomPKFood)
 
     def __str__(self):
@@ -243,3 +245,23 @@ class Parent(models.Model):
 
 class Child(Parent):
     pass
+
+
+@python_2_unicode_compatible
+class UUIDFood(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50)
+    tags = TaggableManager(through='UUIDTaggedItem')
+
+    def __str__(self):
+        return self.name
+
+
+class UUIDTag(TagBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+
+class UUIDTaggedItem(GenericUUIDTaggedItemBase):
+    tag = models.ForeignKey(UUIDTag,
+                            related_name='%(app_label)s_%(class)s_items',
+                            on_delete=models.CASCADE)

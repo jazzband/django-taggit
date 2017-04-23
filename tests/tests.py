@@ -24,7 +24,8 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
                      OfficialThroughModel, Pet, Photo, TaggedCustomPK,
-                     TaggedCustomPKFood, TaggedFood)
+                     TaggedCustomPKFood, TaggedFood,
+                     UUIDFood, UUIDTag)
 
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
@@ -1018,3 +1019,8 @@ class TagListViewTests(BaseTaggingTestCase, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.apple, response.context_data['object_list'])
         self.assertNotIn(self.strawberry, response.context_data['object_list'])
+
+
+class TagUUIDModelTestCase(TagModelTestCase):
+    food_model = UUIDFood
+    tag_model = UUIDTag
