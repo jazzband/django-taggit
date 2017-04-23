@@ -1,6 +1,21 @@
 Changelog
 =========
 
+0.22.1 (2017-04-22)
+~~~~~~~~~~~~~~~~~~~
+ * Update spanish translation
+  * https://github.com/alex/django-taggit/pull/473
+ * Add testing for Django 1.11 and Python 3.6
+  * https://github.com/alex/django-taggit/pull/475
+ * introduce isort and flake8 in the CI
+  * https://github.com/alex/django-taggit/pull/476
+ * [docs] Fixed links to external apps
+  * https://github.com/alex/django-taggit/pull/481
+ * Improved auto-slug in TagBase to support UUID pk
+  * https://github.com/alex/django-taggit/pull/482
+ * [docs] Added contribution guidelines
+  * https://github.com/alex/django-taggit/pull/480
+
 0.22.0 (2017-01-29)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Drop support for Django 1.7
