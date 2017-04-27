@@ -1015,6 +1015,11 @@ class InheritedManagerTests(TestCase):
         # And both child and parent should have same exact tags:
         self.assertEqual(ctags, ptags)
 
+        # The content ID of the tag subscription should be for parent, not child:
+        self.assertEqual({"parent"}, {i.content_type.name
+                                      for t in child.tags.all()
+                                      for i in t.taggit_taggeditem_items.all()})
+
 
 class DjangoCheckTests(UnitTestCase):
 
