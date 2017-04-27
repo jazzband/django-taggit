@@ -23,7 +23,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectCustomPKHousePet, DirectCustomPKPet, DirectFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
-                     OfficialThroughModel, Pet, Photo, TaggedCustomPK,
+                     OfficialThroughModel, Parent, Pet, Photo, TaggedCustomPK,
                      TaggedCustomPKFood, TaggedFood,
                      UUIDFood, UUIDTag)
 
@@ -978,6 +978,42 @@ class InheritedPrefetchTests(TestCase):
         self.assertEqual(4, prefetch_tags.count())
         self.assertEqual(set([t.name for t in no_prefetch_tags]),
                          set([t.name for t in prefetch_tags]))
+
+
+class InheritedManagerTests(TestCase):
+
+    def test_inherited_tags(self):
+        """
+        We expect that inherited model instance has exact same tags as the
+        inheriting model instance as long as the tagging is defined on
+        the inherited model.
+        """
+        # Create a child:
+        child = Child.objects.create()
+
+        # Add tags to the child:
+        child.tags.add('tag 1', 'tag 2', 'tag 3', 'tag 4')
+
+        # Get the child:
+        child = Child.objects.get()
+
+        # Get the parent:
+        parent = Parent.objects.get()
+
+        # Get tags of the children:
+        ctags = {t.name for t in child.tags.all()}
+
+        # Get tags of the parent:
+        ptags = {t.name for t in parent.tags.all()}
+
+        # Child should have 4 tags:
+        self.assertEqual(4, len(ctags))
+
+        # Parent should have 4 tags, too:
+        self.assertEqual(4, len(ptags))
+
+        # And both child and parent should have same exact tags:
+        self.assertEqual(ctags, ptags)
 
 
 class DjangoCheckTests(UnitTestCase):
