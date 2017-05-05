@@ -360,6 +360,7 @@ class _TaggableManager(models.Manager):
         __hash__ = object.__hash__
 
 
+@total_ordering
 class TaggableManager(RelatedField, Field):
     # Field flags
     many_to_many = True
@@ -657,6 +658,3 @@ def _get_subclasses(model):
         if isinstance(field, OneToOneRel) and getattr(_remote_field(field.field), "parent_link", None):
             subclasses.extend(_get_subclasses(field.related_model))
     return subclasses
-
-
-TaggableManager = total_ordering(TaggableManager)
