@@ -1,3 +1,5 @@
+from django import VERSION
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -18,6 +20,9 @@ TEMPLATES = [
     }
 ]
 
-MIDDLEWARE_CLASSES = []
+if VERSION <= (1, 9):
+    MIDDLEWARE_CLASSES = []
+else:
+    MIDDLEWARE = []
 
 SECRET_KEY = 'secretkey'
