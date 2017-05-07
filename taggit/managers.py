@@ -107,8 +107,7 @@ class _TaggableManager(models.Manager):
                      else 'content_object')
         fk = self.through._meta.get_field(fieldname)
         query = {
-            '%s__%s__in' % (self.through.tag_relname(), fk.name):
-                set(obj._get_pk_val() for obj in instances)
+            '%s__%s__in' % (self.through.tag_relname(), fk.name): {obj._get_pk_val() for obj in instances}
         }
         join_table = self.through._meta.db_table
         source_col = fk.column
@@ -133,7 +132,7 @@ class _TaggableManager(models.Manager):
         db = router.db_for_write(self.through, instance=self.instance)
 
         tag_objs = self._to_tag_model_instances(tags)
-        new_ids = set(t.pk for t in tag_objs)
+        new_ids = {t.pk for t in tag_objs}
 
         # NOTE: can we hardcode 'tag_id' here or should the column name be got
         # dynamically from somewhere?
@@ -198,7 +197,7 @@ class _TaggableManager(models.Manager):
             # If str_tags has 0 elements Django actually optimizes that to not
             # do a query.  Malcolm is very smart.
             existing = manager.filter(name__in=str_tags)
-            tags_to_create = str_tags - set(t.name for t in existing)
+            tags_to_create = str_tags - {t.name for t in existing}
 
         tag_objs.update(existing)
 
