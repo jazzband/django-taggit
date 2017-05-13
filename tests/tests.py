@@ -203,7 +203,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -211,7 +211,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -229,7 +229,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green.pk]),
+                pk_set={green.pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -237,7 +237,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green.pk]),
+                pk_set={green.pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -257,7 +257,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green.pk]),
+                pk_set={green.pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -265,7 +265,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green.pk]),
+                pk_set={green.pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -286,7 +286,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_remove',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -294,7 +294,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_remove',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -360,7 +360,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([red_pk]),
+                pk_set={red_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -368,7 +368,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([red_pk]),
+                pk_set={red_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -391,7 +391,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_remove',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -399,7 +399,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_remove',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([green_pk]),
+                pk_set={green_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -407,7 +407,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'pre_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([red_pk]),
+                pk_set={red_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default'),
@@ -415,7 +415,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 action=u'post_add',
                 instance=apple,
                 model=self.tag_model,
-                pk_set=set([red_pk]),
+                pk_set={red_pk},
                 reverse=False,
                 sender=self.taggeditem_model,
                 using='default')]
@@ -638,10 +638,10 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         with self.assertNumQueries(2):
             l = list(self.food_model.objects.prefetch_related('tags').all())
         with self.assertNumQueries(0):
-            foods = dict((f.name, set(t.name for t in f.tags.all())) for f in l)
+            foods = {f.name: {t.name for t in f.tags.all()} for f in l}
             self.assertEqual(foods, {
-                'orange': set(['2', '4']),
-                'apple': set(['1', '2'])
+                'orange': {'2', '4'},
+                'apple': {'1', '2'},
             })
 
     def test_internal_type_is_manytomany(self):
@@ -976,8 +976,7 @@ class InheritedPrefetchTests(TestCase):
         child = Child.objects.prefetch_related('tags').get()
         prefetch_tags = child.tags.all()
         self.assertEqual(4, prefetch_tags.count())
-        self.assertEqual(set([t.name for t in no_prefetch_tags]),
-                         set([t.name for t in prefetch_tags]))
+        self.assertEqual({t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags})
 
 
 class DjangoCheckTests(UnitTestCase):
