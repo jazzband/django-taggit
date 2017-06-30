@@ -522,7 +522,10 @@ class TaggableManager(RelatedField, Field):
         return self.through.objects.none()
 
     def related_query_name(self):
-        return self.model._meta.model_name
+        if self.remote_field.related_name:
+            return self.remote_field.related_name
+        else:
+            return self.model._meta.model_name
 
     def m2m_reverse_name(self):
         return self.through._meta.get_field('tag').column
