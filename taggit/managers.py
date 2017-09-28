@@ -81,6 +81,7 @@ class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance, prefetch_cache_name):
         self.through = through
         self.model = model
+        self.name = prefetch_cache_name
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
         self._db = None
