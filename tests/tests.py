@@ -28,6 +28,9 @@ from .models import (
     DirectFood,
     DirectHousePet,
     DirectPet,
+    DirectTrackedFood,
+    DirectTrackedHousePet,
+    DirectTrackedPet,
     Food,
     HousePet,
     Movie,
@@ -43,6 +46,8 @@ from .models import (
     TaggedCustomPK,
     TaggedCustomPKFood,
     TaggedFood,
+    TaggedTrackedFood,
+    TrackedTag,
     UUIDFood,
     UUIDTag,
 )
@@ -735,6 +740,14 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     pet_model = DirectPet
     housepet_model = DirectHousePet
     taggeditem_model = TaggedFood
+
+
+class TaggableManagerDirectTrackedTestCase(TaggableManagerTestCase):
+    food_model = DirectTrackedFood
+    pet_model = DirectTrackedPet
+    housepet_model = DirectTrackedHousePet
+    taggeditem_model = TaggedTrackedFood
+    tag_model = TrackedTag
 
 
 class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):

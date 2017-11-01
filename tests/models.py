@@ -7,6 +7,7 @@ from taggit.models import (
     CommonGenericTaggedItemBase,
     GenericTaggedItemBase,
     GenericUUIDTaggedItemBase,
+    ItemBase,
     Tag,
     TagBase,
     TaggedItem,
@@ -102,6 +103,58 @@ class DirectPet(models.Model):
 
 
 class DirectHousePet(DirectPet):
+    trained = models.BooleanField(default=False)
+
+
+# Test direct-tagging with custom through model and custom tag
+
+
+class TrackedTag(TagBase):
+    created_by = models.CharField(max_length=50)
+    created_dt = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(blank=True, max_length=255, null=True)
+
+
+class TaggedTrackedFood(ItemBase):
+    content_object = models.ForeignKey("DirectTrackedFood", on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        TrackedTag, on_delete=models.CASCADE, related_name="%(class)s_items"
+    )
+    created_by = models.CharField(max_length=50)
+    created_dt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ["content_object", "tag"]
+
+
+class TaggedTrackedPet(ItemBase):
+    content_object = models.ForeignKey("DirectTrackedPet", on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        TrackedTag, on_delete=models.CASCADE, related_name="%(class)s_items"
+    )
+    created_by = models.CharField(max_length=50)
+    created_dt = models.DateTimeField(auto_now_add=True)
+
+
+class DirectTrackedFood(models.Model):
+    name = models.CharField(max_length=50)
+
+    tags = TaggableManager(through=TaggedTrackedFood)
+
+    def __str__(self):
+        return self.name
+
+
+class DirectTrackedPet(models.Model):
+    name = models.CharField(max_length=50)
+
+    tags = TaggableManager(through=TaggedTrackedPet)
+
+    def __str__(self):
+        return self.name
+
+
+class DirectTrackedHousePet(DirectTrackedPet):
     trained = models.BooleanField(default=False)
 
 

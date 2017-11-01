@@ -1,6 +1,11 @@
 Changelog
 =========
 
+UNRELEASED
+~~~~~~~~~~
+
+* Moved TaggedItemBase.tags_for() to ItemBase.
+
 1.1.0 (2019-03-22)
 ~~~~~~~~~~~~~~~~~~
 
