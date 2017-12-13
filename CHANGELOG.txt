@@ -1,6 +1,10 @@
 Changelog
 =========
 
+UNRELEASED
+~~~~~~~~~~
+ * Drop support for Python 3.3
+
 0.22.1 (2017-04-22)
 ~~~~~~~~~~~~~~~~~~~
  * Update spanish translation
