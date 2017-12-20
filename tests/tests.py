@@ -1,7 +1,5 @@
 from __future__ import absolute_import, unicode_literals
 
-import sys
-import warnings
 from unittest import TestCase as UnitTestCase
 
 import django
@@ -51,12 +49,7 @@ class BaseTaggingTest(object):
         return form_str
 
     def assertFormRenders(self, form, html):
-        # Django causes a DeprecationWarning on Python 3.3, 3.4
-        if (3, 3) <= sys.version_info < (3, 5):
-            with warnings.catch_warnings(record=True):
-                self.assertHTMLEqual(str(form), self._get_form_str(html))
-        else:
-            self.assertHTMLEqual(str(form), self._get_form_str(html))
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 
 # assertRaisesRegexp is deprecated in favour of assertRaisesRegex in recent versions of unittest,
