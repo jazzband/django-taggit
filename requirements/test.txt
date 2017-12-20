@@ -1,6 +1,6 @@
 Django>=1.8
 coverage
-pytest
+pytest==3.2.5
 pytest-cov
 pytest-django
 mock
