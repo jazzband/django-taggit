@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 
-from importlib import import_module
-
 from django import VERSION
 from django.conf import settings
 from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.functional import wraps
+from django.utils.module_loading import import_string
 
 
 def _remote_field(field):
@@ -149,19 +148,7 @@ def require_instance_manager(func):
 
 def get_func(key, default):
     func_path = getattr(settings, key, default)
-    try:
-        return get_func.cache[func_path]
-    except KeyError:
-        mod_path, func_name = func_path.rsplit('.', 1)
-        func = getattr(import_module(mod_path), func_name)
-        get_func.cache[func_path] = func
-        return func
-
-
-# Create a cache as an attribute on the function that way it can cache the
-# imported callable rather than re-importing it each time `parse_tags` or
-# `edit_string_for_tags` needs the callable.
-get_func.cache = {}
+    return import_string(func_path)
 
 
 def parse_tags(tagstring):
