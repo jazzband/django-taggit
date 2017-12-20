@@ -1,10 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
-import sys
-import warnings
 from unittest import TestCase as UnitTestCase
 
-import django
 import mock
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
@@ -28,8 +25,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
 
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
-from taggit.utils import (_related_model, _remote_field, edit_string_for_tags,
-                          parse_tags)
+from taggit.utils import edit_string_for_tags, parse_tags
 from taggit.views import TagListMixin, tagged_object_list
 
 
@@ -45,27 +41,12 @@ class BaseTaggingTest(object):
         form_str %= {
             "help_start": '<span class="helptext">',
             "help_stop": "</span>",
-            "required": "required" if django.VERSION >= (1, 10) else "",
+            "required": "required",
         }
         return form_str
 
     def assertFormRenders(self, form, html):
-        # Django causes a DeprecationWarning on Python 3.3, 3.4
-        if (3, 3) <= sys.version_info < (3, 5):
-            with warnings.catch_warnings(record=True):
-                self.assertHTMLEqual(str(form), self._get_form_str(html))
-        else:
-            self.assertHTMLEqual(str(form), self._get_form_str(html))
-
-
-# assertRaisesRegexp is deprecated in favour of assertRaisesRegex in recent versions of unittest,
-# but not present in older versions. As Django bundles a version of unittest, this means that
-# different versions of Django use different versions of unittest. The following monkeypatch means
-# that every version can use the assertRaisesRegex to avioid the deprecation warnings
-if not hasattr(TestCase, 'assertRaisesRegex'):
-    def assertRaisesRegex(self, expected_exception, expected_regex, *args, **kwargs):
-        return self.assertRaisesRegexp(expected_exception, expected_regex, *args, **kwargs)
-    BaseTaggingTest.assertRaisesRegex = assertRaisesRegex
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 
 class BaseTaggingTestCase(TestCase, BaseTaggingTest):
@@ -603,15 +584,10 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
     def test_field_api(self):
         # Check if tag field, which simulates m2m, has django-like api.
         field = self.food_model._meta.get_field('tags')
-        if django.VERSION >= (1, 9):
-            self.assertTrue(hasattr(field, 'remote_field'))
-            self.assertTrue(hasattr(field.remote_field, 'model'))
-        else:
-            self.assertTrue(hasattr(field, 'rel'))
-            self.assertTrue(hasattr(field.rel, 'to'))
-
+        self.assertTrue(hasattr(field, 'remote_field'))
+        self.assertTrue(hasattr(field.remote_field, 'model'))
         self.assertEqual(self.food_model, field.model)
-        self.assertEqual(self.tag_model, _remote_field(field).model)
+        self.assertEqual(self.tag_model, field.remote_field.model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
@@ -958,8 +934,8 @@ class DeconstructTestCase(UnitTestCase):
         instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
         name, path, args, kwargs = instance.deconstruct()
         new_instance = TaggableManager(*args, **kwargs)
-        self.assertEqual('tests.OfficialThroughModel', _remote_field(new_instance).through)
-        self.assertEqual('dummy.To', _related_model(_remote_field(new_instance)))
+        self.assertEqual('tests.OfficialThroughModel', new_instance.remote_field.through)
+        self.assertEqual('dummy.To', new_instance.remote_field.model)
 
 
 class InheritedPrefetchTests(TestCase):

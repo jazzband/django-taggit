@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from django import VERSION
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, transaction
@@ -98,12 +97,12 @@ class ItemBase(models.Model):
     @classmethod
     def tag_model(cls):
         field = cls._meta.get_field('tag')
-        return field.remote_field.model if VERSION >= (1, 9) else field.rel.to
+        return field.remote_field.model
 
     @classmethod
     def tag_relname(cls):
         field = cls._meta.get_field('tag')
-        return field.remote_field.related_name if VERSION >= (1, 9) else field.rel.related_name
+        return field.remote_field.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
