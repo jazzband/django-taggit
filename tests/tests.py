@@ -24,8 +24,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
                      DirectHousePet, DirectPet, Food, HousePet, Movie,
                      OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
                      OfficialThroughModel, Pet, Photo, TaggedCustomPK,
-                     TaggedCustomPKFood, TaggedFood,
-                     UUIDFood, UUIDTag)
+                     TaggedCustomPKFood, TaggedFood, UUIDFood, UUIDTag)
 
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
