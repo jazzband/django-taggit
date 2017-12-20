@@ -77,12 +77,6 @@ For example, if your primary key is a string::
 GenericUUIDTaggedItemBase
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
-
-    ``GenericUUIDTaggedItemBase`` relies on Django UUIDField introduced with
-    Django 1.8. Therefore ``GenericUUIDTaggedItemBase`` is only defined
-    if you are using Django 1.8+.
-
 A common use case of a non-integer primary key, is UUID primary key.
 ``django-taggit`` provides a base class ``GenericUUIDTaggedItemBase`` ready
 to use with models using an UUID primary key::

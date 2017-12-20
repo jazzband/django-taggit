@@ -11,7 +11,8 @@ from django.db import models, router
 from django.db.models import signals
 from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
-                                             RelatedField)
+                                             RelatedField,
+                                             lazy_related_operation)
 from django.db.models.query_utils import PathInfo
 from django.utils import six
 from django.utils.text import capfirst
@@ -19,22 +20,12 @@ from django.utils.translation import ugettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
-from taggit.utils import (_related_model, _remote_field,
-                          require_instance_manager)
-
-if VERSION >= (1, 9):
-    from django.db.models.fields.related import lazy_related_operation
-else:
-    from django.db.models.fields.related import add_lazy_relation
+from taggit.utils import require_instance_manager
 
 
 class TaggableRel(ManyToManyRel):
     def __init__(self, field, related_name, through, to=None):
-        # rel.to renamed to rel.model in Django 1.9
-        if VERSION >= (1, 9):
-            self.model = to
-        else:
-            self.to = to
+        self.model = to
         self.related_name = related_name
         self.related_query_name = None
         self.limit_choices_to = {}
@@ -338,8 +329,8 @@ class _TaggableManager(models.Manager):
             # Can we do this without a second query by using a select_related()
             # somehow?
             f = self.through._meta.get_field(lookup_keys[0])
-            remote_field = _remote_field(f)
-            rel_model = _related_model(_remote_field(f))
+            remote_field = f.remote_field
+            rel_model = remote_field.model
             objs = rel_model._default_manager.filter(**{
                 "%s__in" % remote_field.field_name: [r["content_object"] for r in qs]
             })
@@ -364,12 +355,6 @@ class _TaggableManager(models.Manager):
             obj.similar_tags = result["n"]
             results.append(obj)
         return results
-
-    # _TaggableManager needs to be hashable but BaseManagers in Django 1.8+ overrides
-    # the __eq__ method which makes the default __hash__ method disappear.
-    # This checks if the __hash__ attribute is None, and if so, it reinstates the original method.
-    if models.Manager.__hash__ is None:
-        __hash__ = object.__hash__
 
 
 @total_ordering
@@ -426,13 +411,13 @@ class TaggableManager(RelatedField, Field):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
-        rel = _remote_field(self)
+        rel = self.remote_field
         if isinstance(rel.through, six.string_types):
             kwargs['through'] = rel.through
         elif not rel.through._meta.auto_created:
             kwargs['through'] = "%s.%s" % (rel.through._meta.app_label, rel.through._meta.object_name)
 
-        related_model = _related_model(rel)
+        related_model = rel.model
         if isinstance(related_model, six.string_types):
             kwargs['to'] = related_model
         else:
@@ -448,37 +433,20 @@ class TaggableManager(RelatedField, Field):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
-            # rel.to renamed to remote_field.model in Django 1.9
-            if VERSION >= (1, 9):
-                if isinstance(self.remote_field.model, six.string_types):
-                    def resolve_related_class(cls, model, field):
-                        field.remote_field.model = model
-                    lazy_related_operation(
-                        resolve_related_class, cls, self.remote_field.model, field=self
-                    )
-            else:
-                if isinstance(self.rel.to, six.string_types):
-                    def resolve_related_class(field, model, cls):
-                        field.rel.to = model
-                    add_lazy_relation(cls, self, self.rel.to, resolve_related_class)
-
+            if isinstance(self.remote_field.model, six.string_types):
+                def resolve_related_class(cls, model, field):
+                    field.remote_field.model = model
+                lazy_related_operation(
+                    resolve_related_class, cls, self.remote_field.model, field=self
+                )
             if isinstance(self.through, six.string_types):
-                if VERSION >= (1, 9):
-                    def resolve_related_class(cls, model, field):
-                        self.through = model
-                        self.remote_field.through = model
-                        self.post_through_setup(cls)
-                    lazy_related_operation(
-                        resolve_related_class, cls, self.through, field=self
-                    )
-                else:
-                    def resolve_related_class(field, model, cls):
-                        self.through = model
-                        _remote_field(self).through = model
-                        self.post_through_setup(cls)
-                    add_lazy_relation(
-                        cls, self, self.through, resolve_related_class
-                    )
+                def resolve_related_class(cls, model, field):
+                    self.through = model
+                    self.remote_field.through = model
+                    self.post_through_setup(cls)
+                lazy_related_operation(
+                    resolve_related_class, cls, self.through, field=self
+                )
             else:
                 self.post_through_setup(cls)
 
@@ -498,13 +466,8 @@ class TaggableManager(RelatedField, Field):
             self.through is None or issubclass(self.through, CommonGenericTaggedItemBase)
         )
 
-        # rel.to renamed to remote_field.model in Django 1.9
-        if VERSION >= (1, 9):
-            if not self.remote_field.model:
-                self.remote_field.model = self.through._meta.get_field("tag").remote_field.model
-        else:
-            if not self.rel.to:
-                self.rel.to = self.through._meta.get_field("tag").rel.to
+        if not self.remote_field.model:
+            self.remote_field.model = self.through._meta.get_field("tag").remote_field.model
 
         if self.use_gfk:
             tagged_items = GenericRelation(self.through)
@@ -547,11 +510,7 @@ class TaggableManager(RelatedField, Field):
         return self.model._meta.pk.name
 
     def m2m_reverse_target_field_name(self):
-        # rel.to renamed to remote_field.model in Django 1.9
-        if VERSION >= (1, 9):
-            return self.remote_field.model._meta.pk.name
-        else:
-            return self.rel.to._meta.pk.name
+        return self.remote_field.model._meta.pk.name
 
     def m2m_column_name(self):
         if self.use_gfk:
@@ -628,10 +587,10 @@ class TaggableManager(RelatedField, Field):
         linkfield = self.through._meta.get_field(self.m2m_reverse_field_name())
         if direct:
             if VERSION < (2, 0):
-                join1infos = [PathInfo(self.model._meta, opts, [from_field], _remote_field(self), True, False)]
+                join1infos = [PathInfo(self.model._meta, opts, [from_field], self.remote_field, True, False)]
                 join2infos = linkfield.get_path_info()
             else:
-                join1infos = [PathInfo(self.model._meta, opts, [from_field], _remote_field(self), True, False, filtered_relation)]
+                join1infos = [PathInfo(self.model._meta, opts, [from_field], self.remote_field, True, False, filtered_relation)]
                 join2infos = linkfield.get_path_info(filtered_relation=filtered_relation)
         else:
             if VERSION < (2, 0):
@@ -683,6 +642,6 @@ class TaggableManager(RelatedField, Field):
 def _get_subclasses(model):
     subclasses = [model]
     for field in model._meta.get_fields():
-        if isinstance(field, OneToOneRel) and getattr(_remote_field(field.field), "parent_link", None):
+        if isinstance(field, OneToOneRel) and getattr(field.field.remote_field, "parent_link", None):
             subclasses.extend(_get_subclasses(field.related_model))
     return subclasses
