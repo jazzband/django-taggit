@@ -1,9 +1,12 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
- * Drop support for Python 3.3
+0.22.2 (2017-12-27)
+~~~~~~~~~~~~~~~~~~~
+ * Added support for Django 2.0
+  * https://github.com/alex/django-taggit/pull/509
+ * **Backwards incompatible:** Dropped support for EOL Python 3.3
+  * https://github.com/alex/django-taggit/pull/512
 
 0.22.1 (2017-04-22)
 ~~~~~~~~~~~~~~~~~~~
