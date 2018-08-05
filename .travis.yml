@@ -18,6 +18,18 @@ matrix:
       env: TOXENV=py35-2.0.x
     - python: 3.6
       env: TOXENV=py36-2.0.x
+    - python: 3.7
+      env: TOXENV=py37-2.0.x
+      dist: xenial
+      sudo: true
+    - python: 3.5
+      env: TOXENV=py35-2.1.x
+    - python: 3.6
+      env: TOXENV=py36-2.1.x
+    - python: 3.7
+      env: TOXENV=py37-2.1.x
+      dist: xenial
+      sudo: true
     - python: 3.5
       env: TOXENV=py35-master
     - python: 3.6
