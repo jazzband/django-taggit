@@ -34,9 +34,14 @@ matrix:
       env: TOXENV=py35-master
     - python: 3.6
       env: TOXENV=py36-master
+    - python: 3.7
+      env: TOXENV=py37-master
+      dist: xenial
+      sudo: true
   allow_failures:
     - env: TOXENV=py35-master
     - env: TOXENV=py36-master
+    - env: TOXENV=py37-master
 
 install:
   - pip install flake8 tox isort
