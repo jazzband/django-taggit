@@ -1,10 +1,14 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
+0.23.0 (2018-08-07)
+~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Remove support for Django < 1.11
+  * https://github.com/alex/django-taggit/pull/518
  * Added support for Django 2.1 and Python 3.7
+  * https://github.com/alex/django-taggit/pull/536
+ * Moved TagWidget value conversion from TagWidget.render() to TagWidget.format_value()
+  * https://github.com/alex/django-taggit/pull/534
 
 0.22.2 (2017-12-27)
 ~~~~~~~~~~~~~~~~~~~
