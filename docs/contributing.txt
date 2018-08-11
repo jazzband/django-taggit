@@ -17,7 +17,7 @@ Before opening a new issue, try the following steps:
 - look if somebody else has already started working on the same issue
   by looking in the `github issues <https://github.com/alex/django-taggit/issues>`_
   and `pull requests <https://github.com/alex/django-taggit/pulls>`_
-- look also in the `django-taggit mailinglist <http://groups.google.com/group/django-taggit>`_
+- look also in the `django-taggit mailinglist <https://groups.google.com/group/django-taggit>`_
 - announce your intentions by opening a new issue
 - present yourself on the mailing list
 

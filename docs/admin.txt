@@ -37,4 +37,4 @@ minimize queries::
             return u", ".join(o.name for o in obj.tags.all())
 
 For details, see the
-`Django documentation <http://docs.djangoproject.com/en/stable/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display>`_.
+`Django documentation <https://docs.djangoproject.com/en/stable/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display>`_.
