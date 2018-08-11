@@ -12,7 +12,7 @@ setup(
     long_description=readme,
     author='Alex Gaynor',
     author_email='alex.gaynor@gmail.com',
-    url='http://github.com/alex/django-taggit/tree/master',
+    url='https://github.com/alex/django-taggit/tree/master',
     packages=find_packages(exclude=('tests*',)),
     package_data={
         'taggit': [
