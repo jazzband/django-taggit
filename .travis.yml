@@ -4,6 +4,8 @@ sudo: false
 matrix:
   fast_finish: true
   include:
+    - env: TOXENV=flake8
+    - env: TOXENV=isort
     - python: 2.7
       env: TOXENV=py27-1.11.x
     - python: 3.4
@@ -44,14 +46,10 @@ matrix:
     - env: TOXENV=py37-master
 
 install:
-  - pip install flake8 tox isort
-
-before_script:
-  - flake8 taggit
-  - python setup.py isort
+  - pip install tox
 
 script:
-  - tox -e $TOXENV
+  - tox
 
 after_success:
   - pip install codecov
