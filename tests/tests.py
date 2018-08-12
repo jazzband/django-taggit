@@ -428,7 +428,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
     def test_require_pk(self):
         food_instance = self.food_model()
-        self.assertRaises(ValueError, lambda: food_instance.tags.all())
+        msg = (
+            '%s objects need to have a primary key value before you can access '
+            'their tags.' % self.food_model().__class__.__name__
+        )
+        with self.assertRaisesMessage(ValueError, msg):
+            food_instance.tags.all()
 
     def test_delete_obj(self):
         apple = self.food_model.objects.create(name="apple")
@@ -671,8 +676,8 @@ class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):
     taggeditem_model = TaggedCustomPKFood
 
     def test_require_pk(self):
-        # TODO with a charfield pk, pk is never None, so taggit has no way to
-        # tell if the instance is saved or not
+        # With a CharField pk, pk is never None. So taggit has no way to tell
+        # if the instance is saved or not.
         pass
 
 
@@ -683,8 +688,8 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
     taggeditem_model = TaggedCustomPK
 
     def test_require_pk(self):
-        # TODO with a charfield pk, pk is never None, so taggit has no way to
-        # tell if the instance is saved or not
+        # With a CharField pk, pk is never None. So taggit has no way to tell
+        # if the instance is saved or not.
         pass
 
 
