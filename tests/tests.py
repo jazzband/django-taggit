@@ -94,14 +94,14 @@ class TagModelTestCase(BaseTaggingTransactionTestCase):
     def test_gt(self):
         high = self.tag_model.objects.create(name='high')
         low = self.tag_model.objects.create(name='Low')
-        self.assertTrue(low > high)
-        self.assertFalse(high > low)
+        self.assertIs(low > high, True)
+        self.assertIs(high > low, False)
 
     def test_lt(self):
         high = self.tag_model.objects.create(name='high')
         low = self.tag_model.objects.create(name='Low')
-        self.assertTrue(high < low)
-        self.assertFalse(low < high)
+        self.assertIs(high < low, True)
+        self.assertIs(low < high, False)
 
 
 class TagModelDirectTestCase(TagModelTestCase):
