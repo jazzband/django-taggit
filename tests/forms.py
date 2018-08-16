@@ -1,40 +1,36 @@
 from __future__ import absolute_import, unicode_literals
 
-from django import VERSION, forms
+from django import forms
 
 from .models import (CustomPKFood, DirectCustomPKFood, DirectFood, Food,
                      OfficialFood)
-
-fields = None
-if VERSION >= (1, 6):
-    fields = '__all__'
 
 
 class FoodForm(forms.ModelForm):
     class Meta:
         model = Food
-        fields = fields
+        fields = '__all__'
 
 
 class DirectFoodForm(forms.ModelForm):
     class Meta:
         model = DirectFood
-        fields = fields
+        fields = '__all__'
 
 
 class DirectCustomPKFoodForm(forms.ModelForm):
     class Meta:
         model = DirectCustomPKFood
-        fields = fields
+        fields = '__all__'
 
 
 class CustomPKFoodForm(forms.ModelForm):
     class Meta:
         model = CustomPKFood
-        fields = fields
+        fields = '__all__'
 
 
 class OfficialFoodForm(forms.ModelForm):
     class Meta:
         model = OfficialFood
-        fields = fields
+        fields = '__all__'

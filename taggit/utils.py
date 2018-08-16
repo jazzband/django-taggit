@@ -9,13 +9,6 @@ from django.utils.encoding import force_text
 from django.utils.functional import wraps
 
 
-def _get_field(model, name):
-    if VERSION < (1, 8):
-        return model._meta.get_field_by_name(name)[0]
-    else:
-        return model._meta.get_field(name)
-
-
 def _remote_field(field):
     if VERSION < (1, 9):
         return field.rel
@@ -163,6 +156,7 @@ def get_func(key, default):
         func = getattr(import_module(mod_path), func_name)
         get_func.cache[func_path] = func
         return func
+
 
 # Create a cache as an attribute on the function that way it can cache the
 # imported callable rather than re-importing it each time `parse_tags` or

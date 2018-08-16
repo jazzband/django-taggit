@@ -1,41 +1,50 @@
 language: python
 sudo: false
 matrix:
+  fast_finish: true
   include:
-    - env: TOXENV=py27-1.4.x
-      python: 2.7
-    - env: TOXENV=py27-1.5.x
-      python: 2.7
-    - env: TOXENV=py27-1.6.x
-      python: 2.7
-    - env: TOXENV=py27-1.7.x
-      python: 2.7
-    - env: TOXENV=py27-1.8.x
-      python: 2.7
-    - env: TOXENV=py27-1.9.x
-      python: 2.7
-    - env: TOXENV=py33-1.5.x
-      python: 3.3
-    - env: TOXENV=py33-1.6.x
-      python: 3.3
-    - env: TOXENV=py33-1.7.x
-      python: 3.3
-    - env: TOXENV=py33-1.8.x
-      python: 3.3
-    - env: TOXENV=py34-1.5.x
-      python: 3.4
-    - env: TOXENV=py34-1.6.x
-      python: 3.4
-    - env: TOXENV=py34-1.7.x
-      python: 3.4
-    - env: TOXENV=py34-1.8.x
-      python: 3.4
-    - env: TOXENV=py34-1.9.x
-      python: 3.4
-    - env: TOXENV=py35-1.8.x
-      python: 3.5
-    - env: TOXENV=py35-1.9.x
-      python: 3.5
+    - python: 2.7
+      env: TOXENV=py27-1.8.x
+    - python: 3.3
+      env: TOXENV=py33-1.8.x
+    - python: 3.4
+      env: TOXENV=py34-1.8.x
+    - python: 3.5
+      env: TOXENV=py35-1.8.x
+    - python: 2.7
+      env: TOXENV=py27-1.9.x
+    - python: 3.4
+      env: TOXENV=py34-1.9.x
+    - python: 3.5
+      env: TOXENV=py35-1.9.x
+    - python: 2.7
+      env: TOXENV=py27-1.10.x
+    - python: 3.4
+      env: TOXENV=py34-1.10.x
+    - python: 3.5
+      env: TOXENV=py35-1.10.x
+    - python: 2.7
+      env: TOXENV=py27-1.11.x
+    - python: 3.4
+      env: TOXENV=py34-1.11.x
+    - python: 3.5
+      env: TOXENV=py35-1.11.x
+    - python: 3.6
+      env: TOXENV=py36-1.11.x
+    - python: 3.4
+      env: TOXENV=py34-2.0.x
+    - python: 3.5
+      env: TOXENV=py35-2.0.x
+    - python: 3.6
+      env: TOXENV=py36-2.0.x
+    - python: 3.4
+      env: TOXENV=py34-master
+    - python: 3.5
+      env: TOXENV=py35-master
+    - python: 3.6
+      env: TOXENV=py36-master
+  allow_failures:
+    - env: TOXENV=py{34,35,36}-master
 
 install:
   - pip install flake8 tox isort

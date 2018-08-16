@@ -9,16 +9,7 @@ To get started using ``django-taggit`` simply install it with
 
 Add ``"taggit"`` to your project's ``INSTALLED_APPS`` setting.
 
-Run `./manage.py syncdb` or `./manage.py migrate` if using migrations.
-
-.. note::
-
-    If you are using South you'll have to add the following setting, since
-    taggit uses Django migrations by default::
-
-      SOUTH_MIGRATION_MODULES = {
-          'taggit': 'taggit.south_migrations',
-      }
+Run `./manage.py migrate`.
 
 And then to any model you want tagging on do the following::
 
@@ -36,4 +27,3 @@ And then to any model you want tagging on do the following::
     If you want ``django-taggit`` to be **CASE INSENSITIVE** when looking up existing tags, you'll have to set to ``True`` the TAGGIT_CASE_INSENSITIVE setting (by default ``False``)::
 
       TAGGIT_CASE_INSENSITIVE = True
-
