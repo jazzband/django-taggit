@@ -2,6 +2,7 @@
 django_taggit.egg-info/
 dist/
 _build/
+.idea/
 .tox/
 .coverage
 .eggs/

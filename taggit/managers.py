@@ -533,8 +533,9 @@ class TaggableManager(RelatedField):
 
     def value_from_object(self, instance):
         if instance.pk:
-            return self.through.objects.filter(**self.through.lookup_kwargs(instance))
-        return self.through.objects.none()
+            qs = self.through.objects.select_related('tag').filter(**self.through.lookup_kwargs(instance))
+            return [ti.tag for ti in qs]
+        return []
 
     def related_query_name(self):
         return self.model._meta.model_name
