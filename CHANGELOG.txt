@@ -1,6 +1,10 @@
 Changelog
 =========
 
+UNRELEASED
+----------
+ * Added ``has_changed()`` method to ``taggit.forms.TagField``.
+
 0.24.0 (2019-02-19)
 ~~~~~~~~~~~~~~~~~~~
  * The project has moved to `Jazzband <https://jazzband.co/>`_. This is the

@@ -885,6 +885,67 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         ff = tm.formfield()
         self.assertRaises(ValidationError, ff.clean, "")
 
+    def test_form_changed_data(self):
+        # new food, blank tag
+        pear = self.food_model()
+        request = {"name": "pear", "tags": ""}
+        fff = self.form_class(request, instance=pear)
+        self.assertFalse(fff.is_valid())
+
+        pear = self.food_model()
+        request = {"name": "pear", "tags": "sweat"}
+        fff = self.form_class(request, instance=pear)
+        self.assertTrue(fff.is_valid())
+        self.assertIn("tags", fff.changed_data)
+        self.assertIn("name", fff.changed_data)
+        fff.save()
+
+        request = {"name": "pear", "tags": "yellow"}
+        fff = self.form_class(request, instance=pear)
+        self.assertTrue(fff.is_valid())
+        self.assertIn("tags", fff.changed_data)
+        self.assertNotIn("name", fff.changed_data)
+        fff.save()
+
+        # same object nothing changed
+        fff = self.form_class(request, instance=pear)
+        self.assertTrue(fff.is_valid())
+        self.assertFalse(fff.changed_data)
+
+        # delete tag
+        request = {"name": "pear", "tags": ""}
+        fff = self.form_class(request, instance=pear)
+        self.assertFalse(fff.is_valid())  # tag not blank
+
+        # change name, tags are the same
+        request = {"name": "apple", "tags": "yellow"}
+        fff = self.form_class(request, instance=pear)
+        self.assertTrue(fff.is_valid())
+        self.assertIn("name", fff.changed_data)
+        self.assertNotIn("tags", fff.changed_data)
+        fff.save()
+
+        # tags changed
+        apple = self.food_model.objects.get(name="apple")
+        request = {"name": "apple", "tags": "yellow, delicious"}
+        fff = self.form_class(request, instance=apple)
+        self.assertTrue(fff.is_valid())
+        self.assertNotIn("name", fff.changed_data)
+        self.assertIn("tags", fff.changed_data)
+        fff.save()
+
+        # only tags order changed
+        apple = self.food_model.objects.get(name="apple")
+        request = {"name": "apple", "tags": "delicious, yellow"}
+        fff = self.form_class(request, instance=apple)
+        self.assertTrue(fff.is_valid())
+        self.assertFalse(fff.changed_data)
+
+        # and nothing changed
+        fff = self.form_class(request, instance=apple)
+        self.assertTrue(fff.is_valid())
+        self.assertFalse(fff.changed_data)
+
 
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
