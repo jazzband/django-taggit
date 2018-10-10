@@ -899,6 +899,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 
         # same object nothing changed
         fff = self.form_class(request, instance=pear)
+        self.assertTrue(fff.is_valid())
         self.assertFalse(fff.changed_data)
 
         # change name, tags are the same
