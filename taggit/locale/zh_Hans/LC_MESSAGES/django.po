@@ -24,7 +24,7 @@ msgstr "标签项"
 
 #: taggit/forms.py:27
 msgid "Please provide a comma-separated list of tags."
-msgstr ""
+msgstr "请提供逗号分隔的标签列表。"
 
 #: taggit/managers.py:299 taggit/models.py:102
 msgid "Tags"
@@ -32,7 +32,7 @@ msgstr "标签"
 
 #: taggit/managers.py:300
 msgid "A comma-separated list of tags."
-msgstr ""
+msgstr "逗号分隔的标签列表。"
 
 #: taggit/models.py:47
 msgid "Name"
