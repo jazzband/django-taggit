@@ -8,7 +8,7 @@ If you are specifying :attr:`ModelAdmin.fieldsets`, include the name
 of the :class:`TaggableManager` as a field::
 
     fieldsets = (
-        (None, {'fields': ('tags')}),
+        (None, {'fields': ('tags',)}),
     )
 
 Including tags in :attr:`ModelAdmin.list_display`
