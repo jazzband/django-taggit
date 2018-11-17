@@ -7,43 +7,43 @@ matrix:
     - env: TOXENV=flake8
     - env: TOXENV=isort
     - python: 2.7
-      env: TOXENV=py27-1.11.x
+      env: TOXENV=py27-django111
     - python: 3.4
-      env: TOXENV=py34-1.11.x
+      env: TOXENV=py34-django111
     - python: 3.5
-      env: TOXENV=py35-1.11.x
+      env: TOXENV=py35-django111
     - python: 3.6
-      env: TOXENV=py36-1.11.x
+      env: TOXENV=py36-django111
     - python: 3.4
-      env: TOXENV=py34-2.0.x
+      env: TOXENV=py34-django20
     - python: 3.5
-      env: TOXENV=py35-2.0.x
+      env: TOXENV=py35-django20
     - python: 3.6
-      env: TOXENV=py36-2.0.x
+      env: TOXENV=py36-django20
     - python: 3.7
-      env: TOXENV=py37-2.0.x
+      env: TOXENV=py37-django20
       dist: xenial
       sudo: true
     - python: 3.5
-      env: TOXENV=py35-2.1.x
+      env: TOXENV=py35-django21
     - python: 3.6
-      env: TOXENV=py36-2.1.x
+      env: TOXENV=py36-django21
     - python: 3.7
-      env: TOXENV=py37-2.1.x
+      env: TOXENV=py37-django21
       dist: xenial
       sudo: true
     - python: 3.5
-      env: TOXENV=py35-master
+      env: TOXENV=py35-djangomaster
     - python: 3.6
-      env: TOXENV=py36-master
+      env: TOXENV=py36-djangomaster
     - python: 3.7
-      env: TOXENV=py37-master
+      env: TOXENV=py37-djangomaster
       dist: xenial
       sudo: true
   allow_failures:
-    - env: TOXENV=py35-master
-    - env: TOXENV=py36-master
-    - env: TOXENV=py37-master
+    - env: TOXENV=py35-djangomaster
+    - env: TOXENV=py36-djangomaster
+    - env: TOXENV=py37-djangomaster
 
 install:
   - pip install tox
