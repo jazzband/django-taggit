@@ -551,10 +551,11 @@ class TaggableManager(RelatedField, Field):
                                                 qn(extra_col))
             params = [content_type_id]
         else:
-            extra_where = " AND %s.%s IN (%s)" % (qn(alias_to_join),
-                                                  qn(extra_col),
-                                                  ','.join(['%s'] *
-                                                           len(content_type_ids)))
+            extra_where = " AND %s.%s IN (%s)" % (
+                qn(alias_to_join),
+                qn(extra_col),
+                ','.join(['%s'] * len(content_type_ids))
+            )
             params = content_type_ids
         return extra_where, params
 
