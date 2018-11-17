@@ -8,7 +8,7 @@ from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection, models
-from django.test import RequestFactory, TestCase, TransactionTestCase
+from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 from django.views.generic.list import ListView
@@ -29,7 +29,7 @@ from taggit.utils import edit_string_for_tags, parse_tags
 from taggit.views import TagListMixin, tagged_object_list
 
 
-class BaseTaggingTest(object):
+class BaseTaggingTestCase(TestCase):
     def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
         got = [getattr(obj, attr) for obj in qs]
         if sort:
@@ -49,15 +49,7 @@ class BaseTaggingTest(object):
         self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 
-class BaseTaggingTestCase(TestCase, BaseTaggingTest):
-    pass
-
-
-class BaseTaggingTransactionTestCase(TransactionTestCase, BaseTaggingTest):
-    pass
-
-
-class TagModelTestCase(BaseTaggingTransactionTestCase):
+class TagModelTestCase(BaseTaggingTestCase):
     food_model = Food
     tag_model = Tag
 
@@ -970,10 +962,11 @@ class FoodTagListView(TagListMixin, ListView):
 
 
 @override_settings(ROOT_URLCONF='tests.urls')
-class TagListViewTests(BaseTaggingTestCase, TestCase):
+class TagListViewTests(BaseTaggingTestCase):
     model = Food
 
     def setUp(self):
+        super(TagListViewTests, self).setUp()
         self.factory = RequestFactory()
         self.slug = 'green'
         self.apple = self.model.objects.create(name='apple')
