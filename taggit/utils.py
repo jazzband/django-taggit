@@ -132,16 +132,15 @@ def require_instance_manager(func):
 
 
 def get_func(key, default):
-    func_path = getattr(settings, key, default)
-    return import_string(func_path)
+    func_path = getattr(settings, key, None)
+    return default if func_path is None else import_string(func_path)
 
 
 def parse_tags(tagstring):
-    func = get_func('TAGGIT_TAGS_FROM_STRING', 'taggit.utils._parse_tags')
+    func = get_func('TAGGIT_TAGS_FROM_STRING', _parse_tags)
     return func(tagstring)
 
 
 def edit_string_for_tags(tags):
-    func = get_func('TAGGIT_STRING_FROM_TAGS',
-                    'taggit.utils._edit_string_for_tags')
+    func = get_func('TAGGIT_STRING_FROM_TAGS', _edit_string_for_tags)
     return func(tags)
