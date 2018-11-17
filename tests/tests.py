@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
-from unittest import TestCase as UnitTestCase
+import unittest
 
 import mock
 from django.contrib.contenttypes.models import ContentType
@@ -11,6 +11,7 @@ from django.db import connection, models
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
+from django.utils.six import StringIO
 from django.views.generic.list import ListView
 
 from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
@@ -827,7 +828,7 @@ class TaggableFormOfficialTestCase(TaggableFormTestCase):
     food_model = OfficialFood
 
 
-class TagStringParseTestCase(UnitTestCase):
+class TagStringParseTestCase(unittest.TestCase):
     """
     Ported from Jonathan Buchanan's `django-tagging
     <http://django-tagging.googlecode.com/>`_
@@ -926,7 +927,7 @@ class TagStringParseTestCase(UnitTestCase):
         self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
 
 
-class DeconstructTestCase(UnitTestCase):
+class DeconstructTestCase(unittest.TestCase):
     def test_deconstruct_kwargs_kept(self):
         instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
         name, path, args, kwargs = instance.deconstruct()
@@ -951,10 +952,16 @@ class InheritedPrefetchTests(TestCase):
         self.assertEqual({t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags})
 
 
-class DjangoCheckTests(UnitTestCase):
-
+class DjangoCheckTests(unittest.TestCase):
     def test_django_checks(self):
-        call_command('check', tag=['models'])
+        stdout = StringIO()
+        stderr = StringIO()
+        call_command('check', stdout=stdout, stderr=stderr)
+        self.assertEqual(
+            stdout.getvalue(),
+            "System check identified no issues (0 silenced).\n",
+        )
+        self.assertEqual(stderr.getvalue(), "")
 
 
 class FoodTagListView(TagListMixin, ListView):
