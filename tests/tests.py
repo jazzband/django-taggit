@@ -6,12 +6,10 @@ import mock
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ValidationError
-from django.core.management import call_command
 from django.db import connection, models
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
-from django.utils.six import StringIO
 
 from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
                     FoodForm, OfficialFoodForm)
@@ -933,18 +931,6 @@ class InheritedPrefetchTests(TestCase):
         prefetch_tags = child.tags.all()
         self.assertEqual(4, prefetch_tags.count())
         self.assertEqual({t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags})
-
-
-class DjangoCheckTests(unittest.TestCase):
-    def test_django_checks(self):
-        stdout = StringIO()
-        stderr = StringIO()
-        call_command('check', stdout=stdout, stderr=stderr)
-        self.assertEqual(
-            stdout.getvalue(),
-            "System check identified no issues (0 silenced).\n",
-        )
-        self.assertEqual(stderr.getvalue(), "")
 
 
 @override_settings(ROOT_URLCONF='tests.urls')
