@@ -933,7 +933,6 @@ class InheritedPrefetchTests(TestCase):
         self.assertEqual({t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags})
 
 
-@override_settings(ROOT_URLCONF='tests.urls')
 class TagListViewTests(TestCase):
     model = Food
 
