@@ -23,25 +23,6 @@ from taggit.models import CommonGenericTaggedItemBase, TaggedItem
 from taggit.utils import require_instance_manager
 
 
-class TaggableRel(ManyToManyRel):
-    def __init__(self, field, related_name, through, to=None):
-        self.model = to
-        self.related_name = related_name
-        self.related_query_name = None
-        self.limit_choices_to = {}
-        self.symmetrical = True
-        self.multiple = True
-        self.through = through
-        self.field = field
-        self.through_fields = None
-
-    def get_joining_columns(self):
-        return self.field.get_reverse_joining_columns()
-
-    def get_extra_restriction(self, where_class, alias, related_alias):
-        return self.field.get_extra_restriction(where_class, related_alias, alias)
-
-
 class ExtraJoinRestriction(object):
     """
     An extra restriction used for contenttype restriction in joins.
@@ -375,7 +356,7 @@ class TaggableManager(RelatedField, Field):
         self.swappable = False
         self.manager = manager
 
-        rel = TaggableRel(self, related_name, self.through, to=to)
+        rel = ManyToManyRel(self, to, related_name=related_name, through=self.through)
 
         Field.__init__(
             self,
