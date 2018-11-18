@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
-from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext
@@ -109,12 +108,6 @@ class ItemBase(models.Model):
             'content_object': instance
         }
 
-    @classmethod
-    def bulk_lookup_kwargs(cls, instances):
-        return {
-            "content_object__in": instances,
-        }
-
 
 class TaggedItemBase(ItemBase):
     tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE)
@@ -154,21 +147,6 @@ class CommonGenericTaggedItemBase(ItemBase):
             'object_id': instance.pk,
             'content_type': ContentType.objects.get_for_model(instance)
         }
-
-    @classmethod
-    def bulk_lookup_kwargs(cls, instances):
-        if isinstance(instances, QuerySet):
-            # Can do a real object_id IN (SELECT ..) query.
-            return {
-                "object_id__in": instances,
-                "content_type": ContentType.objects.get_for_model(instances.model),
-            }
-        else:
-            # TODO: instances[0], can we assume there are instances.
-            return {
-                "object_id__in": [instance.pk for instance in instances],
-                "content_type": ContentType.objects.get_for_model(instances[0]),
-            }
 
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
