@@ -7,7 +7,7 @@ from django import VERSION
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.db import models, router
+from django.db import connections, models, router
 from django.db.models import signals
 from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
@@ -92,7 +92,6 @@ class _TaggableManager(models.Manager):
             raise ValueError("Custom queryset can't be used for this lookup.")
 
         instance = instances[0]
-        from django.db import connections
         db = self._db or router.db_for_read(instance.__class__, instance=instance)
 
         fieldname = ('object_id' if issubclass(self.through, CommonGenericTaggedItemBase)

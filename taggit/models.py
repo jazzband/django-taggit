@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.db import IntegrityError, models, transaction
+from django.db import IntegrityError, models, router, transaction
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
@@ -36,7 +36,6 @@ class TagBase(models.Model):
     def save(self, *args, **kwargs):
         if self._state.adding and not self.slug:
             self.slug = self.slugify(self.name)
-            from django.db import router
             using = kwargs.get("using") or router.db_for_write(
                 type(self), instance=self)
             # Make sure we write to the same db for all attempted writes,
