@@ -9,7 +9,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections, models, router
 from django.db.models import signals
-from django.db.models.fields import Field
 from django.db.models.fields.related import (ManyToManyRel, OneToOneRel,
                                              RelatedField,
                                              lazy_related_operation)
@@ -52,11 +51,11 @@ class ExtraJoinRestriction(object):
 
 class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance, prefetch_cache_name):
+        super(_TaggableManager, self).__init__()
         self.through = through
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
-        self._db = None
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
@@ -338,7 +337,7 @@ class _TaggableManager(models.Manager):
 
 
 @total_ordering
-class TaggableManager(RelatedField, Field):
+class TaggableManager(RelatedField):
     # Field flags
     many_to_many = True
     many_to_one = False
@@ -351,15 +350,11 @@ class TaggableManager(RelatedField, Field):
                  help_text=_("A comma-separated list of tags."),
                  through=None, blank=False, related_name=None, to=None,
                  manager=_TaggableManager):
-
         self.through = through or TaggedItem
-        self.swappable = False
-        self.manager = manager
 
         rel = ManyToManyRel(self, to, related_name=related_name, through=self.through)
 
-        Field.__init__(
-            self,
+        super(TaggableManager, self).__init__(
             verbose_name=verbose_name,
             help_text=help_text,
             blank=blank,
@@ -367,7 +362,9 @@ class TaggableManager(RelatedField, Field):
             serialize=False,
             rel=rel,
         )
-        # NOTE: `to` is ignored, only used via `deconstruct`.
+
+        self.swappable = False
+        self.manager = manager
 
     def __get__(self, instance, model):
         if instance is not None and instance.pk is None:
@@ -433,14 +430,6 @@ class TaggableManager(RelatedField, Field):
     def get_internal_type(self):
         return 'ManyToManyField'
 
-    def __lt__(self, other):
-        """
-        Required contribute_to_class as Django uses bisect
-        for ordered class contribution and bisect requires
-        a orderable type in py3.
-        """
-        return False
-
     def post_through_setup(self, cls):
         self.use_gfk = (
             self.through is None or issubclass(self.through, CommonGenericTaggedItemBase)
@@ -497,47 +486,11 @@ class TaggableManager(RelatedField, Field):
             return self.through._meta.virtual_fields[0].fk_field
         return self.through._meta.get_field('content_object').column
 
-    def db_type(self, connection=None):
-        return None
-
     def m2m_db_table(self):
         return self.through._meta.db_table
 
     def bulk_related_objects(self, new_objs, using):
         return []
-
-    def extra_filters(self, pieces, pos, negate):
-        if negate or not self.use_gfk:
-            return []
-        prefix = "__".join(["tagged_items"] + pieces[:pos - 2])
-        get = ContentType.objects.get_for_model
-        cts = [get(obj) for obj in _get_subclasses(self.model)]
-        if len(cts) == 1:
-            return [("%s__content_type" % prefix, cts[0])]
-        return [("%s__content_type__in" % prefix, cts)]
-
-    def get_extra_join_sql(self, connection, qn, lhs_alias, rhs_alias):
-        model_name = self.through._meta.model_name
-        if rhs_alias == '%s_%s' % (self.through._meta.app_label, model_name):
-            alias_to_join = rhs_alias
-        else:
-            alias_to_join = lhs_alias
-        extra_col = self.through._meta.get_field('content_type').column
-        content_type_ids = [ContentType.objects.get_for_model(subclass).pk for
-                            subclass in _get_subclasses(self.model)]
-        if len(content_type_ids) == 1:
-            content_type_id = content_type_ids[0]
-            extra_where = " AND %s.%s = %%s" % (qn(alias_to_join),
-                                                qn(extra_col))
-            params = [content_type_id]
-        else:
-            extra_where = " AND %s.%s IN (%s)" % (
-                qn(alias_to_join),
-                qn(extra_col),
-                ','.join(['%s'] * len(content_type_ids))
-            )
-            params = content_type_ids
-        return extra_where, params
 
     def _get_mm_case_path_info(self, direct=False, filtered_relation=None):
         pathinfos = []
