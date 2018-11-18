@@ -12,7 +12,6 @@ from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 from django.utils.six import StringIO
-from django.views.generic.list import ListView
 
 from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
                     FoodForm, OfficialFoodForm)
@@ -27,7 +26,7 @@ from .models import (Article, Child, CustomManager, CustomPKFood,
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
 from taggit.utils import edit_string_for_tags, parse_tags
-from taggit.views import TagListMixin, tagged_object_list
+from taggit.views import tagged_object_list
 
 
 class BaseTaggingTestCase(TestCase):
@@ -37,17 +36,6 @@ class BaseTaggingTestCase(TestCase):
             got.sort()
             tags.sort()
         self.assertEqual(got, tags)
-
-    def _get_form_str(self, form_str):
-        form_str %= {
-            "help_start": '<span class="helptext">',
-            "help_stop": "</span>",
-            "required": "required",
-        }
-        return form_str
-
-    def assertFormRenders(self, form, html):
-        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
 
 class TagModelTestCase(BaseTaggingTestCase):
@@ -115,6 +103,11 @@ class TagModelCustomPKTestCase(TagModelTestCase):
 class TagModelOfficialTestCase(TagModelTestCase):
     food_model = OfficialFood
     tag_model = OfficialTag
+
+
+class TagUUIDModelTestCase(TagModelTestCase):
+    food_model = UUIDFood
+    tag_model = UUIDTag
 
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
@@ -740,6 +733,17 @@ class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
     food_model = Food
 
+    def _get_form_str(self, form_str):
+        form_str %= {
+            "help_start": '<span class="helptext">',
+            "help_stop": "</span>",
+            "required": "required",
+        }
+        return form_str
+
+    def assertFormRenders(self, form, html):
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
+
     def test_form(self):
         self.assertEqual(list(self.form_class.base_fields), ['name', 'tags'])
 
@@ -943,12 +947,8 @@ class DjangoCheckTests(unittest.TestCase):
         self.assertEqual(stderr.getvalue(), "")
 
 
-class FoodTagListView(TagListMixin, ListView):
-    model = Food
-
-
 @override_settings(ROOT_URLCONF='tests.urls')
-class TagListViewTests(BaseTaggingTestCase):
+class TagListViewTests(TestCase):
     model = Food
 
     def setUp(self):
@@ -977,8 +977,3 @@ class TagListViewTests(BaseTaggingTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.apple, response.context_data['object_list'])
         self.assertNotIn(self.strawberry, response.context_data['object_list'])
-
-
-class TagUUIDModelTestCase(TagModelTestCase):
-    food_model = UUIDFood
-    tag_model = UUIDTag

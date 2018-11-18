@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .tests import FoodTagListView
+from .views import FoodTagListView
 
 urlpatterns = [
     url(r'^food/tags/(?P<slug>[a-z0-9_-]+)/$', FoodTagListView.as_view(),
