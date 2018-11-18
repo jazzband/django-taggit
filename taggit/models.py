@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
-from django.template.defaultfilters import slugify as default_slugify
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.text import slugify
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
@@ -68,7 +68,7 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = default_slugify(unidecode(tag))
+        slug = slugify(unidecode(tag))
         if i is not None:
             slug += "_%d" % i
         return slug
