@@ -27,3 +27,15 @@ And then to any model you want tagging on do the following::
     If you want ``django-taggit`` to be **CASE INSENSITIVE** when looking up existing tags, you'll have to set to ``True`` the TAGGIT_CASE_INSENSITIVE setting (by default ``False``)::
 
       TAGGIT_CASE_INSENSITIVE = True
+
+.. note::
+
+    If you want ``django-taggit`` to be convert to slug **RAW UNICODE** when saving tags, you'll have to set to ``True`` the TAGGIT_NATIVE_UNICODE_SLUG setting (by default ``False``)::
+
+      TAGGIT_NATIVE_UNICODE_SLUG = False (Default)
+
+      >> 'seoul'
+
+      TAGGIT_NATIVE_UNICODE_SLUG = True
+
+      >> '서울'
