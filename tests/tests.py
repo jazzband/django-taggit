@@ -450,13 +450,39 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         # Prefill content type cache:
         ContentType.objects.get_for_model(self.food_model)
         apple = self.food_model.objects.create(name="apple")
-        #   1  query to see which tags exist
-        #   1  query to check existing ids for sending m2m_changed signal
-        # + 3  queries to create the tags.
-        # + 6  queries to create the intermediary things (including SELECTs, to
-        #      make sure we don't double create.
-        # + 12 for save points.
-        queries = 23
+        # 1. SELECT "taggit_tag"."id", "taggit_tag"."name", "taggit_tag"."slug" FROM "taggit_tag" WHERE "taggit_tag"."name" IN ('green', 'red', 'delicious')
+        # 2. SELECT "taggit_tag"."id", "taggit_tag"."name", "taggit_tag"."slug" FROM "taggit_tag" WHERE "taggit_tag"."name" = 'green'
+        # 3. SAVEPOINT
+        # 4. SAVEPOINT
+        # 5. INSERT INTO "taggit_tag" ("name", "slug") VALUES ('green', 'green')
+        # 6. RELEASE SAVEPOINT
+        # 7. RELEASE SAVEPOINT
+        # 8. SELECT "taggit_tag"."id", "taggit_tag"."name", "taggit_tag"."slug" FROM "taggit_tag" WHERE "taggit_tag"."name" = 'red'
+        # 9. SAVEPOINT
+        # 10. SAVEPOINT
+        # 11. INSERT INTO "taggit_tag" ("name", "slug") VALUES ('red', 'red')
+        # 12. RELEASE SAVEPOINT
+        # 13. RELEASE SAVEPOINT
+        # 14. SELECT "taggit_tag"."id", "taggit_tag"."name", "taggit_tag"."slug" FROM "taggit_tag" WHERE "taggit_tag"."name" = 'delicious'
+        # 15. SAVEPOINT
+        # 16. SAVEPOINT
+        # 17. INSERT INTO "taggit_tag" ("name", "slug") VALUES ('delicious', 'delicious')
+        # 18. RELEASE SAVEPOINT
+        # 19. RELEASE SAVEPOINT
+        # 20. SELECT "taggit_taggeditem"."tag_id" FROM "taggit_taggeditem" WHERE ("taggit_taggeditem"."content_type_id" = 20 AND "taggit_taggeditem"."object_id" = 1)
+        # 21. SELECT "taggit_taggeditem"."id", "taggit_taggeditem"."tag_id", "taggit_taggeditem"."content_type_id", "taggit_taggeditem"."object_id" FROM "taggit_taggeditem" WHERE ("taggit_taggeditem"."content_type_id" = 20 AND "taggit_taggeditem"."object_id" = 1 AND "taggit_taggeditem"."tag_id" = 1)
+        # 22. SAVEPOINT
+        # 23. INSERT INTO "taggit_taggeditem" ("tag_id", "content_type_id", "object_id") VALUES (1, 20, 1)
+        # 24. RELEASE SAVEPOINT
+        # 25. SELECT "taggit_taggeditem"."id", "taggit_taggeditem"."tag_id", "taggit_taggeditem"."content_type_id", "taggit_taggeditem"."object_id" FROM "taggit_taggeditem" WHERE ("taggit_taggeditem"."content_type_id" = 20 AND "taggit_taggeditem"."object_id" = 1 AND "taggit_taggeditem"."tag_id" = 2)
+        # 26. SAVEPOINT
+        # 27. INSERT INTO "taggit_taggeditem" ("tag_id", "content_type_id", "object_id") VALUES (2, 20, 1)
+        # 28. RELEASE SAVEPOINT
+        # 29. SELECT "taggit_taggeditem"."id", "taggit_taggeditem"."tag_id", "taggit_taggeditem"."content_type_id", "taggit_taggeditem"."object_id" FROM "taggit_taggeditem" WHERE ("taggit_taggeditem"."content_type_id" = 20 AND "taggit_taggeditem"."object_id" = 1 AND "taggit_taggeditem"."tag_id" = 3)
+        # 30. SAVEPOINT
+        # 31. INSERT INTO "taggit_taggeditem" ("tag_id", "content_type_id", "object_id") VALUES (3, 20, 1)
+        # 32. RELEASE SAVEPOINT
+        queries = 32
         self.assertNumQueries(queries, apple.tags.add, "red", "delicious", "green")
 
         pear = self.food_model.objects.create(name="pear")
