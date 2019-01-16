@@ -216,12 +216,11 @@ class _TaggableManager(models.Manager):
 
         for new_tag in tags_to_create:
             if case_insensitive:
-                try:
-                    tag = manager.get(name__iexact=new_tag)
-                except self.through.tag_model().DoesNotExist:
-                    tag = manager.create(name=new_tag)
+                tag, created = manager.get_or_create(
+                    name__iexact=new_tag, defaults={"name": new_tag}
+                )
             else:
-                tag = manager.create(name=new_tag)
+                tag, created = manager.get_or_create(name=new_tag)
 
             tag_objs.add(tag)
 
