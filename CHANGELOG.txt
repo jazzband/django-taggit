@@ -1,6 +1,10 @@
 Changelog
 =========
 
+UNRELEASED
+~~~~~~~~~~
+ * Added support for Django 2.2.
+
 0.23.0 (2018-08-07)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Remove support for Django < 1.11
