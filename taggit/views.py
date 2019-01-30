@@ -10,12 +10,11 @@ from taggit.models import Tag, TaggedItem
 def tagged_object_list(request, slug, queryset, **kwargs):
     if callable(queryset):
         queryset = queryset()
-    queryset_model = ContentType.objects.get_for_model(queryset.model)
     kwargs["slug"] = slug
     tag_list_view = type(
         str("TagListView"),
         (TagListMixin, ListView),
-        {"model": queryset_model, "queryset": queryset},
+        {"model": queryset.model, "queryset": queryset},
     )
     return tag_list_view.as_view()(request, **kwargs)
 
