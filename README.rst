@@ -1,7 +1,13 @@
 django-taggit
 =============
+
+.. image:: https://jazzband.co/static/img/badge.svg
+   :target: https://jazzband.co/
+   :alt: Jazzband
+
 .. image:: https://travis-ci.org/jazzband/django-taggit.svg?branch=master
     :target: https://travis-ci.org/jazzband/django-taggit
+
 .. image:: https://codecov.io/gh/jazzband/django-taggit/coverage.svg?branch=master
     :target: https://codecov.io/gh/jazzband/django-taggit?branch=master
 
