@@ -10,8 +10,7 @@ from taggit.utils import edit_string_for_tags, parse_tags
 class TagWidget(forms.TextInput):
     def format_value(self, value):
         if value is not None and not isinstance(value, six.string_types):
-            value = edit_string_for_tags([
-                o.tag for o in value.select_related("tag")])
+            value = edit_string_for_tags([o.tag for o in value.select_related("tag")])
 
         return super(TagWidget, self).format_value(value)
 
@@ -25,4 +24,5 @@ class TagField(forms.CharField):
             return parse_tags(value)
         except ValueError:
             raise forms.ValidationError(
-                _("Please provide a comma-separated list of tags."))
+                _("Please provide a comma-separated list of tags.")
+            )

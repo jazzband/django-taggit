@@ -5,20 +5,20 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import slugify
-from django.utils.translation import ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 try:
     from unidecode import unidecode
 except ImportError:
+
     def unidecode(tag):
         return tag
 
 
 @python_2_unicode_compatible
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    name = models.CharField(verbose_name=_("Name"), unique=True, max_length=100)
+    slug = models.SlugField(verbose_name=_("Slug"), unique=True, max_length=100)
 
     def __str__(self):
         return self.name
@@ -36,7 +36,8 @@ class TagBase(models.Model):
         if self._state.adding and not self.slug:
             self.slug = self.slugify(self.name)
             using = kwargs.get("using") or router.db_for_write(
-                type(self), instance=self)
+                type(self), instance=self
+            )
             # Make sure we write to the same db for all attempted writes,
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
@@ -51,9 +52,9 @@ class TagBase(models.Model):
                 pass
             # Now try to find existing slugs with similar names
             slugs = set(
-                self.__class__._default_manager
-                .filter(slug__startswith=self.slug)
-                .values_list('slug', flat=True)
+                self.__class__._default_manager.filter(
+                    slug__startswith=self.slug
+                ).values_list("slug", flat=True)
             )
             i = 1
             while True:
@@ -78,7 +79,7 @@ class Tag(TagBase):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
-        app_label = 'taggit'
+        app_label = "taggit"
 
 
 @python_2_unicode_compatible
@@ -86,7 +87,7 @@ class ItemBase(models.Model):
     def __str__(self):
         return ugettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
-            "tag": self.tag
+            "tag": self.tag,
         }
 
     class Meta:
@@ -94,23 +95,23 @@ class ItemBase(models.Model):
 
     @classmethod
     def tag_model(cls):
-        field = cls._meta.get_field('tag')
+        field = cls._meta.get_field("tag")
         return field.remote_field.model
 
     @classmethod
     def tag_relname(cls):
-        field = cls._meta.get_field('tag')
+        field = cls._meta.get_field("tag")
         return field.remote_field.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
-        return {
-            'content_object': instance
-        }
+        return {"content_object": instance}
 
 
 class TaggedItemBase(ItemBase):
-    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
+    )
 
     class Meta:
         abstract = True
@@ -119,13 +120,9 @@ class TaggedItemBase(ItemBase):
     def tags_for(cls, model, instance=None, **extra_filters):
         kwargs = extra_filters or {}
         if instance is not None:
-            kwargs.update({
-                '%s__content_object' % cls.tag_relname(): instance
-            })
+            kwargs.update({"%s__content_object" % cls.tag_relname(): instance})
             return cls.tag_model().objects.filter(**kwargs)
-        kwargs.update({
-            '%s__content_object__isnull' % cls.tag_relname(): False
-        })
+        kwargs.update({"%s__content_object__isnull" % cls.tag_relname(): False})
         return cls.tag_model().objects.filter(**kwargs).distinct()
 
 
@@ -133,8 +130,8 @@ class CommonGenericTaggedItemBase(ItemBase):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        verbose_name=_('Content type'),
-        related_name="%(app_label)s_%(class)s_tagged_items"
+        verbose_name=_("Content type"),
+        related_name="%(app_label)s_%(class)s_tagged_items",
     )
     content_object = GenericForeignKey()
 
@@ -144,16 +141,14 @@ class CommonGenericTaggedItemBase(ItemBase):
     @classmethod
     def lookup_kwargs(cls, instance):
         return {
-            'object_id': instance.pk,
-            'content_type': ContentType.objects.get_for_model(instance)
+            "object_id": instance.pk,
+            "content_type": ContentType.objects.get_for_model(instance),
         }
 
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         ct = ContentType.objects.get_for_model(model)
-        kwargs = {
-            "%s__content_type" % cls.tag_relname(): ct
-        }
+        kwargs = {"%s__content_type" % cls.tag_relname(): ct}
         if instance is not None:
             kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
         if extra_filters:
@@ -162,14 +157,14 @@ class CommonGenericTaggedItemBase(ItemBase):
 
 
 class GenericTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
+    object_id = models.IntegerField(verbose_name=_("Object id"), db_index=True)
 
     class Meta:
         abstract = True
 
 
 class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.UUIDField(verbose_name=_('Object id'), db_index=True)
+    object_id = models.UUIDField(verbose_name=_("Object id"), db_index=True)
 
     class Meta:
         abstract = True
@@ -179,7 +174,5 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
-        app_label = 'taggit'
-        index_together = [
-            ["content_type", "object_id"],
-        ]
+        app_label = "taggit"
+        index_together = [["content_type", "object_id"]]

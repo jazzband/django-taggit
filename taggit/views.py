@@ -13,21 +13,18 @@ def tagged_object_list(request, slug, queryset, **kwargs):
     queryset_model = ContentType.objects.get_for_model(queryset.model)
     kwargs["slug"] = slug
     tag_list_view = type(
-        str('TagListView'),
+        str("TagListView"),
         (TagListMixin, ListView),
-        {
-            'model': queryset_model,
-            'queryset': queryset
-        }
+        {"model": queryset_model, "queryset": queryset},
     )
     return tag_list_view.as_view()(request, **kwargs)
 
 
 class TagListMixin(object):
-    tag_suffix = '_tag'
+    tag_suffix = "_tag"
 
     def dispatch(self, request, *args, **kwargs):
-        slug = kwargs.pop('slug')
+        slug = kwargs.pop("slug")
         self.tag = get_object_or_404(Tag, slug=slug)
         return super(TagListMixin, self).dispatch(request, *args, **kwargs)
 
@@ -36,7 +33,8 @@ class TagListMixin(object):
         return qs.filter(
             pk__in=TaggedItem.objects.filter(
                 tag=self.tag, content_type=ContentType.objects.get_for_model(qs.model)
-            ).values_list("object_id", flat=True))
+            ).values_list("object_id", flat=True)
+        )
 
     def get_template_names(self):
         if self.tag_suffix:
