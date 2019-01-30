@@ -4,213 +4,213 @@ Changelog
 0.23.0 (2018-08-07)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Remove support for Django < 1.11
-  * https://github.com/alex/django-taggit/pull/518
+  * https://github.com/jazzband/django-taggit/pull/518
  * Added support for Django 2.1 and Python 3.7
-  * https://github.com/alex/django-taggit/pull/536
+  * https://github.com/jazzband/django-taggit/pull/536
  * Moved TagWidget value conversion from TagWidget.render() to TagWidget.format_value()
-  * https://github.com/alex/django-taggit/pull/534
+  * https://github.com/jazzband/django-taggit/pull/534
 
 0.22.2 (2017-12-27)
 ~~~~~~~~~~~~~~~~~~~
  * Added support for Django 2.0
-  * https://github.com/alex/django-taggit/pull/509
+  * https://github.com/jazzband/django-taggit/pull/509
  * **Backwards incompatible:** Dropped support for EOL Python 3.3
-  * https://github.com/alex/django-taggit/pull/512
+  * https://github.com/jazzband/django-taggit/pull/512
 
 0.22.1 (2017-04-22)
 ~~~~~~~~~~~~~~~~~~~
  * Update spanish translation
-  * https://github.com/alex/django-taggit/pull/473
+  * https://github.com/jazzband/django-taggit/pull/473
  * Add testing for Django 1.11 and Python 3.6
-  * https://github.com/alex/django-taggit/pull/475
+  * https://github.com/jazzband/django-taggit/pull/475
  * introduce isort and flake8 in the CI
-  * https://github.com/alex/django-taggit/pull/476
+  * https://github.com/jazzband/django-taggit/pull/476
  * [docs] Fixed links to external apps
-  * https://github.com/alex/django-taggit/pull/481
+  * https://github.com/jazzband/django-taggit/pull/481
  * Improved auto-slug in TagBase to support UUID pk
-  * https://github.com/alex/django-taggit/pull/482
+  * https://github.com/jazzband/django-taggit/pull/482
  * [docs] Added contribution guidelines
-  * https://github.com/alex/django-taggit/pull/480
+  * https://github.com/jazzband/django-taggit/pull/480
 
 0.22.0 (2017-01-29)
 ~~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Drop support for Django 1.7
-  * https://github.com/alex/django-taggit/pull/465
+  * https://github.com/jazzband/django-taggit/pull/465
 
 0.21.6 (2017-01-25)
 ~~~~~~~~~~~~~~~~~~~
  * Fix case-insensitive tag creation when setting to a mix of new and existing tags are used
-  * https://github.com/alex/django-taggit/pull/464
+  * https://github.com/jazzband/django-taggit/pull/464
 
 0.21.5 (2017-01-21)
 ~~~~~~~~~~~~~~~~~~~
  * Check for case-insensitive duplicates when creating new tags
-  * https://github.com/alex/django-taggit/pull/461
+  * https://github.com/jazzband/django-taggit/pull/461
 
 0.21.4 (2017-01-10)
 ~~~~~~~~~~~~~~~~~~~
  * Support __gt__ and __lt__ ordering on Tags
-  * https://github.com/alex/django-taggit/pull/456
+  * https://github.com/jazzband/django-taggit/pull/456
 
 0.21.3 (2016-10-07)
 ~~~~~~~~~~~~~~~~~~~
  * Fix list view
-  * https://github.com/alex/django-taggit/pull/444
+  * https://github.com/jazzband/django-taggit/pull/444
 
 0.21.2 (2016-08-31)
 ~~~~~~~~~~~~~~~~~~~
  * Update Python version classifiers in setup.py
-  * https://github.com/alex/django-taggit/pull/438
+  * https://github.com/jazzband/django-taggit/pull/438
  * Add Greek translation
-  * https://github.com/alex/django-taggit/pull/439
+  * https://github.com/jazzband/django-taggit/pull/439
 
 0.21.1 (2016-08-25)
 ~~~~~~~~~~~~~~~~~~~
  * Document supported versions of Django; fix Travis to test these versions.
-  * https://github.com/alex/django-taggit/pull/435
+  * https://github.com/jazzband/django-taggit/pull/435
 
 0.21.0 (2016-08-22)
 ~~~~~~~~~~~~~~~~~~~
  * Fix form tests on Django 1.10
-  * https://github.com/alex/django-taggit/pull/433
+  * https://github.com/jazzband/django-taggit/pull/433
  * Address list_display and fieldsets in admin docs
-  * https://github.com/alex/django-taggit/pull/429
+  * https://github.com/jazzband/django-taggit/pull/429
  * external_apps.txt improvements
-  * https://github.com/alex/django-taggit/pull/428
+  * https://github.com/jazzband/django-taggit/pull/428
  * Remove support for Django 1.4-1.6, again.
-  * https://github.com/alex/django-taggit/pull/427
+  * https://github.com/jazzband/django-taggit/pull/427
 
 0.20.2 (2016-07-11)
 ~~~~~~~~~~~~~~~~~~~
  * Add extra_filters argument to the manager's most_common method
-  * https://github.com/alex/django-taggit/pull/422
+  * https://github.com/jazzband/django-taggit/pull/422
 
 0.20.1 (2016-06-23)
 ~~~~~~~~~~~~~~~~~~~
  * Specify `app_label` for `Tag` and `TaggedItem`
-  * https://github.com/alex/django-taggit/pull/420
+  * https://github.com/jazzband/django-taggit/pull/420
 
 0.20.0 (2016-06-19)
 ~~~~~~~~~~~~~~~~~~~
  * Fix UnboundLocalError in _TaggableManager.set(..)
-  * https://github.com/alex/django-taggit/pull/418
+  * https://github.com/jazzband/django-taggit/pull/418
  * Update doc links to reflect RTD domain changes
-  * https://github.com/alex/django-taggit/pull/417
+  * https://github.com/jazzband/django-taggit/pull/417
  * Improve Russian translations
-  * https://github.com/alex/django-taggit/pull/416
+  * https://github.com/jazzband/django-taggit/pull/416
 
 0.19.1 (2016-05-25)
 ~~~~~~~~~~~~~~~~~~~
  * Add app config, add simplified Chinese translation file
-  * https://github.com/alex/django-taggit/pull/410
+  * https://github.com/jazzband/django-taggit/pull/410
 
 0.19.0 (2016-05-23)
 ~~~~~~~~~~~~~~~~~~~
  * Implementation of m2m_changed signal sending
-  * https://github.com/alex/django-taggit/pull/409
+  * https://github.com/jazzband/django-taggit/pull/409
  * Code and tooling improvements
-  * https://github.com/alex/django-taggit/pull/408
+  * https://github.com/jazzband/django-taggit/pull/408
 
 0.18.3 (2016-05-12)
 ~~~~~~~~~~~~~~~~~~~
  * Added Spanish and Turkish translations
-  * https://github.com/alex/django-taggit/pull/402
+  * https://github.com/jazzband/django-taggit/pull/402
 
 0.18.2 (2016-05-08)
 ~~~~~~~~~~~~~~~~~~~
  * Add the min_count parameter to managers.most_common function
-  * https://github.com/alex/django-taggit/pull/400
+  * https://github.com/jazzband/django-taggit/pull/400
 
 0.18.1 (2016-03-30)
 ~~~~~~~~~~~~~~~~~~~
  * Address deprecation warnings
-  * https://github.com/alex/django-taggit/pull/385
+  * https://github.com/jazzband/django-taggit/pull/385
 
 0.18.0 (2016-01-18)
 ~~~~~~~~~~~~~~~~~~~
  * Add option to override default tag string parsing
-  * https://github.com/alex/django-taggit/pull/232
+  * https://github.com/jazzband/django-taggit/pull/232
  * Drop support for Python 2.6
-  * https://github.com/alex/django-taggit/pull/373
+  * https://github.com/jazzband/django-taggit/pull/373
 
 0.17.6 (2015-12-09)
 ~~~~~~~~~~~~~~~~~~~
  * Silence Django 1.9 warning
-  * https://github.com/alex/django-taggit/pull/366
+  * https://github.com/jazzband/django-taggit/pull/366
 
 0.17.5 (2015-11-27)
 ~~~~~~~~~~~~~~~~~~~
  * Django 1.9 compatibility fix
-  * https://github.com/alex/django-taggit/pull/364
+  * https://github.com/jazzband/django-taggit/pull/364
 
 0.17.4 (2015-11-25)
 ~~~~~~~~~~~~~~~~~~~
  * Allows custom Through Model with GenericForeignKey
-  * https://github.com/alex/django-taggit/pull/359
+  * https://github.com/jazzband/django-taggit/pull/359
 
 0.17.3 (2015-10-26)
 ~~~~~~~~~~~~~~~~~~~
  * Silence Django 1.9 warning about on_delete
-  * https://github.com/alex/django-taggit/pull/338
+  * https://github.com/jazzband/django-taggit/pull/338
 
 0.17.2 (2015-10-25)
 ~~~~~~~~~~~~~~~~~~~
  * Django 1.9 beta compatibility
-  * https://github.com/alex/django-taggit/pull/352
+  * https://github.com/jazzband/django-taggit/pull/352
 
 0.17.1 (2015-09-10)
 ~~~~~~~~~~~~~~~~~~~
  * Fix unknown column `object_id` issue with Django 1.6+
-  * https://github.com/alex/django-taggit/pull/305
+  * https://github.com/jazzband/django-taggit/pull/305
 
 0.17.0 (2015-08-14)
 ~~~~~~~~~~~~~~~~~~~
  * Database index added on TaggedItem fields content_type & object_id
-  * https://github.com/alex/django-taggit/pull/319
+  * https://github.com/jazzband/django-taggit/pull/319
 
 0.16.4 (2015-08-13)
 ~~~~~~~~~~~~~~~~~~~
  * Access default manager via class instead of instance
-  * https://github.com/alex/django-taggit/pull/335
+  * https://github.com/jazzband/django-taggit/pull/335
 
 0.16.3 (2015-08-08)
 ~~~~~~~~~~~~~~~~~~~
  * Prevent IntegrityError with custom TagBase classes
-  * https://github.com/alex/django-taggit/pull/334
+  * https://github.com/jazzband/django-taggit/pull/334
 
 0.16.2 (2015-07-13)
 ~~~~~~~~~~~~~~~~~~~
  * Fix an admin bug related to the `Manager` property `through_fields`
-  * https://github.com/alex/django-taggit/pull/328
+  * https://github.com/jazzband/django-taggit/pull/328
 
 0.16.1 (2015-07-09)
 ~~~~~~~~~~~~~~~~~~~
  * Fix bug that assumed all primary keys are named 'id'
-  * https://github.com/alex/django-taggit/pull/322
+  * https://github.com/jazzband/django-taggit/pull/322
 
 0.16.0 (2015-07-04)
 ~~~~~~~~~~~~~~~~~~~
  * Add option to allow case-insensitive tags
-  * https://github.com/alex/django-taggit/pull/325
+  * https://github.com/jazzband/django-taggit/pull/325
 
 0.15.0 (2015-06-23)
 ~~~~~~~~~~~~~~~~~~~
  * Fix wrong slugs for non-latin chars
   * Only works if optional GPL dependency (unidecode) is installed
-  * https://github.com/alex/django-taggit/pull/315
-  * https://github.com/alex/django-taggit/pull/273
+  * https://github.com/jazzband/django-taggit/pull/315
+  * https://github.com/jazzband/django-taggit/pull/273
 
 0.14.0 (2015-04-26)
 ~~~~~~~~~~~~~~~~~~~
  * Prevent extra JOIN when prefetching
-  * https://github.com/alex/django-taggit/pull/275
+  * https://github.com/jazzband/django-taggit/pull/275
  * Prevent _meta warnings with Django 1.8
-  * https://github.com/alex/django-taggit/pull/299
+  * https://github.com/jazzband/django-taggit/pull/299
 
 0.13.0 (2015-04-02)
 ~~~~~~~~~~~~~~~~~~~
  * Django 1.8 support
-  * https://github.com/alex/django-taggit/pull/297
+  * https://github.com/jazzband/django-taggit/pull/297
 
 0.12.3 (2015-03-03)
 ~~~~~~~~~~~~~~~~~~~

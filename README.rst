@@ -1,9 +1,9 @@
 django-taggit
 =============
-.. image:: https://travis-ci.org/alex/django-taggit.svg?branch=master
-    :target: https://travis-ci.org/alex/django-taggit
-.. image:: https://codecov.io/gh/alex/django-taggit/coverage.svg?branch=master
-    :target: https://codecov.io/gh/alex/django-taggit?branch=master
+.. image:: https://travis-ci.org/jazzband/django-taggit.svg?branch=master
+    :target: https://travis-ci.org/jazzband/django-taggit
+.. image:: https://codecov.io/gh/jazzband/django-taggit/coverage.svg?branch=master
+    :target: https://codecov.io/gh/jazzband/django-taggit?branch=master
 
 ``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
 ``INSTALLED_APPS`` then just add a TaggableManager to your model and go:

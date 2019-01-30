@@ -15,8 +15,8 @@ Reach out before you start
 Before opening a new issue, try the following steps:
 
 - look if somebody else has already started working on the same issue
-  by looking in the `github issues <https://github.com/alex/django-taggit/issues>`_
-  and `pull requests <https://github.com/alex/django-taggit/pulls>`_
+  by looking in the `github issues <https://github.com/jazzband/django-taggit/issues>`_
+  and `pull requests <https://github.com/jazzband/django-taggit/pulls>`_
 - look also in the `django-taggit mailinglist <https://groups.google.com/group/django-taggit>`_
 - announce your intentions by opening a new issue
 - present yourself on the mailing list
@@ -92,4 +92,4 @@ Send pull request
 -----------------
 
 Now is time to push your changes to github and open a
-`pull request <https://github.com/alex/django-taggit/pulls>`_!
+`pull request <https://github.com/jazzband/django-taggit/pulls>`_!
