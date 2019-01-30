@@ -6,33 +6,39 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
-from taggit.models import (CommonGenericTaggedItemBase, GenericTaggedItemBase,
-                           GenericUUIDTaggedItemBase, Tag, TagBase, TaggedItem,
-                           TaggedItemBase)
+from taggit.models import (
+    CommonGenericTaggedItemBase,
+    GenericTaggedItemBase,
+    GenericUUIDTaggedItemBase,
+    Tag,
+    TagBase,
+    TaggedItem,
+    TaggedItemBase,
+)
 
 
 # Ensure that two TaggableManagers with custom through model are allowed.
 class Through1(TaggedItemBase):
-    content_object = models.ForeignKey('MultipleTags', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("MultipleTags", on_delete=models.CASCADE)
 
 
 class Through2(TaggedItemBase):
-    content_object = models.ForeignKey('MultipleTags', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("MultipleTags", on_delete=models.CASCADE)
 
 
 class MultipleTags(models.Model):
-    tags1 = TaggableManager(through=Through1, related_name='tags1')
-    tags2 = TaggableManager(through=Through2, related_name='tags2')
+    tags1 = TaggableManager(through=Through1, related_name="tags1")
+    tags2 = TaggableManager(through=Through2, related_name="tags2")
 
 
 # Ensure that two TaggableManagers with GFK via different through models are allowed.
 class ThroughGFK(GenericTaggedItemBase):
-    tag = models.ForeignKey(Tag, related_name='tagged_items', on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, related_name="tagged_items", on_delete=models.CASCADE)
 
 
 class MultipleTagsGFK(models.Model):
-    tags1 = TaggableManager(related_name='tagsgfk1')
-    tags2 = TaggableManager(through=ThroughGFK, related_name='tagsgfk2')
+    tags1 = TaggableManager(related_name="tagsgfk1")
+    tags2 = TaggableManager(through=ThroughGFK, related_name="tagsgfk2")
 
 
 @python_2_unicode_compatible
@@ -61,19 +67,20 @@ class HousePet(Pet):
 
 # Test direct-tagging with custom through model
 
+
 class TaggedFood(TaggedItemBase):
-    content_object = models.ForeignKey('DirectFood', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("DirectFood", on_delete=models.CASCADE)
 
 
 class TaggedPet(TaggedItemBase):
-    content_object = models.ForeignKey('DirectPet', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("DirectPet", on_delete=models.CASCADE)
 
 
 @python_2_unicode_compatible
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
-    tags = TaggableManager(through='TaggedFood')
+    tags = TaggableManager(through="TaggedFood")
 
     def __str__(self):
         return self.name
@@ -95,12 +102,13 @@ class DirectHousePet(DirectPet):
 
 # Test custom through model to model with custom PK
 
+
 class TaggedCustomPKFood(TaggedItemBase):
-    content_object = models.ForeignKey('DirectCustomPKFood', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("DirectCustomPKFood", on_delete=models.CASCADE)
 
 
 class TaggedCustomPKPet(TaggedItemBase):
-    content_object = models.ForeignKey('DirectCustomPKPet', on_delete=models.CASCADE)
+    content_object = models.ForeignKey("DirectCustomPKPet", on_delete=models.CASCADE)
 
 
 @python_2_unicode_compatible
@@ -128,7 +136,7 @@ class DirectCustomPKHousePet(DirectCustomPKPet):
 
 # Test custom through model to model with custom PK using GenericForeignKey
 class TaggedCustomPK(CommonGenericTaggedItemBase, TaggedItemBase):
-    object_id = models.CharField(max_length=50, verbose_name='Object id', db_index=True)
+    object_id = models.CharField(max_length=50, verbose_name="Object id", db_index=True)
 
 
 @python_2_unicode_compatible
@@ -154,6 +162,7 @@ class CustomPKPet(models.Model):
 class CustomPKHousePet(CustomPKPet):
     trained = models.BooleanField(default=False)
 
+
 # Test custom through model to a custom tag model
 
 
@@ -162,7 +171,9 @@ class OfficialTag(TagBase):
 
 
 class OfficialThroughModel(GenericTaggedItemBase):
-    tag = models.ForeignKey(OfficialTag, related_name="tagged_items", on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        OfficialTag, related_name="tagged_items", on_delete=models.CASCADE
+    )
 
 
 @python_2_unicode_compatible
@@ -251,7 +262,7 @@ class Child(Parent):
 class UUIDFood(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
-    tags = TaggableManager(through='UUIDTaggedItem')
+    tags = TaggableManager(through="UUIDTaggedItem")
 
     def __str__(self):
         return self.name
@@ -262,6 +273,6 @@ class UUIDTag(TagBase):
 
 
 class UUIDTaggedItem(GenericUUIDTaggedItemBase):
-    tag = models.ForeignKey(UUIDTag,
-                            related_name='%(app_label)s_%(class)s_items',
-                            on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        UUIDTag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
+    )

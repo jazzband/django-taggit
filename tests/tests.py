@@ -11,15 +11,42 @@ from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
-from .forms import (CustomPKFoodForm, DirectCustomPKFoodForm, DirectFoodForm,
-                    FoodForm, OfficialFoodForm)
-from .models import (Article, Child, CustomManager, CustomPKFood,
-                     CustomPKHousePet, CustomPKPet, DirectCustomPKFood,
-                     DirectCustomPKHousePet, DirectCustomPKPet, DirectFood,
-                     DirectHousePet, DirectPet, Food, HousePet, Movie,
-                     OfficialFood, OfficialHousePet, OfficialPet, OfficialTag,
-                     OfficialThroughModel, Pet, Photo, TaggedCustomPK,
-                     TaggedCustomPKFood, TaggedFood, UUIDFood, UUIDTag)
+from .forms import (
+    CustomPKFoodForm,
+    DirectCustomPKFoodForm,
+    DirectFoodForm,
+    FoodForm,
+    OfficialFoodForm,
+)
+from .models import (
+    Article,
+    Child,
+    CustomManager,
+    CustomPKFood,
+    CustomPKHousePet,
+    CustomPKPet,
+    DirectCustomPKFood,
+    DirectCustomPKHousePet,
+    DirectCustomPKPet,
+    DirectFood,
+    DirectHousePet,
+    DirectPet,
+    Food,
+    HousePet,
+    Movie,
+    OfficialFood,
+    OfficialHousePet,
+    OfficialPet,
+    OfficialTag,
+    OfficialThroughModel,
+    Pet,
+    Photo,
+    TaggedCustomPK,
+    TaggedCustomPKFood,
+    TaggedFood,
+    UUIDFood,
+    UUIDTag,
+)
 
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.models import Tag, TaggedItem
@@ -56,29 +83,33 @@ class TagModelTestCase(BaseTaggingTestCase):
     def test_slugify(self):
         a = Article.objects.create(title="django-taggit 1.0 Released")
         a.tags.add("awesome", "release", "AWESOME")
-        self.assert_tags_equal(a.tags.all(), [
-            "category-awesome",
-            "category-release",
-            "category-awesome-1"
-        ], attr="slug")
+        self.assert_tags_equal(
+            a.tags.all(),
+            ["category-awesome", "category-release", "category-awesome-1"],
+            attr="slug",
+        )
 
     def test_integers(self):
         """Adding an integer as a tag should raise a ValueError (#237)."""
         apple = self.food_model.objects.create(name="apple")
-        with self.assertRaisesRegex(ValueError, (
+        with self.assertRaisesRegex(
+            ValueError,
+            (
                 r"Cannot add 1 \(<(type|class) 'int'>\). "
-                r"Expected <class 'django.db.models.base.ModelBase'> or str.")):
+                r"Expected <class 'django.db.models.base.ModelBase'> or str."
+            ),
+        ):
             apple.tags.add(1)
 
     def test_gt(self):
-        high = self.tag_model.objects.create(name='high')
-        low = self.tag_model.objects.create(name='Low')
+        high = self.tag_model.objects.create(name="high")
+        low = self.tag_model.objects.create(name="Low")
         self.assertIs(low > high, True)
         self.assertIs(high > low, False)
 
     def test_lt(self):
-        high = self.tag_model.objects.create(name='high')
-        low = self.tag_model.objects.create(name='Low')
+        high = self.tag_model.objects.create(name="high")
+        low = self.tag_model.objects.create(name="Low")
         self.assertIs(high < low, True)
         self.assertIs(low < high, False)
 
@@ -120,34 +151,30 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.assertEqual(list(apple.tags.all()), [])
         self.assertEqual(list(self.food_model.tags.all()), [])
 
-        apple.tags.add('green')
-        self.assert_tags_equal(apple.tags.all(), ['green'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green'])
+        apple.tags.add("green")
+        self.assert_tags_equal(apple.tags.all(), ["green"])
+        self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
         pear = self.food_model.objects.create(name="pear")
-        pear.tags.add('green')
-        self.assert_tags_equal(pear.tags.all(), ['green'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green'])
+        pear.tags.add("green")
+        self.assert_tags_equal(pear.tags.all(), ["green"])
+        self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
-        apple.tags.add('red')
-        self.assert_tags_equal(apple.tags.all(), ['green', 'red'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
+        apple.tags.add("red")
+        self.assert_tags_equal(apple.tags.all(), ["green", "red"])
+        self.assert_tags_equal(self.food_model.tags.all(), ["green", "red"])
 
         self.assert_tags_equal(
-            self.food_model.tags.most_common(),
-            ['green', 'red'],
-            sort=False
+            self.food_model.tags.most_common(), ["green", "red"], sort=False
         )
 
         self.assert_tags_equal(
-            self.food_model.tags.most_common(min_count=2),
-            ['green'],
-            sort=False
+            self.food_model.tags.most_common(min_count=2), ["green"], sort=False
         )
 
-        apple.tags.remove('green')
-        self.assert_tags_equal(apple.tags.all(), ['red'])
-        self.assert_tags_equal(self.food_model.tags.all(), ['green', 'red'])
+        apple.tags.remove("green")
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+        self.assert_tags_equal(self.food_model.tags.all(), ["green", "red"])
         tag = self.tag_model.objects.create(name="delicious")
         apple.tags.add(tag)
         self.assert_tags_equal(apple.tags.all(), ["red", "delicious"])
@@ -155,234 +182,268 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.delete()
         self.assert_tags_equal(self.food_model.tags.all(), ["green"])
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_add_new_tag_sends_m2m_changed_signals(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green')
-        green_pk = self.tag_model.objects.get(name='green').pk
+        apple.tags.add("green")
+        green_pk = self.tag_model.objects.get(name="green").pk
 
         self.assertEqual(send_mock.call_count, 2)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_add_existing_tag_sends_m2m_changed_signals(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        green = self.tag_model.objects.create(name='green')
-        apple.tags.add('green')
+        green = self.tag_model.objects.create(name="green")
+        apple.tags.add("green")
 
         self.assertEqual(send_mock.call_count, 2)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green.pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green.pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
-    def test_add_second_tag_sends_m2m_changed_signals_with_correct_new_pks(self, send_mock):
+    @mock.patch("django.db.models.signals.m2m_changed.send")
+    def test_add_second_tag_sends_m2m_changed_signals_with_correct_new_pks(
+        self, send_mock
+    ):
         apple = self.food_model.objects.create(name="apple")
-        green = self.tag_model.objects.create(name='green')
-        apple.tags.add('red')
+        green = self.tag_model.objects.create(name="green")
+        apple.tags.add("red")
         send_mock.reset_mock()
-        apple.tags.add('green', 'red')
+        apple.tags.add("green", "red")
 
         self.assertEqual(send_mock.call_count, 2)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green.pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green.pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_remove_tag_sends_m2m_changed_signals(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green')
-        green_pk = self.tag_model.objects.get(name='green').pk
+        apple.tags.add("green")
+        green_pk = self.tag_model.objects.get(name="green").pk
         send_mock.reset_mock()
 
-        apple.tags.remove('green')
+        apple.tags.remove("green")
 
         self.assertEqual(send_mock.call_count, 2)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_remove',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_remove',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_clear_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('red')
+        apple.tags.add("red")
         send_mock.reset_mock()
         apple.tags.clear()
 
         self.assertEqual(send_mock.call_count, 2)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_clear',
-                instance=apple,
-                model=self.tag_model,
-                pk_set=None,
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_clear',
-                instance=apple,
-                model=self.tag_model,
-                pk_set=None,
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_clear",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set=None,
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_clear",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set=None,
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_set_with_clear_true_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green')
-        apple.tags.add('red')
+        apple.tags.add("green")
+        apple.tags.add("red")
         send_mock.reset_mock()
 
-        apple.tags.set('red', clear=True)
+        apple.tags.set("red", clear=True)
 
-        red_pk = self.tag_model.objects.get(name='red').pk
+        red_pk = self.tag_model.objects.get(name="red").pk
 
         self.assertEqual(send_mock.call_count, 4)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_clear',
-                instance=apple,
-                model=self.tag_model,
-                pk_set=None,
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_clear',
-                instance=apple,
-                model=self.tag_model,
-                pk_set=None,
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='pre_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={red_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={red_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_clear",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set=None,
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_clear",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set=None,
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="pre_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={red_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={red_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
-    @mock.patch('django.db.models.signals.m2m_changed.send')
+    @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_set_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green')
+        apple.tags.add("green")
         send_mock.reset_mock()
 
-        apple.tags.set('red')
+        apple.tags.set("red")
 
-        green_pk = self.tag_model.objects.get(name='green').pk
-        red_pk = self.tag_model.objects.get(name='red').pk
+        green_pk = self.tag_model.objects.get(name="green").pk
+        red_pk = self.tag_model.objects.get(name="red").pk
 
         self.assertEqual(send_mock.call_count, 4)
-        send_mock.assert_has_calls([
-            mock.call(
-                action='pre_remove',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_remove',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={green_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='pre_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={red_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default'),
-            mock.call(
-                action='post_add',
-                instance=apple,
-                model=self.tag_model,
-                pk_set={red_pk},
-                reverse=False,
-                sender=self.taggeditem_model,
-                using='default')]
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="pre_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={red_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_add",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={red_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
         )
 
     def test_add_queries(self):
@@ -413,8 +474,8 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
     def test_require_pk(self):
         food_instance = self.food_model()
         msg = (
-            '%s objects need to have a primary key value before you can access '
-            'their tags.' % self.food_model().__class__.__name__
+            "%s objects need to have a primary key value before you can access "
+            "their tags." % self.food_model().__class__.__name__
         )
         with self.assertRaisesMessage(ValueError, msg):
             food_instance.tags.all()
@@ -445,12 +506,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green")
         self.assertEqual(
-            list(self.food_model.objects.filter(tags__name__in=["red"])),
-            [apple]
+            list(self.food_model.objects.filter(tags__name__in=["red"])), [apple]
         )
         self.assertEqual(
             list(self.food_model.objects.filter(tags__name__in=["green"])),
-            [apple, pear]
+            [apple, pear],
         )
 
         kitty = self.pet_model.objects.create(name="kitty")
@@ -459,7 +519,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         dog.tags.add("woof", "red")
         self.assertEqual(
             list(self.food_model.objects.filter(tags__name__in=["red"]).distinct()),
-            [apple]
+            [apple],
         )
 
         tag = self.tag_model.objects.get(name="woof")
@@ -470,10 +530,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         pks = self.pet_model.objects.filter(tags__name__in=["fuzzy"])
         model_name = self.pet_model.__name__
-        self.assertQuerysetEqual(pks,
-                                 ['<{0}: kitty>'.format(model_name),
-                                  '<{0}: cat>'.format(model_name)],
-                                 ordered=False)
+        self.assertQuerysetEqual(
+            pks,
+            ["<{0}: kitty>".format(model_name), "<{0}: cat>".format(model_name)],
+            ordered=False,
+        )
 
     def test_exclude(self):
         apple = self.food_model.objects.create(name="apple")
@@ -486,10 +547,11 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         pks = self.food_model.objects.exclude(tags__name__in=["red"])
         model_name = self.food_model.__name__
-        self.assertQuerysetEqual(pks,
-                                 ['<{0}: pear>'.format(model_name),
-                                  '<{0}: guava>'.format(model_name)],
-                                 ordered=False)
+        self.assertQuerysetEqual(
+            pks,
+            ["<{0}: pear>".format(model_name), "<{0}: guava>".format(model_name)],
+            ordered=False,
+        )
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
@@ -504,25 +566,21 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         similar_objs = apple.tags.similar_objects()
         self.assertEqual(similar_objs, [pear, watermelon])
-        self.assertEqual([obj.similar_tags for obj in similar_objs],
-                         [3, 2])
+        self.assertEqual([obj.similar_tags for obj in similar_objs], [3, 2])
 
     def test_tag_reuse(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("juicy", "juicy")
-        self.assert_tags_equal(apple.tags.all(), ['juicy'])
+        self.assert_tags_equal(apple.tags.all(), ["juicy"])
 
     def test_query_traverse(self):
-        spot = self.pet_model.objects.create(name='Spot')
-        spike = self.pet_model.objects.create(name='Spike')
-        spot.tags.add('scary')
-        spike.tags.add('fluffy')
-        lookup_kwargs = {
-            '%s__name' % self.pet_model._meta.model_name: 'Spot'
-        }
+        spot = self.pet_model.objects.create(name="Spot")
+        spike = self.pet_model.objects.create(name="Spike")
+        spot.tags.add("scary")
+        spike.tags.add("fluffy")
+        lookup_kwargs = {"%s__name" % self.pet_model._meta.model_name: "Spot"}
         self.assert_tags_equal(
-            self.tag_model.objects.filter(**lookup_kwargs),
-            ['scary']
+            self.tag_model.objects.filter(**lookup_kwargs), ["scary"]
         )
 
     def test_taggeditem_unicode(self):
@@ -531,43 +589,37 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         self.assertEqual(
             force_text(self.taggeditem_model.objects.all()[0]),
-            "apple tagged with juicy"
+            "apple tagged with juicy",
         )
 
     def test_abstract_subclasses(self):
         p = Photo.objects.create()
         p.tags.add("outdoors", "pretty")
-        self.assert_tags_equal(
-            p.tags.all(),
-            ["outdoors", "pretty"]
-        )
+        self.assert_tags_equal(p.tags.all(), ["outdoors", "pretty"])
 
         m = Movie.objects.create()
         m.tags.add("hd")
-        self.assert_tags_equal(
-            m.tags.all(),
-            ["hd"],
-        )
+        self.assert_tags_equal(m.tags.all(), ["hd"])
 
     def test_field_api(self):
         # Check if tag field, which simulates m2m, has django-like api.
-        field = self.food_model._meta.get_field('tags')
-        self.assertTrue(hasattr(field, 'remote_field'))
-        self.assertTrue(hasattr(field.remote_field, 'model'))
+        field = self.food_model._meta.get_field("tags")
+        self.assertTrue(hasattr(field, "remote_field"))
+        self.assertTrue(hasattr(field.remote_field, "model"))
         self.assertEqual(self.food_model, field.model)
         self.assertEqual(self.tag_model, field.remote_field.model)
 
     def test_names_method(self):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green')
-        apple.tags.add('red')
-        self.assertEqual(list(apple.tags.names()), ['green', 'red'])
+        apple.tags.add("green")
+        apple.tags.add("red")
+        self.assertEqual(list(apple.tags.names()), ["green", "red"])
 
     def test_slugs_method(self):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('green and juicy')
-        apple.tags.add('red')
-        self.assertEqual(list(apple.tags.slugs()), ['green-and-juicy', 'red'])
+        apple.tags.add("green and juicy")
+        apple.tags.add("red")
+        self.assertEqual(list(apple.tags.slugs()), ["green-and-juicy", "red"])
 
     def test_serializes(self):
         apple = self.food_model.objects.create(name="apple")
@@ -575,54 +627,55 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
     def test_prefetch_related(self):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('1', '2')
+        apple.tags.add("1", "2")
         orange = self.food_model.objects.create(name="orange")
-        orange.tags.add('2', '4')
+        orange.tags.add("2", "4")
         with self.assertNumQueries(2):
-            list_prefetched = list(self.food_model.objects.prefetch_related('tags').all())
+            list_prefetched = list(
+                self.food_model.objects.prefetch_related("tags").all()
+            )
         with self.assertNumQueries(0):
             foods = {f.name: {t.name for t in f.tags.all()} for f in list_prefetched}
-            self.assertEqual(foods, {
-                'orange': {'2', '4'},
-                'apple': {'1', '2'},
-            })
+            self.assertEqual(foods, {"orange": {"2", "4"}, "apple": {"1", "2"}})
 
     def test_internal_type_is_manytomany(self):
-        self.assertEqual(
-            TaggableManager().get_internal_type(), 'ManyToManyField'
-        )
+        self.assertEqual(TaggableManager().get_internal_type(), "ManyToManyField")
 
     def test_prefetch_no_extra_join(self):
         apple = self.food_model.objects.create(name="apple")
-        apple.tags.add('1', '2')
+        apple.tags.add("1", "2")
         with self.assertNumQueries(2):
-            list(self.food_model.objects.prefetch_related('tags').all())
+            list(self.food_model.objects.prefetch_related("tags").all())
             join_clause = 'INNER JOIN "%s"' % self.taggeditem_model._meta.db_table
-            self.assertEqual(connection.queries[-1]['sql'].count(join_clause), 1, connection.queries[-2:])
+            self.assertEqual(
+                connection.queries[-1]["sql"].count(join_clause),
+                1,
+                connection.queries[-2:],
+            )
 
     @override_settings(TAGGIT_CASE_INSENSITIVE=True)
     def test_with_case_insensitive_option(self):
         spain = self.tag_model.objects.create(name="Spain", slug="spain")
         orange = self.food_model.objects.create(name="orange")
-        orange.tags.add('spain')
+        orange.tags.add("spain")
         self.assertEqual(list(orange.tags.all()), [spain])
 
     @override_settings(TAGGIT_CASE_INSENSITIVE=True)
     def test_with_case_insensitive_option_and_creation(self):
         orange = self.food_model.objects.create(name="orange")
-        orange.tags.add('spain', 'Spain')
+        orange.tags.add("spain", "Spain")
         tag_names = list(orange.tags.names())
         self.assertEqual(len(tag_names), 1, tag_names)
 
     @override_settings(TAGGIT_CASE_INSENSITIVE=True)
     def test_with_case_insensitive_option_new_and_old(self):
         orange = self.food_model.objects.create(name="orange")
-        orange.tags.add('Spain')
+        orange.tags.add("Spain")
         tag_names = list(orange.tags.names())
         self.assertEqual(len(tag_names), 1, tag_names)
-        orange.tags.add('spain', 'Valencia')
+        orange.tags.add("spain", "Valencia")
         tag_names = sorted(orange.tags.names())
-        self.assertEqual(tag_names, ['Spain', 'Valencia'])
+        self.assertEqual(tag_names, ["Spain", "Valencia"])
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
@@ -680,43 +733,45 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
         pear = self.food_model.objects.create(name="pear")
         pear.tags.add("green", "delicious")
 
-        tag_info = self.tag_model.objects.filter(officialfood__in=[apple.id, pear.id], name='green').annotate(models.Count('name'))
+        tag_info = self.tag_model.objects.filter(
+            officialfood__in=[apple.id, pear.id], name="green"
+        ).annotate(models.Count("name"))
         self.assertEqual(tag_info[0].name__count, 2)
 
     def test_most_common_extra_filters(self):
-        apple = self.food_model.objects.create(name='apple')
-        apple.tags.add('red')
-        apple.tags.add('green')
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red")
+        apple.tags.add("green")
 
-        orange = self.food_model.objects.create(name='orange')
-        orange.tags.add('orange')
-        orange.tags.add('red')
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add("orange")
+        orange.tags.add("red")
 
-        pear = self.food_model.objects.create(name='pear')
-        pear.tags.add('green')
-        pear.tags.add('yellow')
+        pear = self.food_model.objects.create(name="pear")
+        pear.tags.add("green")
+        pear.tags.add("yellow")
 
         self.assert_tags_equal(
             self.food_model.tags.most_common(
-                min_count=2, extra_filters={
-                    'officialfood__name__in': ['pear', 'apple']
-                })[:1],
-            ['green'],
-            sort=False
+                min_count=2, extra_filters={"officialfood__name__in": ["pear", "apple"]}
+            )[:1],
+            ["green"],
+            sort=False,
         )
 
         self.assert_tags_equal(
             self.food_model.tags.most_common(
-                min_count=2, extra_filters={
-                    'officialfood__name__in': ['orange', 'apple']
-                })[:1],
-            ['red'],
-            sort=False
+                min_count=2,
+                extra_filters={"officialfood__name__in": ["orange", "apple"]},
+            )[:1],
+            ["red"],
+            sort=False,
         )
 
 
 class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     """Make sure manager override defaults and sets correctly."""
+
     food_model = Food
     custom_manager_model = CustomManager
 
@@ -743,43 +798,59 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertHTMLEqual(str(form), self._get_form_str(html))
 
     def test_form(self):
-        self.assertEqual(list(self.form_class.base_fields), ['name', 'tags'])
+        self.assertEqual(list(self.form_class.base_fields), ["name", "tags"])
 
-        f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy'})
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        f = self.form_class({"name": "apple", "tags": "green, red, yummy"})
+        self.assertFormRenders(
+            f,
+            """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+        )
         f.save()
-        apple = self.food_model.objects.get(name='apple')
-        self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy'])
+        apple = self.food_model.objects.get(name="apple")
+        self.assert_tags_equal(apple.tags.all(), ["green", "red", "yummy"])
 
-        f = self.form_class({'name': 'apple', 'tags': 'green, red, yummy, delicious'}, instance=apple)
+        f = self.form_class(
+            {"name": "apple", "tags": "green, red, yummy, delicious"}, instance=apple
+        )
         f.save()
-        apple = self.food_model.objects.get(name='apple')
-        self.assert_tags_equal(apple.tags.all(), ['green', 'red', 'yummy', 'delicious'])
+        apple = self.food_model.objects.get(name="apple")
+        self.assert_tags_equal(apple.tags.all(), ["green", "red", "yummy", "delicious"])
         self.assertEqual(self.food_model.objects.count(), 1)
 
         f = self.form_class({"name": "raspberry"})
         self.assertFalse(f.is_valid())
 
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(
+            f,
+            """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+        )
 
-        apple.tags.add('has,comma')
+        apple.tags.add("has,comma")
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(
+            f,
+            """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+        )
 
-        apple.tags.add('has space')
+        apple.tags.add("has space")
         f = self.form_class(instance=apple)
-        self.assertFormRenders(f, """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
-<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""")
+        self.assertFormRenders(
+            f,
+            """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+<tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+        )
 
     def test_formfield(self):
-        tm = TaggableManager(verbose_name='categories', help_text='Add some categories', blank=True)
+        tm = TaggableManager(
+            verbose_name="categories", help_text="Add some categories", blank=True
+        )
         ff = tm.formfield()
-        self.assertEqual(ff.label, 'Categories')
-        self.assertEqual(ff.help_text, 'Add some categories')
+        self.assertEqual(ff.label, "Categories")
+        self.assertEqual(ff.help_text, "Add some categories")
         self.assertEqual(ff.required, False)
 
         self.assertEqual(ff.clean(""), [])
@@ -819,54 +890,56 @@ class TagStringParseTestCase(unittest.TestCase):
         """
         Test with simple space-delimited tags.
         """
-        self.assertEqual(parse_tags('one'), ['one'])
-        self.assertEqual(parse_tags('one two'), ['one', 'two'])
-        self.assertEqual(parse_tags('one two three'), ['one', 'three', 'two'])
-        self.assertEqual(parse_tags('one one two two'), ['one', 'two'])
+        self.assertEqual(parse_tags("one"), ["one"])
+        self.assertEqual(parse_tags("one two"), ["one", "two"])
+        self.assertEqual(parse_tags("one two three"), ["one", "three", "two"])
+        self.assertEqual(parse_tags("one one two two"), ["one", "two"])
 
     def test_with_comma_delimited_multiple_words(self):
         """
         Test with comma-delimited multiple words.
         An unquoted comma in the input will trigger this.
         """
-        self.assertEqual(parse_tags(',one'), ['one'])
-        self.assertEqual(parse_tags(',one two'), ['one two'])
-        self.assertEqual(parse_tags(',one two three'), ['one two three'])
-        self.assertEqual(parse_tags('a-one, a-two and a-three'),
-                         ['a-one', 'a-two and a-three'])
+        self.assertEqual(parse_tags(",one"), ["one"])
+        self.assertEqual(parse_tags(",one two"), ["one two"])
+        self.assertEqual(parse_tags(",one two three"), ["one two three"])
+        self.assertEqual(
+            parse_tags("a-one, a-two and a-three"), ["a-one", "a-two and a-three"]
+        )
 
     def test_with_double_quoted_multiple_words(self):
         """
         Test with double-quoted multiple words.
         A completed quote will trigger this.  Unclosed quotes are ignored.
         """
-        self.assertEqual(parse_tags('"one'), ['one'])
-        self.assertEqual(parse_tags('"one two'), ['one', 'two'])
-        self.assertEqual(parse_tags('"one two three'), ['one', 'three', 'two'])
-        self.assertEqual(parse_tags('"one two"'), ['one two'])
-        self.assertEqual(parse_tags('a-one "a-two and a-three"'),
-                         ['a-one', 'a-two and a-three'])
+        self.assertEqual(parse_tags('"one'), ["one"])
+        self.assertEqual(parse_tags('"one two'), ["one", "two"])
+        self.assertEqual(parse_tags('"one two three'), ["one", "three", "two"])
+        self.assertEqual(parse_tags('"one two"'), ["one two"])
+        self.assertEqual(
+            parse_tags('a-one "a-two and a-three"'), ["a-one", "a-two and a-three"]
+        )
 
     def test_with_no_loose_commas(self):
         """
         Test with no loose commas -- split on spaces.
         """
-        self.assertEqual(parse_tags('one two "thr,ee"'), ['one', 'thr,ee', 'two'])
+        self.assertEqual(parse_tags('one two "thr,ee"'), ["one", "thr,ee", "two"])
 
     def test_with_loose_commas(self):
         """
         Loose commas - split on commas
         """
-        self.assertEqual(parse_tags('"one", two three'), ['one', 'two three'])
+        self.assertEqual(parse_tags('"one", two three'), ["one", "two three"])
 
     def test_tags_with_double_quotes_can_contain_commas(self):
         """
         Double quotes can contain commas
         """
-        self.assertEqual(parse_tags('a-one "a-two, and a-three"'),
-                         ['a-one', 'a-two, and a-three'])
-        self.assertEqual(parse_tags('"two", one, one, two, "one"'),
-                         ['one', 'two'])
+        self.assertEqual(
+            parse_tags('a-one "a-two, and a-three"'), ["a-one", "a-two, and a-three"]
+        )
+        self.assertEqual(parse_tags('"two", one, one, two, "one"'), ["one", "two"])
 
     def test_with_naughty_input(self):
         """
@@ -874,63 +947,71 @@ class TagStringParseTestCase(unittest.TestCase):
         """
         # Bad users! Naughty users!
         self.assertEqual(parse_tags(None), [])
-        self.assertEqual(parse_tags(''), [])
+        self.assertEqual(parse_tags(""), [])
         self.assertEqual(parse_tags('"'), [])
         self.assertEqual(parse_tags('""'), [])
         self.assertEqual(parse_tags('"' * 7), [])
-        self.assertEqual(parse_tags(',,,,,,'), [])
-        self.assertEqual(parse_tags('",",",",",",","'), [','])
-        self.assertEqual(parse_tags('a-one "a-two" and "a-three'),
-                         ['a-one', 'a-three', 'a-two', 'and'])
+        self.assertEqual(parse_tags(",,,,,,"), [])
+        self.assertEqual(parse_tags('",",",",",",","'), [","])
+        self.assertEqual(
+            parse_tags('a-one "a-two" and "a-three'),
+            ["a-one", "a-three", "a-two", "and"],
+        )
 
     def test_recreation_of_tag_list_string_representations(self):
-        plain = Tag(name='plain')
-        spaces = Tag(name='spa ces')
-        comma = Tag(name='com,ma')
-        self.assertEqual(edit_string_for_tags([plain]), 'plain')
+        plain = Tag(name="plain")
+        spaces = Tag(name="spa ces")
+        comma = Tag(name="com,ma")
+        self.assertEqual(edit_string_for_tags([plain]), "plain")
         self.assertEqual(edit_string_for_tags([plain, spaces]), '"spa ces", plain')
-        self.assertEqual(edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain')
+        self.assertEqual(
+            edit_string_for_tags([plain, spaces, comma]), '"com,ma", "spa ces", plain'
+        )
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
 
-    @override_settings(TAGGIT_TAGS_FROM_STRING='tests.custom_parser.comma_splitter')
+    @override_settings(TAGGIT_TAGS_FROM_STRING="tests.custom_parser.comma_splitter")
     def test_custom_comma_splitter(self):
-        self.assertEqual(parse_tags('   Cued Speech '), ['Cued Speech'])
-        self.assertEqual(parse_tags(' ,Cued Speech, '), ['Cued Speech'])
-        self.assertEqual(parse_tags('Cued Speech'), ['Cued Speech'])
-        self.assertEqual(parse_tags('Cued Speech, dictionary'),
-                         ['Cued Speech', 'dictionary'])
+        self.assertEqual(parse_tags("   Cued Speech "), ["Cued Speech"])
+        self.assertEqual(parse_tags(" ,Cued Speech, "), ["Cued Speech"])
+        self.assertEqual(parse_tags("Cued Speech"), ["Cued Speech"])
+        self.assertEqual(
+            parse_tags("Cued Speech, dictionary"), ["Cued Speech", "dictionary"]
+        )
 
-    @override_settings(TAGGIT_STRING_FROM_TAGS='tests.custom_parser.comma_joiner')
+    @override_settings(TAGGIT_STRING_FROM_TAGS="tests.custom_parser.comma_joiner")
     def test_custom_comma_joiner(self):
-        a = Tag(name='Cued Speech')
-        b = Tag(name='transliterator')
-        self.assertEqual(edit_string_for_tags([a, b]), 'Cued Speech, transliterator')
+        a = Tag(name="Cued Speech")
+        b = Tag(name="transliterator")
+        self.assertEqual(edit_string_for_tags([a, b]), "Cued Speech, transliterator")
 
 
 class DeconstructTestCase(unittest.TestCase):
     def test_deconstruct_kwargs_kept(self):
-        instance = TaggableManager(through=OfficialThroughModel, to='dummy.To')
+        instance = TaggableManager(through=OfficialThroughModel, to="dummy.To")
         name, path, args, kwargs = instance.deconstruct()
         new_instance = TaggableManager(*args, **kwargs)
-        self.assertEqual('tests.OfficialThroughModel', new_instance.remote_field.through)
-        self.assertEqual('dummy.To', new_instance.remote_field.model)
+        self.assertEqual(
+            "tests.OfficialThroughModel", new_instance.remote_field.through
+        )
+        self.assertEqual("dummy.To", new_instance.remote_field.model)
 
 
 class InheritedPrefetchTests(TestCase):
-
     def test_inherited_tags_with_prefetch(self):
         child = Child()
         child.save()
-        child.tags.add('tag 1', 'tag 2', 'tag 3', 'tag 4')
+        child.tags.add("tag 1", "tag 2", "tag 3", "tag 4")
 
         child = Child.objects.get()
         no_prefetch_tags = child.tags.all()
         self.assertEqual(4, no_prefetch_tags.count())
-        child = Child.objects.prefetch_related('tags').get()
+        child = Child.objects.prefetch_related("tags").get()
         prefetch_tags = child.tags.all()
         self.assertEqual(4, prefetch_tags.count())
-        self.assertEqual({t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags})
+        self.assertEqual(
+            {t.name for t in no_prefetch_tags}, {t.name for t in prefetch_tags}
+        )
 
 
 class TagListViewTests(TestCase):
@@ -939,26 +1020,25 @@ class TagListViewTests(TestCase):
     def setUp(self):
         super(TagListViewTests, self).setUp()
         self.factory = RequestFactory()
-        self.slug = 'green'
-        self.apple = self.model.objects.create(name='apple')
+        self.slug = "green"
+        self.apple = self.model.objects.create(name="apple")
         self.apple.tags.add(self.slug)
-        self.strawberry = self.model.objects.create(name='strawberry')
-        self.strawberry.tags.add('red')
+        self.strawberry = self.model.objects.create(name="strawberry")
+        self.strawberry.tags.add("red")
 
     def test_url_request_returns_view(self):
-        request = self.factory.get('/food/tags/{}/'.format(self.slug))
+        request = self.factory.get("/food/tags/{}/".format(self.slug))
         queryset = self.model.objects.all()
         response = tagged_object_list(request, self.slug, queryset)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(self.apple, response.context_data['object_list'])
-        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+        self.assertIn(self.apple, response.context_data["object_list"])
+        self.assertNotIn(self.strawberry, response.context_data["object_list"])
         self.assertEqual(
-            self.apple.tags.first(),
-            response.context_data['extra_context']['tag']
+            self.apple.tags.first(), response.context_data["extra_context"]["tag"]
         )
 
     def test_list_view_returns_single(self):
-        response = self.client.get('/food/tags/{}/'.format(self.slug))
+        response = self.client.get("/food/tags/{}/".format(self.slug))
         self.assertEqual(response.status_code, 200)
-        self.assertIn(self.apple, response.context_data['object_list'])
-        self.assertNotIn(self.strawberry, response.context_data['object_list'])
+        self.assertIn(self.apple, response.context_data["object_list"])
+        self.assertNotIn(self.strawberry, response.context_data["object_list"])
