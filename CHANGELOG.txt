@@ -3,6 +3,9 @@ Changelog
 
 UNRELEASED
 ~~~~~~~~~~
+ * The project has moved to `Jazzband <https://jazzband.co/>`_. This is the
+   first release under the new organization. The new repository URL is
+   `<https://github.com/jazzband/django-taggit>`_.
  * Added support for Django 2.2.
 
 0.23.0 (2018-08-07)
