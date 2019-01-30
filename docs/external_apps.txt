@@ -11,7 +11,7 @@ of interest.
     official, nor have they in any way been reviewed or tested.
 
 If you have an application that you'd like to see listed here, simply fork
-`django-taggit on github <https://github.com/alex/django-taggit>`_,
+`django-taggit on github <https://github.com/jazzband/django-taggit>`_,
 add it to this list, and send a pull request.
 
  * `django-taggit-helpers <https://github.com/mfcovington/django-taggit-helpers>`_:

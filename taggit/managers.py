@@ -387,7 +387,7 @@ class TaggableManager(RelatedField):
         for kwarg in ('serialize', 'null'):
             del kwargs[kwarg]
         # Add arguments related to relations.
-        # Ref: https://github.com/alex/django-taggit/issues/206#issuecomment-37578676
+        # Ref: https://github.com/jazzband/django-taggit/issues/206#issuecomment-37578676
         rel = self.remote_field
         if isinstance(rel.through, six.string_types):
             kwargs['through'] = rel.through
