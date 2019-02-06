@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
@@ -69,7 +70,9 @@ class TagBase(models.Model):
             return super(TagBase, self).save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = slugify(unidecode(tag))
+        use_native_slug = getattr(settings, 'TAGGIT_NATIVE_UNICODE_SLUG', False)
+        slug = slugify(tag, allow_unicode=True) if use_native_slug else slugify(unidecode(tag))
+
         if i is not None:
             slug += "_%d" % i
         return slug
