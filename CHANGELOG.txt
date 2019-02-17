@@ -1,8 +1,9 @@
 Changelog
 =========
 
-UNRELEASED
-----------
+UNRELEASED 1.0.0
+~~~~~~~~~~~~~~~~
+ * **Backwards incompatible:** Remove support for Python 2.
  * Added ``has_changed()`` method to ``taggit.forms.TagField``.
 
 0.24.0 (2019-02-19)

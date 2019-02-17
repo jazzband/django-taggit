@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # django-taggit documentation build configuration file, created by
 # sphinx-quickstart on Mon May  3 22:22:47 2010.
 #
@@ -38,8 +36,8 @@ source_suffix = ".txt"
 master_doc = "index"
 
 # General information about the project.
-project = u"django-taggit"
-copyright = u"2010-2014, Alex Gaynor and others."
+project = "django-taggit"
+copyright = "2010-2014, Alex Gaynor and others."
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -176,8 +174,8 @@ latex_documents = [
     (
         "index",
         "django-taggit.tex",
-        u"django-taggit Documentation",
-        u"Alex Gaynor",
+        "django-taggit Documentation",
+        "Alex Gaynor",
         "manual",
     )
 ]

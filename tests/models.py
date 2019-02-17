@@ -1,9 +1,6 @@
-from __future__ import unicode_literals
-
 import uuid
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
 from taggit.managers import TaggableManager
 from taggit.models import (
@@ -41,7 +38,6 @@ class MultipleTagsGFK(models.Model):
     tags2 = TaggableManager(through=ThroughGFK, related_name="tagsgfk2")
 
 
-@python_2_unicode_compatible
 class Food(models.Model):
     name = models.CharField(max_length=50)
 
@@ -51,7 +47,6 @@ class Food(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Pet(models.Model):
     name = models.CharField(max_length=50)
 
@@ -76,7 +71,6 @@ class TaggedPet(TaggedItemBase):
     content_object = models.ForeignKey("DirectPet", on_delete=models.CASCADE)
 
 
-@python_2_unicode_compatible
 class DirectFood(models.Model):
     name = models.CharField(max_length=50)
 
@@ -86,7 +80,6 @@ class DirectFood(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class DirectPet(models.Model):
     name = models.CharField(max_length=50)
 
@@ -111,7 +104,6 @@ class TaggedCustomPKPet(TaggedItemBase):
     content_object = models.ForeignKey("DirectCustomPKPet", on_delete=models.CASCADE)
 
 
-@python_2_unicode_compatible
 class DirectCustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
     tags = TaggableManager(through=TaggedCustomPKFood)
@@ -120,7 +112,6 @@ class DirectCustomPKFood(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class DirectCustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
@@ -139,7 +130,6 @@ class TaggedCustomPK(CommonGenericTaggedItemBase, TaggedItemBase):
     object_id = models.CharField(max_length=50, verbose_name="Object id", db_index=True)
 
 
-@python_2_unicode_compatible
 class CustomPKFood(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
@@ -149,7 +139,6 @@ class CustomPKFood(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class CustomPKPet(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
@@ -176,7 +165,6 @@ class OfficialThroughModel(GenericTaggedItemBase):
     )
 
 
-@python_2_unicode_compatible
 class OfficialFood(models.Model):
     name = models.CharField(max_length=50)
 
@@ -186,7 +174,6 @@ class OfficialFood(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class OfficialPet(models.Model):
     name = models.CharField(max_length=50)
 
@@ -243,7 +230,7 @@ class Article(models.Model):
 
 
 class CustomManager(models.Model):
-    class Foo(object):
+    class Foo:
         def __init__(*args, **kwargs):
             pass
 
@@ -258,7 +245,6 @@ class Child(Parent):
     pass
 
 
-@python_2_unicode_compatible
 class UUIDFood(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
