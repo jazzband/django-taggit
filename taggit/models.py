@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
-
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import slugify
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 
 try:
     from unidecode import unidecode
@@ -15,7 +12,6 @@ except ImportError:
         return tag
 
 
-@python_2_unicode_compatible
 class TagBase(models.Model):
     name = models.CharField(verbose_name=_("Name"), unique=True, max_length=100)
     slug = models.SlugField(verbose_name=_("Slug"), unique=True, max_length=100)
@@ -46,7 +42,7 @@ class TagBase(models.Model):
             # most cases ;)
             try:
                 with transaction.atomic(using=using):
-                    res = super(TagBase, self).save(*args, **kwargs)
+                    res = super().save(*args, **kwargs)
                 return res
             except IntegrityError:
                 pass
@@ -63,10 +59,10 @@ class TagBase(models.Model):
                     self.slug = slug
                     # We purposely ignore concurrecny issues here for now.
                     # (That is, till we found a nice solution...)
-                    return super(TagBase, self).save(*args, **kwargs)
+                    return super().save(*args, **kwargs)
                 i += 1
         else:
-            return super(TagBase, self).save(*args, **kwargs)
+            return super().save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
         slug = slugify(unidecode(tag))
@@ -82,10 +78,9 @@ class Tag(TagBase):
         app_label = "taggit"
 
 
-@python_2_unicode_compatible
 class ItemBase(models.Model):
     def __str__(self):
-        return ugettext("%(object)s tagged with %(tag)s") % {
+        return gettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
             "tag": self.tag,
         }

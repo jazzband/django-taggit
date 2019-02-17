@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from operator import attrgetter
 
 from django import VERSION
@@ -15,16 +13,15 @@ from django.db.models.fields.related import (
     lazy_related_operation,
 )
 from django.db.models.query_utils import PathInfo
-from django.utils import six
 from django.utils.text import capfirst
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from taggit.forms import TagField
 from taggit.models import CommonGenericTaggedItemBase, TaggedItem
 from taggit.utils import require_instance_manager
 
 
-class ExtraJoinRestriction(object):
+class ExtraJoinRestriction:
     """
     An extra restriction used for contenttype restriction in joins.
     """
@@ -39,12 +36,10 @@ class ExtraJoinRestriction(object):
     def as_sql(self, compiler, connection):
         qn = compiler.quote_name_unless_alias
         if len(self.content_types) == 1:
-            extra_where = "%s.%s = %%s" % (qn(self.alias), qn(self.col))
+            extra_where = "{}.{} = %s".format(qn(self.alias), qn(self.col))
         else:
-            extra_where = "%s.%s IN (%s)" % (
-                qn(self.alias),
-                qn(self.col),
-                ",".join(["%s"] * len(self.content_types)),
+            extra_where = "{}.{} IN ({})".format(
+                qn(self.alias), qn(self.col), ",".join(["%s"] * len(self.content_types))
             )
         return extra_where, self.content_types
 
@@ -57,7 +52,7 @@ class ExtraJoinRestriction(object):
 
 class _TaggableManager(models.Manager):
     def __init__(self, through, model, instance, prefetch_cache_name):
-        super(_TaggableManager, self).__init__()
+        super().__init__()
         self.through = through
         self.model = model
         self.instance = instance
@@ -101,7 +96,9 @@ class _TaggableManager(models.Manager):
             .using(db)
             .extra(
                 select={
-                    "_prefetch_related_val": "%s.%s" % (qn(join_table), qn(source_col))
+                    "_prefetch_related_val": "{}.{}".format(
+                        qn(join_table), qn(source_col)
+                    )
                 }
             )
         )
@@ -181,11 +178,11 @@ class _TaggableManager(models.Manager):
         for t in tags:
             if isinstance(t, self.through.tag_model()):
                 tag_objs.add(t)
-            elif isinstance(t, six.string_types):
+            elif isinstance(t, str):
                 str_tags.add(t)
             else:
                 raise ValueError(
-                    "Cannot add {0} ({1}). Expected {2} or str.".format(
+                    "Cannot add {} ({}). Expected {} or str.".format(
                         t, type(t), type(self.through.tag_model())
                     )
                 )
@@ -344,7 +341,7 @@ class _TaggableManager(models.Manager):
     def similar_objects(self):
         lookup_kwargs = self._lookup_kwargs()
         lookup_keys = sorted(lookup_kwargs)
-        qs = self.through.objects.values(*six.iterkeys(lookup_kwargs))
+        qs = self.through.objects.values(*lookup_kwargs.keys())
         qs = qs.annotate(n=models.Count("pk"))
         qs = qs.exclude(**lookup_kwargs)
         qs = qs.filter(tag__in=self.all())
@@ -408,7 +405,7 @@ class TaggableManager(RelatedField):
 
         rel = ManyToManyRel(self, to, related_name=related_name, through=self.through)
 
-        super(TaggableManager, self).__init__(
+        super().__init__(
             verbose_name=verbose_name,
             help_text=help_text,
             blank=blank,
@@ -438,28 +435,26 @@ class TaggableManager(RelatedField):
         """
         Deconstruct the object, used with migrations.
         """
-        name, path, args, kwargs = super(TaggableManager, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
         # Remove forced kwargs.
         for kwarg in ("serialize", "null"):
             del kwargs[kwarg]
         # Add arguments related to relations.
         # Ref: https://github.com/jazzband/django-taggit/issues/206#issuecomment-37578676
         rel = self.remote_field
-        if isinstance(rel.through, six.string_types):
+        if isinstance(rel.through, str):
             kwargs["through"] = rel.through
         elif not rel.through._meta.auto_created:
-            kwargs["through"] = "%s.%s" % (
-                rel.through._meta.app_label,
-                rel.through._meta.object_name,
+            kwargs["through"] = "{}.{}".format(
+                rel.through._meta.app_label, rel.through._meta.object_name
             )
 
         related_model = rel.model
-        if isinstance(related_model, six.string_types):
+        if isinstance(related_model, str):
             kwargs["to"] = related_model
         else:
-            kwargs["to"] = "%s.%s" % (
-                related_model._meta.app_label,
-                related_model._meta.object_name,
+            kwargs["to"] = "{}.{}".format(
+                related_model._meta.app_label, related_model._meta.object_name
             )
 
         return name, path, args, kwargs
@@ -472,7 +467,7 @@ class TaggableManager(RelatedField):
         cls._meta.add_field(self)
         setattr(cls, name, self)
         if not cls._meta.abstract:
-            if isinstance(self.remote_field.model, six.string_types):
+            if isinstance(self.remote_field.model, str):
 
                 def resolve_related_class(cls, model, field):
                     field.remote_field.model = model
@@ -480,7 +475,7 @@ class TaggableManager(RelatedField):
                 lazy_related_operation(
                     resolve_related_class, cls, self.remote_field.model, field=self
                 )
-            if isinstance(self.through, six.string_types):
+            if isinstance(self.through, str):
 
                 def resolve_related_class(cls, model, field):
                     self.through = model

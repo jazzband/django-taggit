@@ -1,15 +1,12 @@
-from __future__ import absolute_import, unicode_literals
-
 import unittest
+from unittest import mock
 
-import mock
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.db import connection, models
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
-from django.utils.encoding import force_text
 
 from .forms import (
     CustomPKFoodForm,
@@ -558,7 +555,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         model_name = self.pet_model.__name__
         self.assertQuerysetEqual(
             pks,
-            ["<{0}: kitty>".format(model_name), "<{0}: cat>".format(model_name)],
+            ["<{}: kitty>".format(model_name), "<{}: cat>".format(model_name)],
             ordered=False,
         )
 
@@ -575,7 +572,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         model_name = self.food_model.__name__
         self.assertQuerysetEqual(
             pks,
-            ["<{0}: pear>".format(model_name), "<{0}: guava>".format(model_name)],
+            ["<{}: pear>".format(model_name), "<{}: guava>".format(model_name)],
             ordered=False,
         )
 
@@ -609,13 +606,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             self.tag_model.objects.filter(**lookup_kwargs), ["scary"]
         )
 
-    def test_taggeditem_unicode(self):
+    def test_taggeditem_str(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("juicy")
 
         self.assertEqual(
-            force_text(self.taggeditem_model.objects.all()[0]),
-            "apple tagged with juicy",
+            str(self.taggeditem_model.objects.first()), "apple tagged with juicy"
         )
 
     def test_abstract_subclasses(self):
@@ -1105,7 +1101,7 @@ class TagListViewTests(TestCase):
     model = Food
 
     def setUp(self):
-        super(TagListViewTests, self).setUp()
+        super().setUp()
         self.factory = RequestFactory()
         self.slug = "green"
         self.apple = self.model.objects.create(name="apple")
