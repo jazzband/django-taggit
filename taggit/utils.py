@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.functional import wraps
 from django.utils.module_loading import import_string
@@ -41,17 +40,17 @@ def _parse_tags(tagstring):
     i = iter(tagstring)
     try:
         while True:
-            c = six.next(i)
+            c = next(i)
             if c == '"':
                 if buffer:
                     to_be_split.append("".join(buffer))
                     buffer = []
                 # Find the matching quote
                 open_quote = True
-                c = six.next(i)
+                c = next(i)
                 while c != '"':
                     buffer.append(c)
-                    c = six.next(i)
+                    c = next(i)
                 if buffer:
                     word = "".join(buffer).strip()
                     if word:
