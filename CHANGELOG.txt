@@ -1,13 +1,19 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
+0.24.0 (2019-02-19)
+~~~~~~~~~~~~~~~~~~~
  * The project has moved to `Jazzband <https://jazzband.co/>`_. This is the
    first release under the new organization. The new repository URL is
    `<https://github.com/jazzband/django-taggit>`_.
  * Added support for Django 2.2.
  * Fixed a race condition in ``TaggableManager``.
+ * Removed method ``ItemBase.bulk_lookup_kwargs()``.
+ * Fixed view ``tagged_object_list`` to set ``queryset.model`` as
+   ``ListView.model`` (was previously set as a ``ContentType`` instance).
+ * ``_TaggableManager`` and ``TaggableManager`` now always call the parent
+   class ``__init__``.
+ * Removed ``TaggableRel`` and replaced uses with ``ManyToManyRel``.
 
 0.23.0 (2018-08-07)
 ~~~~~~~~~~~~~~~~~~~
