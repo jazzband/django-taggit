@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from functools import total_ordering
 from operator import attrgetter
 
 from django import VERSION
@@ -386,7 +385,6 @@ class _TaggableManager(models.Manager):
         return results
 
 
-@total_ordering
 class TaggableManager(RelatedField):
     # Field flags
     many_to_many = True
