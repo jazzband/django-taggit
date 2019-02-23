@@ -788,9 +788,6 @@ class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     def test_custom_manager(self):
         self.assertEqual(self.custom_manager_model.tags.__class__, CustomManager.Foo)
 
-    def test_tag_uniqueness(self):
-        pass
-
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm
