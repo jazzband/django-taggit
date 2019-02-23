@@ -71,6 +71,9 @@ class HousePet(Pet):
 class TaggedFood(TaggedItemBase):
     content_object = models.ForeignKey("DirectFood", on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = [["content_object", "tag"]]
+
 
 class TaggedPet(TaggedItemBase):
     content_object = models.ForeignKey("DirectPet", on_delete=models.CASCADE)
@@ -106,9 +109,15 @@ class DirectHousePet(DirectPet):
 class TaggedCustomPKFood(TaggedItemBase):
     content_object = models.ForeignKey("DirectCustomPKFood", on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = [["content_object", "tag"]]
+
 
 class TaggedCustomPKPet(TaggedItemBase):
     content_object = models.ForeignKey("DirectCustomPKPet", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [["content_object", "tag"]]
 
 
 @python_2_unicode_compatible
@@ -137,6 +146,9 @@ class DirectCustomPKHousePet(DirectCustomPKPet):
 # Test custom through model to model with custom PK using GenericForeignKey
 class TaggedCustomPK(CommonGenericTaggedItemBase, TaggedItemBase):
     object_id = models.CharField(max_length=50, verbose_name="Object id", db_index=True)
+
+    class Meta:
+        unique_together = [["object_id", "tag"]]
 
 
 @python_2_unicode_compatible
@@ -174,6 +186,9 @@ class OfficialThroughModel(GenericTaggedItemBase):
     tag = models.ForeignKey(
         OfficialTag, related_name="tagged_items", on_delete=models.CASCADE
     )
+
+    class Meta:
+        unique_together = [["content_type", "object_id", "tag"]]
 
 
 @python_2_unicode_compatible

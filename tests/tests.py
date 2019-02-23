@@ -6,7 +6,7 @@ import mock
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ValidationError
-from django.db import connection, models
+from django.db import IntegrityError, connection, models
 from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
@@ -677,6 +677,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         tag_names = sorted(orange.tags.names())
         self.assertEqual(tag_names, ["Spain", "Valencia"])
 
+    def test_tag_uniqueness(self):
+        apple = self.food_model.objects.create(name="apple")
+        tag = self.tag_model.objects.create(name="juice", slug="juicy")
+        self.taggeditem_model.objects.create(tag=tag, content_object=apple)
+        with self.assertRaises(IntegrityError):
+            self.taggeditem_model.objects.create(tag=tag, content_object=apple)
+
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     food_model = DirectFood
@@ -780,6 +787,9 @@ class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
 
     def test_custom_manager(self):
         self.assertEqual(self.custom_manager_model.tags.__class__, CustomManager.Foo)
+
+    def test_tag_uniqueness(self):
+        pass
 
 
 class TaggableFormTestCase(BaseTaggingTestCase):
