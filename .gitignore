@@ -5,3 +5,4 @@ _build/
 .tox/
 .coverage
 .eggs/
+.venv/
