@@ -50,9 +50,7 @@ Check that your changes are not breaking the style conventions with:
 
 .. code-block:: console
 
-    black --check --diff .
-    flake8
-    isort --recursive --check-only --diff
+    tox -e black,flake8,isort
 
 Update the documentation
 ------------------------
