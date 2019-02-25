@@ -5,6 +5,9 @@ UNRELEASED 1.0.0
 ~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Remove support for Python 2.
  * Added ``has_changed()`` method to ``taggit.forms.TagField``.
+ * Added multi-column unique constraint to model ``TaggedItem`` on fields
+   ``content_type``, ``object_id``, and ``tag``. Databases that contain
+   duplicates will need to add a data migration to resolve these duplicates.
 
 0.24.0 (2019-02-19)
 ~~~~~~~~~~~~~~~~~~~
