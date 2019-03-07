@@ -39,3 +39,5 @@ TEMPLATES = [
 ]
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3"}}
+
+STATIC_URL = "/static/"
