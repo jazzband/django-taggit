@@ -377,9 +377,7 @@ class _TaggableManager(models.Manager):
         results = []
         for result in qs:
             try:
-                obj = items[
-                    tuple(result[k] for k in lookup_keys)
-                ]
+                obj = items[tuple(result[k] for k in lookup_keys)]
             except KeyError:
                 # This sometimes happens, for reasons unkown
                 # see GH issue #80
