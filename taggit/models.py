@@ -142,10 +142,13 @@ class CommonGenericTaggedItemBase(ItemBase):
 
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
-        ct = ContentType.objects.get_for_model(model)
-        kwargs = {"%s__content_type" % cls.tag_relname(): ct}
+        tag_relname = cls.tag_relname()
+        kwargs = {
+            "%s__content_type__app_label" % tag_relname: model._meta.app_label,
+            "%s__content_type__model" % tag_relname: model._meta.model_name,
+        }
         if instance is not None:
-            kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
+            kwargs["%s__object_id" % tag_relname] = instance.pk
         if extra_filters:
             kwargs.update(extra_filters)
         return cls.tag_model().objects.filter(**kwargs).distinct()

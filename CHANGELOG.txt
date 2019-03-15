@@ -8,6 +8,8 @@ UNRELEASED 1.0.0
  * Added multi-column unique constraint to model ``TaggedItem`` on fields
    ``content_type``, ``object_id``, and ``tag``. Databases that contain
    duplicates will need to add a data migration to resolve these duplicates.
+ * Fixed ``TaggableManager.most_common()`` to always evaluate lazily. Allows
+   placing a ``.most_common()`` query at the top level of a module.
 
 0.24.0 (2019-02-19)
 ~~~~~~~~~~~~~~~~~~~
