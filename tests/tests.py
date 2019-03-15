@@ -31,6 +31,7 @@ from .models import (
     Food,
     HousePet,
     Movie,
+    Name,
     OfficialFood,
     OfficialHousePet,
     OfficialPet,
@@ -1142,3 +1143,17 @@ class TagListViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.apple, response.context_data["object_list"])
         self.assertNotIn(self.strawberry, response.context_data["object_list"])
+
+
+class RelatedNameTests(TestCase):
+    def test_default_related_name(self):
+        food = Food.objects.create(name="apple")
+        food.tags.add("green")
+        tag = Tag.objects.get(food=food.pk)
+        self.assertEqual(tag.name, "green")
+
+    def test_custom_related_name(self):
+        name = Name.objects.create()
+        name.tags.add("foo")
+        tag = Tag.objects.get(a_unique_related_name=name.pk)
+        self.assertEqual(tag.name, "foo")

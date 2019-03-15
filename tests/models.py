@@ -277,3 +277,10 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase):
     tag = models.ForeignKey(
         UUIDTag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
     )
+
+
+# Exists to verify system check failure.
+# tests.Name.tags: (fields.E303) Reverse query name for 'Name.tags' clashes with field name 'Tag.name'.
+# 	HINT: Rename field 'Tag.name', or add/change a related_name argument to the definition for field 'Name.tags'.
+class Name(models.Model):
+    tags = TaggableManager(related_name="a_unique_related_name")

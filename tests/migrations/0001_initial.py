@@ -170,6 +170,20 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="Name",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                )
+            ],
+        ),
+        migrations.CreateModel(
             name="OfficialFood",
             fields=[
                 (
@@ -811,6 +825,17 @@ class Migration(migrations.Migration):
                 help_text="A comma-separated list of tags.",
                 through="tests.OfficialThroughModel",
                 to="tests.OfficialTag",
+                verbose_name="Tags",
+            ),
+        ),
+        migrations.AddField(
+            model_name="name",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                related_name="a_unique_related_name",
+                through="taggit.TaggedItem",
+                to="taggit.Tag",
                 verbose_name="Tags",
             ),
         ),
