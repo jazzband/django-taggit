@@ -534,9 +534,6 @@ class TaggableManager(RelatedField):
         )
         return [ti.tag for ti in qs]
 
-    def related_query_name(self):
-        return self.model._meta.model_name
-
     def m2m_reverse_name(self):
         return self.through._meta.get_field("tag").column
 

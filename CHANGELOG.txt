@@ -10,6 +10,8 @@ UNRELEASED 1.0.0
    duplicates will need to add a data migration to resolve these duplicates.
  * Fixed ``TaggableManager.most_common()`` to always evaluate lazily. Allows
    placing a ``.most_common()`` query at the top level of a module.
+ * Fixed setting the ``related_name`` on a tags manager that exists on a model
+   named ``Name``.
 
 0.24.0 (2019-02-19)
 ~~~~~~~~~~~~~~~~~~~
