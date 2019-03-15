@@ -143,6 +143,10 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
     taggeditem_model = TaggedItem
     tag_model = Tag
 
+    def setUp(self):
+        super().setUp()
+        ContentType.objects.clear_cache()
+
     def test_add_tag(self):
         apple = self.food_model.objects.create(name="apple")
         self.assertEqual(list(apple.tags.all()), [])
@@ -705,6 +709,12 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         self.taggeditem_model.objects.create(tag=tag, content_object=apple)
         with self.assertRaises(IntegrityError):
             self.taggeditem_model.objects.create(tag=tag, content_object=apple)
+
+    def test_most_common_lazy(self):
+        with self.assertNumQueries(0):
+            qs = self.food_model.tags.most_common()
+        with self.assertNumQueries(1):
+            list(qs)
 
 
 class TaggableManagerDirectTestCase(TaggableManagerTestCase):
