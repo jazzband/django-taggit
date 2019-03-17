@@ -1,5 +1,5 @@
 include AUTHORS
-include CHANGELOG.txt
+include CHANGELOG.rst
 include LICENSE
 include README.rst
 include tox.ini
