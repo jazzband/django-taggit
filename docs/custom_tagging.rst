@@ -165,25 +165,26 @@ model named ``"tag"``:
 
 Using a custom tag string parser
 --------------------------------
-By default ``django-taggit`` uses :func:`taggit.utils._parse_tags` which
-accepts a string which may contain one or more tags and returns a list of tag
-names.  This parser is quite intelligent and can handle a number of edge cases;
-however, you may wish to provide your own parser for various reasons (e.g. you
-can do some preprocessing on the tags so that they are converted to lowercase,
-reject certain tags, disallow certain characters, split only on commas rather
-than commas and whitespace, etc.).  To provide your own parser, write a
-function that takes a tag string and returns a list of tag names.  For example,
-a simple function to split on comma and convert to lowercase::
+
+By default ``django-taggit`` uses ``taggit.utils._parse_tags`` which accepts a
+string which may contain one or more tags and returns a list of tag names. This
+parser is quite intelligent and can handle a number of edge cases; however, you
+may wish to provide your own parser for various reasons (e.g. you can do some
+preprocessing on the tags so that they are converted to lowercase, reject
+certain tags, disallow certain characters, split only on commas rather than
+commas and whitespace, etc.). To provide your own parser, write a function that
+takes a tag string and returns a list of tag names. For example, a simple
+function to split on comma and convert to lowercase::
 
     def comma_splitter(tag_string):
         return [t.strip().lower() for t in tag_string.split(',') if t.strip()]
 
 You need to tell ``taggit`` to use this function instead of the default by
 adding a new setting, ``TAGGIT_TAGS_FROM_STRING`` and providing it with the
-dotted path to your function.  Likewise, you can provide a function to convert
-a list of tags to a string representation and use the setting
+dotted path to your function. Likewise, you can provide a function to convert a
+list of tags to a string representation and use the setting
 ``TAGGIT_STRING_FROM_TAGS`` to override the default value (which is
-:func:`taggit.utils._edit_string_for_tags`)::
+``taggit.utils._edit_string_for_tags``)::
 
     def comma_joiner(tags):
         return ', '.join(t.name for t in tags)
