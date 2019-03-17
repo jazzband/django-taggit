@@ -1,8 +1,8 @@
 Changelog
 =========
 
-UNRELEASED 1.0.0
-~~~~~~~~~~~~~~~~
+1.0.0 (2019-03-17)
+~~~~~~~~~~~~~~~~~~
  * **Backwards incompatible:** Remove support for Python 2.
  * Added ``has_changed()`` method to ``taggit.forms.TagField``.
  * Added multi-column unique constraint to model ``TaggedItem`` on fields
