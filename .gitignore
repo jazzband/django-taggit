@@ -6,3 +6,4 @@ _build/
 .coverage
 .eggs/
 .venv/
+.idea/

@@ -38,6 +38,15 @@ class MultipleTagsGFK(models.Model):
     tags2 = TaggableManager(through=ThroughGFK, related_name="tagsgfk2")
 
 
+class BlankTagModel(models.Model):
+    name = models.CharField(max_length=50)
+
+    tags = TaggableManager(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Food(models.Model):
     name = models.CharField(max_length=50)
 
