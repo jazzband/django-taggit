@@ -24,10 +24,20 @@ class TagField(forms.CharField):
             )
 
     def has_changed(self, initial_value, data_value):
-        initial_value = [tag.name for tag in initial_value]
-        initial_value.sort()
+        # Always return False if the field is disabled since self.bound_data
+        # always uses the initial value in this case.
+        if self.disabled:
+            return False
+
         try:
             data_value = self.clean(data_value)
         except forms.ValidationError:
             pass
+
+        if initial_value is None:
+            initial_value = []
+
+        initial_value = [tag.name for tag in initial_value]
+        initial_value.sort()
+
         return initial_value != data_value

@@ -7,6 +7,8 @@ UNRELEASED
 * Added Finnish translation.
 * Updated Chinese translation.
 * Updated Esperanto translation.
+* Fix ``form.changed_data`` to allow early access for a tags defined with
+  ``blank=True``.
 
 1.0.0 (2019-03-17)
 ~~~~~~~~~~~~~~~~~~

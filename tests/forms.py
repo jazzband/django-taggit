@@ -1,6 +1,19 @@
 from django import forms
 
-from .models import CustomPKFood, DirectCustomPKFood, DirectFood, Food, OfficialFood
+from .models import (
+    BlankTagModel,
+    CustomPKFood,
+    DirectCustomPKFood,
+    DirectFood,
+    Food,
+    OfficialFood,
+)
+
+
+class BlankTagForm(forms.ModelForm):
+    class Meta:
+        model = BlankTagModel
+        fields = "__all__"
 
 
 class FoodForm(forms.ModelForm):

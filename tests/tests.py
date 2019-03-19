@@ -9,6 +9,7 @@ from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 
 from .forms import (
+    BlankTagForm,
     CustomPKFoodForm,
     DirectCustomPKFoodForm,
     DirectFoodForm,
@@ -959,6 +960,20 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         fff = self.form_class(request, instance=apple)
         self.assertTrue(fff.is_valid())
         self.assertFalse(fff.changed_data)
+
+    def test_early_access_to_changed_data_with(self):
+        # For example in ModelForm.validate_unique().
+        request = {"name": "pear"}
+        form = BlankTagForm(request)
+        self.assertNotIn("tags", form.changed_data)
+
+        request = {"name": "pear", "tags": ""}
+        form = BlankTagForm(request)
+        self.assertNotIn("tags", form.changed_data)
+
+        request = {"name": "pear", "tags": "tag1"}
+        form = BlankTagForm(request)
+        self.assertIn("tags", form.changed_data)
 
 
 class TaggableFormDirectTestCase(TaggableFormTestCase):
