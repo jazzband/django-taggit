@@ -1,4 +1,3 @@
-import unittest
 from unittest import mock
 
 from django.contrib.contenttypes.models import ContentType
@@ -1000,7 +999,7 @@ class BlankFormTestCase(SimpleTestCase):
         self.assertIn("tags", form.changed_data)
 
 
-class TagStringParseTestCase(unittest.TestCase):
+class TagStringParseTestCase(SimpleTestCase):
     """
     Ported from Jonathan Buchanan's `django-tagging
     <http://django-tagging.googlecode.com/>`_
@@ -1106,7 +1105,7 @@ class TagStringParseTestCase(unittest.TestCase):
         self.assertEqual(edit_string_for_tags([a, b]), "Cued Speech, transliterator")
 
 
-class DeconstructTestCase(unittest.TestCase):
+class DeconstructTestCase(SimpleTestCase):
     def test_deconstruct_kwargs_kept(self):
         instance = TaggableManager(through=OfficialThroughModel, to="dummy.To")
         name, path, args, kwargs = instance.deconstruct()
