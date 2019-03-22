@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, connection, models
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
 from .forms import (
@@ -961,20 +961,6 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertTrue(fff.is_valid())
         self.assertFalse(fff.changed_data)
 
-    def test_early_access_to_changed_data_with(self):
-        # For example in ModelForm.validate_unique().
-        request = {"name": "pear"}
-        form = BlankTagForm(request)
-        self.assertNotIn("tags", form.changed_data)
-
-        request = {"name": "pear", "tags": ""}
-        form = BlankTagForm(request)
-        self.assertNotIn("tags", form.changed_data)
-
-        request = {"name": "pear", "tags": "tag1"}
-        form = BlankTagForm(request)
-        self.assertIn("tags", form.changed_data)
-
 
 class TaggableFormDirectTestCase(TaggableFormTestCase):
     form_class = DirectFoodForm
@@ -994,6 +980,24 @@ class TaggableFormCustomPKTestCase(TaggableFormTestCase):
 class TaggableFormOfficialTestCase(TaggableFormTestCase):
     form_class = OfficialFoodForm
     food_model = OfficialFood
+
+
+class BlankFormTestCase(SimpleTestCase):
+    form_class = BlankTagForm
+
+    def test_early_access_to_changed_data_with(self):
+        # For example in ModelForm.validate_unique().
+        request = {"name": "pear"}
+        form = self.form_class(request)
+        self.assertNotIn("tags", form.changed_data)
+
+        request = {"name": "pear", "tags": ""}
+        form = self.form_class(request)
+        self.assertNotIn("tags", form.changed_data)
+
+        request = {"name": "pear", "tags": "tag1"}
+        form = self.form_class(request)
+        self.assertIn("tags", form.changed_data)
 
 
 class TagStringParseTestCase(unittest.TestCase):
