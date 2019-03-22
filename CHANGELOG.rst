@@ -1,8 +1,8 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
+1.1.0 (2019-03-22)
+~~~~~~~~~~~~~~~~~~
 
 * Added Finnish translation.
 * Updated Chinese translation.
