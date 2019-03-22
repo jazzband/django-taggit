@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-01 16:52+0200\n"
+"POT-Creation-Date: 2019-03-22 03:32-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,47 +18,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: forms.py:24
+#: apps.py:7
+msgid "Taggit"
+msgstr ""
+
+#: forms.py:23
 msgid "Please provide a comma-separated list of tags."
 msgstr "Vložte čárkami oddělený seznam tagů"
 
-#: managers.py:59 models.py:59
+#: managers.py:396 models.py:77
 msgid "Tags"
 msgstr "Tagy"
 
-#: managers.py:60
+#: managers.py:397
 msgid "A comma-separated list of tags."
 msgstr "Čárkami oddělený seznam tagů"
 
-#: models.py:15
+#: models.py:16
 msgid "Name"
 msgstr "Jméno"
 
-#: models.py:16
+#: models.py:17
 msgid "Slug"
 msgstr "Slug"
 
-#: models.py:58
+#: models.py:76
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:65
+#: models.py:83
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s označen tagem %(tag)s"
 
-#: models.py:112
-msgid "Object id"
-msgstr "ID objektu"
-
-#: models.py:115
+#: models.py:128
 msgid "Content type"
 msgstr "Typ obsahu"
 
-#: models.py:158
+#: models.py:158 models.py:165
+msgid "Object id"
+msgstr "ID objektu"
+
+#: models.py:173
 msgid "Tagged Item"
 msgstr "Tagem označená položka"
 
-#: models.py:159
+#: models.py:174
 msgid "Tagged Items"
 msgstr "Tagy označené položky"

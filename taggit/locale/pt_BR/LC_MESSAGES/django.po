@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-taggit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-15 22:25-0200\n"
+"POT-Creation-Date: 2019-03-22 03:32-0700\n"
 "PO-Revision-Date: 2013-01-12 18:11-0200\n"
 "Last-Translator: RPB <r@ifgy.co>\n"
 "Language-Team: Portuguese (Brazil) <r@ifgy.co>\n"
@@ -16,47 +16,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: forms.py:21
+#: apps.py:7
+msgid "Taggit"
+msgstr ""
+
+#: forms.py:23
 msgid "Please provide a comma-separated list of tags."
 msgstr "Favor fornecer uma lista de marcadores separados por vírgula."
 
-#: managers.py:39 models.py:57
+#: managers.py:396 models.py:77
 msgid "Tags"
 msgstr "Marcadores"
 
-#: managers.py:40
+#: managers.py:397
 msgid "A comma-separated list of tags."
 msgstr "Uma lista de marcadores separados por vírgula."
 
-#: models.py:10
+#: models.py:16
 msgid "Name"
 msgstr "Nome"
 
-#: models.py:11
+#: models.py:17
 msgid "Slug"
 msgstr "Slug"
 
-#: models.py:56
+#: models.py:76
 msgid "Tag"
 msgstr "Marcador"
 
-#: models.py:63
+#: models.py:83
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s marcados com %(tag)s"
 
-#: models.py:113
-msgid "Object id"
-msgstr "Id do objeto"
-
-#: models.py:117 models.py:123
+#: models.py:128
 msgid "Content type"
 msgstr "Tipo de conteúdo"
 
-#: models.py:159
+#: models.py:158 models.py:165
+msgid "Object id"
+msgstr "Id do objeto"
+
+#: models.py:173
 msgid "Tagged Item"
 msgstr "Item marcado"
 
-#: models.py:160
+#: models.py:174
 msgid "Tagged Items"
 msgstr "Itens marcados"
