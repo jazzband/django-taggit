@@ -14,7 +14,6 @@ setup(
     author_email="alex.gaynor@gmail.com",
     url="https://github.com/jazzband/django-taggit/tree/master",
     packages=find_packages(exclude=("tests*",)),
-    package_data={"taggit": ["locale/*/LC_MESSAGES/*"]},
     license="BSD",
     python_requires=">=3.5",
     install_requires=["Django>=1.11"],
