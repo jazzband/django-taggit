@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-taggit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-06 09:31+0300\n"
+"POT-Creation-Date: 2019-03-22 03:32-0700\n"
 "PO-Revision-Date: 2014-03-29 18:57+0100\n"
 "Last-Translator: Baptiste Darthenay <taggit.batisteo@recursor.net>\n"
 "Language-Team: Esperanto <taggit.batisteo@recursor.net>\n"
@@ -17,54 +17,47 @@ msgstr ""
 msgid "Taggit"
 msgstr "Etikedoj"
 
-#: forms.py:27
+#: forms.py:23
 msgid "Please provide a comma-separated list of tags."
 msgstr "Bonvolu enmeti liston da etikedoj apartitaj per komoj."
 
-#: managers.py:402 models.py:81
+#: managers.py:396 models.py:77
 msgid "Tags"
 msgstr "Etikedoj"
 
-#: managers.py:403
+#: managers.py:397
 msgid "A comma-separated list of tags."
 msgstr "Listo da etikedoj apartitaj per komoj."
 
-#: models.py:20
+#: models.py:16
 msgid "Name"
 msgstr "Nomo"
 
-#: models.py:21
+#: models.py:17
 msgid "Slug"
 msgstr "Ĵetonvorto"
 
-#: models.py:80
+#: models.py:76
 msgid "Tag"
 msgstr "Etikedo"
 
-#: models.py:88
+#: models.py:83
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s etikedita %(tag)s"
 
-#: models.py:133
+#: models.py:128
 msgid "Content type"
 msgstr "Enhavtipo"
 
-#: models.py:160 models.py:167
+#: models.py:158 models.py:165
 msgid "Object id"
 msgstr "Objekto ID"
 
-#: models.py:175
+#: models.py:173
 msgid "Tagged Item"
 msgstr "Etikedita elemento"
 
-#: models.py:176
+#: models.py:174
 msgid "Tagged Items"
 msgstr "Etikeditaj elementoj"
-
-#~ msgid ""
-#~ "Enter a valid Regular Expression. To make it case-insensitive include \"(?"
-#~ "i)\" in your expression."
-#~ msgstr ""
-#~ "Entajpu validan regulan esprimon. Por ke estu usklecoblinda, enmetu \"(?"
-#~ "i)\" en via esprimo."

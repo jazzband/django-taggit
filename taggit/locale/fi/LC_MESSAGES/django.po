@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-taggit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-06 09:28+0300\n"
+"POT-Creation-Date: 2019-03-22 03:32-0700\n"
 "PO-Revision-Date: 2018-01-06 17:27-0600\n"
 "Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -21,47 +21,47 @@ msgstr ""
 msgid "Taggit"
 msgstr "Tagit"
 
-#: forms.py:27
+#: forms.py:23
 msgid "Please provide a comma-separated list of tags."
 msgstr "Ole hyvä ja anna pilkulla erotettu lista tageista."
 
-#: managers.py:402 models.py:81
+#: managers.py:396 models.py:77
 msgid "Tags"
 msgstr "Tagit"
 
-#: managers.py:403
+#: managers.py:397
 msgid "A comma-separated list of tags."
 msgstr "Pilkulla erotettu lista tageista."
 
-#: models.py:20
+#: models.py:16
 msgid "Name"
 msgstr "Nimi"
 
-#: models.py:21
+#: models.py:17
 msgid "Slug"
 msgstr "Lyhytnimi"
 
-#: models.py:80
+#: models.py:76
 msgid "Tag"
 msgstr "Tagi"
 
-#: models.py:88
+#: models.py:83
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s on merkitty %(tag)s:lla"
 
-#: models.py:133
+#: models.py:128
 msgid "Content type"
 msgstr "Sisältötyyppi"
 
-#: models.py:160 models.py:167
+#: models.py:158 models.py:165
 msgid "Object id"
 msgstr "Kohteen ID"
 
-#: models.py:175
+#: models.py:173
 msgid "Tagged Item"
 msgstr "Merkitty kohde"
 
-#: models.py:176
+#: models.py:174
 msgid "Tagged Items"
 msgstr "Merkittyjä kohteita"
