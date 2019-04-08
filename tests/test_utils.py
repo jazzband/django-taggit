@@ -4,7 +4,6 @@ from taggit.utils import split_strip
 
 
 class SplitStripTests(TestCase):
-
     def test_should_return_empty_list_if_not_string(self):
         result = split_strip(None)
 
