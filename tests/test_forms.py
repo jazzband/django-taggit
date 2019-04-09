@@ -1,6 +1,6 @@
+from django import forms
 from django.test import TestCase
 from django.test.utils import override_settings
-from django import forms
 
 from taggit.forms import TagField
 from taggit.models import Tag
