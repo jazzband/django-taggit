@@ -423,13 +423,12 @@ class TaggableManager(RelatedField):
                 "%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__
             )
-        manager = self.manager(
+        return self.manager(
             through=self.through,
             model=model,
             instance=instance,
             prefetch_cache_name=self.name,
         )
-        return manager
 
     def deconstruct(self):
         """
