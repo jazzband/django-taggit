@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('taggit', '0002_auto_20150616_2121'),
-    ]
+    dependencies = [("taggit", "0002_auto_20150616_2121")]
 
     operations = [
         migrations.AlterField(
-            model_name='tag',
-            name='name',
-            field=models.CharField(max_length=100, verbose_name='Name'),
-        ),
+            model_name="tag",
+            name="name",
+            field=models.CharField(max_length=100, verbose_name="Name"),
+        )
     ]
