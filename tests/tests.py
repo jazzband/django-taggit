@@ -854,7 +854,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 <option value="1" selected="selected">green</option>
 <option value="2" selected="selected">red</option>
 <option value="3" selected="selected">yummy</option>
-</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>"""
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
         )
         f.save()
         apple = self.food_model.objects.get(name="apple")
@@ -881,7 +881,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 <option value="2" selected="selected">red</option>
 <option value="3" selected="selected">yummy</option>
 <option value="4" selected="selected">delicious</option>
-</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>"""
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
         )
 
         apple.tags.add("has,comma")
@@ -895,7 +895,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 <option value="3" selected="selected">yummy</option>
 <option value="4" selected="selected">delicious</option>
 <option value="5" selected="selected">has,comma</option>
-</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>"""
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
         )
 
         apple.tags.add("has space")
@@ -910,7 +910,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 <option value="4" selected="selected">delicious</option>
 <option value="5" selected="selected">has,comma</option>
 <option value="6" selected="selected">has space</option>
-</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>"""
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
         )
 
         apple.tags.remove("delicious")
@@ -925,7 +925,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 <option value="4">delicious</option>
 <option value="5" selected="selected">has,comma</option>
 <option value="6" selected="selected">has space</option>
-</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>"""
+</select><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
         )
 
     def test_formfield(self):
@@ -947,19 +947,21 @@ class TaggableFormTestCase(BaseTaggingTestCase):
     def test_form_changed_data(self):
         # new food, blank tag
         pear = self.food_model()
-        request = {"name": "pear", "tags": ""}
+        request = {"name": "pear", "tags": []}
         fff = self.form_class(request, instance=pear)
         self.assertFalse(fff.is_valid())
 
+        tag1 = self.food_model.tags.create(name="sweat")
         pear = self.food_model()
-        request = {"name": "pear", "tags": "sweat"}
+        request = {"name": "pear", "tags": [tag1]}
         fff = self.form_class(request, instance=pear)
         self.assertTrue(fff.is_valid())
         self.assertIn("tags", fff.changed_data)
         self.assertIn("name", fff.changed_data)
         fff.save()
 
-        request = {"name": "pear", "tags": "yellow"}
+        tag2 = self.food_model.tags.create(name="yellow")
+        request = {"name": "pear", "tags": [tag2]}
         fff = self.form_class(request, instance=pear)
         self.assertTrue(fff.is_valid())
         self.assertIn("tags", fff.changed_data)
@@ -972,12 +974,12 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertFalse(fff.changed_data)
 
         # delete tag
-        request = {"name": "pear", "tags": ""}
+        request = {"name": "pear", "tags": []}
         fff = self.form_class(request, instance=pear)
         self.assertFalse(fff.is_valid())  # tag not blank
 
         # change name, tags are the same
-        request = {"name": "apple", "tags": "yellow"}
+        request = {"name": "apple", "tags": [tag2]}
         fff = self.form_class(request, instance=pear)
         self.assertTrue(fff.is_valid())
         self.assertIn("name", fff.changed_data)
@@ -985,8 +987,9 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         fff.save()
 
         # tags changed
+        tag3 = self.food_model.tags.create(name="delicious")
         apple = self.food_model.objects.get(name="apple")
-        request = {"name": "apple", "tags": "yellow, delicious"}
+        request = {"name": "apple", "tags": [tag2, tag3]}
         fff = self.form_class(request, instance=apple)
         self.assertTrue(fff.is_valid())
         self.assertNotIn("name", fff.changed_data)
@@ -995,7 +998,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
 
         # only tags order changed
         apple = self.food_model.objects.get(name="apple")
-        request = {"name": "apple", "tags": "delicious, yellow"}
+        request = {"name": "apple", "tags": [tag3, tag2]}
         fff = self.form_class(request, instance=apple)
         self.assertTrue(fff.is_valid())
         self.assertFalse(fff.changed_data)

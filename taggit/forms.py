@@ -47,5 +47,21 @@ class TagField(forms.CharField):
 class TagMultipleChoiceField(forms.ModelMultipleChoiceField):
     def prepare_value(self, data):
         if isinstance(data, models.query.QuerySet):
-            data = [o.tag for o in data.select_related('tag')]
+            data = [o.tag for o in data.select_related("tag")]
         return super(TagMultipleChoiceField, self).prepare_value(data)
+
+    def has_changed(self, initial_value, data_value):
+        # Always return False if the field is disabled since self.bound_data
+        # always uses the initial value in this case.
+        if self.disabled:
+            return False
+
+        try:
+            data_value = list(self.clean(data_value))
+        except forms.ValidationError:
+            pass
+
+        if initial_value is None:
+            initial_value = []
+
+        return initial_value != data_value

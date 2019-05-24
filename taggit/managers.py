@@ -249,10 +249,11 @@ class _TaggableManager(models.Manager):
             objs = self._to_tag_model_instances(tags)
 
             # get the existing tags
-            old_tags = set(t.tag for t in
-                self.through._default_manager.using(db)
+            old_tags = set(
+                t.tag
+                for t in self.through._default_manager.using(db)
                 .filter(**self._lookup_kwargs())
-                .select_related('tag')
+                .select_related("tag")
             )
 
             new_objs = []
@@ -525,7 +526,7 @@ class TaggableManager(RelatedField):
         getattr(instance, self.name).set(*value)
 
     def formfield(self, form_class=TagMultipleChoiceField, **kwargs):
-        db = kwargs.get('using', None)
+        db = kwargs.get("using", None)
         queryset = self.through.objects.none()
         if self.remote_field.model:
             queryset = self.remote_field.model.objects.using(db)
