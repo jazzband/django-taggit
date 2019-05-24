@@ -1,9 +1,8 @@
 include AUTHORS
-include CHANGELOG.txt
+include CHANGELOG.rst
 include LICENSE
 include README.rst
 include tox.ini
-include runtests.py
-recursive-include docs *
-recursive-include taggit/locale *
-recursive-include tests *
+recursive-include docs *.py *.rst
+recursive-include taggit/locale *.mo *.po
+recursive-include tests *.html *.py
