@@ -226,6 +226,11 @@ class Movie(Media):
     pass
 
 
+class ProxyPhoto(Photo):
+    class Meta:
+        proxy = True
+
+
 class ArticleTag(Tag):
     class Meta:
         proxy = True

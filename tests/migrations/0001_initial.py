@@ -332,6 +332,12 @@ class Migration(migrations.Migration):
             options={"abstract": False},
         ),
         migrations.CreateModel(
+            name="ProxyPhoto",
+            fields=[],
+            options={"proxy": True, "indexes": []},
+            bases=("tests.photo",),
+        ),
+        migrations.CreateModel(
             name="TaggedCustomPK",
             fields=[
                 (
