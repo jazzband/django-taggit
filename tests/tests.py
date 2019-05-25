@@ -39,6 +39,7 @@ from .models import (
     OfficialThroughModel,
     Pet,
     Photo,
+    ProxyPhoto,
     TaggedCustomPK,
     TaggedCustomPKFood,
     TaggedFood,
@@ -627,6 +628,17 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         m = Movie.objects.create()
         m.tags.add("hd")
         self.assert_tags_equal(m.tags.all(), ["hd"])
+
+    def test_proxy_subclasses(self):
+        p = Photo.objects.create()
+        proxy_p = ProxyPhoto.objects.create()
+        p.tags.add("outdoors", "pretty")
+        self.assert_tags_equal(p.tags.all(), ["outdoors", "pretty"])
+        self.assert_tags_equal(proxy_p.tags.all(), [])
+
+        proxy_p.tags.add("hd")
+        self.assert_tags_equal(proxy_p.tags.all(), ["hd"])
+        self.assert_tags_equal(p.tags.all(), ["outdoors", "pretty"])
 
     def test_field_api(self):
         # Check if tag field, which simulates m2m, has django-like api.

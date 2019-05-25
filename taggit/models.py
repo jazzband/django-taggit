@@ -143,6 +143,7 @@ class CommonGenericTaggedItemBase(ItemBase):
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         tag_relname = cls.tag_relname()
+        model = model._meta.concrete_model
         kwargs = {
             "%s__content_type__app_label" % tag_relname: model._meta.app_label,
             "%s__content_type__model" % tag_relname: model._meta.model_name,
