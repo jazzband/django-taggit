@@ -547,7 +547,7 @@ class TaggableManager(RelatedField):
 
     def m2m_column_name(self):
         if self.use_gfk:
-            return self.through._meta.virtual_fields[0].fk_field
+            return self.through._meta.private_fields[0].fk_field
         return self.through._meta.get_field("content_object").column
 
     def m2m_db_table(self):
