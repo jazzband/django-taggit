@@ -124,7 +124,7 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     @require_instance_manager
-    def add(self, *tags):
+    def add(self, *tags, through_defaults={}):
         db = router.db_for_write(self.through, instance=self.instance)
 
         tag_objs = self._to_tag_model_instances(tags)
@@ -152,7 +152,7 @@ class _TaggableManager(models.Manager):
 
         for tag in tag_objs:
             self.through._default_manager.using(db).get_or_create(
-                tag=tag, **self._lookup_kwargs()
+                tag=tag, **self._lookup_kwargs(), defaults=through_defaults
             )
 
         signals.m2m_changed.send(

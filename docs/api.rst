@@ -12,7 +12,7 @@ playing around with the API.
         information.
     :param blank: Controls whether this field is required.
 
-    .. method:: add(*tags)
+    .. method:: add(*tags, through_defaults={})
 
         This adds tags to an object. The tags can be either ``Tag`` instances, or
         strings::
@@ -20,6 +20,9 @@ playing around with the API.
             >>> apple.tags.all()
             []
             >>> apple.tags.add("red", "green", "fruit")
+
+        Use the `through_defaults` argument to specify values for your custom
+        `through` model, if needed.
 
     .. method:: remove(*tags)
 

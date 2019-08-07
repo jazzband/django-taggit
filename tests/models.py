@@ -184,6 +184,7 @@ class OfficialThroughModel(GenericTaggedItemBase):
     tag = models.ForeignKey(
         OfficialTag, related_name="tagged_items", on_delete=models.CASCADE
     )
+    extra_field = models.CharField(max_length=10)
 
     class Meta:
         unique_together = [["content_type", "object_id", "tag"]]
