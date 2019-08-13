@@ -22,7 +22,7 @@ playing around with the API.
             >>> apple.tags.add("red", "green", "fruit")
 
         Use the ``through_defaults`` argument to specify values for your custom
-        `through` model, if needed.
+        ``through`` model, if needed.
 
     .. method:: remove(*tags)
 
