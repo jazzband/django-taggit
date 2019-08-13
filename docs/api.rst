@@ -12,7 +12,7 @@ playing around with the API.
         information.
     :param blank: Controls whether this field is required.
 
-    .. method:: add(*tags, through_defaults={})
+    .. method:: add(*tags, through_defaults=None)
 
         This adds tags to an object. The tags can be either ``Tag`` instances, or
         strings::
