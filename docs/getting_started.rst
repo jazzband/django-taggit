@@ -24,6 +24,6 @@ And then to any model you want tagging on do the following::
 
 .. note::
 
-    If you want ``django-taggit`` to be **CASE INSENSITIVE** when looking up existing tags, you'll have to set to ``True`` the TAGGIT_CASE_INSENSITIVE setting (by default ``False``)::
+    If you want ``django-taggit`` to be **CASE-INSENSITIVE** when looking up existing tags, you'll have to set the TAGGIT_CASE_INSENSITIVE setting to ``True`` (``False`` by default)::
 
       TAGGIT_CASE_INSENSITIVE = True
