@@ -40,7 +40,7 @@ model named ``content_object``. Pass this intermediary model as the
 
 
     class TaggedFood(TaggedItemBase):
-        content_object = models.ForeignKey('Food')
+        content_object = models.ForeignKey('Food', on_delete=models.CASCADE)
 
     class Food(models.Model):
         # ... fields here
@@ -135,7 +135,8 @@ model named ``"tag"``:
 
         # Here is where you provide your custom Tag class.
         tag = models.ForeignKey(MyCustomTag,
-                                related_name="%(app_label)s_%(class)s_items")
+                                related_name="%(app_label)s_%(class)s_items",
+                                on_delete=models.CASCADE)
 
 
     class Food(models.Model):
