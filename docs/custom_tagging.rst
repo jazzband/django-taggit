@@ -134,9 +134,11 @@ model named ``"tag"``:
         # example Food and Drink.
 
         # Here is where you provide your custom Tag class.
-        tag = models.ForeignKey(MyCustomTag,
-                                related_name="%(app_label)s_%(class)s_items",
-                                on_delete=models.CASCADE)
+        tag = models.ForeignKey(
+            MyCustomTag,
+            on_delete=models.CASCADE,
+            related_name="%(app_label)s_%(class)s_items",
+        )
 
 
     class Food(models.Model):

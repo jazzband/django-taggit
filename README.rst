@@ -25,6 +25,7 @@ to abide by the `Contributor Code of Conduct
 
     from taggit.managers import TaggableManager
 
+
     class Food(models.Model):
         # ... fields here
 
@@ -33,7 +34,7 @@ to abide by the `Contributor Code of Conduct
 
 Then you can use the API like so:
 
-.. code:: python
+.. code:: pycon
 
     >>> apple = Food.objects.create(name="apple")
     >>> apple.tags.add("red", "green", "delicious")
