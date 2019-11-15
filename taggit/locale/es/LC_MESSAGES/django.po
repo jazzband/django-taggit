@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-22 03:32-0700\n"
+"POT-Creation-Date: 2016-05-10 19:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,51 +18,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps.py:7
-msgid "Taggit"
-msgstr ""
-
-#: forms.py:23
+#: forms.py:27
 msgid "Please provide a comma-separated list of tags."
 msgstr "Por favor introduzca una lista de etiquetas separadas por coma."
 
-#: managers.py:396 models.py:77
+#: managers.py:297 models.py:101
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: managers.py:397
+#: managers.py:298
 msgid "A comma-separated list of tags."
 msgstr "Una lista de etiquetas separadas por coma."
 
-#: models.py:16
+#: models.py:46
 msgid "Name"
 msgstr "Nombre"
 
-#: models.py:17
+#: models.py:47
 msgid "Slug"
 msgstr "Slug"
 
-#: models.py:76
+#: models.py:100
 msgid "Tag"
 msgstr "Etiqueta"
 
-#: models.py:83
+#: models.py:107
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s etiquetados con %(tag)s"
 
-#: models.py:128
+#: models.py:162
 msgid "Content type"
 msgstr "Tipo de contenido"
 
-#: models.py:158 models.py:165
+#: models.py:206 models.py:215
 msgid "Object id"
 msgstr "Id del objeto"
 
-#: models.py:173
+#: models.py:223
 msgid "Tagged Item"
 msgstr "Elemento etiquetado"
 
-#: models.py:174
+#: models.py:224
 msgid "Tagged Items"
 msgstr "Elementos etiquetados"

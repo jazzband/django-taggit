@@ -1,6 +1,25 @@
+from __future__ import unicode_literals
+
+from django import VERSION
 from django.conf import settings
+from django.utils import six
+from django.utils.encoding import force_text
 from django.utils.functional import wraps
 from django.utils.module_loading import import_string
+
+
+def _remote_field(field):
+    if VERSION < (1, 9):
+        return field.rel
+    else:
+        return field.remote_field
+
+
+def _related_model(remote_field):
+    if VERSION >= (1, 9):
+        return remote_field.model
+    else:
+        return remote_field.to
 
 
 def _parse_tags(tagstring):
@@ -17,11 +36,13 @@ def _parse_tags(tagstring):
     if not tagstring:
         return []
 
+    tagstring = force_text(tagstring)
+
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to
     # split on spaces.
-    if "," not in tagstring and '"' not in tagstring:
-        words = list(set(split_strip(tagstring, " ")))
+    if ',' not in tagstring and '"' not in tagstring:
+        words = list(set(split_strip(tagstring, ' ')))
         words.sort()
         return words
 
@@ -35,39 +56,39 @@ def _parse_tags(tagstring):
     i = iter(tagstring)
     try:
         while True:
-            c = next(i)
+            c = six.next(i)
             if c == '"':
                 if buffer:
-                    to_be_split.append("".join(buffer))
+                    to_be_split.append(''.join(buffer))
                     buffer = []
                 # Find the matching quote
                 open_quote = True
-                c = next(i)
+                c = six.next(i)
                 while c != '"':
                     buffer.append(c)
-                    c = next(i)
+                    c = six.next(i)
                 if buffer:
-                    word = "".join(buffer).strip()
+                    word = ''.join(buffer).strip()
                     if word:
                         words.append(word)
                     buffer = []
                 open_quote = False
             else:
-                if not saw_loose_comma and c == ",":
+                if not saw_loose_comma and c == ',':
                     saw_loose_comma = True
                 buffer.append(c)
     except StopIteration:
         # If we were parsing an open quote which was never closed treat
         # the buffer as unquoted.
         if buffer:
-            if open_quote and "," in buffer:
+            if open_quote and ',' in buffer:
                 saw_loose_comma = True
-            to_be_split.append("".join(buffer))
+            to_be_split.append(''.join(buffer))
     if to_be_split:
         if saw_loose_comma:
-            delimiter = ","
+            delimiter = ','
         else:
-            delimiter = " "
+            delimiter = ' '
         for chunk in to_be_split:
             words.extend(split_strip(chunk, delimiter))
     words = list(set(words))
@@ -75,7 +96,7 @@ def _parse_tags(tagstring):
     return words
 
 
-def split_strip(string, delimiter=","):
+def split_strip(string, delimiter=','):
     """
     Splits ``string`` on ``delimiter``, stripping each resulting string
     and returning a list of non-empty strings.
@@ -109,11 +130,11 @@ def _edit_string_for_tags(tags):
     names = []
     for tag in tags:
         name = tag.name
-        if "," in name or " " in name:
+        if ',' in name or ' ' in name:
             names.append('"%s"' % name)
         else:
             names.append(name)
-    return ", ".join(sorted(names))
+    return ', '.join(sorted(names))
 
 
 def require_instance_manager(func):
@@ -122,20 +143,20 @@ def require_instance_manager(func):
         if self.instance is None:
             raise TypeError("Can't call %s with a non-instance manager" % func.__name__)
         return func(self, *args, **kwargs)
-
     return inner
 
 
 def get_func(key, default):
-    func_path = getattr(settings, key, None)
-    return default if func_path is None else import_string(func_path)
+    func_path = getattr(settings, key, default)
+    return import_string(func_path)
 
 
 def parse_tags(tagstring):
-    func = get_func("TAGGIT_TAGS_FROM_STRING", _parse_tags)
+    func = get_func('TAGGIT_TAGS_FROM_STRING', 'taggit.utils._parse_tags')
     return func(tagstring)
 
 
 def edit_string_for_tags(tags):
-    func = get_func("TAGGIT_STRING_FROM_TAGS", _edit_string_for_tags)
+    func = get_func('TAGGIT_STRING_FROM_TAGS',
+                    'taggit.utils._edit_string_for_tags')
     return func(tags)

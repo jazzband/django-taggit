@@ -1,20 +1,9 @@
 django-taggit
 =============
-
-.. image:: https://jazzband.co/static/img/badge.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-
-.. image:: https://travis-ci.org/jazzband/django-taggit.svg?branch=master
-    :target: https://travis-ci.org/jazzband/django-taggit
-
-.. image:: https://codecov.io/gh/jazzband/django-taggit/coverage.svg?branch=master
-    :target: https://codecov.io/gh/jazzband/django-taggit?branch=master
-
-This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree
-to abide by the `Contributor Code of Conduct
-<https://jazzband.co/about/conduct>`_ and follow the `guidelines
-<https://jazzband.co/about/guidelines>`_.
+.. image:: https://travis-ci.org/alex/django-taggit.svg?branch=master
+    :target: https://travis-ci.org/alex/django-taggit
+.. image:: https://codecov.io/gh/alex/django-taggit/coverage.svg?branch=master
+    :target: https://codecov.io/gh/alex/django-taggit?branch=master
 
 ``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
 ``INSTALLED_APPS`` then just add a TaggableManager to your model and go:
@@ -25,7 +14,6 @@ to abide by the `Contributor Code of Conduct
 
     from taggit.managers import TaggableManager
 
-
     class Food(models.Model):
         # ... fields here
 
@@ -34,7 +22,7 @@ to abide by the `Contributor Code of Conduct
 
 Then you can use the API like so:
 
-.. code:: pycon
+.. code:: python
 
     >>> apple = Food.objects.create(name="apple")
     >>> apple.tags.add("red", "green", "delicious")
@@ -48,8 +36,8 @@ Then you can use the API like so:
 
 Tags will show up for you automatically in forms and the admin.
 
-``django-taggit`` requires Django 1.11 or greater.
+``django-taggit`` requires Django 1.8 or greater.
 
 For more info check out the `documentation <https://django-taggit.readthedocs.io/en/latest/>`_.  And for questions about usage or
 development you can contact the
-`mailinglist <https://groups.google.com/group/django-taggit>`_.
+`mailinglist <http://groups.google.com/group/django-taggit>`_.

@@ -1,3 +1,3 @@
-VERSION = (1, 1, 0)
+VERSION = (0, 22, 2)
 
-default_app_config = "taggit.apps.TaggitAppConfig"
+default_app_config = 'taggit.apps.TaggitAppConfig'
