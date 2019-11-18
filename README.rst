@@ -50,6 +50,7 @@ Tags will show up for you automatically in forms and the admin.
 
 ``django-taggit`` requires Django 1.11 or greater.
 
-For more info check out the `documentation <https://django-taggit.readthedocs.io/en/latest/>`_.  And for questions about usage or
-development you can contact the
-`mailinglist <https://groups.google.com/group/django-taggit>`_.
+For more info check out the `documentation
+<https://django-taggit.readthedocs.io/>`_. And for questions about usage or
+development you can contact the `mailinglist
+<https://groups.google.com/group/django-taggit>`_.
