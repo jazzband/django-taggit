@@ -1,11 +1,16 @@
 Changelog
 =========
 
-UNRELEASED
-~~~~~~~~~~
+1.2.0 (2019-12-03)
+~~~~~~~~~~--------
 
-* Moved TaggedItemBase.tags_for() to ItemBase.
-* Removed support for end-of-life Django 2.0.
+* **Removed** support for end-of-life Django 2.0 and 2.1.
+* Added support for Django 3.0.
+* Added support for Python 3.8.
+* Moved ``TaggedItemBase.tags_for()`` to ItemBase.
+* Replaced reference to removed Django's ``.virtual_fields`` with
+  ``.private_field``.
+* Added ``TextareaTagWidget``.
 
 1.1.0 (2019-03-22)
 ~~~~~~~~~~~~~~~~~~
