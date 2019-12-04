@@ -2,7 +2,7 @@ Changelog
 =========
 
 1.2.0 (2019-12-03)
-~~~~~~~~~~--------
+~~~~~~~~~~~~~~~~~~
 
 * **Removed** support for end-of-life Django 2.0 and 2.1.
 * Added support for Django 3.0.
