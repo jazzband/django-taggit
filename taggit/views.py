@@ -10,7 +10,7 @@ def tagged_object_list(request, slug, queryset, **kwargs):
         queryset = queryset()
     kwargs["slug"] = slug
     tag_list_view = type(
-        str("TagListView"),
+        "TagListView",
         (TagListMixin, ListView),
         {"model": queryset.model, "queryset": queryset},
     )

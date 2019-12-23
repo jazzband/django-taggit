@@ -47,7 +47,7 @@ class ExtraJoinRestriction:
         self.alias = change_map.get(self.alias, self.alias)
 
     def clone(self):
-        return self.__class__(self.alias, self.col, self.content_types[:])
+        return type(self)(self.alias, self.col, self.content_types[:])
 
 
 class _TaggableManager(models.Manager):
@@ -73,7 +73,7 @@ class _TaggableManager(models.Manager):
             raise ValueError("Custom queryset can't be used for this lookup.")
 
         instance = instances[0]
-        db = self._db or router.db_for_read(instance.__class__, instance=instance)
+        db = self._db or router.db_for_read(type(instance), instance=instance)
 
         fieldname = (
             "object_id"

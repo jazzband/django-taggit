@@ -28,6 +28,9 @@ from .models import (
     DirectFood,
     DirectHousePet,
     DirectPet,
+    DirectTrackedFood,
+    DirectTrackedHousePet,
+    DirectTrackedPet,
     Food,
     HousePet,
     Movie,
@@ -43,6 +46,8 @@ from .models import (
     TaggedCustomPK,
     TaggedCustomPKFood,
     TaggedFood,
+    TaggedTrackedFood,
+    TrackedTag,
     UUIDFood,
     UUIDTag,
 )
@@ -504,7 +509,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         food_instance = self.food_model()
         msg = (
             "%s objects need to have a primary key value before you can access "
-            "their tags." % self.food_model().__class__.__name__
+            "their tags." % type(self.food_model()).__name__
         )
         with self.assertRaisesMessage(ValueError, msg):
             food_instance.tags.all()
@@ -746,6 +751,14 @@ class TaggableManagerDirectTestCase(TaggableManagerTestCase):
     taggeditem_model = TaggedFood
 
 
+class TaggableManagerDirectTrackedTestCase(TaggableManagerTestCase):
+    food_model = DirectTrackedFood
+    pet_model = DirectTrackedPet
+    housepet_model = DirectTrackedHousePet
+    taggeditem_model = TaggedTrackedFood
+    tag_model = TrackedTag
+
+
 class TaggableManagerDirectCustomPKTestCase(TaggableManagerTestCase):
     food_model = DirectCustomPKFood
     pet_model = DirectCustomPKPet
@@ -837,10 +850,10 @@ class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     custom_manager_model = CustomManager
 
     def test_default_manager(self):
-        self.assertEqual(self.food_model.tags.__class__, _TaggableManager)
+        self.assertIs(type(self.food_model.tags), _TaggableManager)
 
     def test_custom_manager(self):
-        self.assertEqual(self.custom_manager_model.tags.__class__, CustomManager.Foo)
+        self.assertIs(type(self.custom_manager_model.tags), CustomManager.Foo)
 
 
 class TaggableFormTestCase(BaseTaggingTestCase):

@@ -112,6 +112,36 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="DirectTrackedFood",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+            ],
+        ),
+        migrations.CreateModel(
+            name="DirectTrackedPet",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+            ],
+        ),
+        migrations.CreateModel(
             name="BlankTagModel",
             fields=[
                 (
@@ -289,6 +319,35 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="TrackedTag",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, unique=True, verbose_name="Name"),
+                ),
+                (
+                    "slug",
+                    models.SlugField(max_length=100, unique=True, verbose_name="Slug"),
+                ),
+                ("created_by", models.CharField(max_length=50)),
+                ("created_dt", models.DateTimeField(auto_now_add=True)),
+                (
+                    "description",
+                    models.TextField(blank=True, max_length=255, null=True),
+                ),
+            ],
+            options={"abstract": False},
+        ),
+        migrations.CreateModel(
             name="Parent",
             fields=[
                 (
@@ -435,6 +494,46 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 )
+            ],
+            options={"abstract": False},
+        ),
+        migrations.CreateModel(
+            name="TaggedTrackedFood",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "content_object",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="tests.DirectTrackedFood",
+                    ),
+                ),
+                ("created_by", models.CharField(max_length=50)),
+                ("created_dt", models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name="TaggedTrackedPet",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_by", models.CharField(max_length=50)),
+                ("created_dt", models.DateTimeField(auto_now_add=True)),
             ],
             options={"abstract": False},
         ),
@@ -703,6 +802,24 @@ class Migration(migrations.Migration):
             ],
             bases=("tests.officialpet",),
         ),
+        migrations.CreateModel(
+            name="DirectTrackedHousePet",
+            fields=[
+                (
+                    "directtrackedpet_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="tests.DirectTrackedPet",
+                    ),
+                ),
+                ("trained", models.BooleanField(default=False)),
+            ],
+            bases=("tests.directtrackedpet",),
+        ),
         migrations.AddField(
             model_name="uuidfood",
             name="tags",
@@ -763,6 +880,31 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="tests_taggedfood_items",
                 to="taggit.Tag",
+            ),
+        ),
+        migrations.AddField(
+            model_name="taggedtrackedpet",
+            name="content_object",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="tests.DirectTrackedPet"
+            ),
+        ),
+        migrations.AddField(
+            model_name="taggedtrackedpet",
+            name="tag",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tests_taggedtrackedpet_items",
+                to="tests.TrackedTag",
+            ),
+        ),
+        migrations.AddField(
+            model_name="taggedtrackedfood",
+            name="tag",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tests_taggedtrackedfood_items",
+                to="tests.TrackedTag",
             ),
         ),
         migrations.AddField(
@@ -946,6 +1088,26 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AddField(
+            model_name="directtrackedpet",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                through="tests.TaggedTrackedPet",
+                to="tests.TrackedTag",
+                verbose_name="Tags",
+            ),
+        ),
+        migrations.AddField(
+            model_name="directtrackedfood",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                through="tests.TaggedTrackedFood",
+                to="tests.TrackedTag",
+                verbose_name="Tags",
+            ),
+        ),
+        migrations.AddField(
             model_name="directcustompkpet",
             name="tags",
             field=taggit.managers.TaggableManager(
@@ -1007,6 +1169,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="taggedfood", unique_together={("content_object", "tag")}
+        ),
+        migrations.AlterUniqueTogether(
+            name="taggedtrackedfood", unique_together={("content_object", "tag")}
         ),
         migrations.AlterUniqueTogether(
             name="taggedcustompkpet", unique_together={("content_object", "tag")}

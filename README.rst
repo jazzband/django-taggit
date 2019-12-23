@@ -25,6 +25,7 @@ to abide by the `Contributor Code of Conduct
 
     from taggit.managers import TaggableManager
 
+
     class Food(models.Model):
         # ... fields here
 
@@ -33,7 +34,7 @@ to abide by the `Contributor Code of Conduct
 
 Then you can use the API like so:
 
-.. code:: python
+.. code:: pycon
 
     >>> apple = Food.objects.create(name="apple")
     >>> apple.tags.add("red", "green", "delicious")
@@ -49,6 +50,7 @@ Tags will show up for you automatically in forms and the admin.
 
 ``django-taggit`` requires Django 1.11 or greater.
 
-For more info check out the `documentation <https://django-taggit.readthedocs.io/en/latest/>`_.  And for questions about usage or
-development you can contact the
-`mailinglist <https://groups.google.com/group/django-taggit>`_.
+For more info check out the `documentation
+<https://django-taggit.readthedocs.io/>`_. And for questions about usage or
+development you can contact the `mailinglist
+<https://groups.google.com/group/django-taggit>`_.

@@ -48,9 +48,9 @@ class TagBase(models.Model):
                 pass
             # Now try to find existing slugs with similar names
             slugs = set(
-                self.__class__._default_manager.filter(
-                    slug__startswith=self.slug
-                ).values_list("slug", flat=True)
+                type(self)
+                ._default_manager.filter(slug__startswith=self.slug)
+                .values_list("slug", flat=True)
             )
             i = 1
             while True:
@@ -102,15 +102,6 @@ class ItemBase(models.Model):
     def lookup_kwargs(cls, instance):
         return {"content_object": instance}
 
-
-class TaggedItemBase(ItemBase):
-    tag = models.ForeignKey(
-        Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
-    )
-
-    class Meta:
-        abstract = True
-
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         kwargs = extra_filters or {}
@@ -119,6 +110,15 @@ class TaggedItemBase(ItemBase):
             return cls.tag_model().objects.filter(**kwargs)
         kwargs.update({"%s__content_object__isnull" % cls.tag_relname(): False})
         return cls.tag_model().objects.filter(**kwargs).distinct()
+
+
+class TaggedItemBase(ItemBase):
+    tag = models.ForeignKey(
+        Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
 
 
 class CommonGenericTaggedItemBase(ItemBase):
