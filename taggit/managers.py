@@ -207,11 +207,7 @@ class _TaggableManager(models.Manager):
         else:
             # If str_tags has 0 elements Django actually optimizes that to not
             # do a query.  Malcolm is very smart.
-            existing = (
-                self.through.tag_model()
-                ._default_manager.using(db)
-                .filter(name__in=str_tags, **tag_kwargs)
-            )
+            existing = manager.filter(name__in=str_tags, **tag_kwargs)
 
             tags_to_create = str_tags - set(t.name for t in existing)
 
