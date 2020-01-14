@@ -1,26 +1,20 @@
-from __future__ import unicode_literals
-
-from django import VERSION
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.db import IntegrityError, models, transaction
-from django.db.models.query import QuerySet
-from django.template.defaultfilters import slugify as default_slugify
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
+from django.db import IntegrityError, models, router, transaction
+from django.utils.text import slugify
+from django.utils.translation import gettext, gettext_lazy as _
 
 try:
     from unidecode import unidecode
 except ImportError:
+
     def unidecode(tag):
         return tag
 
 
-@python_2_unicode_compatible
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_('Name'), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_('Slug'), unique=True, max_length=100)
+    name = models.CharField(verbose_name=_("Name"), unique=True, max_length=100)
+    slug = models.SlugField(verbose_name=_("Slug"), unique=True, max_length=100)
 
     def __str__(self):
         return self.name
@@ -37,9 +31,9 @@ class TagBase(models.Model):
     def save(self, *args, **kwargs):
         if self._state.adding and not self.slug:
             self.slug = self.slugify(self.name)
-            from django.db import router
             using = kwargs.get("using") or router.db_for_write(
-                type(self), instance=self)
+                type(self), instance=self
+            )
             # Make sure we write to the same db for all attempted writes,
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
@@ -48,15 +42,15 @@ class TagBase(models.Model):
             # most cases ;)
             try:
                 with transaction.atomic(using=using):
-                    res = super(TagBase, self).save(*args, **kwargs)
+                    res = super().save(*args, **kwargs)
                 return res
             except IntegrityError:
                 pass
             # Now try to find existing slugs with similar names
             slugs = set(
-                self.__class__._default_manager
-                .filter(slug__startswith=self.slug)
-                .values_list('slug', flat=True)
+                type(self)
+                ._default_manager.filter(slug__startswith=self.slug)
+                .values_list("slug", flat=True)
             )
             i = 1
             while True:
@@ -65,13 +59,13 @@ class TagBase(models.Model):
                     self.slug = slug
                     # We purposely ignore concurrecny issues here for now.
                     # (That is, till we found a nice solution...)
-                    return super(TagBase, self).save(*args, **kwargs)
+                    return super().save(*args, **kwargs)
                 i += 1
         else:
-            return super(TagBase, self).save(*args, **kwargs)
+            return super().save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = default_slugify(unidecode(tag))
+        slug = slugify(unidecode(tag))
         if i is not None:
             slug += "_%d" % i
         return slug
@@ -81,15 +75,14 @@ class Tag(TagBase):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
-        app_label = 'taggit'
+        app_label = "taggit"
 
 
-@python_2_unicode_compatible
 class ItemBase(models.Model):
     def __str__(self):
-        return ugettext("%(object)s tagged with %(tag)s") % {
+        return gettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
-            "tag": self.tag
+            "tag": self.tag,
         }
 
     class Meta:
@@ -97,53 +90,43 @@ class ItemBase(models.Model):
 
     @classmethod
     def tag_model(cls):
-        field = cls._meta.get_field('tag')
-        return field.remote_field.model if VERSION >= (1, 9) else field.rel.to
+        field = cls._meta.get_field("tag")
+        return field.remote_field.model
 
     @classmethod
     def tag_relname(cls):
-        field = cls._meta.get_field('tag')
-        return field.remote_field.related_name if VERSION >= (1, 9) else field.rel.related_name
+        field = cls._meta.get_field("tag")
+        return field.remote_field.related_name
 
     @classmethod
     def lookup_kwargs(cls, instance):
-        return {
-            'content_object': instance
-        }
-
-    @classmethod
-    def bulk_lookup_kwargs(cls, instances):
-        return {
-            "content_object__in": instances,
-        }
-
-
-class TaggedItemBase(ItemBase):
-    tag = models.ForeignKey(Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE)
-
-    class Meta:
-        abstract = True
+        return {"content_object": instance}
 
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
         kwargs = extra_filters or {}
         if instance is not None:
-            kwargs.update({
-                '%s__content_object' % cls.tag_relname(): instance
-            })
+            kwargs.update({"%s__content_object" % cls.tag_relname(): instance})
             return cls.tag_model().objects.filter(**kwargs)
-        kwargs.update({
-            '%s__content_object__isnull' % cls.tag_relname(): False
-        })
+        kwargs.update({"%s__content_object__isnull" % cls.tag_relname(): False})
         return cls.tag_model().objects.filter(**kwargs).distinct()
+
+
+class TaggedItemBase(ItemBase):
+    tag = models.ForeignKey(
+        Tag, related_name="%(app_label)s_%(class)s_items", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        abstract = True
 
 
 class CommonGenericTaggedItemBase(ItemBase):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        verbose_name=_('Content type'),
-        related_name="%(app_label)s_%(class)s_tagged_items"
+        verbose_name=_("Content type"),
+        related_name="%(app_label)s_%(class)s_tagged_items",
     )
     content_object = GenericForeignKey()
 
@@ -153,47 +136,34 @@ class CommonGenericTaggedItemBase(ItemBase):
     @classmethod
     def lookup_kwargs(cls, instance):
         return {
-            'object_id': instance.pk,
-            'content_type': ContentType.objects.get_for_model(instance)
+            "object_id": instance.pk,
+            "content_type": ContentType.objects.get_for_model(instance),
         }
-
-    @classmethod
-    def bulk_lookup_kwargs(cls, instances):
-        if isinstance(instances, QuerySet):
-            # Can do a real object_id IN (SELECT ..) query.
-            return {
-                "object_id__in": instances,
-                "content_type": ContentType.objects.get_for_model(instances.model),
-            }
-        else:
-            # TODO: instances[0], can we assume there are instances.
-            return {
-                "object_id__in": [instance.pk for instance in instances],
-                "content_type": ContentType.objects.get_for_model(instances[0]),
-            }
 
     @classmethod
     def tags_for(cls, model, instance=None, **extra_filters):
-        ct = ContentType.objects.get_for_model(model)
+        tag_relname = cls.tag_relname()
+        model = model._meta.concrete_model
         kwargs = {
-            "%s__content_type" % cls.tag_relname(): ct
+            "%s__content_type__app_label" % tag_relname: model._meta.app_label,
+            "%s__content_type__model" % tag_relname: model._meta.model_name,
         }
         if instance is not None:
-            kwargs["%s__object_id" % cls.tag_relname()] = instance.pk
+            kwargs["%s__object_id" % tag_relname] = instance.pk
         if extra_filters:
             kwargs.update(extra_filters)
         return cls.tag_model().objects.filter(**kwargs).distinct()
 
 
 class GenericTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.IntegerField(verbose_name=_('Object id'), db_index=True)
+    object_id = models.IntegerField(verbose_name=_("Object id"), db_index=True)
 
     class Meta:
         abstract = True
 
 
 class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.UUIDField(verbose_name=_('Object id'), db_index=True)
+    object_id = models.UUIDField(verbose_name=_("Object id"), db_index=True)
 
     class Meta:
         abstract = True
@@ -203,7 +173,6 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
-        app_label = 'taggit'
-        index_together = [
-            ["content_type", "object_id"],
-        ]
+        app_label = "taggit"
+        index_together = [["content_type", "object_id"]]
+        unique_together = [["content_type", "object_id", "tag"]]

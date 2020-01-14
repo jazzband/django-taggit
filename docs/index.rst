@@ -1,10 +1,10 @@
 Welcome to django-taggit's documentation!
 =========================================
 
-``django-taggit`` is a reusable Django application designed to making adding
+``django-taggit`` is a reusable Django application designed to make adding
 tagging to your project easy and fun.
 
-``django-taggit`` works with Django 1.8+ and Python 2.7-3.X.
+``django-taggit`` works with Django 1.11+ and Python 2.7 / 3.4+.
 
 .. toctree::
    :maxdepth: 2

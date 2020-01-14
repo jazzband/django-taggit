@@ -1,60 +1,49 @@
 language: python
-sudo: false
+cache: pip
+
 matrix:
   fast_finish: true
   include:
-    - python: 2.7
-      env: TOXENV=py27-1.8.x
-    - python: 3.3
-      env: TOXENV=py33-1.8.x
-    - python: 3.4
-      env: TOXENV=py34-1.8.x
+    - env: TOXENV=black
+    - env: TOXENV=flake8
+    - env: TOXENV=isort
+    - env: TOXENV=docs
     - python: 3.5
-      env: TOXENV=py35-1.8.x
-    - python: 2.7
-      env: TOXENV=py27-1.9.x
-    - python: 3.4
-      env: TOXENV=py34-1.9.x
-    - python: 3.5
-      env: TOXENV=py35-1.9.x
-    - python: 2.7
-      env: TOXENV=py27-1.10.x
-    - python: 3.4
-      env: TOXENV=py34-1.10.x
-    - python: 3.5
-      env: TOXENV=py35-1.10.x
-    - python: 2.7
-      env: TOXENV=py27-1.11.x
-    - python: 3.4
-      env: TOXENV=py34-1.11.x
-    - python: 3.5
-      env: TOXENV=py35-1.11.x
+      env: TOXENV=py35-django111
     - python: 3.6
-      env: TOXENV=py36-1.11.x
-    - python: 3.4
-      env: TOXENV=py34-2.0.x
+      env: TOXENV=py36-django111
+    - python: 3.7
+      env: TOXENV=py37-django111
     - python: 3.5
-      env: TOXENV=py35-2.0.x
+      env: TOXENV=py35-django22
     - python: 3.6
-      env: TOXENV=py36-2.0.x
-    - python: 3.4
-      env: TOXENV=py34-master
-    - python: 3.5
-      env: TOXENV=py35-master
+      env: TOXENV=py36-django22
+    - python: 3.7
+      env: TOXENV=py37-django22
+    - python: 3.8
+      env: TOXENV=py38-django22
     - python: 3.6
-      env: TOXENV=py36-master
+      env: TOXENV=py36-django30
+    - python: 3.7
+      env: TOXENV=py37-django30
+    - python: 3.8
+      env: TOXENV=py38-django30
+    - python: 3.6
+      env: TOXENV=py36-djangomaster
+    - python: 3.7
+      env: TOXENV=py37-djangomaster
+    - python: 3.8
+      env: TOXENV=py38-djangomaster
   allow_failures:
-    - env: TOXENV=py{34,35,36}-master
+    - env: TOXENV=py36-djangomaster
+    - env: TOXENV=py37-djangomaster
+    - env: TOXENV=py38-djangomaster
 
 install:
-  - pip install flake8 tox isort
-
-before_script:
-  - flake8 taggit
-  - python setup.py isort
+  - pip install tox
 
 script:
-  - tox -e $TOXENV
+  - tox
 
 after_success:
   - pip install codecov
