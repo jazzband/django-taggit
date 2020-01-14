@@ -118,6 +118,26 @@ class TagModelTestCase(BaseTaggingTestCase):
         self.assertIs(low < high, False)
 
 
+class CustomTagCreationTestCase(TestCase):
+    def test_model_manager_add(self):
+        apple = OfficialFood.objects.create(name="apple")
+
+        # let's add two official tags
+        apple.tags.add(
+            "foo", "bar", tag_kwargs={"official": True},
+        )
+
+        # and two unofficial ones
+        apple.tags.add(
+            "baz", "wow", tag_kwargs={"official": False},
+        )
+
+        # We should end up with 4 tags
+        self.assertEquals(apple.tags.count(), 4)
+        self.assertEquals(apple.tags.filter(official=True).count(), 2)
+        self.assertEquals(apple.tags.filter(official=False).count(), 2)
+
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
