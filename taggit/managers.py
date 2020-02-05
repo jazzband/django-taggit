@@ -189,36 +189,21 @@ class _TaggableManager(models.Manager):
 
         case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
         manager = self.through.tag_model()._default_manager.using(db)
+        existing = []
 
-        if case_insensitive:
-            # Some databases can do case-insensitive comparison with IN, which
-            # would be faster, but we can't rely on it or easily detect it.
-            existing = []
-            tags_to_create = []
-
-            for name in str_tags:
-                try:
-                    tag = manager.get(name__iexact=name)
-                    existing.append(tag)
-                except self.through.tag_model().DoesNotExist:
-                    tags_to_create.append(name)
-        else:
-            # If str_tags has 0 elements Django actually optimizes that to not
-            # do a query.  Malcolm is very smart.
-            existing = manager.filter(name__in=str_tags)
-            tags_to_create = str_tags - {t.name for t in existing}
+        # Some databases can do case-insensitive comparison with IN, which
+        # would be faster, but we can't rely on it or easily detect it.
+        for tag in str_tags:
+            tagname, lang_code = tag.rsplit(' ', maxsplit=1)
+            lang_code = lang_code.strip('()')
+            if case_insensitive:
+                _tag = manager.filter(name__iexact=tagname, language_code=lang_code).first()
+            else:
+                _tag = manager.filter(name=tagname, language_code=lang_code).first()
+            if _tag:
+                existing.append(_tag)
 
         tag_objs.update(existing)
-
-        for new_tag in tags_to_create:
-            if case_insensitive:
-                tag, created = manager.get_or_create(
-                    name__iexact=new_tag, defaults={"name": new_tag}
-                )
-            else:
-                tag, created = manager.get_or_create(name=new_tag)
-
-            tag_objs.add(tag)
 
         return tag_objs
 
@@ -252,13 +237,13 @@ class _TaggableManager(models.Manager):
             old_tag_strs = set(
                 self.through._default_manager.using(db)
                 .filter(**self._lookup_kwargs())
-                .values_list("tag__name", flat=True)
+                .values_list("tag__id", flat=True)
             )
 
             new_objs = []
             for obj in objs:
-                if obj.name in old_tag_strs:
-                    old_tag_strs.remove(obj.name)
+                if obj.id in old_tag_strs:
+                    old_tag_strs.remove(obj.id)
                 else:
                     new_objs.append(obj)
 
@@ -275,7 +260,7 @@ class _TaggableManager(models.Manager):
         qs = (
             self.through._default_manager.using(db)
             .filter(**self._lookup_kwargs())
-            .filter(tag__name__in=tags)
+            .filter(tag__id__in=tags)
         )
 
         old_ids = set(qs.values_list("tag_id", flat=True))

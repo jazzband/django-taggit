@@ -10,7 +10,7 @@ class TaggedItemInline(admin.StackedInline):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     inlines = [TaggedItemInline]
-    list_display = ["name", "slug"]
-    ordering = ["name", "slug"]
+    list_display = ["name", "slug", "language_code"]
+    ordering = ["name", "slug", "language_code"]
     search_fields = ["name"]
     prepopulated_fields = {"slug": ["name"]}

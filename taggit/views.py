@@ -1,4 +1,6 @@
+from dal import autocomplete
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
@@ -44,3 +46,18 @@ class TagListMixin:
             context["extra_context"] = {}
         context["extra_context"]["tag"] = self.tag
         return context
+
+
+class TagAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated() or (
+                not self.request.user.is_superuser and not self.request.user.has_perm('taggit.change_tag')):
+            return Tag.objects.none()
+
+        qs = Tag.objects.all()
+
+        if self.q:
+            qs = Tag.objects.filter(
+                Q(name__icontains=self.q) | Q(slug__icontains=self.q)).all()
+        return qs

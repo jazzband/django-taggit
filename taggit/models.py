@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
 from django.utils.text import slugify
 from django.utils.translation import gettext, gettext_lazy as _
+from django.conf import settings
 
 try:
     from unidecode import unidecode
@@ -13,11 +14,12 @@ except ImportError:
 
 
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_("Name"), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_("Slug"), unique=True, max_length=100)
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    slug = models.SlugField(verbose_name=_("Slug"), max_length=100)
+    language_code = models.CharField(verbose_name=_('Language code'), max_length=255, default=settings.LANGUAGE_CODE, choices=list(map(lambda cou: (cou['code'], cou['code']), settings.PARLER_LANGUAGES[1])))
 
     def __str__(self):
-        return self.name
+        return "{} ({})".format(self.name, self.language_code)
 
     def __gt__(self, other):
         return self.name.lower() > other.name.lower()
@@ -76,6 +78,7 @@ class Tag(TagBase):
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
         app_label = "taggit"
+        unique_together = (("name", "language_code",), ("slug", "language_code",),)
 
 
 class ItemBase(models.Model):
