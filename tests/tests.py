@@ -49,7 +49,10 @@ from .models import (
     TaggedTrackedFood,
     TrackedTag,
     UUIDFood,
+    UUIDHousePet,
+    UUIDPet,
     UUIDTag,
+    UUIDTaggedItem,
 )
 
 from taggit.managers import TaggableManager, _TaggableManager
@@ -677,13 +680,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("green")
         apple.tags.add("red")
-        self.assertEqual(list(apple.tags.names()), ["green", "red"])
+        self.assertEqual(sorted(list(apple.tags.names())), ["green", "red"])
 
     def test_slugs_method(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("green and juicy")
         apple.tags.add("red")
-        self.assertEqual(list(apple.tags.slugs()), ["green-and-juicy", "red"])
+        self.assertEqual(sorted(list(apple.tags.slugs())), ["green-and-juicy", "red"])
 
     def test_serializes(self):
         apple = self.food_model.objects.create(name="apple")
@@ -790,6 +793,19 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
 
     def test_require_pk(self):
         # With a CharField pk, pk is never None. So taggit has no way to tell
+        # if the instance is saved or not.
+        pass
+
+
+class TaggableManagerUUIDTestCase(TaggableManagerTestCase):
+    food_model = UUIDFood
+    pet_model = UUIDPet
+    housepet_model = UUIDHousePet
+    taggeditem_model = UUIDTaggedItem
+    tag_model = UUIDTag
+
+    def test_require_pk(self):
+        # With a UUIDField pk, pk is never None. So taggit has no way to tell
         # if the instance is saved or not.
         pass
 
