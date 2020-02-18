@@ -114,7 +114,7 @@ class _TaggableManager(models.Manager):
                 value = attrgetter("_prefetch_related_val")(v)
                 if value is not None and not isinstance(value, uuid.UUID):
                     input_form = "int" if isinstance(value, int) else "hex"
-                    return uuid.UUID(**{input_form: value})
+                    value = uuid.UUID(**{input_form: value})
                 return value
 
             rel_obj_attr = uuid_rel_obj_attr
