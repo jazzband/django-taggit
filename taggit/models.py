@@ -57,7 +57,7 @@ class TagBase(models.Model):
                 slug = self.slugify(self.name, i)
                 if slug not in slugs:
                     self.slug = slug
-                    # We purposely ignore concurrecny issues here for now.
+                    # We purposely ignore concurrency issues here for now.
                     # (That is, till we found a nice solution...)
                     return super().save(*args, **kwargs)
                 i += 1
