@@ -1,3 +1,4 @@
+import uuid
 from operator import attrgetter
 
 from django import VERSION
@@ -17,7 +18,11 @@ from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
 from taggit.forms import TagField
-from taggit.models import CommonGenericTaggedItemBase, TaggedItem
+from taggit.models import (
+    CommonGenericTaggedItemBase,
+    GenericUUIDTaggedItemBase,
+    TaggedItem,
+)
 from taggit.utils import require_instance_manager
 
 
@@ -102,10 +107,24 @@ class _TaggableManager(models.Manager):
                 }
             )
         )
+
+        if issubclass(self.through, GenericUUIDTaggedItemBase):
+
+            def uuid_rel_obj_attr(v):
+                value = attrgetter("_prefetch_related_val")(v)
+                if value is not None and not isinstance(value, uuid.UUID):
+                    input_form = "int" if isinstance(value, int) else "hex"
+                    value = uuid.UUID(**{input_form: value})
+                return value
+
+            rel_obj_attr = uuid_rel_obj_attr
+        else:
+            rel_obj_attr = attrgetter("_prefetch_related_val")
+
         if VERSION < (2, 0):
             return (
                 qs,
-                attrgetter("_prefetch_related_val"),
+                rel_obj_attr,
                 lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name,
@@ -113,7 +132,7 @@ class _TaggableManager(models.Manager):
         else:
             return (
                 qs,
-                attrgetter("_prefetch_related_val"),
+                rel_obj_attr,
                 lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name,
