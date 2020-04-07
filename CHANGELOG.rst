@@ -1,6 +1,14 @@
 Changelog
 =========
 
+UNRELEASED
+~~~~~~~~~~
+
+* Model and field ``verbose_name`` and ``verbose_name_plural`` attributes are
+  now lowercase. This simplifies using the name in the middle of a sentence.
+  When used as a header, title, or at the beginning of a sentence, a text
+  transformed can be used to adjust the case.
+
 1.2.0 (2019-12-03)
 ~~~~~~~~~~~~~~~~~~
 
