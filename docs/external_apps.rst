@@ -35,3 +35,5 @@ add it to this list, and send a pull request.
  * `django-taggit-templatetags <https://github.com/feuervogel/django-taggit-templatetags>`_:
    Provides several templatetags, including one
    for tag clouds, to expose various ``taggit`` APIs directly to templates.
+ * `django-taggit-bulk <https://github.com/nnseva/django-taggit-bulk>`_:
+   An admin action for the bulk tagging from the model  admin instance list view.
