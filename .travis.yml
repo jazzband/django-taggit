@@ -17,7 +17,8 @@ jobs:
   allow_failures:
     - env: DJANGO=master
   include:
-    - env: TOXENV=black
+    - python: 3.8
+      env: TOXENV=black
     - env: TOXENV=flake8
     - env: TOXENV=isort
     - env: TOXENV=docs
@@ -40,8 +41,7 @@ install:
   - pip install tox-travis codecov
 
 script:
-  - tox
-
+- tox
 after_success:
   - codecov -e TOXENV CI TRAVIS_BUILD_ID TRAVIS TRAVIS_BRANCH TRAVIS_JOB_NUMBER TRAVIS_PULL_REQUEST TRAVIS_JOB_ID TRAVIS_REPO_SLUG TRAVIS_COMMIT
 
