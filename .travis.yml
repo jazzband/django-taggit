@@ -6,22 +6,18 @@ python:
   - 3.6
   - 3.7
   - 3.8
-env:
-  - DJANGO=1.11
-  - DJANGO=2.2
-  - DJANGO=3.0
-  - DJANGO=master
 
 jobs:
   fast_finish: true
-  allow_failures:
-    - env: DJANGO=master
   include:
     - python: 3.8
       env: TOXENV=black
-    - env: TOXENV=flake8
-    - env: TOXENV=isort
-    - env: TOXENV=docs
+    - python: 3.8
+      env: TOXENV=flake8
+    - python: 3.8
+      env: TOXENV=isort
+    - python: 3.8
+      env: TOXENV=docs
 
     - stage: deploy
       env:
@@ -33,10 +29,10 @@ jobs:
         distribution: sdist bdist_wheel
         server: https://jazzband.co/projects/django-taggit/upload
         password:
-            secure: ky+UZnCbKb213Ohqnv2uEfef3vXv1JoAaG5vCjR6Xspf+Ahz4F/4oKe5Noo/xxnRs1x8bjDfYFIbQVQYKyM95dJ7VVQWtrwjId+NMCE9K36l1qC199eCUxkYd/jPg6iM8no4gXa3AOyam+j2yMhAgqfM1YKMNFW7j1kR+T7cz4A=
+          secure: ky+UZnCbKb213Ohqnv2uEfef3vXv1JoAaG5vCjR6Xspf+Ahz4F/4oKe5Noo/xxnRs1x8bjDfYFIbQVQYKyM95dJ7VVQWtrwjId+NMCE9K36l1qC199eCUxkYd/jPg6iM8no4gXa3AOyam+j2yMhAgqfM1YKMNFW7j1kR+T7cz4A=
         on:
-            tags: true
-            repo: jazzband/django-taggit
+          tags: true
+          repo: jazzband/django-taggit
 install:
   - pip install tox-travis codecov
 
