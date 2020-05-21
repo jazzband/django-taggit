@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (2020-05-19)
+1.3.0 (2020-05-19)
 ~~~~~~~~~~~~~~~~~~
 
 * Model and field ``verbose_name`` and ``verbose_name_plural`` attributes are
@@ -9,7 +9,9 @@ Changelog
   When used as a header, title, or at the beginning of a sentence, a text
   transformed can be used to adjust the case.
 * Fix prefetch_related when using UUIDTaggedItem.
-* Allow for passing in extra constructor parameters when using ``TaggableManager.add``. This is especially useful when using custom tag models.
+* Allow for passing in extra constructor parameters when using
+  ``TaggableManager.add``. This is especially useful when using custom
+  tag models.
 
 1.2.0 (2019-12-03)
 ~~~~~~~~~~~~~~~~~~
