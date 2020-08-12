@@ -14,7 +14,7 @@ model, or ``Tag`` model.
 
 Note: Including 'taggit' in ``settings.py`` will create the default ``django-taggit`` 
 and "through model" models. If you would like to use your own models, you will 
-need to remove 'taggit' from ``settings.py``.
+need to remove 'taggit' from ``settings.py``'s INSTALLED_APPS list.
 
 To change the behavior there are a number of classes you can subclass to obtain
 different behavior:
