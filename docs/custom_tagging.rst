@@ -12,7 +12,9 @@ want to store additional data about a tag, such as whether it is official.  In
 these cases ``django-taggit`` makes it easy to substitute your own through
 model, or ``Tag`` model.
 
-Note: You will need to remove 'taggit' from `settings.py` if you do not want to create the default tables.
+Note: Including 'taggit' in ``settings.py`` will create the default ``django-taggit`` 
+and "through model" models. If you would like to use your own models, you will 
+need to remove 'taggit' from ``settings.py``.
 
 To change the behavior there are a number of classes you can subclass to obtain
 different behavior:
