@@ -7,6 +7,11 @@ from django.db import IntegrityError, connection, models
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
+from taggit.managers import TaggableManager, _TaggableManager
+from taggit.models import Tag, TaggedItem
+from taggit.utils import edit_string_for_tags, parse_tags
+from taggit.views import tagged_object_list
+
 from .forms import (
     BlankTagForm,
     CustomPKFoodForm,
@@ -54,11 +59,6 @@ from .models import (
     UUIDTag,
     UUIDTaggedItem,
 )
-
-from taggit.managers import TaggableManager, _TaggableManager
-from taggit.models import Tag, TaggedItem
-from taggit.utils import edit_string_for_tags, parse_tags
-from taggit.views import tagged_object_list
 
 
 class BaseTaggingTestCase(TestCase):
