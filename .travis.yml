@@ -7,6 +7,10 @@ python:
   - 3.7
   - 3.8
 
+arch:
+  - ppc64le
+  - amd64
+
 jobs:
   fast_finish: true
   include:
@@ -17,6 +21,19 @@ jobs:
     - python: 3.8
       env: TOXENV=isort
     - python: 3.8
+      env: TOXENV=docs
+      #Adding jobs for ppc64le architecture
+    - python: 3.8
+      arch: ppc64le
+      env: TOXENV=black
+    - python: 3.8
+      arch: ppc64le
+      env: TOXENV=flake8
+    - python: 3.8
+      arch: ppc64le
+      env: TOXENV=isort
+    - python: 3.8
+      arch: ppc64le
       env: TOXENV=docs
 
     - stage: deploy
@@ -35,6 +52,9 @@ jobs:
           repo: jazzband/django-taggit
 install:
   - pip install tox-travis codecov
+
+before_script:
+  - if [[ "$TRAVIS_CPU_ARCH" == "ppc64le" ]]; then  sudo chown -R $USER:$GROUP ~/.cache/pip/wheels; fi
 
 script:
 - tox
