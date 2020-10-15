@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
             options={"ordering": ["created_at"]},
         ),
         migrations.AlterModelOptions(
-            name="uuidfood", options={"ordering": ["created_at"]},
+            name="uuidfood", options={"ordering": ["created_at"]}
         ),
         migrations.AddField(
             model_name="blanktagmodel",
