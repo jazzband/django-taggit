@@ -126,14 +126,10 @@ class CustomTagCreationTestCase(TestCase):
         apple = OfficialFood.objects.create(name="apple")
 
         # let's add two official tags
-        apple.tags.add(
-            "foo", "bar", tag_kwargs={"official": True},
-        )
+        apple.tags.add("foo", "bar", tag_kwargs={"official": True})
 
         # and two unofficial ones
-        apple.tags.add(
-            "baz", "wow", tag_kwargs={"official": False},
-        )
+        apple.tags.add("baz", "wow", tag_kwargs={"official": False})
 
         # We should end up with 4 tags
         self.assertEquals(apple.tags.count(), 4)
