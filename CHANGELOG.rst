@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Unreleased
+~~~~~~~~~~
+
+* Added support for Python 3.9.
+
+* Dropped support for Python 3.5 and Django 1.11.
+
 1.3.0 (2020-05-19)
 ~~~~~~~~~~~~~~~~~~
 
