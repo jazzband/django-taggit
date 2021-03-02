@@ -387,8 +387,9 @@ class _TaggableManager(models.Manager):
                     % remote_field.field_name: [r["content_object"] for r in qs]
                 }
             )
+            actual_remote_field_name = f.target_field.get_attname()
             for obj in objs:
-                items[(getattr(obj, remote_field.field_name),)] = obj
+                items[(getattr(obj, actual_remote_field_name),)] = obj
         else:
             preload = {}
             for result in qs:
