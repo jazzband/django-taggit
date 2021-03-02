@@ -32,6 +32,21 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name="BaseFood",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+            ],
+        ),
+        migrations.CreateModel(
             name="CustomManager",
             fields=[
                 (
@@ -185,6 +200,23 @@ class Migration(migrations.Migration):
                 )
             ],
             options={"abstract": False},
+        ),
+        migrations.CreateModel(
+            name="MultiInheritanceLazyResolutionFoodTag",
+            fields=[
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                )
+            ],
+            options={
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="MultipleTags",
@@ -784,6 +816,23 @@ class Migration(migrations.Migration):
             bases=("tests.pet",),
         ),
         migrations.CreateModel(
+            name="MultiInheritanceFood",
+            fields=[
+                (
+                    "basefood_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="tests.BaseFood",
+                    ),
+                )
+            ],
+            bases=("tests.basefood",),
+        ),
+        migrations.CreateModel(
             name="OfficialHousePet",
             fields=[
                 (
@@ -882,6 +931,24 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AddField(
+            model_name="multiinheritancelazyresolutionfoodtag",
+            name="tag",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tests_multiinheritancelazyresolutionfoodtag_items",
+                to="taggit.Tag",
+            ),
+        ),
+        migrations.AddField(
+            model_name="multiinheritancelazyresolutionfoodtag",
+            name="content_object",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tagged_items",
+                to="tests.MultiInheritanceFood",
+            ),
+        ),
+        migrations.AddField(
             model_name="taggedtrackedpet",
             name="content_object",
             field=models.ForeignKey(
@@ -967,6 +1034,16 @@ class Migration(migrations.Migration):
             field=taggit.managers.TaggableManager(
                 help_text="A comma-separated list of tags.",
                 through="taggit.TaggedItem",
+                to="taggit.Tag",
+                verbose_name="Tags",
+            ),
+        ),
+        migrations.AddField(
+            model_name="multiinheritancefood",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                through="tests.MultiInheritanceLazyResolutionFoodTag",
                 to="taggit.Tag",
                 verbose_name="Tags",
             ),
@@ -1168,6 +1245,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="taggedfood", unique_together={("content_object", "tag")}
+        ),
+        migrations.AlterUniqueTogether(
+            name="multiinheritancelazyresolutionfoodtag",
+            unique_together={("content_object", "tag")},
         ),
         migrations.AlterUniqueTogether(
             name="taggedtrackedfood", unique_together={("content_object", "tag")}
