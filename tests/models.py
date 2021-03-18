@@ -57,6 +57,29 @@ class Food(models.Model):
         return self.name
 
 
+class BaseFood(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class MultiInheritanceLazyResolutionFoodTag(TaggedItemBase):
+    content_object = models.ForeignKey(
+        "MultiInheritanceFood", related_name="tagged_items", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = [["content_object", "tag"]]
+
+
+class MultiInheritanceFood(BaseFood):
+    tags = TaggableManager(through=MultiInheritanceLazyResolutionFoodTag)
+
+    def __str__(self):
+        return self.name
+
+
 class Pet(models.Model):
     name = models.CharField(max_length=50)
 

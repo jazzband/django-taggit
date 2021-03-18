@@ -39,6 +39,7 @@ from .models import (
     Food,
     HousePet,
     Movie,
+    MultiInheritanceFood,
     Name,
     OfficialFood,
     OfficialHousePet,
@@ -164,6 +165,7 @@ class TagUUIDModelTestCase(TagModelTestCase):
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
+    multi_inheritance_food_model = MultiInheritanceFood
     pet_model = Pet
     housepet_model = HousePet
     taggeditem_model = TaggedItem
@@ -605,6 +607,21 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ["<{}: pear>".format(model_name), "<{}: guava>".format(model_name)],
             ordered=False,
         )
+
+    def test_multi_inheritance_similarity_by_tag(self):
+        """Test that pears are more similar to apples than watermelons using multi_inheritance"""
+        apple = self.multi_inheritance_food_model.objects.create(name="apple")
+        apple.tags.add("green", "juicy", "small", "sour")
+
+        pear = self.multi_inheritance_food_model.objects.create(name="pear")
+        pear.tags.add("green", "juicy", "small", "sweet")
+
+        watermelon = self.multi_inheritance_food_model.objects.create(name="watermelon")
+        watermelon.tags.add("green", "juicy", "large", "sweet")
+
+        similar_objs = apple.tags.similar_objects()
+        self.assertEqual(similar_objs, [pear, watermelon])
+        self.assertEqual([obj.similar_tags for obj in similar_objs], [3, 2])
 
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
