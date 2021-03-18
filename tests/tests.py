@@ -7,6 +7,11 @@ from django.db import IntegrityError, connection, models
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
+from taggit.managers import TaggableManager, _TaggableManager
+from taggit.models import Tag, TaggedItem
+from taggit.utils import edit_string_for_tags, parse_tags
+from taggit.views import tagged_object_list
+
 from .forms import (
     BlankTagForm,
     CustomPKFoodForm,
@@ -34,6 +39,7 @@ from .models import (
     Food,
     HousePet,
     Movie,
+    MultiInheritanceFood,
     Name,
     OfficialFood,
     OfficialHousePet,
@@ -49,13 +55,11 @@ from .models import (
     TaggedTrackedFood,
     TrackedTag,
     UUIDFood,
+    UUIDHousePet,
+    UUIDPet,
     UUIDTag,
+    UUIDTaggedItem,
 )
-
-from taggit.managers import TaggableManager, _TaggableManager
-from taggit.models import Tag, TaggedItem
-from taggit.utils import edit_string_for_tags, parse_tags
-from taggit.views import tagged_object_list
 
 
 class BaseTaggingTestCase(TestCase):
@@ -118,6 +122,22 @@ class TagModelTestCase(BaseTaggingTestCase):
         self.assertIs(low < high, False)
 
 
+class CustomTagCreationTestCase(TestCase):
+    def test_model_manager_add(self):
+        apple = OfficialFood.objects.create(name="apple")
+
+        # let's add two official tags
+        apple.tags.add("foo", "bar", tag_kwargs={"official": True})
+
+        # and two unofficial ones
+        apple.tags.add("baz", "wow", tag_kwargs={"official": False})
+
+        # We should end up with 4 tags
+        self.assertEquals(apple.tags.count(), 4)
+        self.assertEquals(apple.tags.filter(official=True).count(), 2)
+        self.assertEquals(apple.tags.filter(official=False).count(), 2)
+
+
 class TagModelDirectTestCase(TagModelTestCase):
     food_model = DirectFood
     tag_model = Tag
@@ -145,6 +165,7 @@ class TagUUIDModelTestCase(TagModelTestCase):
 
 class TaggableManagerTestCase(BaseTaggingTestCase):
     food_model = Food
+    multi_inheritance_food_model = MultiInheritanceFood
     pet_model = Pet
     housepet_model = HousePet
     taggeditem_model = TaggedItem
@@ -587,6 +608,21 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ordered=False,
         )
 
+    def test_multi_inheritance_similarity_by_tag(self):
+        """Test that pears are more similar to apples than watermelons using multi_inheritance"""
+        apple = self.multi_inheritance_food_model.objects.create(name="apple")
+        apple.tags.add("green", "juicy", "small", "sour")
+
+        pear = self.multi_inheritance_food_model.objects.create(name="pear")
+        pear.tags.add("green", "juicy", "small", "sweet")
+
+        watermelon = self.multi_inheritance_food_model.objects.create(name="watermelon")
+        watermelon.tags.add("green", "juicy", "large", "sweet")
+
+        similar_objs = apple.tags.similar_objects()
+        self.assertEqual(similar_objs, [pear, watermelon])
+        self.assertEqual([obj.similar_tags for obj in similar_objs], [3, 2])
+
     def test_similarity_by_tag(self):
         """Test that pears are more similar to apples than watermelons"""
         apple = self.food_model.objects.create(name="apple")
@@ -657,13 +693,13 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("green")
         apple.tags.add("red")
-        self.assertEqual(list(apple.tags.names()), ["green", "red"])
+        self.assertEqual(sorted(list(apple.tags.names())), ["green", "red"])
 
     def test_slugs_method(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("green and juicy")
         apple.tags.add("red")
-        self.assertEqual(list(apple.tags.slugs()), ["green-and-juicy", "red"])
+        self.assertEqual(sorted(list(apple.tags.slugs())), ["green-and-juicy", "red"])
 
     def test_serializes(self):
         apple = self.food_model.objects.create(name="apple")
@@ -770,6 +806,19 @@ class TaggableManagerCustomPKTestCase(TaggableManagerTestCase):
 
     def test_require_pk(self):
         # With a CharField pk, pk is never None. So taggit has no way to tell
+        # if the instance is saved or not.
+        pass
+
+
+class TaggableManagerUUIDTestCase(TaggableManagerTestCase):
+    food_model = UUIDFood
+    pet_model = UUIDPet
+    housepet_model = UUIDHousePet
+    taggeditem_model = UUIDTaggedItem
+    tag_model = UUIDTag
+
+    def test_require_pk(self):
+        # With a UUIDField pk, pk is never None. So taggit has no way to tell
         # if the instance is saved or not.
         pass
 

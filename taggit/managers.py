@@ -1,3 +1,4 @@
+import uuid
 from operator import attrgetter
 
 from django import VERSION
@@ -17,7 +18,11 @@ from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
 from taggit.forms import TagField
-from taggit.models import CommonGenericTaggedItemBase, TaggedItem
+from taggit.models import (
+    CommonGenericTaggedItemBase,
+    GenericUUIDTaggedItemBase,
+    TaggedItem,
+)
 from taggit.utils import require_instance_manager
 
 
@@ -102,10 +107,24 @@ class _TaggableManager(models.Manager):
                 }
             )
         )
+
+        if issubclass(self.through, GenericUUIDTaggedItemBase):
+
+            def uuid_rel_obj_attr(v):
+                value = attrgetter("_prefetch_related_val")(v)
+                if value is not None and not isinstance(value, uuid.UUID):
+                    input_form = "int" if isinstance(value, int) else "hex"
+                    value = uuid.UUID(**{input_form: value})
+                return value
+
+            rel_obj_attr = uuid_rel_obj_attr
+        else:
+            rel_obj_attr = attrgetter("_prefetch_related_val")
+
         if VERSION < (2, 0):
             return (
                 qs,
-                attrgetter("_prefetch_related_val"),
+                rel_obj_attr,
                 lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name,
@@ -113,7 +132,7 @@ class _TaggableManager(models.Manager):
         else:
             return (
                 qs,
-                attrgetter("_prefetch_related_val"),
+                rel_obj_attr,
                 lambda obj: obj._get_pk_val(),
                 False,
                 self.prefetch_cache_name,
@@ -124,10 +143,12 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     @require_instance_manager
-    def add(self, *tags, through_defaults=None):
+    def add(self, through_defaults=None *tags, **kwargs):
+        tag_kwargs = kwargs.pop("tag_kwargs", {})
+
         db = router.db_for_write(self.through, instance=self.instance)
 
-        tag_objs = self._to_tag_model_instances(tags)
+        tag_objs = self._to_tag_model_instances(tags, tag_kwargs)
         new_ids = {t.pk for t in tag_objs}
 
         # NOTE: can we hardcode 'tag_id' here or should the column name be got
@@ -165,7 +186,7 @@ class _TaggableManager(models.Manager):
             using=db,
         )
 
-    def _to_tag_model_instances(self, tags):
+    def _to_tag_model_instances(self, tags, tag_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
         of both and returns set of tag objects.
@@ -205,19 +226,19 @@ class _TaggableManager(models.Manager):
         else:
             # If str_tags has 0 elements Django actually optimizes that to not
             # do a query.  Malcolm is very smart.
-            existing = manager.filter(name__in=str_tags)
-            tags_to_create = str_tags - {t.name for t in existing}
+            existing = manager.filter(name__in=str_tags, **tag_kwargs)
+
+            tags_to_create = str_tags - set(t.name for t in existing)
 
         tag_objs.update(existing)
 
         for new_tag in tags_to_create:
             if case_insensitive:
-                tag, created = manager.get_or_create(
-                    name__iexact=new_tag, defaults={"name": new_tag}
-                )
+                lookup = {"name__iexact": new_tag, **tag_kwargs}
             else:
-                tag, created = manager.get_or_create(name=new_tag)
+                lookup = {"name": new_tag, **tag_kwargs}
 
+            tag, create = manager.get_or_create(**lookup, defaults={"name": new_tag})
             tag_objs.add(tag)
 
         return tag_objs
@@ -237,16 +258,21 @@ class _TaggableManager(models.Manager):
         then all existing tags are removed (using `.clear()`) and the new tags
         added. Otherwise, only those tags that are not present in the args are
         removed and any new tags added.
+
+        Any kwarg apart from 'clear' will be passed when adding tags.
+
         """
         db = router.db_for_write(self.through, instance=self.instance)
+
         clear = kwargs.pop("clear", False)
+        tag_kwargs = kwargs.pop("tag_kwargs", {})
 
         if clear:
             self.clear()
-            self.add(*tags)
+            self.add(*tags, **kwargs)
         else:
             # make sure we're working with a collection of a uniform type
-            objs = self._to_tag_model_instances(tags)
+            objs = self._to_tag_model_instances(tags, tag_kwargs)
 
             # get the existing tag strings
             old_tag_strs = set(
@@ -263,7 +289,7 @@ class _TaggableManager(models.Manager):
                     new_objs.append(obj)
 
             self.remove(*old_tag_strs)
-            self.add(*new_objs)
+            self.add(*new_objs, **kwargs)
 
     @require_instance_manager
     def remove(self, *tags):
@@ -361,8 +387,9 @@ class _TaggableManager(models.Manager):
                     % remote_field.field_name: [r["content_object"] for r in qs]
                 }
             )
+            actual_remote_field_name = f.target_field.get_attname()
             for obj in objs:
-                items[(getattr(obj, remote_field.field_name),)] = obj
+                items[(getattr(obj, actual_remote_field_name),)] = obj
         else:
             preload = {}
             for result in qs:

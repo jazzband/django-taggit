@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Unreleased
+~~~~~~~~~~
+
+* Added support for Python 3.9.
+
+* Dropped support for Python 3.5 and Django 1.11.
+
+1.3.0 (2020-05-19)
+~~~~~~~~~~~~~~~~~~
+
+* Model and field ``verbose_name`` and ``verbose_name_plural`` attributes are
+  now lowercase. This simplifies using the name in the middle of a sentence.
+  When used as a header, title, or at the beginning of a sentence, a text
+  transformed can be used to adjust the case.
+* Fix prefetch_related when using UUIDTaggedItem.
+* Allow for passing in extra constructor parameters when using
+  ``TaggableManager.add``. This is especially useful when using custom
+  tag models.
+
 1.2.0 (2019-12-03)
 ~~~~~~~~~~~~~~~~~~
 

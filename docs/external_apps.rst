@@ -15,7 +15,7 @@ If you have an application that you'd like to see listed here, simply fork
 add it to this list, and send a pull request.
 
  * `django-taggit-anywhere <https://github.com/bashu/django-taggit-anywhere>`_: 
-   Even more simpler approach to tagging with ``taggit``. Additionally this
+   Simpler approach to tagging with ``taggit``. Additionally this
    project provides easy-to-use integration with ``django-taggit-helpers`` and
    ``django-taggit-labels``.
  * `django-taggit-helpers <https://github.com/mfcovington/django-taggit-helpers>`_:
@@ -35,3 +35,5 @@ add it to this list, and send a pull request.
  * `django-taggit-templatetags <https://github.com/feuervogel/django-taggit-templatetags>`_:
    Provides several templatetags, including one
    for tag clouds, to expose various ``taggit`` APIs directly to templates.
+ * `django-taggit-bulk <https://github.com/nnseva/django-taggit-bulk>`_:
+   An admin action for the bulk tagging from the model  admin instance list view.

@@ -2,7 +2,8 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
 from django.utils.text import slugify
-from django.utils.translation import gettext, gettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 try:
     from unidecode import unidecode
@@ -13,8 +14,8 @@ except ImportError:
 
 
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_("Name"), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_("Slug"), unique=True, max_length=100)
+    name = models.CharField(verbose_name=_("name"), unique=True, max_length=100)
+    slug = models.SlugField(verbose_name=_("slug"), unique=True, max_length=100)
 
     def __str__(self):
         return self.name
@@ -38,7 +39,7 @@ class TagBase(models.Model):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            # Be oportunistic and try to save the tag, this should work for
+            # Be opportunistic and try to save the tag, this should work for
             # most cases ;)
             try:
                 with transaction.atomic(using=using):
@@ -57,7 +58,7 @@ class TagBase(models.Model):
                 slug = self.slugify(self.name, i)
                 if slug not in slugs:
                     self.slug = slug
-                    # We purposely ignore concurrecny issues here for now.
+                    # We purposely ignore concurrency issues here for now.
                     # (That is, till we found a nice solution...)
                     return super().save(*args, **kwargs)
                 i += 1
@@ -73,8 +74,8 @@ class TagBase(models.Model):
 
 class Tag(TagBase):
     class Meta:
-        verbose_name = _("Tag")
-        verbose_name_plural = _("Tags")
+        verbose_name = _("tag")
+        verbose_name_plural = _("tags")
         app_label = "taggit"
 
 
@@ -125,7 +126,7 @@ class CommonGenericTaggedItemBase(ItemBase):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        verbose_name=_("Content type"),
+        verbose_name=_("content type"),
         related_name="%(app_label)s_%(class)s_tagged_items",
     )
     content_object = GenericForeignKey()
@@ -156,14 +157,14 @@ class CommonGenericTaggedItemBase(ItemBase):
 
 
 class GenericTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.IntegerField(verbose_name=_("Object id"), db_index=True)
+    object_id = models.IntegerField(verbose_name=_("object ID"), db_index=True)
 
     class Meta:
         abstract = True
 
 
 class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.UUIDField(verbose_name=_("Object id"), db_index=True)
+    object_id = models.UUIDField(verbose_name=_("object ID"), db_index=True)
 
     class Meta:
         abstract = True
@@ -171,8 +172,8 @@ class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
 
 class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
-        verbose_name = _("Tagged Item")
-        verbose_name_plural = _("Tagged Items")
+        verbose_name = _("tagged item")
+        verbose_name_plural = _("tagged items")
         app_label = "taggit"
         index_together = [["content_type", "object_id"]]
         unique_together = [["content_type", "object_id", "tag"]]

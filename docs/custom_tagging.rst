@@ -12,6 +12,11 @@ want to store additional data about a tag, such as whether it is official.  In
 these cases ``django-taggit`` makes it easy to substitute your own through
 model, or ``Tag`` model.
 
+Note: Including 'taggit' in ``settings.py`` INSTALLED_APPS list will create the 
+default ``django-taggit`` and "through model" models. If you would like to use 
+your own models, you will need to remove 'taggit' from ``settings.py``'s 
+INSTALLED_APPS list.
+
 To change the behavior there are a number of classes you can subclass to obtain
 different behavior:
 
@@ -106,7 +111,7 @@ Custom tag
 ~~~~~~~~~~
 
 When providing a custom ``Tag`` model it should be a ``ForeignKey`` to your tag
-model named ``"tag"``:
+model named ``"tag"``. If your custom ``Tag`` model has extra parameters you want to initialize during setup, you can do so by passing it along via the ``tag_kwargs`` parameter of ``TaggableManager.add``. For example ``my_food.tags.add("tag_name1", "tag_name2", tag_kwargs={"my_field":3})``:
 
   .. code-block:: python
 
