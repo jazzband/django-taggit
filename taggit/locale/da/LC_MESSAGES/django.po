@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <jakobdo@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:25+0100\n"
+"PO-Revision-Date: 2020-10-25 14:29+0100\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.4.1\n"
+
+#: apps.py:7
+msgid "Taggit"
+msgstr "Taggit"
+
+#: forms.py:31
+msgid "Please provide a comma-separated list of tags."
+msgstr "Venligts angiv mærker adskilt af et komma."
+
+#: managers.py:422
+msgid "Tags"
+msgstr "Mærker"
+
+#: managers.py:423
+msgid "A comma-separated list of tags."
+msgstr "Adskil mærker med et komma."
+
+#: models.py:17
+msgid "name"
+msgstr "navn"
+
+#: models.py:18
+msgid "slug"
+msgstr "slug"
+
+#: models.py:77
+msgid "tag"
+msgstr "mærke"
+
+#: models.py:78
+msgid "tags"
+msgstr "mærker"
+
+#: models.py:84
+#, python-format
+msgid "%(object)s tagged with %(tag)s"
+msgstr "%(object)s mærket med %(tag)s"
+
+#: models.py:129
+msgid "content type"
+msgstr "indholdstype"
+
+#: models.py:160 models.py:167
+msgid "object ID"
+msgstr "objekt ID"
+
+#: models.py:175
+msgid "tagged item"
+msgstr "mærket element"
+
+#: models.py:176
+msgid "tagged items"
+msgstr "mærkede elementer"
