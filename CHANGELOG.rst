@@ -9,6 +9,7 @@ Unreleased
 * Fix crashing that could occur with ``similar_objects`` in multi-inheritance contexts.
 * Add Danish translation.
 * Remove Django 3.0 support.
+* Add Django 3.2 support.
 
 
 1.3.0 (2020-05-19)
