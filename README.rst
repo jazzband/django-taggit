@@ -5,6 +5,14 @@ django-taggit
    :target: https://jazzband.co/
    :alt: Jazzband
 
+.. image:: https://img.shields.io/pypi/pyversions/django-taggit.svg
+   :target: https://pypi.org/project/django-taggit/
+   :alt: Supported Python versions
+
+.. image:: https://img.shields.io/pypi/djversions/django-taggit.svg
+   :target: https://pypi.org/project/django-taggit/
+   :alt: Supported Django versions
+
 .. image:: https://github.com/jazzband/django-taggit/workflows/Test/badge.svg
    :target: https://github.com/jazzband/django-taggit/actions
    :alt: GitHub Actions
