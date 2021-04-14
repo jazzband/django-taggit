@@ -5,8 +5,9 @@ django-taggit
    :target: https://jazzband.co/
    :alt: Jazzband
 
-.. image:: https://travis-ci.org/jazzband/django-taggit.svg?branch=master
-    :target: https://travis-ci.org/jazzband/django-taggit
+.. image:: https://github.com/jazzband/django-taggit/workflows/Test/badge.svg
+   :target: https://github.com/jazzband/django-taggit/actions
+   :alt: GitHub Actions
 
 .. image:: https://codecov.io/gh/jazzband/django-taggit/coverage.svg?branch=master
     :target: https://codecov.io/gh/jazzband/django-taggit?branch=master

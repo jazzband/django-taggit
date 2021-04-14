@@ -1,9 +1,11 @@
 Changelog
 =========
 
-(Next Release)
-~~~~~~~~~~~~~~
+Unreleased
+~~~~~~~~~~
 
+* Added support for Python 3.9.
+* Dropped support for Python 3.5 and Django 1.11.
 * Fix crashing that could occur with ``similar_objects`` in multi-inheritance contexts.
 * Add Danish translation.
 
