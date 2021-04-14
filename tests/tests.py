@@ -661,6 +661,19 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             str(self.taggeditem_model.objects.first()), "apple tagged with juicy"
         )
 
+    def test_taggeditem_through_defaults(self):
+        if self.taggeditem_model != OfficialThroughModel:
+            self.skipTest(
+                "Through default tests are only run when the tagged item model has extra_field"
+            )
+        apple = self.food_model.objects.create(name="kiwi")
+        apple.tags.add("juicy", through_defaults={"extra_field": "green"})
+
+        self.assertEqual(
+            str(self.taggeditem_model.objects.first()), "kiwi tagged with juicy"
+        )
+        self.assertEqual(self.taggeditem_model.objects.first().extra_field, "green")
+
     def test_abstract_subclasses(self):
         p = Photo.objects.create()
         p.tags.add("outdoors", "pretty")

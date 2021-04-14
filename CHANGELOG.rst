@@ -8,6 +8,9 @@ Unreleased
 
 * Dropped support for Python 3.5 and Django 1.11.
 
+* Add support for custom fields on through table models with `through_defaults` for ``TaggedManager.add`` and ``TaggedManager.set``.
+
+
 1.3.0 (2020-05-19)
 ~~~~~~~~~~~~~~~~~~
 
