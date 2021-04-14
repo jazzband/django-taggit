@@ -1,6 +1,13 @@
 Changelog
 =========
 
+(Next Release)
+~~~~~~~~~~~~~~
+
+* Fix crashing that could occur with ``similar_objects`` in multi-inheritance contexts.
+* Add Danish translation.
+
+
 1.3.0 (2020-05-19)
 ~~~~~~~~~~~~~~~~~~
 
