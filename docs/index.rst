@@ -13,6 +13,7 @@ tagging to your project easy and fun.
    forms
    admin
    api
+   faq
    custom_tagging
    contributing
    external_apps
