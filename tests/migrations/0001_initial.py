@@ -315,6 +315,7 @@ class Migration(migrations.Migration):
                         to="tests.OfficialTag",
                     ),
                 ),
+                ("extra_field", models.CharField(max_length=10)),
             ],
         ),
         migrations.CreateModel(

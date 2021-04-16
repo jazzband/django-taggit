@@ -56,6 +56,8 @@ class ExtraJoinRestriction:
 
 
 class _TaggableManager(models.Manager):
+    # TODO investigate whether we can use a RelatedManager instead of all this stuff
+    # to take advantage of all the Django goodness
     def __init__(self, through, model, instance, prefetch_cache_name):
         super().__init__()
         self.through = through
@@ -143,9 +145,10 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     @require_instance_manager
-    def add(self, *tags, **kwargs):
-        tag_kwargs = kwargs.pop("tag_kwargs", {})
+    def add(self, *tags, through_defaults=None, tag_kwargs=None, **kwargs):
 
+        if tag_kwargs is None:
+            tag_kwargs = {}
         db = router.db_for_write(self.through, instance=self.instance)
 
         tag_objs = self._to_tag_model_instances(tags, tag_kwargs)
@@ -173,7 +176,7 @@ class _TaggableManager(models.Manager):
 
         for tag in tag_objs:
             self.through._default_manager.using(db).get_or_create(
-                tag=tag, **self._lookup_kwargs()
+                tag=tag, **self._lookup_kwargs(), defaults=through_defaults
             )
 
         signals.m2m_changed.send(
@@ -252,7 +255,7 @@ class _TaggableManager(models.Manager):
         return self.get_queryset().values_list("slug", flat=True)
 
     @require_instance_manager
-    def set(self, *tags, **kwargs):
+    def set(self, *tags, through_defaults=None, **kwargs):
         """
         Set the object's tags to the given n tags. If the clear kwarg is True
         then all existing tags are removed (using `.clear()`) and the new tags
@@ -289,7 +292,7 @@ class _TaggableManager(models.Manager):
                     new_objs.append(obj)
 
             self.remove(*old_tag_strs)
-            self.add(*new_objs, **kwargs)
+            self.add(*new_objs, through_defaults=through_defaults, **kwargs)
 
     @require_instance_manager
     def remove(self, *tags):
