@@ -40,7 +40,7 @@ msgstr "الإسم"
 
 #: models.py:18
 msgid "slug"
-msgstr "سبيكة الوسوم"
+msgstr "سبيكة الوسم"
 
 #: models.py:77
 msgid "tag"
