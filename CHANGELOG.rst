@@ -1,17 +1,20 @@
 Changelog
 =========
 
-Unreleased
-~~~~~~~~~~
+(Unreleased)
+~~~~~~~~~~~~
 
-* Added support for Python 3.9.
-* Dropped support for Python 3.5 and Django 1.11.
-* Fix crashing that could occur with ``similar_objects`` in multi-inheritance contexts.
-* Add Danish translation.
-* Remove Django 3.0 support.
+* (nothing here yet)
+
+1.4.0 (2021-04-19)
+~~~~~~~~~~~~~~~~~~
+
+* Add Python 3.9 support.
+* Remove Python 3.5 support.
 * Add Django 3.2 support.
-
-
+* Remove Django 1.11 and 3.0 support.
+* Add Danish translation.
+* Fix crashing that could occur with ``similar_objects`` in multi-inheritance contexts.
 * Add support for custom fields on through table models with `through_defaults` for ``TaggedManager.add`` and ``TaggedManager.set``.
 
 
