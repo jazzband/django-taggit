@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-22 03:32-0700\n"
+"PO-Revision-Date: 2021-04-19 15:42+0100\n"
+"Language: ar_DZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Last-Translator: Soufyane Hedidi <hesoka05@gmail.com>\n"
+"Language-Team: HeSoKa LeGEnD\n"
+"X-Generator: Poedit 2.3\n"
+
+#: apps.py:7
+msgid "Taggit"
+msgstr "Taggit"
+
+#: forms.py:23
+msgid "Please provide a comma-separated list of tags."
+msgstr "يرجى توفير قائمة علامات مفصولة بفاصلة."
+
+#: managers.py:396 models.py:77
+msgid "Tags"
+msgstr "العلامات"
+
+#: managers.py:397
+msgid "A comma-separated list of tags."
+msgstr "قائمة علامات مفصولة بفاصلة."
+
+#: models.py:16
+msgid "Name"
+msgstr "الإسم"
+
+#: models.py:17
+msgid "Slug"
+msgstr "Slug"
+
+#: models.py:76
+msgid "Tag"
+msgstr "العلامة"
+
+#: models.py:83
+#, python-format
+msgid "%(object)s tagged with %(tag)s"
+msgstr "%(object)s المعلّمة بـ %(tag)s"
+
+#: models.py:128
+msgid "Content type"
+msgstr "نوع المحتوى"
+
+#: models.py:158 models.py:165
+msgid "Object id"
+msgstr "مُعرّف الكائن"
+
+#: models.py:173
+msgid "Tagged Item"
+msgstr "العنصر المُعلَّم"
+
+#: models.py:174
+msgid "Tagged Items"
+msgstr "العناصر المُعلَّمَة"
