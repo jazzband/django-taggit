@@ -46,6 +46,7 @@ from .models import (
     OfficialPet,
     OfficialTag,
     OfficialThroughModel,
+    OrderedModel,
     Pet,
     Photo,
     ProxyPhoto,
@@ -1262,3 +1263,14 @@ class RelatedNameTests(TestCase):
         name.tags.add("foo")
         tag = Tag.objects.get(a_unique_related_name=name.pk)
         self.assertEqual(tag.name, "foo")
+
+
+class OrderedTagsTest(TestCase):
+    def test_added_tags_are_returned_ordered(self):
+        obj = OrderedModel.objects.create()
+        obj.tags.add("green", "red", "orange", "yellow", "blue")
+
+        self.assertListEqual(
+            ["blue", "green", "orange", "red", "yellow"],
+            list(obj.tags.values_list("name", flat=True)),
+        )
