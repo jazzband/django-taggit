@@ -14,6 +14,10 @@ from taggit.models import (
     TaggedItemBase,
 )
 
+# base test model
+class TestModel(models.Model):
+    tags = TaggableManager()
+
 
 # Ensure that two TaggableManagers with custom through model are allowed.
 class Through1(TaggedItemBase):
