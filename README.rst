@@ -57,7 +57,7 @@ Then you can use the API like so:
 
 Tags will show up for you automatically in forms and the admin.
 
-``django-taggit`` requires Django 1.11 or greater.
+``django-taggit`` requires Django 2.2 or greater.
 
 For more info check out the `documentation
 <https://django-taggit.readthedocs.io/>`_. And for questions about usage or
