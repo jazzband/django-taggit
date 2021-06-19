@@ -1,8 +1,11 @@
-# -*- coding: utf-8 -*-
+"""
+Django-taggit serializer support
+
+Originally vendored from https://github.com/glemmaPaul/django-taggit-serializer
+"""
 import json
 
 # Third party
-import six
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
@@ -54,7 +57,7 @@ class TagListSerializerField(serializers.Field):
         self.pretty_print = pretty_print
 
     def to_internal_value(self, value):
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             if not value:
                 value = "[]"
             try:
@@ -66,7 +69,7 @@ class TagListSerializerField(serializers.Field):
             self.fail("not_a_list", input_type=type(value).__name__)
 
         for s in value:
-            if not isinstance(s, six.string_types):
+            if not isinstance(s, str):
                 self.fail("not_a_str")
 
             self.child.run_validation(s)
