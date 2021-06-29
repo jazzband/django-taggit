@@ -64,9 +64,8 @@ To do work on the docs, proceed with the following steps:
 
 .. code-block:: console
 
-    cd docs
     pip install sphinx
-    make html
+    sphinx-build -n -W docs docs/_build
 
 Send pull request
 -----------------

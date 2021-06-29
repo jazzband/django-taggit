@@ -15,6 +15,11 @@ from taggit.models import (
 )
 
 
+# base test model
+class TestModel(models.Model):
+    tags = TaggableManager()
+
+
 # Ensure that two TaggableManagers with custom through model are allowed.
 class Through1(TaggedItemBase):
     content_object = models.ForeignKey("MultipleTags", on_delete=models.CASCADE)

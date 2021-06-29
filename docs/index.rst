@@ -12,6 +12,7 @@ tagging to your project easy and fun.
    getting_started
    forms
    admin
+   serializers
    api
    faq
    custom_tagging
