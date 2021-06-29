@@ -10,8 +10,9 @@ import unittest
 from rest_framework.exceptions import ValidationError
 
 from taggit import serializers
-from .serializers import TestModelSerializer
+
 from .models import TestModel
+from .serializers import TestModelSerializer
 
 
 class TestTaggit_serializer(unittest.TestCase):
@@ -24,10 +25,12 @@ class TestTaggit_serializer(unittest.TestCase):
         assert type(correct_value) is list
 
         incorrect_value = "123"
-        try:
+
+        with self.assertRaises(ValidationError):
             incorrect_value = serializer_field.to_internal_value(incorrect_value)
-        except ValidationError:
-            pass
+
+        representation = serializer_field.to_representation(correct_value)
+        self.assertIsInstance(representation, serializers.TagList)
 
     def test_taggit_serializer_update(self):
         """Test if serializer class is working properly on updating object"""

@@ -14,6 +14,7 @@ from taggit.models import (
     TaggedItemBase,
 )
 
+
 # base test model
 class TestModel(models.Model):
     tags = TaggableManager()
