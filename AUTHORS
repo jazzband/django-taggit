@@ -1,5 +1,7 @@
 django-taggit was originally created by Alex Gaynor.
 
+django-taggit-serializer was originally created by Paul Oostenrijk.
+
 The following is a list of much appreciated contributors:
 
 Nathan Borror <nathan@playgroundblues.com>

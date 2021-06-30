@@ -6,6 +6,15 @@ Changelog
 
 * (nothing here yet)
 
+
+1.5.0 (2021-05-30)
+~~~~~~~~~~~~~~~~~~
+
+* Vendor in the `django-taggit-serializer` project (under `taggit.serializers`).
+* Add Arabic translation.
+* Add Ukranian translation.
+
+
 1.4.0 (2021-04-19)
 ~~~~~~~~~~~~~~~~~~
 
