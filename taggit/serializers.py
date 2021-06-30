@@ -13,7 +13,7 @@ from rest_framework import serializers
 class TagList(list):
     def __init__(self, *args, **kwargs):
         pretty_print = kwargs.pop("pretty_print", True)
-        super().__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.pretty_print = pretty_print
 
     def __add__(self, rhs):
