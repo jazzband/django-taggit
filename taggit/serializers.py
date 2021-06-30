@@ -6,21 +6,21 @@ Originally vendored from https://github.com/glemmaPaul/django-taggit-serializer
 import json
 
 # Third party
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy
 from rest_framework import serializers
 
 
 class TagList(list):
     def __init__(self, *args, **kwargs):
         pretty_print = kwargs.pop("pretty_print", True)
-        list.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.pretty_print = pretty_print
 
     def __add__(self, rhs):
-        return TagList(list.__add__(self, rhs))
+        return TagList(super().__add__(rhs))
 
     def __getitem__(self, item):
-        result = list.__getitem__(self, item)
+        result = super().__getitem__(item)
         try:
             return TagList(result)
         except TypeError:
@@ -36,12 +36,14 @@ class TagList(list):
 class TagListSerializerField(serializers.Field):
     child = serializers.CharField()
     default_error_messages = {
-        "not_a_list": _('Expected a list of items but got type "{input_type}".'),
-        "invalid_json": _(
+        "not_a_list": gettext_lazy(
+            'Expected a list of items but got type "{input_type}".'
+        ),
+        "invalid_json": gettext_lazy(
             "Invalid json list. A tag list submitted in string"
             " form must be valid json."
         ),
-        "not_a_str": _("All list items must be of string type."),
+        "not_a_str": gettext_lazy("All list items must be of string type."),
     }
     order_by = None
 
