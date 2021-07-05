@@ -6,8 +6,15 @@ Changelog
 
 * (nothing here yet)
 
+1.5.1 (2021-07-01)
+~~~~~~~~~~~~~~~~~~
 
-1.5.0 (2021-05-30)
+* Fix compiled Ukranian translation (which would cause a failure on load for this locale).
+* Update compiled Danish translation.
+
+
+
+1.5.0 (2021-06-30)
 ~~~~~~~~~~~~~~~~~~
 
 * Vendor in the `django-taggit-serializer` project (under `taggit.serializers`).
