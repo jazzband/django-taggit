@@ -4,14 +4,15 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
-* (nothing here yet)
+* Update Russian translation.
+* Provide translators additional context regarding strings in TagBase model.
+
 
 1.5.1 (2021-07-01)
 ~~~~~~~~~~~~~~~~~~
 
 * Fix compiled Ukranian translation (which would cause a failure on load for this locale).
 * Update compiled Danish translation.
-
 
 
 1.5.0 (2021-06-30)
