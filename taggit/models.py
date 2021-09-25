@@ -2,7 +2,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
 from django.utils.text import slugify
-from django.utils.translation import gettext
+from django.utils.translation import gettext, pgettext_lazy
 from django.utils.translation import gettext_lazy as _
 
 try:
@@ -14,8 +14,10 @@ except ImportError:
 
 
 class TagBase(models.Model):
-    name = models.CharField(verbose_name=_("name"), unique=True, max_length=100)
-    slug = models.SlugField(verbose_name=_("slug"), unique=True, max_length=100)
+    name = models.CharField(verbose_name=pgettext_lazy("A tag name", "name"),
+                            unique=True, max_length=100)
+    slug = models.SlugField(verbose_name=pgettext_lazy("A tag slug", "slug"),
+                            unique=True, max_length=100)
 
     def __str__(self):
         return self.name
