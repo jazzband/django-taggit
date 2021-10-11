@@ -49,3 +49,5 @@ form with normal many to many fields on it::
             obj.save()
             # Without this next line the tags won't be saved.
             form.save_m2m()
+
+You can check the details over in the `Django documentation on form saving <https://docs.djangoproject.com/en/3.2/topics/forms/modelforms/#the-save-method>`_.

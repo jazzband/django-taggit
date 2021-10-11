@@ -42,7 +42,10 @@ class TagField(forms.CharField):
         except forms.ValidationError:
             pass
 
-        if initial_value is None:
+        # normalize "empty values"
+        if not data_value:
+            data_value = []
+        if not initial_value:
             initial_value = []
 
         initial_value = [tag.name for tag in initial_value]
