@@ -52,3 +52,11 @@ class TagFieldTests(TestCase):
         )
 
         self.assertFalse(form.has_changed())
+
+    def test_should_return_False_if_not_provided(self):
+        class TestForm(forms.Form):
+            tag = TagField()
+
+        form = TestForm()
+
+        self.assertFalse(form.has_changed())

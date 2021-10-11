@@ -4,6 +4,7 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Fix issue where ``TagField`` would incorrectly report that a field has changed on empty values.
 * Update Russian translation.
 * Provide translators additional context regarding strings in TagBase model.
 
