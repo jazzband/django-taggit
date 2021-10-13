@@ -134,9 +134,9 @@ class CustomTagCreationTestCase(TestCase):
         apple.tags.add("baz", "wow", tag_kwargs={"official": False})
 
         # We should end up with 4 tags
-        self.assertEquals(apple.tags.count(), 4)
-        self.assertEquals(apple.tags.filter(official=True).count(), 2)
-        self.assertEquals(apple.tags.filter(official=False).count(), 2)
+        self.assertEqual(apple.tags.count(), 4)
+        self.assertEqual(apple.tags.filter(official=True).count(), 2)
+        self.assertEqual(apple.tags.filter(official=False).count(), 2)
 
 
 class TagModelDirectTestCase(TagModelTestCase):
