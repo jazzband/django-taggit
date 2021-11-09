@@ -4,7 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
-* (nothing here yet)
+* **Backwards incompatible:** ``TaggableManager.set`` API now matches Django's
+  ``RelatedManager.set``.
+
 
 1.5.1 (2021-07-01)
 ~~~~~~~~~~~~~~~~~~
