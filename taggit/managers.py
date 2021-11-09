@@ -58,12 +58,16 @@ class ExtraJoinRestriction:
 class _TaggableManager(models.Manager):
     # TODO investigate whether we can use a RelatedManager instead of all this stuff
     # to take advantage of all the Django goodness
-    def __init__(self, through, model, instance, prefetch_cache_name):
+    def __init__(self, through, model, instance, prefetch_cache_name, ordering=None):
         super().__init__()
         self.through = through
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
+        if ordering:
+            self.ordering = ordering
+        else:
+            self.ordering = []
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
@@ -73,7 +77,9 @@ class _TaggableManager(models.Manager):
             return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
             kwargs = extra_filters if extra_filters else {}
-            return self.through.tags_for(self.model, self.instance, **kwargs)
+            return self.through.tags_for(self.model, self.instance, **kwargs).order_by(
+                *self.ordering
+            )
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is not None:
@@ -429,6 +435,7 @@ class TaggableManager(RelatedField):
         blank=False,
         related_name=None,
         to=None,
+        ordering=None,
         manager=_TaggableManager,
     ):
         self.through = through or TaggedItem
@@ -444,6 +451,7 @@ class TaggableManager(RelatedField):
             rel=rel,
         )
 
+        self.ordering = ordering
         self.swappable = False
         self.manager = manager
 
@@ -458,6 +466,7 @@ class TaggableManager(RelatedField):
             model=model,
             instance=instance,
             prefetch_cache_name=self.name,
+            ordering=self.ordering,
         )
 
     def deconstruct(self):

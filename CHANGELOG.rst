@@ -4,8 +4,10 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
-* **Backwards incompatible:** ``TaggableManager.set`` API now matches Django's
-  ``RelatedManager.set``.
+* **Backwards incompatible:** ``TaggableManager.set`` API now matches Django's ``RelatedManager.set``.
+* Fix issue where ``TagField`` would incorrectly report that a field has changed on empty values.
+* Update Russian translation.
+* Provide translators additional context regarding strings in TagBase model.
 
 
 1.5.1 (2021-07-01)
@@ -13,7 +15,6 @@ Changelog
 
 * Fix compiled Ukranian translation (which would cause a failure on load for this locale).
 * Update compiled Danish translation.
-
 
 
 1.5.0 (2021-06-30)

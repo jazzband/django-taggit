@@ -408,3 +408,7 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase):
 # 	HINT: Rename field 'Tag.name', or add/change a related_name argument to the definition for field 'Name.tags'.
 class Name(models.Model):
     tags = TaggableManager(related_name="a_unique_related_name")
+
+
+class OrderedModel(models.Model):
+    tags = TaggableManager(ordering=["name"])

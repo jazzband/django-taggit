@@ -46,6 +46,7 @@ from .models import (
     OfficialPet,
     OfficialTag,
     OfficialThroughModel,
+    OrderedModel,
     Pet,
     Photo,
     ProxyPhoto,
@@ -133,9 +134,9 @@ class CustomTagCreationTestCase(TestCase):
         apple.tags.add("baz", "wow", tag_kwargs={"official": False})
 
         # We should end up with 4 tags
-        self.assertEquals(apple.tags.count(), 4)
-        self.assertEquals(apple.tags.filter(official=True).count(), 2)
-        self.assertEquals(apple.tags.filter(official=False).count(), 2)
+        self.assertEqual(apple.tags.count(), 4)
+        self.assertEqual(apple.tags.filter(official=True).count(), 2)
+        self.assertEqual(apple.tags.filter(official=False).count(), 2)
 
 
 class TagModelDirectTestCase(TagModelTestCase):
@@ -1262,3 +1263,14 @@ class RelatedNameTests(TestCase):
         name.tags.add("foo")
         tag = Tag.objects.get(a_unique_related_name=name.pk)
         self.assertEqual(tag.name, "foo")
+
+
+class OrderedTagsTest(TestCase):
+    def test_added_tags_are_returned_ordered(self):
+        obj = OrderedModel.objects.create()
+        obj.tags.add("green", "red", "orange", "yellow", "blue")
+
+        self.assertListEqual(
+            ["blue", "green", "orange", "red", "yellow"],
+            list(obj.tags.values_list("name", flat=True)),
+        )
