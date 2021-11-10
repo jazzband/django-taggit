@@ -6,7 +6,7 @@ Changelog
 
 * **Backwards incompatible:** ``TaggableManager.set`` now takes a list of tags
   (instead of varargs) so that its API matches Django's ``RelatedManager.set``. Example:
-  
+
   - previously: ``item.tags.set("red", "blue")``
   - now: ``item.tags.set(["red", "blue"])``
 
