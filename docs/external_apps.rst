@@ -14,7 +14,7 @@ If you have an application that you'd like to see listed here, simply fork
 `django-taggit on github <https://github.com/jazzband/django-taggit>`_,
 add it to this list, and send a pull request.
 
- * `django-taggit-anywhere <https://github.com/bashu/django-taggit-anywhere>`_: 
+ * `django-taggit-anywhere <https://github.com/bashu/django-taggit-anywhere>`_:
    Simpler approach to tagging with ``taggit``. Additionally this
    project provides easy-to-use integration with ``django-taggit-helpers`` and
    ``django-taggit-labels``.
