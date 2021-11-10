@@ -69,4 +69,3 @@ msgstr "آیتم برچسب گزاری شده"
 #: taggit/models.py:176
 msgid "tagged items"
 msgstr "آیتم های برچسب گزاری شده"
-
