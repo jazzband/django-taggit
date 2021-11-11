@@ -261,7 +261,7 @@ class _TaggableManager(models.Manager):
         return self.get_queryset().values_list("slug", flat=True)
 
     @require_instance_manager
-    def set(self, *tags, through_defaults=None, **kwargs):
+    def set(self, tags, *, through_defaults=None, **kwargs):
         """
         Set the object's tags to the given n tags. If the clear kwarg is True
         then all existing tags are removed (using `.clear()`) and the new tags
@@ -553,7 +553,7 @@ class TaggableManager(RelatedField):
                 )
 
     def save_form_data(self, instance, value):
-        getattr(instance, self.name).set(*value)
+        getattr(instance, self.name).set(value)
 
     def formfield(self, form_class=TagField, **kwargs):
         defaults = {

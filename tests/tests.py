@@ -377,7 +377,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("red")
         send_mock.reset_mock()
 
-        apple.tags.set("red", clear=True)
+        apple.tags.set(["red"], clear=True)
 
         red_pk = self.tag_model.objects.get(name="red").pk
 
@@ -429,7 +429,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         apple.tags.add("green")
         send_mock.reset_mock()
 
-        apple.tags.set("red")
+        apple.tags.set(["red"])
 
         green_pk = self.tag_model.objects.get(name="green").pk
         red_pk = self.tag_model.objects.get(name="red").pk

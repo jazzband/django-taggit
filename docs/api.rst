@@ -36,7 +36,7 @@ playing around with the API.
 
         Removes all tags from an object.
 
-    .. method:: set(*tags, through_defaults=None, clear=False)
+    .. method:: set(tags, *, through_defaults=None, clear=False)
 
         If ``clear = True`` removes all the current tags and then adds the
         specified tags to the object. Otherwise sets the object's tags to those

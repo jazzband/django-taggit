@@ -4,6 +4,12 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* **Backwards incompatible:** ``TaggableManager.set`` now takes a list of tags
+  (instead of varargs) so that its API matches Django's ``RelatedManager.set``. Example:
+
+  - previously: ``item.tags.set("red", "blue")``
+  - now: ``item.tags.set(["red", "blue"])``
+
 * Fix issue where ``TagField`` would incorrectly report that a field has changed on empty values.
 * Update Russian translation.
 * Provide translators additional context regarding strings in TagBase model.
