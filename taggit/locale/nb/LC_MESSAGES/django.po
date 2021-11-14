@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-22 03:32-0700\n"
+"POT-Creation-Date: 2021-11-14 11:41+0900\n"
 "PO-Revision-Date: 2012-12-08 14:42+0100\n"
 "Last-Translator: Bjørn Pettersen <bp@datakortet.no>\n"
 "Language-Team: Norwegian <bp@datakortet.no>\n"
@@ -17,51 +17,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: apps.py:7
+#: taggit/apps.py:7
 msgid "Taggit"
 msgstr ""
 
-#: forms.py:23
+#: taggit/forms.py:31
 msgid "Please provide a comma-separated list of tags."
 msgstr "Vennligst oppgi en kommaseparert tagg-liste."
 
-#: managers.py:396 models.py:77
+#: taggit/managers.py:432
 msgid "Tags"
 msgstr "Tagger"
 
-#: managers.py:397
+#: taggit/managers.py:433
 msgid "A comma-separated list of tags."
 msgstr "En kommaseparert tagg-liste."
 
-#: models.py:16
-msgid "Name"
+#: taggit/models.py:19
+msgctxt "A tag name"
+msgid "name"
 msgstr "Navn"
 
-#: models.py:17
-msgid "Slug"
+#: taggit/models.py:22
+msgctxt "A tag slug"
+msgid "slug"
 msgstr "Slug"
 
-#: models.py:76
-msgid "Tag"
+#: taggit/models.py:82
+msgid "tag"
 msgstr "Tagg"
 
-#: models.py:83
+#: taggit/models.py:83
+msgid "tags"
+msgstr ""
+
+#: taggit/models.py:89
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s tagget med %(tag)s"
 
-#: models.py:128
-msgid "Content type"
+#: taggit/models.py:134
+msgid "content type"
 msgstr "Innholdstype"
 
-#: models.py:158 models.py:165
-msgid "Object id"
+#: taggit/models.py:165 taggit/models.py:172
+msgid "object ID"
 msgstr "Objekt-id"
 
-#: models.py:173
-msgid "Tagged Item"
+#: taggit/models.py:180
+msgid "tagged item"
 msgstr "Tagget Element"
 
-#: models.py:174
-msgid "Tagged Items"
+#: taggit/models.py:181
+msgid "tagged items"
 msgstr "Taggede Elementer"
+
+#: taggit/serializers.py:40
+#, python-brace-format
+msgid "Expected a list of items but got type \"{input_type}\"."
+msgstr ""
+
+#: taggit/serializers.py:43
+msgid ""
+"Invalid json list. A tag list submitted in string form must be valid json."
+msgstr ""
+
+#: taggit/serializers.py:46
+msgid "All list items must be of string type."
+msgstr ""
