@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-27 23:10+0430\n"
+"POT-Creation-Date: 2021-11-14 11:32+0900\n"
 "PO-Revision-Date: 2021-07-27 23:15+0430\n"
 "Last-Translator: Mohammad Hossein Yazdani <m.hossein95th@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,39 +33,55 @@ msgstr "برچسب ها"
 msgid "A comma-separated list of tags."
 msgstr "یک لیست از برچسب های جدا شده توسط کاما "
 
-#: taggit/models.py:17
+#: taggit/models.py:19
+msgctxt "A tag name"
 msgid "name"
 msgstr "نام"
 
-#: taggit/models.py:18
+#: taggit/models.py:22
+msgctxt "A tag slug"
 msgid "slug"
 msgstr "نامک"
 
-#: taggit/models.py:77
+#: taggit/models.py:82
 msgid "tag"
 msgstr "برچسب"
 
-#: taggit/models.py:78
+#: taggit/models.py:83
 msgid "tags"
 msgstr "برچسب ها"
 
-#: taggit/models.py:84
+#: taggit/models.py:89
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s برچسب گزاری شده با %(tag)s"
 
-#: taggit/models.py:129
+#: taggit/models.py:134
 msgid "content type"
 msgstr "نوع محتوا"
 
-#: taggit/models.py:160 taggit/models.py:167
+#: taggit/models.py:165 taggit/models.py:172
 msgid "object ID"
 msgstr "شناسه شی"
 
-#: taggit/models.py:175
+#: taggit/models.py:180
 msgid "tagged item"
 msgstr "آیتم برچسب گزاری شده"
 
-#: taggit/models.py:176
+#: taggit/models.py:181
 msgid "tagged items"
 msgstr "آیتم های برچسب گزاری شده"
+
+#: taggit/serializers.py:40
+#, python-brace-format
+msgid "Expected a list of items but got type \"{input_type}\"."
+msgstr ""
+
+#: taggit/serializers.py:43
+msgid ""
+"Invalid json list. A tag list submitted in string form must be valid json."
+msgstr ""
+
+#: taggit/serializers.py:46
+msgid "All list items must be of string type."
+msgstr ""
