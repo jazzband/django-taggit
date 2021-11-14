@@ -1,1 +1,2 @@
 Sphinx
+docutils<0.18
