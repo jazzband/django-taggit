@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+2.0.0 (2021-11-14)
+~~~~~~~~~~~~~~~~~~
+
 * **Backwards incompatible:** ``TaggableManager.set`` now takes a list of tags
   (instead of varargs) so that its API matches Django's ``RelatedManager.set``. Example:
 
