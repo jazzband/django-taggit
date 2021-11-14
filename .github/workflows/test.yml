@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Python ${{ matrix.python }}
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
 
     # The maximum number of minutes to let a workflow run
