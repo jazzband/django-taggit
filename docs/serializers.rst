@@ -16,5 +16,6 @@ To accept tags through a `REST` API call we need to add the following to our `Se
 
         class Meta:
             model = YourModel
+            fields = '__all__'
 
 And you're done, so now you can add tags to your model.
