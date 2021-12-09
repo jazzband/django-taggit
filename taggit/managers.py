@@ -1,7 +1,6 @@
 import uuid
 from operator import attrgetter
 
-from django import VERSION
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -129,23 +128,14 @@ class _TaggableManager(models.Manager):
         else:
             rel_obj_attr = attrgetter("_prefetch_related_val")
 
-        if VERSION < (2, 0):
-            return (
-                qs,
-                rel_obj_attr,
-                lambda obj: obj._get_pk_val(),
-                False,
-                self.prefetch_cache_name,
-            )
-        else:
-            return (
-                qs,
-                rel_obj_attr,
-                lambda obj: obj._get_pk_val(),
-                False,
-                self.prefetch_cache_name,
-                False,
-            )
+        return (
+            qs,
+            rel_obj_attr,
+            lambda obj: obj._get_pk_val(),
+            False,
+            self.prefetch_cache_name,
+            False,
+        )
 
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
@@ -600,27 +590,15 @@ class TaggableManager(RelatedField):
         linkfield1 = self.through._meta.get_field("content_object")
         linkfield2 = self.through._meta.get_field(self.m2m_reverse_field_name())
         if direct:
-            if VERSION < (2, 0):
-                join1infos = linkfield1.get_reverse_path_info()
-                join2infos = linkfield2.get_path_info()
-            else:
-                join1infos = linkfield1.get_reverse_path_info(
-                    filtered_relation=filtered_relation
-                )
-                join2infos = linkfield2.get_path_info(
-                    filtered_relation=filtered_relation
-                )
+            join1infos = linkfield1.get_reverse_path_info(
+                filtered_relation=filtered_relation
+            )
+            join2infos = linkfield2.get_path_info(filtered_relation=filtered_relation)
         else:
-            if VERSION < (2, 0):
-                join1infos = linkfield2.get_reverse_path_info()
-                join2infos = linkfield1.get_path_info()
-            else:
-                join1infos = linkfield2.get_reverse_path_info(
-                    filtered_relation=filtered_relation
-                )
-                join2infos = linkfield1.get_path_info(
-                    filtered_relation=filtered_relation
-                )
+            join1infos = linkfield2.get_reverse_path_info(
+                filtered_relation=filtered_relation
+            )
+            join2infos = linkfield1.get_path_info(filtered_relation=filtered_relation)
         pathinfos.extend(join1infos)
         pathinfos.extend(join2infos)
         return pathinfos
@@ -631,54 +609,33 @@ class TaggableManager(RelatedField):
         opts = self.through._meta
         linkfield = self.through._meta.get_field(self.m2m_reverse_field_name())
         if direct:
-            if VERSION < (2, 0):
-                join1infos = [
-                    PathInfo(
-                        self.model._meta,
-                        opts,
-                        [from_field],
-                        self.remote_field,
-                        True,
-                        False,
-                    )
-                ]
-                join2infos = linkfield.get_path_info()
-            else:
-                join1infos = [
-                    PathInfo(
-                        self.model._meta,
-                        opts,
-                        [from_field],
-                        self.remote_field,
-                        True,
-                        False,
-                        filtered_relation,
-                    )
-                ]
-                join2infos = linkfield.get_path_info(
-                    filtered_relation=filtered_relation
+            join1infos = [
+                PathInfo(
+                    self.model._meta,
+                    opts,
+                    [from_field],
+                    self.remote_field,
+                    True,
+                    False,
+                    filtered_relation,
                 )
+            ]
+            join2infos = linkfield.get_path_info(filtered_relation=filtered_relation)
         else:
-            if VERSION < (2, 0):
-                join1infos = linkfield.get_reverse_path_info()
-                join2infos = [
-                    PathInfo(opts, self.model._meta, [from_field], self, True, False)
-                ]
-            else:
-                join1infos = linkfield.get_reverse_path_info(
-                    filtered_relation=filtered_relation
+            join1infos = linkfield.get_reverse_path_info(
+                filtered_relation=filtered_relation
+            )
+            join2infos = [
+                PathInfo(
+                    opts,
+                    self.model._meta,
+                    [from_field],
+                    self,
+                    True,
+                    False,
+                    filtered_relation,
                 )
-                join2infos = [
-                    PathInfo(
-                        opts,
-                        self.model._meta,
-                        [from_field],
-                        self,
-                        True,
-                        False,
-                        filtered_relation,
-                    )
-                ]
+            ]
         pathinfos.extend(join1infos)
         pathinfos.extend(join2infos)
         return pathinfos
