@@ -10,3 +10,16 @@ Frequently Asked Questions
  - How can I use this with factory_boy?
 
  Since these are all built off of many-to-many relationships, you can check out `factory_boy's documentation on this topic <https://factoryboy.readthedocs.io/en/stable/recipes.html#simple-many-to-many-relationship>`_ and get some ideas on how to deal with tags.
+
+
+ One way to handle this is with post-generation hooks::
+    class ProductFactory(DjangoModelFactory):
+        # Rest of the stuff
+
+        @post_generation
+        def tags(self, create, extracted, **kwargs):
+            if not create:
+                return
+
+            if extracted:
+                self.tags.add(*extracted)
