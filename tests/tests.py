@@ -588,7 +588,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         model_name = self.pet_model.__name__
         self.assertQuerysetEqual(
             pks,
-            ["<{}: kitty>".format(model_name), "<{}: cat>".format(model_name)],
+            [f"<{model_name}: kitty>", f"<{model_name}: cat>"],
             ordered=False,
         )
 
@@ -605,7 +605,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         model_name = self.food_model.__name__
         self.assertQuerysetEqual(
             pks,
-            ["<{}: pear>".format(model_name), "<{}: guava>".format(model_name)],
+            [f"<{model_name}: pear>", f"<{model_name}: guava>"],
             ordered=False,
         )
 
@@ -1234,7 +1234,7 @@ class TagListViewTests(TestCase):
         self.strawberry.tags.add("red")
 
     def test_url_request_returns_view(self):
-        request = self.factory.get("/food/tags/{}/".format(self.slug))
+        request = self.factory.get(f"/food/tags/{self.slug}/")
         queryset = self.model.objects.all()
         response = tagged_object_list(request, self.slug, queryset)
         self.assertEqual(response.status_code, 200)
@@ -1245,7 +1245,7 @@ class TagListViewTests(TestCase):
         )
 
     def test_list_view_returns_single(self):
-        response = self.client.get("/food/tags/{}/".format(self.slug))
+        response = self.client.get(f"/food/tags/{self.slug}/")
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.apple, response.context_data["object_list"])
         self.assertNotIn(self.strawberry, response.context_data["object_list"])

@@ -41,7 +41,7 @@ class ExtraJoinRestriction:
     def as_sql(self, compiler, connection):
         qn = compiler.quote_name_unless_alias
         if len(self.content_types) == 1:
-            extra_where = "{}.{} = %s".format(qn(self.alias), qn(self.col))
+            extra_where = f"{qn(self.alias)}.{qn(self.col)} = %s"
         else:
             extra_where = "{}.{} IN ({})".format(
                 qn(self.alias), qn(self.col), ",".join(["%s"] * len(self.content_types))
@@ -228,7 +228,7 @@ class _TaggableManager(models.Manager):
             # do a query.  Malcolm is very smart.
             existing = manager.filter(name__in=str_tags, **tag_kwargs)
 
-            tags_to_create = str_tags - set(t.name for t in existing)
+            tags_to_create = str_tags - {t.name for t in existing}
 
         tag_objs.update(existing)
 

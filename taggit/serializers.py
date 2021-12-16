@@ -54,7 +54,7 @@ class TagListSerializerField(serializers.Field):
         kwargs["style"] = {"base_template": "textarea.html"}
         kwargs["style"].update(style)
 
-        super(TagListSerializerField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         self.pretty_print = pretty_print
 
@@ -95,14 +95,14 @@ class TaggitSerializer(serializers.Serializer):
     def create(self, validated_data):
         to_be_tagged, validated_data = self._pop_tags(validated_data)
 
-        tag_object = super(TaggitSerializer, self).create(validated_data)
+        tag_object = super().create(validated_data)
 
         return self._save_tags(tag_object, to_be_tagged)
 
     def update(self, instance, validated_data):
         to_be_tagged, validated_data = self._pop_tags(validated_data)
 
-        tag_object = super(TaggitSerializer, self).update(instance, validated_data)
+        tag_object = super().update(instance, validated_data)
 
         return self._save_tags(tag_object, to_be_tagged)
 
