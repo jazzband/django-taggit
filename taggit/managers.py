@@ -142,9 +142,15 @@ class _TaggableManager(models.Manager):
     def _lookup_kwargs(self):
         return self.through.lookup_kwargs(self.instance)
 
+    def _remove_prefetched_objects(self):
+        try:
+            self.instance._prefetched_objects_cache.pop(self.prefetch_cache_name)
+        except (AttributeError, KeyError):
+            pass  # nothing to clear from cache
+
     @require_instance_manager
     def add(self, *tags, through_defaults=None, tag_kwargs=None, **kwargs):
-
+        self._remove_prefetched_objects()
         if tag_kwargs is None:
             tag_kwargs = {}
         db = router.db_for_write(self.through, instance=self.instance)
@@ -297,6 +303,7 @@ class _TaggableManager(models.Manager):
         if not tags:
             return
 
+        self._remove_prefetched_objects()
         db = router.db_for_write(self.through, instance=self.instance)
 
         qs = (
@@ -329,6 +336,7 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def clear(self):
+        self._remove_prefetched_objects()
         db = router.db_for_write(self.through, instance=self.instance)
 
         signals.m2m_changed.send(
