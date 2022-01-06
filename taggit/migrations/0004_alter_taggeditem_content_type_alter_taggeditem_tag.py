@@ -2,8 +2,8 @@
 # Django from autodetecting migrations in taggit when users
 # update to Django 4.0.
 # See https://docs.djangoproject.com/en/stable/releases/4.0/#migrations-autodetector-changes
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
