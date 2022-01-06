@@ -1281,5 +1281,5 @@ class OrderedTagsTest(TestCase):
 class PendingMigrationsTests(TestCase):
     def test_taggit_has_no_pending_migrations(self):
         out = StringIO()
-        call_command('makemigrations', 'taggit', dry_run=True, stdout=out)
+        call_command("makemigrations", "taggit", dry_run=True, stdout=out)
         self.assertEqual(out.getvalue().strip(), "No changes detected in app 'taggit'")
