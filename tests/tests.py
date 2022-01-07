@@ -1,8 +1,10 @@
+from io import StringIO
 from unittest import mock
 
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
 from django.db import IntegrityError, connection, models
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
@@ -1274,3 +1276,10 @@ class OrderedTagsTest(TestCase):
             ["blue", "green", "orange", "red", "yellow"],
             list(obj.tags.values_list("name", flat=True)),
         )
+
+
+class PendingMigrationsTests(TestCase):
+    def test_taggit_has_no_pending_migrations(self):
+        out = StringIO()
+        call_command("makemigrations", "taggit", dry_run=True, stdout=out)
+        self.assertEqual(out.getvalue().strip(), "No changes detected in app 'taggit'")
