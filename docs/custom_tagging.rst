@@ -36,7 +36,9 @@ Custom ForeignKeys
 Your intermediary model must be a subclass of
 ``taggit.models.TaggedItemBase`` with a foreign key to your content
 model named ``content_object``. Pass this intermediary model as the
-``through`` argument to ``TaggableManager``::
+``through`` argument to ``TaggableManager``:
+
+  .. code-block:: python
 
     from django.db import models
 
@@ -63,7 +65,9 @@ tagged object use an integer primary key. For non-integer primary key,
 your intermediary model must be a subclass of ``taggit.models.CommonGenericTaggedItemBase``
 with a field named ``"object_id"`` of the type of your primary key.
 
-For example, if your primary key is a string::
+For example, if your primary key is a string:
+
+  .. code-block:: python
 
     from django.db import models
 
@@ -84,7 +88,9 @@ GenericUUIDTaggedItemBase
 
 A common use case of a non-integer primary key, is UUID primary key.
 ``django-taggit`` provides a base class ``GenericUUIDTaggedItemBase`` ready
-to use with models using an UUID primary key::
+to use with models using an UUID primary key:
+
+  .. code-block:: python
 
     from django.db import models
     from django.utils.translation import ugettext_lazy as _
@@ -182,7 +188,9 @@ preprocessing on the tags so that they are converted to lowercase, reject
 certain tags, disallow certain characters, split only on commas rather than
 commas and whitespace, etc.). To provide your own parser, write a function that
 takes a tag string and returns a list of tag names. For example, a simple
-function to split on comma and convert to lowercase::
+function to split on comma and convert to lowercase:
+
+  .. code-block:: python
 
     def comma_splitter(tag_string):
         return [t.strip().lower() for t in tag_string.split(',') if t.strip()]
@@ -192,13 +200,17 @@ adding a new setting, ``TAGGIT_TAGS_FROM_STRING`` and providing it with the
 dotted path to your function. Likewise, you can provide a function to convert a
 list of tags to a string representation and use the setting
 ``TAGGIT_STRING_FROM_TAGS`` to override the default value (which is
-``taggit.utils._edit_string_for_tags``)::
+``taggit.utils._edit_string_for_tags``):
+
+  .. code-block:: python
 
     def comma_joiner(tags):
         return ', '.join(t.name for t in tags)
 
 If the functions above were defined in a module, ``appname.utils``, then your
-project settings.py file should contain the following::
+project settings.py file should contain the following:
+
+  .. code-block:: python
 
     TAGGIT_TAGS_FROM_STRING = 'appname.utils.comma_splitter'
     TAGGIT_STRING_FROM_TAGS = 'appname.utils.comma_joiner'

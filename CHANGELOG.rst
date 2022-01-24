@@ -9,6 +9,8 @@ Changelog
 
 * Add Python 3.10 support.
 * Add Django 4.0 support.
+* Drop Django 3.1 support.
+
 
 2.0.0 (2021-11-14)
 ~~~~~~~~~~~~~~~~~~
