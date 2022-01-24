@@ -4,7 +4,11 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+2.1.0 (2022-01-24)
+~~~~~~~~~~~~~~~~~~
+
 * Add Python 3.10 support.
+* Add Django 4.0 support.
 
 2.0.0 (2021-11-14)
 ~~~~~~~~~~~~~~~~~~
