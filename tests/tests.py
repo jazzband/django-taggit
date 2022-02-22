@@ -592,6 +592,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             pks,
             [f"<{model_name}: kitty>", f"<{model_name}: cat>"],
             ordered=False,
+            transform=repr,
         )
 
     def test_exclude(self):
@@ -609,6 +610,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             pks,
             [f"<{model_name}: pear>", f"<{model_name}: guava>"],
             ordered=False,
+            transform=repr,
         )
 
     def test_multi_inheritance_similarity_by_tag(self):
