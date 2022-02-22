@@ -14,6 +14,7 @@ from django.db.models.fields.related import (
     lazy_related_operation,
 )
 from django.db.models.query_utils import PathInfo
+from django.utils.functional import cached_property
 from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
@@ -651,6 +652,10 @@ class TaggableManager(RelatedField):
                 direct=True, filtered_relation=filtered_relation
             )
 
+    @cached_property
+    def path_infos(self):
+        return self.get_path_info()
+
     def get_reverse_path_info(self, filtered_relation=None):
         if self.use_gfk:
             return self._get_gfk_case_path_info(
@@ -660,6 +665,10 @@ class TaggableManager(RelatedField):
             return self._get_mm_case_path_info(
                 direct=False, filtered_relation=filtered_relation
             )
+
+    @cached_property
+    def reverse_path_infos(self):
+        return self.get_reverse_path_info()
 
     def get_joining_columns(self, reverse_join=False):
         if reverse_join:
