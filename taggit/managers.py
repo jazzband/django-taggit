@@ -591,16 +591,31 @@ class TaggableManager(RelatedField):
         pathinfos = []
         linkfield1 = self.through._meta.get_field("content_object")
         linkfield2 = self.through._meta.get_field(self.m2m_reverse_field_name())
-        if direct:
-            join1infos = linkfield1.get_reverse_path_info(
-                filtered_relation=filtered_relation
-            )
-            join2infos = linkfield2.get_path_info(filtered_relation=filtered_relation)
+        if django.VERSION >= (4, 1) and not filtered_relation:
+            # Django >= 4.1 provides cached path_infos and reverse_path_infos properties
+            # to use in preference to get_path_info / get_reverse_path_info when not
+            # passing a filtered_relation
+            if direct:
+                join1infos = linkfield1.reverse_path_infos
+                join2infos = linkfield2.path_infos
+            else:
+                join1infos = linkfield2.reverse_path_infos
+                join2infos = linkfield1.path_infos
         else:
-            join1infos = linkfield2.get_reverse_path_info(
-                filtered_relation=filtered_relation
-            )
-            join2infos = linkfield1.get_path_info(filtered_relation=filtered_relation)
+            if direct:
+                join1infos = linkfield1.get_reverse_path_info(
+                    filtered_relation=filtered_relation
+                )
+                join2infos = linkfield2.get_path_info(
+                    filtered_relation=filtered_relation
+                )
+            else:
+                join1infos = linkfield2.get_reverse_path_info(
+                    filtered_relation=filtered_relation
+                )
+                join2infos = linkfield1.get_path_info(
+                    filtered_relation=filtered_relation
+                )
         pathinfos.extend(join1infos)
         pathinfos.extend(join2infos)
         return pathinfos
@@ -622,11 +637,19 @@ class TaggableManager(RelatedField):
                     filtered_relation,
                 )
             ]
-            join2infos = linkfield.get_path_info(filtered_relation=filtered_relation)
+            if django.VERSION >= (4, 1) and not filtered_relation:
+                join2infos = linkfield.path_infos
+            else:
+                join2infos = linkfield.get_path_info(
+                    filtered_relation=filtered_relation
+                )
         else:
-            join1infos = linkfield.get_reverse_path_info(
-                filtered_relation=filtered_relation
-            )
+            if django.VERSION >= (4, 1) and not filtered_relation:
+                join1infos = linkfield.reverse_path_infos
+            else:
+                join1infos = linkfield.get_reverse_path_info(
+                    filtered_relation=filtered_relation
+                )
             join2infos = [
                 PathInfo(
                     opts,
