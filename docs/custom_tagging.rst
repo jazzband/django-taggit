@@ -93,7 +93,7 @@ to use with models using an UUID primary key:
   .. code-block:: python
 
     from django.db import models
-    from django.utils.translation import ugettext_lazy as _
+    from django.utils.translation import gettext_lazy as _
 
     from taggit.managers import TaggableManager
     from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
@@ -122,7 +122,7 @@ model named ``"tag"``. If your custom ``Tag`` model has extra parameters you wan
   .. code-block:: python
 
     from django.db import models
-    from django.utils.translation import ugettext_lazy as _
+    from django.utils.translation import gettext_lazy as _
 
     from taggit.managers import TaggableManager
     from taggit.models import TagBase, GenericTaggedItemBase
