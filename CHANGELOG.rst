@@ -4,6 +4,8 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Drop Django 2.2 support.
+
 2.1.0 (2022-01-24)
 ~~~~~~~~~~~~~~~~~~
 
