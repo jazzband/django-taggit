@@ -13,7 +13,8 @@ Frequently Asked Questions
 
 
  One way to handle this is with post-generation hooks::
-    class ProductFactory(DjangoModelFactory):
+
+   class ProductFactory(DjangoModelFactory):
         # Rest of the stuff
 
         @post_generation
