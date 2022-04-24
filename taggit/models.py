@@ -19,7 +19,7 @@ class TagBase(models.Model):
         verbose_name=pgettext_lazy("A tag name", "name"), unique=True, max_length=100
     )
     slug = models.SlugField(
-        verbose_name=pgettext_lazy("A tag slug", "slug"), unique=True, max_length=100
+        verbose_name=pgettext_lazy("A tag slug", "slug"), unique=True, max_length=100, allow_unicode=True
     )
 
     def __str__(self):
