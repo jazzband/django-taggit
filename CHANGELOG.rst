@@ -4,7 +4,26 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
-* Drop Django 2.2 support.
+* **Backwards incompatible:** Tag slugification used to silently strip non-ASCII characters
+  from the tag name to make the slug. This leads to a lot of confusion for anyone using
+  languages with non-latin alphabets, as well as weird performance issues.
+
+  Tag slugification will now, by default, maintain unicode characters as-is during
+  slugification. This will lead to less surprises, but might cause issues for you if you are
+  expecting all of your tag slugs to fit within a regex like ``[a-zA-Z0-9]`` (for example in
+  URL routing configurations).
+
+  Generally speaking, this should not require action on your part as a library user, as
+  existing tag slugs are persisted in the database, and only new tags will receive the
+  enhanced unicode-compatible slug.
+
+  If you wish to maintain the old stripping behavior, set the setting
+  ``TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING`` to ``True``.
+
+  As a reminder, custom tag models can easily customize slugification behavior by overriding
+  the ``slugify`` method to your business needs.
+
+`` Drop Django 2.2 support.
 
 2.1.0 (2022-01-24)
 ~~~~~~~~~~~~~~~~~~

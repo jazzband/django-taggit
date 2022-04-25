@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import IntegrityError, models, router, transaction
@@ -19,7 +20,10 @@ class TagBase(models.Model):
         verbose_name=pgettext_lazy("A tag name", "name"), unique=True, max_length=100
     )
     slug = models.SlugField(
-        verbose_name=pgettext_lazy("A tag slug", "slug"), unique=True, max_length=100
+        verbose_name=pgettext_lazy("A tag slug", "slug"),
+        unique=True,
+        max_length=100,
+        allow_unicode=True,
     )
 
     def __str__(self):
@@ -71,7 +75,10 @@ class TagBase(models.Model):
             return super().save(*args, **kwargs)
 
     def slugify(self, tag, i=None):
-        slug = slugify(unidecode(tag))
+        if getattr(settings, "TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING", False):
+            slug = slugify(unidecode(tag))
+        else:
+            slug = slugify(tag, allow_unicode=True)
         if i is not None:
             slug += "_%d" % i
         return slug
