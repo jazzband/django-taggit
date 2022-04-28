@@ -1,8 +1,8 @@
 Changelog
 =========
 
-(Unreleased)
-~~~~~~~~~~~~
+3.0.0 (Unreleased)
+~~~~~~~~~~~~~~~~~~
 
 * **Backwards incompatible:** Tag slugification used to silently strip non-ASCII characters
   from the tag name to make the slug. This leads to a lot of confusion for anyone using
