@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+3.0.0 (2022-05-02)
+~~~~~~~~~~~~~~~~~~
+
 * **Backwards incompatible:** Tag slugification used to silently strip non-ASCII characters
   from the tag name to make the slug. This leads to a lot of confusion for anyone using
   languages with non-latin alphabets, as well as weird performance issues.
