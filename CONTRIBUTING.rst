@@ -72,3 +72,15 @@ Send pull request
 
 It is now time to push your changes to GitHub and open a `pull request
 <https://github.com/jazzband/django-taggit/pulls>`_!
+
+
+Release Checklist
+-----------------
+
+To make a release, the following needs to happen:
+
+- Bump the version number in ``taggit/__init__.py``
+- Update the changelog (making sure to add the (Unreleased) section to the top)
+- Get those changes onto the ``master`` branch
+- Tag the commit with the version number
+- CI should then upload a release to be verified through Jazzband
