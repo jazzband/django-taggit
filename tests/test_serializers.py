@@ -5,8 +5,7 @@ test_django-taggit-serializer
 Tests for `django-taggit-serializer` models module.
 """
 
-import unittest
-
+from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 
 from taggit import serializers
@@ -15,7 +14,7 @@ from .models import TestModel
 from .serializers import TestModelSerializer
 
 
-class TestTaggit_serializer(unittest.TestCase):
+class TestTaggit_serializer(TestCase):
     def test_taggit_serializer_field(self):
         correct_value = ["1", "2", "3"]
         serializer_field = serializers.TagListSerializerField()
@@ -87,8 +86,4 @@ class TestTaggit_serializer(unittest.TestCase):
         serializer.is_valid()
         test_model = serializer.save()
 
-        assert len(test_model.tags.all()) == len(request_data["tags"])
         assert set(serializer.data["tags"]) == set(request_data["tags"])
-        assert TestModel.objects.filter(tags__name="1").exists() is False
-        assert TestModel.objects.filter(tags__name="2").exists() is True
-        assert TestModel.objects.filter(tags__name="3").exists() is True
