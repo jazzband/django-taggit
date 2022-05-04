@@ -143,10 +143,9 @@ class _TaggableManager(models.Manager):
         return self.through.lookup_kwargs(self.instance)
 
     def _remove_prefetched_objects(self):
-        try:
-            self.instance._prefetched_objects_cache.pop(self.prefetch_cache_name)
-        except (AttributeError, KeyError):
-            pass  # nothing to clear from cache
+        prefetch_cache = getattr(self.instance, "_prefetched_objects_cache", None)
+        if prefetch_cache:
+            prefetch_cache.pop(self.prefetch_cache_name, None)
 
     @require_instance_manager
     def add(self, *tags, through_defaults=None, tag_kwargs=None, **kwargs):

@@ -74,16 +74,17 @@ class TestTaggit_serializer(TestCase):
 
     def test_returns_new_data_after_update(self):
         """
-        Test if the the prefetch cache clears after an updates
+        Test if the serializer uses fresh data after updating prefetched fields
         """
         TestModel.objects.create().tags.add("1")
 
         test_model = TestModel.objects.prefetch_related("tags").get()
 
-        request_data = {"tags": ["2", "3"]}
+        assert TestModelSerializer(test_model).data["tags"] == ["1"]
 
+        request_data = {"tags": ["2", "3"]}
         serializer = TestModelSerializer(test_model, data=request_data)
         serializer.is_valid()
         test_model = serializer.save()
 
-        assert set(serializer.data["tags"]) == set(request_data["tags"])
+        assert set(serializer.data["tags"]) == {"2", "3"}
