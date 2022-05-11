@@ -5,8 +5,7 @@ test_django-taggit-serializer
 Tests for `django-taggit-serializer` models module.
 """
 
-import unittest
-
+from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 
 from taggit import serializers
@@ -15,7 +14,7 @@ from .models import TestModel
 from .serializers import TestModelSerializer
 
 
-class TestTaggit_serializer(unittest.TestCase):
+class TestTaggit_serializer(TestCase):
     def test_taggit_serializer_field(self):
         correct_value = ["1", "2", "3"]
         serializer_field = serializers.TagListSerializerField()
@@ -72,3 +71,20 @@ class TestTaggit_serializer(unittest.TestCase):
 
         assert TestModel.objects.filter(tags__name__in=["1"]).count() == 0
         assert TestModel.objects.filter(tags__name__in=["1", "2"]).count() == 1
+
+    def test_returns_new_data_after_update(self):
+        """
+        Test if the serializer uses fresh data after updating prefetched fields
+        """
+        TestModel.objects.create().tags.add("1")
+
+        test_model = TestModel.objects.prefetch_related("tags").get()
+
+        assert TestModelSerializer(test_model).data["tags"] == ["1"]
+
+        request_data = {"tags": ["2", "3"]}
+        serializer = TestModelSerializer(test_model, data=request_data)
+        serializer.is_valid()
+        test_model = serializer.save()
+
+        assert set(serializer.data["tags"]) == {"2", "3"}
