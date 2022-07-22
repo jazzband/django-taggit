@@ -3,7 +3,7 @@ Frequently Asked Questions
 
 - How can I get all my tags?
 
- If you are using just an out-of-the-box setup, your tags are storred in the `Tag` model (found in `taggit.models`). If this is a custom model (for example you have your own models derived from `ItemBase`), then you'll need to query that one instead.
+ If you are using just an out-of-the-box setup, your tags are stored in the `Tag` model (found in `taggit.models`). If this is a custom model (for example you have your own models derived from `ItemBase`), then you'll need to query that one instead.
 
  So if you are using the standard setup, ``Tag.objects.all()`` will give you the tags.
 
