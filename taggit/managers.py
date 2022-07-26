@@ -720,7 +720,7 @@ class TaggableManager(RelatedField):
 
     # this is required to handle a change in Django 4.0
     # https://docs.djangoproject.com/en/4.0/releases/4.0/#miscellaneous
-    # the signature of the (private) funtion was changed
+    # the signature of the (private) function was changed
     if django.VERSION < (4, 0):
         get_extra_restriction = _get_extra_restriction_legacy
     else:

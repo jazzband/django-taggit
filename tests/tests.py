@@ -520,7 +520,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         pear = self.food_model.objects.create(name="pear")
         #   1 query to see which tags exist
         #   1  query to check existing ids for sending m2m_changed signal
-        # + 4 queries to create the intermeidary things (including SELECTs, to
+        # + 4 queries to create the intermediary things (including SELECTs, to
         #     make sure we dont't double create.
         # + 4 for save points.
         queries = 10
