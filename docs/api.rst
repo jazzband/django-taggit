@@ -72,7 +72,7 @@ playing around with the API.
         just an iterable) containing the name of each tag as a string::
 
             >>> apple.tags.names()
-            [u'green and juicy', u'red']
+            ["green and juicy", "red"]
 
     .. method:: slugs()
 
@@ -80,7 +80,7 @@ playing around with the API.
         just an iterable) containing the slug of each tag as a string::
 
             >>> apple.tags.slugs()
-            [u'green-and-juicy', u'red']
+            ["green-and-juicy", "red"]
 
     .. hint::
 
