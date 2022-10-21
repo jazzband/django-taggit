@@ -39,7 +39,7 @@ The following Django-level settings affect the behavior of the library
   When set to ``True``, tag lookups will be case insensitive. This defaults to ``False``.
 
 * ``TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING``
-  When this is set to ``True``, tag slugs will be limited to ASCII characters. In this case, if you also have ```unidecode`` installed,
+  When this is set to ``True``, tag slugs will be limited to ASCII characters. In this case, if you also have ``unidecode`` installed,
   then tag sluggification will transform a tag like ``あい　うえお`` to ``ai-ueo``.
   If you do not have ``unidecode`` installed, then you will usually be outright stripping unicode, meaning that something like ``helloあい`` will be slugified as ``hello``.
 
