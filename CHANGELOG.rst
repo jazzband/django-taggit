@@ -6,6 +6,7 @@ Changelog
 
 * Fixed an issue where object caches would not be properly cleared after updating tags, leading
   to stale reads in cases where `prefetch_related` is used.
+* Add Python 3.11 support.
 * Add Django 4.1 support.
 
 3.0.0 (2022-05-02)
