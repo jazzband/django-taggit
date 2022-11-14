@@ -8,6 +8,7 @@ Changelog
   to stale reads in cases where `prefetch_related` is used.
 * Add Python 3.11 support.
 * Add Django 4.1 support.
+* Fixed an issue where TagListSerializerField caused the tags field to show a string.
 
 3.0.0 (2022-05-02)
 ~~~~~~~~~~~~~~~~~~
