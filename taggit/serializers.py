@@ -33,7 +33,7 @@ class TagList(list):
             return json.dumps(self)
 
 
-class TagListSerializerField(serializers.Field):
+class TagListSerializerField(serializers.ListField):
     child = serializers.CharField()
     default_error_messages = {
         "not_a_list": gettext_lazy(
