@@ -4,10 +4,10 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Add Python 3.11 support (no code changes were needed, but now we test this release).
+* Add Django 4.1 support (no code changes were needed, but now we test this release).
 * Fixed an issue where object caches would not be properly cleared after updating tags, leading
   to stale reads in cases where ``prefetch_related`` is used.
-* Add Python 3.11 support.
-* Add Django 4.1 support.
 * Change ``TagListSerializerField`` to be a subclass of ``ListField``. This should improve support for API document generation. This change should not affect API behavior, but might affect metaprogramming code, so please procede carefully during this update.
 
 3.0.0 (2022-05-02)
