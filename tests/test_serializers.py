@@ -51,10 +51,23 @@ class TestTaggit_serializer(TestCase):
         request_data = {"tags": ["1", "2", "3"]}
 
         serializer = TestModelSerializer(data=request_data)
-        serializer.is_valid()
+        assert serializer.is_valid()
         test_model = serializer.save()
 
         assert len(test_model.tags.all()) == len(request_data.get("tags"))
+
+    def test_taggit_serializer_create_with_string(self):
+        """
+        Test that we can pass in a string instead of an array for
+        a tag list without issues
+        """
+        request_data = {"tags": '["1", "2", "3"]'}
+
+        serializer = TestModelSerializer(data=request_data)
+        assert serializer.is_valid(), serializer.errors
+        test_model = serializer.save()
+
+        assert set(tag.name for tag in test_model.tags.all()) == {"1", "2", "3"}
 
     def test_taggit_removes_tags(self):
         """

@@ -11,6 +11,11 @@ from rest_framework import serializers
 
 
 class TagList(list):
+    """
+    This tag list subclass adds pretty printing support to the tag list
+    serializer
+    """
+
     def __init__(self, *args, **kwargs):
         pretty_print = kwargs.pop("pretty_print", True)
         super().__init__(*args, **kwargs)
@@ -33,7 +38,15 @@ class TagList(list):
             return json.dumps(self)
 
 
-class TagListSerializerField(serializers.Field):
+class TagListSerializerField(serializers.ListField):
+    """
+    A serializer field that can write out a tag list
+
+    This serializer field has some odd qualities compared to just using a ListField.
+    If this field poses problems, we should introduce a new field that is a simpler
+    ListField implementation with less features.
+    """
+
     child = serializers.CharField()
     default_error_messages = {
         "not_a_list": gettext_lazy(
@@ -59,6 +72,11 @@ class TagListSerializerField(serializers.Field):
         self.pretty_print = pretty_print
 
     def to_internal_value(self, value):
+        # note to future maintainers: this field used to not be a ListField
+        # and has extra behavior to support string-based input.
+        #
+        # In the future we should look at removing this feature so we can
+        # make this a simple ListField (if feasible)
         if isinstance(value, str):
             if not value:
                 value = "[]"
