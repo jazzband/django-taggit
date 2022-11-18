@@ -67,6 +67,14 @@ To do work on the docs, proceed with the following steps:
     pip install sphinx
     sphinx-build -n -W docs docs/_build
 
+Add a changelog line
+--------------------
+
+Even when the change is minor, a changelog line is helpful to both describe
+the intent of the change, and to give a heads up to people upgrading. You can
+add a line in the ``(Unreleased)`` section of ``CHANGELOG.rst``, along with
+any more detailed explanations for more complicated changes.
+
 Send pull request
 -----------------
 
@@ -76,6 +84,8 @@ It is now time to push your changes to GitHub and open a `pull request
 
 Release Checklist
 -----------------
+
+These steps need to happen by a release maintainer.
 
 To make a release, the following needs to happen:
 
