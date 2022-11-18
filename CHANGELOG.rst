@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+3.1.0 (2022-11-08)
+~~~~~~~~~~~~~~~~~~
+
 * Add Python 3.11 support (no code changes were needed, but now we test this release).
 * Add Django 4.1 support (no code changes were needed, but now we test this release).
 * Fixed an issue where object caches would not be properly cleared after updating tags, leading
