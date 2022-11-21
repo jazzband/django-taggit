@@ -67,7 +67,7 @@ class TestTaggit_serializer(TestCase):
         assert serializer.is_valid(), serializer.errors
         test_model = serializer.save()
 
-        assert set(tag.name for tag in test_model.tags.all()) == {"1", "2", "3"}
+        assert {tag.name for tag in test_model.tags.all()} == {"1", "2", "3"}
 
     def test_taggit_removes_tags(self):
         """
