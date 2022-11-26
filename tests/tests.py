@@ -1299,6 +1299,4 @@ class SwitchingCaseSensitivityTests(TestCase):
         self.child.tags.add("tag", "TAG")
         tags = self.child.tags.all()
         self.assertEqual(2, tags.count())
-        self.assertEqual(
-            {'tag', 'Tag'}, {t.name for t in tags}
-        )
+        self.assertEqual({"tag", "Tag"}, {t.name for t in tags})
