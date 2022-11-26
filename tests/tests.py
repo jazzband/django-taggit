@@ -1285,3 +1285,20 @@ class PendingMigrationsTests(TestCase):
         out = StringIO()
         call_command("makemigrations", "taggit", dry_run=True, stdout=out)
         self.assertEqual(out.getvalue().strip(), "No changes detected in app 'taggit'")
+
+
+class SwitchingCaseSensitivityTests(TestCase):
+    def setUp(self):
+        super().setUp()
+        self.child = Child()
+        self.child.save()
+        self.child.tags.add("tag", "Tag")
+
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_existing_multiple_same_tags(self):
+        self.child.tags.add("tag", "TAG")
+        tags = self.child.tags.all()
+        self.assertEqual(2, tags.count())
+        self.assertEqual(
+            {'tag', 'Tag'}, {t.name for t in tags}
+        )
