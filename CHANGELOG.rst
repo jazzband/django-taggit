@@ -429,7 +429,7 @@ Changelog
 * Fixed querying for objects using ``exclude(tags__in=tags)``.
 * Marked strings as translatable.
 * Added a Russian translation.
-* Created a `mailing list <http://groups.google.com/group/django-taggit>`_.
+* Created a `mailing list <https://groups.google.com/group/django-taggit>`_.
 * Smarter tagstring parsing for form field; ported from Jonathan Buchanan's
   `django-tagging <http://django-tagging.googlecode.com>`_. Now supports tags
   containing commas. See :ref:`tags-in-forms` for details.
