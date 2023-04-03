@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     name: Python ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # The maximum number of minutes to let a workflow run
     # before GitHub automatically cancels it. Default: 360
@@ -28,7 +28,7 @@ jobs:
           - '3.11'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
