@@ -4,6 +4,14 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+Update github workflows test.yaml and tox(no code changes were needed).
+
+* Workaround for python versioning in ubuntu, see ``issue #846`` for more info.
+* Update checkout to ``actions/checkout@v3`` to silence depracation warnings.
+
+Update tox (no code changes were needed).
+* Update ``Django`` test matrix, ``dj-main`` min version now ``py3.10``.
+
 3.1.0 (2022-11-08)
 ~~~~~~~~~~~~~~~~~~
 
