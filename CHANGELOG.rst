@@ -3,6 +3,9 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* Add Django 4.2 support (no code changes were needed, but now we test this release).
+* Fix failing tests as per issue #848
+  Added `contains_over_clause` to `ExtraJoinRestriction`.
 
 3.1.0 (2022-11-08)
 ~~~~~~~~~~~~~~~~~~
