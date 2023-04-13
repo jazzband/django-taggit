@@ -33,6 +33,8 @@ class ExtraJoinRestriction:
     """
 
     contains_aggregate = False
+    # Added for Django >= 4.2
+    contains_over_clause = False
 
     def __init__(self, alias, col, content_types):
         self.alias = alias
