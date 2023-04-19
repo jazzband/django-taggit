@@ -703,10 +703,28 @@ class TaggableManager(RelatedField):
         return self.get_reverse_path_info()
 
     def get_joining_columns(self, reverse_join=False):
+        # RemovedInDjango60Warning
+        # https://github.com/django/django/commit/8b1ff0da4b162e87edebd94e61f2cd153e9e159d
         if reverse_join:
             return ((self.model._meta.pk.column, "object_id"),)
         else:
             return (("object_id", self.model._meta.pk.column),)
+
+    def get_joining_fields(self, reverse_join=False):
+        if reverse_join:
+            return (
+                (
+                    self.model._meta.pk,
+                    self.remote_field.through._meta.get_field("object_id"),
+                ),
+            )
+        else:
+            return (
+                (
+                    self.remote_field.through._meta.get_field("object_id"),
+                    self.model._meta.pk,
+                ),
+            )
 
     def _get_extra_restriction(self, alias, related_alias):
         extra_col = self.through._meta.get_field("content_type").column
@@ -729,7 +747,12 @@ class TaggableManager(RelatedField):
         get_extra_restriction = _get_extra_restriction
 
     def get_reverse_joining_columns(self):
+        # RemovedInDjango60Warning
+        # https://github.com/django/django/commit/8b1ff0da4b162e87edebd94e61f2cd153e9e159d
         return self.get_joining_columns(reverse_join=True)
+
+    def get_reverse_joining_fields(self):
+        return self.get_joining_fields(reverse_join=True)
 
     @property
     def related_fields(self):
