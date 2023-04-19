@@ -6,7 +6,6 @@ import taggit.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tests", "0004_auto_20210619_0826"),
     ]
