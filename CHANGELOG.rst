@@ -3,6 +3,7 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* Remove Python 3.6 support (no code changes occurred, but we no longer test this release).
 
 3.1.0 (2022-11-08)
 ~~~~~~~~~~~~~~~~~~
