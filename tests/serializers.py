@@ -6,7 +6,6 @@ from .models import TestModel
 
 
 class TestModelSerializer(TaggitSerializer, serializers.ModelSerializer):
-
     tags = TagListSerializerField()
 
     class Meta:

@@ -7,7 +7,6 @@ import taggit.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("contenttypes", "0002_remove_content_type_name"),
         ("taggit", "0003_taggeditem_add_unique_index"),
