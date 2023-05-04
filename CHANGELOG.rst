@@ -4,7 +4,7 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 * Remove Python 3.6 support (no code changes occurred, but we no longer test this release).
-* Remove Django 4.1 support (no code changes occurred, but we no longer test this release).
+* Remove Django 4.0 support (no code changes occurred, but we no longer test this release).
 * Add Django 4.2 support.
 
 3.1.0 (2022-11-08)
