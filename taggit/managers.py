@@ -33,6 +33,7 @@ class ExtraJoinRestriction:
     """
 
     contains_aggregate = False
+    contains_over_clause = False
 
     def __init__(self, alias, col, content_types):
         self.alias = alias
