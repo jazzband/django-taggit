@@ -57,6 +57,8 @@ from .models import (
     TaggedCustomPKFood,
     TaggedFood,
     TaggedTrackedFood,
+    TenantModel,
+    TenantTag,
     TrackedTag,
     UUIDFood,
     UUIDHousePet,
@@ -840,6 +842,42 @@ class TaggableManagerUUIDTestCase(TaggableManagerTestCase):
         # With a UUIDField pk, pk is never None. So taggit has no way to tell
         # if the instance is saved or not.
         pass
+
+
+class TenantTagTestCase(TestCase):
+    model = TenantModel
+    tag_model = TenantTag
+
+    def test_tenant_tag(self):
+        tenant_1 = self.model.objects.create(name="tenant 1")
+        tenant_2 = self.model.objects.create(name="tenant 2")
+
+        # tenant 1 tags
+        tenant_1.tags.add("foo", "bar", tag_kwargs={"tenant_id": 1})
+
+        # tenant 2 tags
+        tenant_2.tags.add("foo", "baz", tag_kwargs={"tenant_id": 2})
+
+        # We should end up with 4 tags
+        self.assertEqual(self.tag_model.objects.all().count(), 4)
+        self.assertEqual(tenant_1.tags.count(), 2)
+        self.assertEqual(tenant_2.tags.count(), 2)
+
+    @override_settings(TAGGIT_CASE_INSENSITIVE=True)
+    def test_tenant_tag_insensitive(self):
+        tenant_1 = self.model.objects.create(name="tenant 1")
+        tenant_2 = self.model.objects.create(name="tenant 2")
+
+        # tenant 1 tags
+        tenant_1.tags.add("foo", "bar", tag_kwargs={"tenant_id": 1})
+
+        # tenant 2 tags
+        tenant_2.tags.add("foo", "baz", tag_kwargs={"tenant_id": 2})
+
+        # We should end up with 4 tags
+        self.assertEqual(self.tag_model.objects.all().count(), 4)
+        self.assertEqual(tenant_1.tags.count(), 2)
+        self.assertEqual(tenant_2.tags.count(), 2)
 
 
 class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
