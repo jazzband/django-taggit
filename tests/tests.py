@@ -1362,3 +1362,8 @@ class PendingMigrationsTests(TestCase):
         out = StringIO()
         call_command("makemigrations", "taggit", dry_run=True, stdout=out)
         self.assertEqual(out.getvalue().strip(), "No changes detected in app 'taggit'")
+
+    def test_tests_have_no_pending_migrations(self):
+        out = StringIO()
+        call_command("makemigrations", "tests", dry_run=True, stdout=out)
+        self.assertEqual(out.getvalue().strip(), "No changes detected in app 'tests'")
