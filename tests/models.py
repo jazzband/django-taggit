@@ -403,6 +403,28 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase):
         unique_together = [["content_type", "object_id", "tag"]]
 
 
+class TenantTag(TagBase):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, allow_unicode=True)
+    tenant_id = models.IntegerField()
+
+    class Meta:
+        unique_together = [["name", "tenant_id"], ["slug", "tenant_id"]]
+
+
+class TenantTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(
+        TenantTag,
+        related_name="%(app_label)s_%(class)s_items",
+        on_delete=models.CASCADE,
+    )
+
+
+class TenantModel(models.Model):
+    name = models.CharField(max_length=50)
+    tags = TaggableManager(through=TenantTaggedItem)
+
+
 # Exists to verify system check failure.
 # tests.Name.tags: (fields.E303) Reverse query name for 'Name.tags' clashes with field name 'Tag.name'.
 # 	HINT: Rename field 'Tag.name', or add/change a related_name argument to the definition for field 'Name.tags'.

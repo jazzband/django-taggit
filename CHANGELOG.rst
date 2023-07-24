@@ -3,6 +3,7 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* Fix ``tag_kwargs`` and ``TAGGIT_CASE_INSENSITIVE=True`` discrepency.
 
 4.0.0 (2023-05-04)
 ~~~~~~~~~~~~~~~~~~
