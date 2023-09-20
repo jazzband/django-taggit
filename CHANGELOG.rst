@@ -3,6 +3,15 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* **Backwards icompatible:** Rename the (``content_type``, ``object_id``) index on ``TaggedItem``.
+  It is very unlikely for this to affect your code itself, and a migration will rename the index. This should not cause any downtime according to my research (Postgres does not lock the table for index renames, and Oracle holds a tiny lock to do it, and the change is only to the metadata, so is not dependent on table size).
+
+* **Backwards incompatible:** Remove the ``.indexed_together`` and ``.unique_together`` attributes on ``TaggedItem``
+
+  We are instead using ``constraints`` and ``indexes`` to set up these properties.
+* Remove support for Django 3.2.
+* Remove usage of deprecated APIs for Django 4.2
+* Remove support for Python 3.7 (no code changes involved)
 * Fix ``tag_kwargs`` and ``TAGGIT_CASE_INSENSITIVE=True`` discrepency.
 
 4.0.0 (2023-05-04)
