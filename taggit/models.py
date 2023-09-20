@@ -187,7 +187,12 @@ class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
         verbose_name = _("tagged item")
         verbose_name_plural = _("tagged items")
         app_label = "taggit"
-        index_together = [["content_type", "object_id"]]
+        indexes = [
+            models.Index(
+                fields=["content_type", "object_id"],
+            )
+        ]
+
         constraints = [
             models.UniqueConstraint(
                 fields=("content_type", "object_id", "tag"),
