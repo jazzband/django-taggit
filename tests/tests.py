@@ -591,7 +591,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         pks = self.pet_model.objects.filter(tags__name__in=["fuzzy"])
         model_name = self.pet_model.__name__
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             pks,
             [f"<{model_name}: kitty>", f"<{model_name}: cat>"],
             ordered=False,
@@ -609,7 +609,7 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
 
         pks = self.food_model.objects.exclude(tags__name__in=["red"])
         model_name = self.food_model.__name__
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             pks,
             [f"<{model_name}: pear>", f"<{model_name}: guava>"],
             ordered=False,
