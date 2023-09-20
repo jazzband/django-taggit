@@ -961,25 +961,42 @@ class TaggableFormTestCase(BaseTaggingTestCase):
     food_model = Food
 
     def _get_form_str(self, form_str):
-        form_str %= {
-            "help_start": '<div class="helptext">',
-            "help_stop": "</div>",
-            "required": "required",
-        }
+        if DJANGO_VERSION >= (5, 0):
+            # Django defaults to div-based form rendering in 5.0
+            # https://github.com/django/django/commit/98756c685ee173bbd43f21ed0553f808be835ce5
+            # https://github.com/django/django/commit/232b60a21b951bd16b8c95b34fcbcbf3ecd89fca
+            form_str %= {
+                "help_start": '<div class="helptext">',
+                "help_stop": "</div>",
+                "required": "required",
+            }
+        else:
+            form_str %= {
+                "help_start": '<span class="helptext">',
+                "help_stop": "</span>",
+                "required": "required",
+            }
         return form_str
 
     def assertFormRenders(self, form, html):
-        self.assertHTMLEqual(form.as_div(), self._get_form_str(html))
+        self.assertHTMLEqual(str(form), self._get_form_str(html))
 
     def test_form(self):
         self.assertEqual(list(self.form_class.base_fields), ["name", "tags"])
 
         f = self.form_class({"name": "apple", "tags": "green, red, yummy"})
-        self.assertFormRenders(
-            f,
-            """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-<div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /></div>""",
-        )
+        if DJANGO_VERSION >= (5, 0):
+            self.assertFormRenders(
+                f,
+                """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /></div>""",
+            )
+        else:
+            self.assertFormRenders(
+                f,
+                """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+    <tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+            )
         f.save()
         apple = self.food_model.objects.get(name="apple")
         self.assert_tags_equal(apple.tags.all(), ["green", "red", "yummy"])
@@ -996,27 +1013,48 @@ class TaggableFormTestCase(BaseTaggingTestCase):
         self.assertFalse(f.is_valid())
 
         f = self.form_class(instance=apple)
-        self.assertFormRenders(
-            f,
-            """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
+        if DJANGO_VERSION >= (5, 0):
+            self.assertFormRenders(
+                f,
+                """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
     <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
-        )
+            )
+        else:
+            self.assertFormRenders(
+                f,
+                """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+    <tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+            )
 
         apple.tags.add("has,comma")
         f = self.form_class(instance=apple)
-        self.assertFormRenders(
-            f,
-            """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-<div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
-        )
+        if DJANGO_VERSION >= (5, 0):
+            self.assertFormRenders(
+                f,
+                """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
+            )
+        else:
+            self.assertFormRenders(
+                f,
+                """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+    <tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+            )
 
         apple.tags.add("has space")
         f = self.form_class(instance=apple)
-        self.assertFormRenders(
-            f,
-            """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-<div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
-        )
+        if DJANGO_VERSION >= (5, 0):
+            self.assertFormRenders(
+                f,
+                """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
+            )
+        else:
+            self.assertFormRenders(
+                f,
+                """<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></td></tr>
+    <tr><th><label for="id_tags">Tags:</label></th><td><input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /><br />%(help_start)sA comma-separated list of tags.%(help_stop)s</td></tr>""",
+            )
 
     def test_formfield(self):
         tm = TaggableManager(
