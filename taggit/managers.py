@@ -84,8 +84,19 @@ class _TaggableManager(models.Manager):
             )
 
     def get_prefetch_queryset(self, instances, queryset=None):
-        if queryset is not None:
-            raise ValueError("Custom queryset can't be used for this lookup.")
+        if queryset is None:
+            return self.get_prefetch_querysets(instances)
+        else:
+            return self.get_prefetch_querysets(instances, [queryset])
+
+    def get_prefetch_querysets(self, instances, querysets=None):
+        if querysets is not None:
+            # this queryset is meant to be used for filtering down the prefetch
+            # this work has not been done yet.
+            #
+            # Some hint from Django: asserting that len(querysets) == 1 if it's not None
+            # and then using that to filter down the qs
+            raise ValueError("Custom querysets can't be used for this lookup.")
 
         instance = instances[0]
         db = self._db or router.db_for_read(type(instance), instance=instance)

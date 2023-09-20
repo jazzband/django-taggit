@@ -966,20 +966,23 @@ class TaggableFormTestCase(BaseTaggingTestCase):
             # https://github.com/django/django/commit/98756c685ee173bbd43f21ed0553f808be835ce5
             # https://github.com/django/django/commit/232b60a21b951bd16b8c95b34fcbcbf3ecd89fca
             form_str %= {
-                "help_start": '<div class="helptext">',
+                "help_start": '<div class="helptext" id="id_tags_helptext">',
                 "help_stop": "</div>",
                 "required": "required",
+                "aria": 'aria-describedby="id_tags_helptext"',
             }
         else:
             form_str %= {
                 "help_start": '<span class="helptext">',
                 "help_stop": "</span>",
                 "required": "required",
+                "aria": "",
             }
         return form_str
 
     def assertFormRenders(self, form, html):
-        self.assertHTMLEqual(str(form), self._get_form_str(html))
+        rendered_form = form.as_table() if DJANGO_VERSION < (5, 0) else form.as_div()
+        self.assertHTMLEqual(rendered_form, self._get_form_str(html))
 
     def test_form(self):
         self.assertEqual(list(self.form_class.base_fields), ["name", "tags"])
@@ -989,7 +992,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
             self.assertFormRenders(
                 f,
                 """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /></div>""",
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input %(aria)s type="text" name="tags" value="green, red, yummy" id="id_tags" %(required)s /></div>""",
             )
         else:
             self.assertFormRenders(
@@ -1017,7 +1020,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
             self.assertFormRenders(
                 f,
                 """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input %(aria)s type="text" name="tags" value="delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
             )
         else:
             self.assertFormRenders(
@@ -1032,7 +1035,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
             self.assertFormRenders(
                 f,
                 """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input %(aria)s type="text" name="tags" value="&quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
             )
         else:
             self.assertFormRenders(
@@ -1047,7 +1050,7 @@ class TaggableFormTestCase(BaseTaggingTestCase):
             self.assertFormRenders(
                 f,
                 """<div><label for="id_name">Name:</label><input id="id_name" type="text" name="name" value="apple" maxlength="50" %(required)s /></div>
-    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
+    <div><label for="id_tags">Tags:</label>%(help_start)sA comma-separated list of tags.%(help_stop)s<input %(aria)s type="text" name="tags" value="&quot;has space&quot;, &quot;has,comma&quot;, delicious, green, red, yummy" id="id_tags" %(required)s /></div>""",
             )
         else:
             self.assertFormRenders(
