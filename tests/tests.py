@@ -67,6 +67,9 @@ from .models import (
     UUIDTaggedItem,
 )
 
+if DJANGO_VERSION < (4, 2):
+    TestCase.assertQuerySetEqual = TestCase.assertQuerysetEqual
+
 
 class BaseTaggingTestCase(TestCase):
     def assert_tags_equal(self, qs, tags, sort=True, attr="name"):
