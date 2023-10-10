@@ -3,6 +3,19 @@ from django.test import TestCase, override_settings
 from tests.models import TestModel
 
 
+class TestTaggableManager(TestCase):
+    def test_set_ordering(self):
+        """
+        Test that the tags are set and returned exactly
+        """
+        str_tags = ["red", "green", "delicious"]
+        sample_obj = TestModel.objects.create()
+
+        sample_obj.tags.set(str_tags)
+        for idx, tag in enumerate(sample_obj.tags.all()):
+            self.assertEqual(tag.name, str_tags[idx])
+
+
 class TestSlugification(TestCase):
     def test_unicode_slugs(self):
         """
