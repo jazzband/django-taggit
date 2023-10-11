@@ -1,5 +1,6 @@
 from django.test import TestCase, override_settings
 
+from taggit.models import Tag
 from tests.models import TestModel
 
 
@@ -14,6 +15,19 @@ class TestTaggableManager(TestCase):
         sample_obj.tags.set(str_tags)
         for idx, tag in enumerate(sample_obj.tags.all()):
             self.assertEqual(tag.name, str_tags[idx])
+
+    def test_set_mixed(self):
+        """
+        Test with mixed str and obj tags
+        """
+        tag_obj = Tag.objects.create(name='mcintosh')
+        str_tags = ["red", "green", "delicious"]
+        sample_obj = TestModel.objects.create()
+
+        sample_obj.tags.set(str_tags + [tag_obj])
+        results = str_tags + [tag_obj.name]
+        for idx, tag in enumerate(sample_obj.tags.all()):
+            self.assertEqual(tag.name, results[idx])
 
 
 class TestSlugification(TestCase):
