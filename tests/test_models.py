@@ -20,7 +20,7 @@ class TestTaggableManager(TestCase):
         """
         Test with mixed str and obj tags
         """
-        tag_obj = Tag.objects.create(name='mcintosh')
+        tag_obj = Tag.objects.create(name="mcintosh")
         str_tags = ["red", "green", "delicious"]
         sample_obj = TestModel.objects.create()
 

@@ -221,14 +221,18 @@ class _TaggableManager(models.Manager):
                             tag_objs.append(tag)
                         except self.through.tag_model().DoesNotExist:
                             lookup = {"name__iexact": t, **tag_kwargs}
-                            tag, created = manager.get_or_create(**lookup, defaults={"name": t})
+                            tag, created = manager.get_or_create(
+                                **lookup, defaults={"name": t}
+                            )
                             tag_objs.append(tag)
                     else:
                         try:
                             tag = manager.get(name=t, **tag_kwargs)
                             tag_objs.append(tag)
                         except self.through.tag_model().DoesNotExist:
-                            tag, created = manager.get_or_create(name=t, defaults={"name": t})
+                            tag, created = manager.get_or_create(
+                                name=t, defaults={"name": t}
+                            )
                             tag_objs.append(tag)
             else:
                 raise ValueError(
@@ -238,7 +242,6 @@ class _TaggableManager(models.Manager):
                 )
 
         return tag_objs
-
 
     @require_instance_manager
     def names(self):
