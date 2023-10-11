@@ -69,7 +69,9 @@ class _TaggableManager(models.Manager):
         if ordering:
             self.ordering = ordering
         else:
-            self.ordering = []
+            # default to ordering by the pk of the through table entry
+            related_name = self.through.tag.field.related_query_name()
+            self.ordering = [f"{related_name}__pk"]
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
