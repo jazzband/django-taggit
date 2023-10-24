@@ -1,3 +1,6 @@
+import random
+import string
+
 from django import forms
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -60,3 +63,58 @@ class TagFieldTests(TestCase):
         form = TestForm()
 
         self.assertFalse(form.has_changed())
+
+    def test_should_raise_error_on_clean_if_has_tag_longer_than_max_allowed(self):
+        class TestForm(forms.Form):
+            tag = TagField(max_tag_length=50)
+        
+        test_tag = "".join(random.choice(string.ascii_letters) for i in range(51))
+
+        msg = "Tag(s) %(value_too_long)s are over %(max_tag_length)d characters" % {
+            "value_too_long": test_tag,
+            "max_tag_length": 50,
+        }
+
+        form = TestForm({"tag": test_tag})
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(msg, form.errors["tag"])
+
+        class TestForm(forms.Form):
+            tag = TagField(max_tag_length=200)
+        
+        test_tag = "".join(random.choice(string.ascii_letters) for i in range(201))
+
+        msg = "Tag(s) %(value_too_long)s are over %(max_tag_length)d characters" % {
+            "value_too_long": test_tag,
+            "max_tag_length": 200,
+        }
+
+        form = TestForm({"tag": test_tag})
+
+        # Defaults to 100
+        class TestForm(forms.Form):
+            tag = TagField()
+
+        test_tag = "".join(random.choice(string.ascii_letters) for i in range(101))
+
+        msg = "Tag(s) %(value_too_long)s are over %(max_tag_length)d characters" % {
+            "value_too_long": test_tag,
+            "max_tag_length": 100,
+        }
+
+        form = TestForm({"tag": test_tag})
+
+        # If None passed, uses Tag.name.field.max_length (which is 100)
+        class TestForm(forms.Form):
+            tag = TagField(max_tag_length=None)
+
+        test_tag = "".join(random.choice(string.ascii_letters) for i in range(101))
+
+        msg = "Tag(s) %(value_too_long)s are over %(max_tag_length)d characters" % {
+            "value_too_long": test_tag,
+            "max_tag_length": 100,
+        }
+
+        form = TestForm({"tag": test_tag})
+
