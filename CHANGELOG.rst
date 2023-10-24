@@ -3,6 +3,7 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* Add ``max_tag_length`` to ``TagField`` that defaults to 100 as Tag model has a max_length constraint for name field.
 * Fix ``tag_kwargs`` and ``TAGGIT_CASE_INSENSITIVE=True`` discrepency.
 
 4.0.0 (2023-05-04)

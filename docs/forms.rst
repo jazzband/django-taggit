@@ -51,3 +51,8 @@ form with normal many to many fields on it::
             form.save_m2m()
 
 You can check the details over in the `Django documentation on form saving <https://docs.djangoproject.com/en/3.2/topics/forms/modelforms/#the-save-method>`_.
+
+
+``max_tag_length=100``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+``TagField`` has an optional argument that sets the max_length for tag. If empty defaults to 100. If passed None takes Tag.name.field.max_length into account.
