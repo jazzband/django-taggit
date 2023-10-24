@@ -3,6 +3,9 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+
+5.0.0 (2023-10-24)
+~~~~~~~~~~~~~~~~~~
 * **Backwards icompatible:** Rename the (``content_type``, ``object_id``) index on ``TaggedItem``.
   It is very unlikely for this to affect your code itself, and a migration will rename the index. This should not cause any downtime according to my research (Postgres does not lock the table for index renames, and Oracle holds a tiny lock to do it, and the change is only to the metadata, so is not dependent on table size).
 
