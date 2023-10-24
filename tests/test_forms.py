@@ -91,6 +91,8 @@ class TagFieldTests(TestCase):
         }
 
         form = TestForm({"tag": test_tag})
+        self.assertFalse(form.is_valid())
+        self.assertIn(msg, form.errors["tag"])
 
         # Defaults to 100
         class TestForm(forms.Form):
@@ -104,6 +106,8 @@ class TagFieldTests(TestCase):
         }
 
         form = TestForm({"tag": test_tag})
+        self.assertFalse(form.is_valid())
+        self.assertIn(msg, form.errors["tag"])
 
         # If None passed, uses Tag.name.field.max_length (which is 100)
         class TestForm(forms.Form):
@@ -117,3 +121,5 @@ class TagFieldTests(TestCase):
         }
 
         form = TestForm({"tag": test_tag})
+        self.assertFalse(form.is_valid())
+        self.assertIn(msg, form.errors["tag"])
