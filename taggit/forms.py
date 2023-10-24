@@ -23,12 +23,11 @@ class TextareaTagWidget(TagWidgetMixin, forms.Textarea):
 
 class TagField(forms.CharField):
     widget = TagWidget
-    
-    def __init__(self, max_tag_length = 100, *args, **kwargs):
+
+    def __init__(self, max_tag_length=100, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.max_tag_length = max_tag_length
-    
-    
+
     def clean(self, value):
         value = super().clean(value)
         if self.max_tag_length:
@@ -36,27 +35,26 @@ class TagField(forms.CharField):
         else:
             max_tag_length = Tag.name.field.max_length
         value_too_long = ""
-            
+
         for val in value.split(","):
-            if len(val) > max_tag_length: 
-                if value_too_long: 
-                    value_too_long += ", " 
-                value_too_long += val 
-        if value_too_long: 
-            raise forms.ValidationError( 
-                _("Tag(s) %(value_too_long)s are over %(max_tag_length)d characters") 
-                % { 
-                    "value_too_long": value_too_long, 
-                    "max_tag_length": max_tag_length, 
-                } 
-            ) 
+            if len(val) > max_tag_length:
+                if value_too_long:
+                    value_too_long += ", "
+                value_too_long += val
+        if value_too_long:
+            raise forms.ValidationError(
+                _("Tag(s) %(value_too_long)s are over %(max_tag_length)d characters")
+                % {
+                    "value_too_long": value_too_long,
+                    "max_tag_length": max_tag_length,
+                }
+            )
         try:
             return parse_tags(value)
         except ValueError:
             raise forms.ValidationError(
                 _("Please provide a comma-separated list of tags.")
             )
-
 
     def has_changed(self, initial_value, data_value):
         # Always return False if the field is disabled since self.bound_data
