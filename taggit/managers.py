@@ -1,7 +1,6 @@
 import uuid
 from operator import attrgetter
 
-import django
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -610,7 +609,7 @@ class TaggableManager(RelatedField):
         pathinfos = []
         linkfield1 = self.through._meta.get_field("content_object")
         linkfield2 = self.through._meta.get_field(self.m2m_reverse_field_name())
-        if django.VERSION >= (4, 1) and not filtered_relation:
+        if not filtered_relation:
             # Django >= 4.1 provides cached path_infos and reverse_path_infos properties
             # to use in preference to get_path_info / get_reverse_path_info when not
             # passing a filtered_relation
@@ -656,14 +655,14 @@ class TaggableManager(RelatedField):
                     filtered_relation,
                 )
             ]
-            if django.VERSION >= (4, 1) and not filtered_relation:
+            if not filtered_relation:
                 join2infos = linkfield.path_infos
             else:
                 join2infos = linkfield.get_path_info(
                     filtered_relation=filtered_relation
                 )
         else:
-            if django.VERSION >= (4, 1) and not filtered_relation:
+            if not filtered_relation:
                 join1infos = linkfield.reverse_path_infos
             else:
                 join1infos = linkfield.get_reverse_path_info(
@@ -736,25 +735,13 @@ class TaggableManager(RelatedField):
                 ),
             )
 
-    def _get_extra_restriction(self, alias, related_alias):
+    def get_extra_restriction(self, alias, related_alias):
         extra_col = self.through._meta.get_field("content_type").column
         content_type_ids = [
             ContentType.objects.get_for_model(subclass).pk
             for subclass in _get_subclasses(self.model)
         ]
         return ExtraJoinRestriction(related_alias, extra_col, content_type_ids)
-
-    def _get_extra_restriction_legacy(self, where_class, alias, related_alias):
-        # this is a shim to maintain compatibility with django < 4.0
-        return self._get_extra_restriction(alias, related_alias)
-
-    # this is required to handle a change in Django 4.0
-    # https://docs.djangoproject.com/en/4.0/releases/4.0/#miscellaneous
-    # the signature of the (private) function was changed
-    if django.VERSION < (4, 0):
-        get_extra_restriction = _get_extra_restriction_legacy
-    else:
-        get_extra_restriction = _get_extra_restriction
 
     def get_reverse_joining_columns(self):
         # RemovedInDjango60Warning
