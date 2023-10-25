@@ -220,11 +220,17 @@ class _TaggableManager(models.Manager):
 
         for t in tags:
             if isinstance(t, self.through.tag_model()):
-                if t not in tag_objs:
-                    tag_objs.append(t)
+                if case_insensitive:
+                    if t.name.lower() not in processed_tags:
+                        tag_objs.append(t)
+                        processed_tags.append(t.name.lower())
+                else:
+                    if t.name not in processed_tags:
+                        tag_objs.append(t)
+                        processed_tags.append(t.name)
             elif isinstance(t, str):
-                if t not in processed_tags:
-                    if case_insensitive:
+                if case_insensitive:
+                    if t.lower() not in processed_tags:
                         try:
                             tag = manager.get(name__iexact=t, **tag_kwargs)
                             tag_objs.append(tag)
@@ -236,7 +242,8 @@ class _TaggableManager(models.Manager):
                             tag_objs.append(tag)
                         finally:
                             processed_tags.append(t.lower())
-                    else:
+                else:
+                    if t not in processed_tags:
                         try:
                             tag = manager.get(name=t, **tag_kwargs)
                             tag_objs.append(tag)
