@@ -241,7 +241,7 @@ class _TaggableManager(models.Manager):
                             tag_objs.append(tag)
                         except self.through.tag_model().DoesNotExist:
                             tag, created = manager.get_or_create(
-                                name=t, defaults={"name": t}
+                                name=t, defaults={"name": t}, **tag_kwargs
                             )
                             tag_objs.append(tag)
             else:
