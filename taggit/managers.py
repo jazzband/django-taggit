@@ -224,7 +224,6 @@ class _TaggableManager(models.Manager):
                     tag_objs.append(t)
             elif isinstance(t, str):
                 if t not in processed_tags:
-                    processed_tags.append(t)
                     if case_insensitive:
                         try:
                             tag = manager.get(name__iexact=t, **tag_kwargs)
@@ -235,15 +234,20 @@ class _TaggableManager(models.Manager):
                                 **lookup, defaults={"name": t}
                             )
                             tag_objs.append(tag)
+                        finally:
+                            processed_tags.append(t.lower())
                     else:
                         try:
                             tag = manager.get(name=t, **tag_kwargs)
                             tag_objs.append(tag)
                         except self.through.tag_model().DoesNotExist:
+                            lookup = {"name": t, **tag_kwargs}
                             tag, created = manager.get_or_create(
-                                name=t, defaults={"name": t}, **tag_kwargs
+                                **lookup, defaults={"name": t}
                             )
                             tag_objs.append(tag)
+                        finally:
+                            processed_tags.append(t)
             else:
                 raise ValueError(
                     "Cannot add {} ({}). Expected {} or str.".format(
