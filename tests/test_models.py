@@ -13,8 +13,7 @@ class TestTaggableManager(TestCase):
         sample_obj = TestModel.objects.create()
 
         sample_obj.tags.set(str_tags)
-        for idx, tag in enumerate(sample_obj.tags.all()):
-            self.assertEqual(tag.name, str_tags[idx])
+        self.assertEqual(str_tags, [tag.name for tag in sample_obj.tags.all()])
 
     def test_set_mixed(self):
         """
@@ -26,8 +25,12 @@ class TestTaggableManager(TestCase):
 
         sample_obj.tags.set(str_tags + [tag_obj])
         results = str_tags + [tag_obj.name]
-        for idx, tag in enumerate(sample_obj.tags.all()):
-            self.assertEqual(tag.name, results[idx])
+        self.assertEqual(results, [tag.name for tag in sample_obj.tags.all()])
+
+    def test_duplicates(self):
+        sample_obj = TestModel.objects.create()
+        sample_obj.tags.set(["green", "green"])
+        self.assertEqual(1, sample_obj.tags.count())
 
 
 class TestSlugification(TestCase):
