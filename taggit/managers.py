@@ -66,7 +66,7 @@ class _TaggableManager(models.Manager):
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
-        if ordering:
+        if ordering is not None:
             self.ordering = ordering
         else:
             # default to ordering by the pk of the through table entry
