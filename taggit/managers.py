@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections, models, router
 from django.db.models import signals
+from django.db.models import Case, When, Value, IntegerField
 from django.db.models.fields.related import (
     ManyToManyRel,
     OneToOneRel,
@@ -77,12 +78,19 @@ class _TaggableManager(models.Manager):
 
     def get_queryset(self, extra_filters=None):
         try:
-            return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
+            qs = self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
             kwargs = extra_filters if extra_filters else {}
-            return self.through.tags_for(self.model, self.instance, **kwargs).order_by(
+            qs = self.through.tags_for(self.model, self.instance, **kwargs).order_by(
                 *self.ordering
             )
+
+        # distinct query doesn't work so we need to manually dedupe the query
+        kwargs = extra_filters if extra_filters else {}
+        pks = qs.values_list('pk', flat=True)
+        preserved = Case(*[When(pk=pk, then=Value(i)) for i, pk in enumerate(pks)], output_field=IntegerField())
+        results = self.through.tag.field.related_model.objects.filter(pk__in=pks, **kwargs).annotate(ordering=preserved).order_by('ordering').distinct()
+        return results
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is None:
