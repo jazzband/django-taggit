@@ -4,6 +4,12 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+5.0.1 (2023-10-26)
+~~~~~~~~~~~~~~~~~~
+
+* Fix the package metadata to properly reflect the right Django and Python version requirements
+  Release 5.0.0 improperly stated its Django bounds as >=3.2, so people installing without bounds will end up on a version that won't work.
+
 5.0.0 (2023-10-24)
 ~~~~~~~~~~~~~~~~~~
 * **Backwards icompatible:** Rename the (``content_type``, ``object_id``) index on ``TaggedItem``.
