@@ -1,3 +1,5 @@
+import taggit
+
 extensions = ["sphinx.ext.intersphinx"]
 
 master_doc = "index"
@@ -6,9 +8,9 @@ project = "django-taggit"
 copyright = "Alex Gaynor and individual contributors."
 
 # The short X.Y version.
-version = "1.3"
+version = taggit.__version__
 # The full version, including alpha/beta/rc tags.
-release = "1.3.0"
+release = taggit.__version__
 
 intersphinx_mapping = {
     "django": (
