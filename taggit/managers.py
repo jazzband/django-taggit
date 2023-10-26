@@ -87,9 +87,17 @@ class _TaggableManager(models.Manager):
 
         # distinct query doesn't work so we need to manually dedupe the query
         kwargs = extra_filters if extra_filters else {}
-        pks = qs.values_list('pk', flat=True)
-        preserved = Case(*[When(pk=pk, then=Value(i)) for i, pk in enumerate(pks)], output_field=IntegerField())
-        results = self.through.tag.field.related_model.objects.filter(pk__in=pks, **kwargs).annotate(ordering=preserved).order_by('ordering').distinct()
+        pks = qs.values_list("pk", flat=True)
+        preserved = Case(
+            *[When(pk=pk, then=Value(i)) for i, pk in enumerate(pks)],
+            output_field=IntegerField(),
+        )
+        results = (
+            self.through.tag.field.related_model.objects.filter(pk__in=pks, **kwargs)
+            .annotate(ordering=preserved)
+            .order_by("ordering")
+            .distinct()
+        )
         return results
 
     def get_prefetch_queryset(self, instances, queryset=None):
