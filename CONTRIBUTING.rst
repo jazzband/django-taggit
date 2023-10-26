@@ -89,6 +89,7 @@ These steps need to happen by a release maintainer.
 
 To make a release, the following needs to happen:
 
+- Make sure that ``setup.cfg`` is set up properly w/r/t Python and Django requirements
 - Bump the version number in ``taggit/__init__.py``
 - Update the changelog (making sure to add the (Unreleased) section to the top)
 - Get those changes onto the ``master`` branch
