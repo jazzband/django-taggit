@@ -392,8 +392,9 @@ class _TaggableManager(models.Manager):
         )
 
     def most_common(self, min_count=None, extra_filters=None):
+        kwargs = extra_filters if extra_filters else {}
         queryset = (
-            self.get_queryset(extra_filters)
+            self.through.tag_model().objects.filter(**kwargs)
             .annotate(num_times=models.Count(self.through.tag_relname()))
             .order_by("-num_times")
         )
