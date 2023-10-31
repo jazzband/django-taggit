@@ -69,10 +69,12 @@ class _TaggableManager(models.Manager):
         self.prefetch_cache_name = prefetch_cache_name
         if ordering is not None:
             self.ordering = ordering
-        else:
+        elif instance:
             # default to ordering by the pk of the through table entry
             related_name = self.through.tag.field.related_query_name()
             self.ordering = [f"{related_name}__pk"]
+        else:
+            self.ordering = []
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
@@ -86,20 +88,7 @@ class _TaggableManager(models.Manager):
                 *self.ordering
             )
 
-        # distinct query doesn't work so we need to manually dedupe the query
-        kwargs = extra_filters if extra_filters else {}
-        pks = qs.values_list("pk", flat=True)
-        preserved = Case(
-            *[When(pk=pk, then=Value(i)) for i, pk in enumerate(pks)],
-            output_field=IntegerField(),
-        )
-        results = (
-            self.through.tag.field.related_model.objects.filter(pk__in=pks, **kwargs)
-            .annotate(ordering=preserved)
-            .order_by("ordering")
-            .distinct()
-        )
-        return results
+        return qs
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is not None:
@@ -382,9 +371,8 @@ class _TaggableManager(models.Manager):
         )
 
     def most_common(self, min_count=None, extra_filters=None):
-        kwargs = extra_filters if extra_filters else {}
         queryset = (
-            self.through.tag_model().objects.filter(**kwargs)
+            self.get_queryset(extra_filters)
             .annotate(num_times=models.Count(self.through.tag_relname()))
             .order_by("-num_times")
         )
