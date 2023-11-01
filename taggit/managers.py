@@ -7,7 +7,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections, models, router
 from django.db.models import signals
-from django.db.models import Case, When, Value, IntegerField
 from django.db.models.fields.related import (
     ManyToManyRel,
     OneToOneRel,
