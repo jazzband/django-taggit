@@ -65,10 +65,7 @@ class _TaggableManager(models.Manager):
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
-        if ordering:
-            self.ordering = ordering
-        else:
-            self.ordering = []
+        self.ordering = ordering if ordering else []
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache

@@ -34,8 +34,8 @@ class TagList(list):
     def __str__(self):
         if self.pretty_print:
             return json.dumps(self, sort_keys=True, indent=4, separators=(",", ": "))
-        else:
-            return json.dumps(self)
+
+        return json.dumps(self)
 
 
 class TagListSerializerField(serializers.ListField):
