@@ -177,7 +177,7 @@ class _TaggableManager(models.Manager):
 
         for t in tags:
             if isinstance(t.first(), self.through.tag_model()):
-                tag_objs.add(t)
+                tag_objs.add(t.first())
             elif isinstance(t, str):
                 str_tags.add(t)
             else:
