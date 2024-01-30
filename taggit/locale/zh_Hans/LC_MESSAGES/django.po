@@ -45,8 +45,6 @@ msgid "slug"
 msgstr "唯一标识"
 
 #: taggit/models.py:89
-#, fuzzy
-#| msgid "Tag"
 msgid "tag"
 msgstr "标签"
 
