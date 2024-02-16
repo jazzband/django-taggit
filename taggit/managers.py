@@ -204,7 +204,9 @@ class _TaggableManager(models.Manager):
         tag_objs = set()
 
         for t in tags:
-            if isinstance(t, self.through.tag_model()):
+            if (hasattr(t, 'first') and isinstance(t.first(), self.through.tag_model())):
+                tag_objs.add(t.first())
+            elif isinstance(t, self.through.tag_model()):
                 tag_objs.add(t)
             elif isinstance(t, str):
                 str_tags.add(t)
