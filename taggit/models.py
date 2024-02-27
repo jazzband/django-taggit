@@ -169,7 +169,7 @@ class CommonGenericTaggedItemBase(ItemBase):
 
 
 class GenericTaggedItemBase(CommonGenericTaggedItemBase):
-    object_id = models.IntegerField(verbose_name=_("object ID"), db_index=True)
+    object_id = models.BigIntegerField(verbose_name=_("object ID"), db_index=True)
 
     class Meta:
         abstract = True
