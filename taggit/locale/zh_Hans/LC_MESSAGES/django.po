@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-14 11:45+0900\n"
+"POT-Creation-Date: 2024-01-30 16:06+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,65 +26,63 @@ msgstr "标签项"
 msgid "Please provide a comma-separated list of tags."
 msgstr "请提供逗号分隔的标签列表。"
 
-#: taggit/managers.py:432
+#: taggit/managers.py:442
 msgid "Tags"
 msgstr "标签"
 
-#: taggit/managers.py:433
+#: taggit/managers.py:443
 msgid "A comma-separated list of tags."
 msgstr "逗号分隔的标签列表。"
 
-#: taggit/models.py:19
+#: taggit/models.py:20
 msgctxt "A tag name"
 msgid "name"
 msgstr "名称"
 
-#: taggit/models.py:22
+#: taggit/models.py:23
 msgctxt "A tag slug"
 msgid "slug"
 msgstr "唯一标识"
 
-#: taggit/models.py:82
-#, fuzzy
-#| msgid "Tag"
+#: taggit/models.py:89
 msgid "tag"
 msgstr "标签"
 
-#: taggit/models.py:83
+#: taggit/models.py:90
 msgid "tags"
-msgstr ""
+msgstr "标签"
 
-#: taggit/models.py:89
+#: taggit/models.py:96
 #, python-format
 msgid "%(object)s tagged with %(tag)s"
 msgstr "%(object)s 使用了标签 %(tag)s"
 
-#: taggit/models.py:134
+#: taggit/models.py:141
 msgid "content type"
 msgstr "内容类型"
 
-#: taggit/models.py:165 taggit/models.py:172
+#: taggit/models.py:172 taggit/models.py:179
 msgid "object ID"
 msgstr "对象ID"
 
-#: taggit/models.py:180
+#: taggit/models.py:187
 msgid "tagged item"
 msgstr "标签项"
 
-#: taggit/models.py:181
+#: taggit/models.py:188
 msgid "tagged items"
 msgstr "标签项"
 
-#: taggit/serializers.py:40
+#: taggit/serializers.py:53
 #, python-brace-format
 msgid "Expected a list of items but got type \"{input_type}\"."
-msgstr ""
+msgstr "期望得到一个项目列表，但得到的是类型 “{input_type}”。"
 
-#: taggit/serializers.py:43
+#: taggit/serializers.py:56
 msgid ""
 "Invalid json list. A tag list submitted in string form must be valid json."
-msgstr ""
+msgstr "无效的 JSON 列表。以字符串形式提交的标签列表必须是有效的 JSON。"
 
-#: taggit/serializers.py:46
+#: taggit/serializers.py:59
 msgid "All list items must be of string type."
-msgstr ""
+msgstr "所有列表项必须是字符串类型。"
