@@ -65,8 +65,12 @@ class _TaggableManager(models.Manager):
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
-        if ordering:
+        if ordering is not None:
             self.ordering = ordering
+        elif instance:
+            # default to ordering by the pk of the through table entry
+            related_name = self.through.tag.field.related_query_name()
+            self.ordering = [f"{related_name}__pk"]
         else:
             self.ordering = []
 
@@ -75,12 +79,14 @@ class _TaggableManager(models.Manager):
 
     def get_queryset(self, extra_filters=None):
         try:
-            return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
+            qs = self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
             kwargs = extra_filters if extra_filters else {}
-            return self.through.tags_for(self.model, self.instance, **kwargs).order_by(
+            qs = self.through.tags_for(self.model, self.instance, **kwargs).order_by(
                 *self.ordering
             )
+
+        return qs
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is None:
@@ -206,57 +212,59 @@ class _TaggableManager(models.Manager):
     def _to_tag_model_instances(self, tags, tag_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
-        of both and returns set of tag objects.
+        of both and returns a list of tag objects while preserving order.
         """
         db = router.db_for_write(self.through, instance=self.instance)
 
-        str_tags = set()
-        tag_objs = set()
+        processed_tags = []
+        tag_objs = []
+
+        case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
+        manager = self.through.tag_model()._default_manager.using(db)
 
         for t in tags:
             if isinstance(t, self.through.tag_model()):
-                tag_objs.add(t)
+                if case_insensitive:
+                    if t.name.lower() not in processed_tags:
+                        tag_objs.append(t)
+                        processed_tags.append(t.name.lower())
+                else:
+                    if t.name not in processed_tags:
+                        tag_objs.append(t)
+                        processed_tags.append(t.name)
             elif isinstance(t, str):
-                str_tags.add(t)
+                if case_insensitive:
+                    if t.lower() not in processed_tags:
+                        try:
+                            tag = manager.get(name__iexact=t, **tag_kwargs)
+                            tag_objs.append(tag)
+                        except self.through.tag_model().DoesNotExist:
+                            lookup = {"name__iexact": t, **tag_kwargs}
+                            tag, created = manager.get_or_create(
+                                **lookup, defaults={"name": t}
+                            )
+                            tag_objs.append(tag)
+                        finally:
+                            processed_tags.append(t.lower())
+                else:
+                    if t not in processed_tags:
+                        try:
+                            tag = manager.get(name=t, **tag_kwargs)
+                            tag_objs.append(tag)
+                        except self.through.tag_model().DoesNotExist:
+                            lookup = {"name": t, **tag_kwargs}
+                            tag, created = manager.get_or_create(
+                                **lookup, defaults={"name": t}
+                            )
+                            tag_objs.append(tag)
+                        finally:
+                            processed_tags.append(t)
             else:
                 raise ValueError(
                     "Cannot add {} ({}). Expected {} or str.".format(
                         t, type(t), type(self.through.tag_model())
                     )
                 )
-
-        case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
-        manager = self.through.tag_model()._default_manager.using(db)
-
-        if case_insensitive:
-            # Some databases can do case-insensitive comparison with IN, which
-            # would be faster, but we can't rely on it or easily detect it.
-            existing = []
-            tags_to_create = []
-
-            for name in str_tags:
-                try:
-                    tag = manager.get(name__iexact=name, **tag_kwargs)
-                    existing.append(tag)
-                except self.through.tag_model().DoesNotExist:
-                    tags_to_create.append(name)
-        else:
-            # If str_tags has 0 elements Django actually optimizes that to not
-            # do a query.  Malcolm is very smart.
-            existing = manager.filter(name__in=str_tags, **tag_kwargs)
-
-            tags_to_create = str_tags - {t.name for t in existing}
-
-        tag_objs.update(existing)
-
-        for new_tag in tags_to_create:
-            if case_insensitive:
-                lookup = {"name__iexact": new_tag, **tag_kwargs}
-            else:
-                lookup = {"name": new_tag, **tag_kwargs}
-
-            tag, create = manager.get_or_create(**lookup, defaults={"name": new_tag})
-            tag_objs.add(tag)
 
         return tag_objs
 
