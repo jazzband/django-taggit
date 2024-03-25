@@ -3,6 +3,7 @@ Django-taggit serializer support
 
 Originally vendored from https://github.com/glemmaPaul/django-taggit-serializer
 """
+
 import json
 
 # Third party
