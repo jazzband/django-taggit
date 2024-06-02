@@ -65,10 +65,15 @@ class _TaggableManager(models.Manager):
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
+
         if ordering is not None:
             self.ordering = ordering
         elif instance:
-            # default to ordering by the pk of the through table entry
+            # When working off an instance (i.e. instance.tags.all())
+            # we default to ordering by the PK of the through table
+            #
+            # (This ordering does not apply for queries at the model
+            #  level, i.e. Model.tags.all())
             related_name = self.through.tag.field.related_query_name()
             self.ordering = [f"{related_name}__pk"]
         else:
@@ -79,14 +84,12 @@ class _TaggableManager(models.Manager):
 
     def get_queryset(self, extra_filters=None):
         try:
-            qs = self.instance._prefetched_objects_cache[self.prefetch_cache_name]
+            return self.instance._prefetched_objects_cache[self.prefetch_cache_name]
         except (AttributeError, KeyError):
             kwargs = extra_filters if extra_filters else {}
-            qs = self.through.tags_for(self.model, self.instance, **kwargs).order_by(
+            return self.through.tags_for(self.model, self.instance, **kwargs).order_by(
                 *self.ordering
             )
-
-        return qs
 
     def get_prefetch_queryset(self, instances, queryset=None):
         if queryset is None:
@@ -216,49 +219,66 @@ class _TaggableManager(models.Manager):
         """
         db = router.db_for_write(self.through, instance=self.instance)
 
-        processed_tags = []
-        tag_objs = []
-
         case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
         manager = self.through.tag_model()._default_manager.using(db)
 
+        # tags can be instances of our through models, or strings
+
+        tag_strs = [tag for tag in tags if isinstance(tag, str)]
+        existing_tags_for_str = {}
+        # we are going to first try and lookup existing tags (in a single query)
+        if case_insensitive:
+            # Some databases can do case-insensitive comparison with IN, which
+            # would be faster, but we can't rely on it or easily detect it
+            existing = []
+            tags_to_create = []
+            for name in tag_strs:
+                try:
+                    tag = manager.get(name__iexact=name, **tag_kwargs)
+                    existing_tags_for_str[name] = tag
+                except self.through.tag_model().DoesNotExist:
+                    tags_to_create.append(name)
+        else:
+            # Django is smart enough to not actually query if tag_strs is empty
+            # but importantly, this is a single query for all potential tags
+            existing = manager.filter(name__in=tag_strs, **tag_kwargs)
+            # we're going to end up doing this query anyways, so here is fine
+            for t in existing:
+                existing_tags_for_str[t.name] = t
+
+        result = []
+        # this set is used for deduplicating tags
+        seen_tags = set()
         for t in tags:
             if isinstance(t, self.through.tag_model()):
-                if case_insensitive:
-                    if t.name.lower() not in processed_tags:
-                        tag_objs.append(t)
-                        processed_tags.append(t.name.lower())
-                else:
-                    if t.name not in processed_tags:
-                        tag_objs.append(t)
-                        processed_tags.append(t.name)
+                if t in seen_tags:
+                    continue
+                seen_tags.add(t)
+                result.append(t)
             elif isinstance(t, str):
-                if case_insensitive:
-                    if t.lower() not in processed_tags:
-                        try:
-                            tag = manager.get(name__iexact=t, **tag_kwargs)
-                            tag_objs.append(tag)
-                        except self.through.tag_model().DoesNotExist:
-                            lookup = {"name__iexact": t, **tag_kwargs}
-                            tag, created = manager.get_or_create(
-                                **lookup, defaults={"name": t}
-                            )
-                            tag_objs.append(tag)
-                        finally:
-                            processed_tags.append(t.lower())
-                else:
-                    if t not in processed_tags:
-                        try:
-                            tag = manager.get(name=t, **tag_kwargs)
-                            tag_objs.append(tag)
-                        except self.through.tag_model().DoesNotExist:
-                            lookup = {"name": t, **tag_kwargs}
-                            tag, created = manager.get_or_create(
-                                **lookup, defaults={"name": t}
-                            )
-                            tag_objs.append(tag)
-                        finally:
-                            processed_tags.append(t)
+                # we are using a string, so either the tag exists (and we have the lookup)
+                # or we need to create the value
+
+                existing_tag = existing_tags_for_str.get(t, None)
+                if existing_tag is None:
+                    # we need to create a tag
+                    # (we use get_or_create to handle potential races)
+                    if case_insensitive:
+                        lookup = {"name__iexact": t, **tag_kwargs}
+                    else:
+                        lookup = {"name": t, **tag_kwargs}
+                    existing_tag, _ = manager.get_or_create(
+                        **lookup, defaults={"name": t}
+                    )
+                # we now have an existing tag for this string
+
+                # confirm if we've seen it or not (this is where case insensitivity comes
+                # into play)
+                if existing_tag in seen_tags:
+                    continue
+
+                seen_tags.add(existing_tag)
+                result.append(existing_tag)
             else:
                 raise ValueError(
                     "Cannot add {} ({}). Expected {} or str.".format(
@@ -266,7 +286,7 @@ class _TaggableManager(models.Manager):
                     )
                 )
 
-        return tag_objs
+        return result
 
     @require_instance_manager
     def names(self):

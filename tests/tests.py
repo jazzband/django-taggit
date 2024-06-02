@@ -59,6 +59,7 @@ from .models import (
     TaggedTrackedFood,
     TenantModel,
     TenantTag,
+    TestModel,
     TrackedTag,
     UUIDFood,
     UUIDHousePet,
@@ -66,6 +67,7 @@ from .models import (
     UUIDTag,
     UUIDTaggedItem,
 )
+
 
 if DJANGO_VERSION < (4, 2):
     TestCase.assertQuerySetEqual = TestCase.assertQuerysetEqual
@@ -1361,6 +1363,30 @@ class OrderedTagsTest(TestCase):
             ["blue", "green", "orange", "red", "yellow"],
             list(obj.tags.values_list("name", flat=True)),
         )
+
+    def test_ordered_by_creation_by_default(self):
+        """
+        Test that the tags are set and returned exactly as they are provided in .set
+        """
+        str_tags = ["red", "green", "delicious"]
+        sample_obj = TestModel.objects.create()
+
+        sample_obj.tags.set(str_tags)
+        self.assertEqual(str_tags, [tag.name for tag in sample_obj.tags.all()])
+
+    def test_default_ordering_on_mixed_operation(self):
+        """
+        Test that our default ordering is preserved even when mixing strings
+        and objects
+        """
+        tag_obj = Tag.objects.create(name="mcintosh")
+        tag_obj_2 = Tag.objects.create(name="fuji")
+        str_tags = ["red", "green", "delicious"]
+        sample_obj = TestModel.objects.create()
+
+        sample_obj.tags.set([tag_obj_2] + str_tags + [tag_obj])
+        expected_results = [tag_obj_2.name] + str_tags + [tag_obj.name]
+        self.assertEqual(expected_results, [tag.name for tag in sample_obj.tags.all()])
 
 
 class PendingMigrationsTests(TestCase):

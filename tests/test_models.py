@@ -5,28 +5,6 @@ from tests.models import TestModel
 
 
 class TestTaggableManager(TestCase):
-    def test_set_ordering(self):
-        """
-        Test that the tags are set and returned exactly
-        """
-        str_tags = ["red", "green", "delicious"]
-        sample_obj = TestModel.objects.create()
-
-        sample_obj.tags.set(str_tags)
-        self.assertEqual(str_tags, [tag.name for tag in sample_obj.tags.all()])
-
-    def test_set_mixed(self):
-        """
-        Test with mixed str and obj tags
-        """
-        tag_obj = Tag.objects.create(name="mcintosh")
-        str_tags = ["red", "green", "delicious"]
-        sample_obj = TestModel.objects.create()
-
-        sample_obj.tags.set(str_tags + [tag_obj])
-        results = str_tags + [tag_obj.name]
-        self.assertEqual(results, [tag.name for tag in sample_obj.tags.all()])
-
     def test_duplicates(self):
         sample_obj = TestModel.objects.create()
         sample_obj.tags.set(["green", "green"])
