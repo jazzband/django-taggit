@@ -225,6 +225,10 @@ class _TaggableManager(models.Manager):
         # tags can be instances of our through models, or strings
 
         tag_strs = [tag for tag in tags if isinstance(tag, str)]
+        # This map from tag names to tags lets us handle deduplication
+        # without doing extra queries along the way, all while relying on
+        # data we were going to pull out of the database anyways
+        # existing_tags_for_str[tag_name] = tag
         existing_tags_for_str = {}
         # we are going to first try and lookup existing tags (in a single query)
         if case_insensitive:
