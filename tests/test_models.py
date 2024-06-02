@@ -1,6 +1,5 @@
 from django.test import TestCase, override_settings
 
-from taggit.models import Tag
 from tests.models import TestModel
 
 

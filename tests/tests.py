@@ -68,7 +68,6 @@ from .models import (
     UUIDTaggedItem,
 )
 
-
 if DJANGO_VERSION < (4, 2):
     TestCase.assertQuerySetEqual = TestCase.assertQuerysetEqual
 
