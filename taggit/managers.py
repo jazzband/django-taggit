@@ -255,10 +255,9 @@ class _TaggableManager(models.Manager):
         seen_tags = set()
         for t in tags:
             if isinstance(t, self.through.tag_model()):
-                if t in seen_tags:
-                    continue
-                seen_tags.add(t)
-                result.append(t)
+                if t not in seen_tags:
+                    seen_tags.add(t)
+                    result.append(t)
             elif isinstance(t, str):
                 # we are using a string, so either the tag exists (and we have the lookup)
                 # or we need to create the value
@@ -278,11 +277,9 @@ class _TaggableManager(models.Manager):
 
                 # confirm if we've seen it or not (this is where case insensitivity comes
                 # into play)
-                if existing_tag in seen_tags:
-                    continue
-
-                seen_tags.add(existing_tag)
-                result.append(existing_tag)
+                if existing_tag not in seen_tags:
+                    seen_tags.add(existing_tag)
+                    result.append(existing_tag)
             else:
                 raise ValueError(
                     "Cannot add {} ({}). Expected {} or str.".format(
