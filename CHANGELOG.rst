@@ -4,6 +4,13 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+5.0.2 (2024-06-19)
+~~~~~~~~~~~~~~~~~~
+
+* Update `tox.ini` for testing suite to now use Python 3.12.
+  
+  **Note:** Python 3.8 will be reaching end-of-life status in October 2024, we will need to come back and remove support for Python 3.8 at that time.
+
 5.0.1 (2023-10-26)
 ~~~~~~~~~~~~~~~~~~
 
