@@ -772,6 +772,18 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
         tag_names = list(orange.tags.names())
         self.assertEqual(len(tag_names), 1, tag_names)
 
+    def test_case_sensitivity_fallback(self):
+        orange = self.food_model.objects.create(name="orange")
+        tag_1 = self.tag_model.objects.create(name="spain")
+        tag_2 = self.tag_model.objects.create(name="Spain")
+        with override_settings(TAGGIT_CASE_INSENSITIVE=True):
+            # here we are going to do a case-insensitive lookup
+            # that should end up just finding the 'first' tag
+            orange.tags.add("SPAIN")
+        self.assertEqual(self.tag_model.objects.count(), 2)
+        # we should have used the older tag (tag_1)
+        self.assertEqual(list(orange.tags.all()), [tag_1])
+
     @override_settings(TAGGIT_CASE_INSENSITIVE=True)
     def test_with_case_insensitive_option_new_and_old(self):
         orange = self.food_model.objects.create(name="orange")
