@@ -3,6 +3,14 @@ from django.test import TestCase, override_settings
 from tests.models import TestModel
 
 
+class TestTaggableManager(TestCase):
+    def test_duplicates(self):
+        sample_obj = TestModel.objects.create()
+        sample_obj.tags.set(["green", "green"])
+        desired_result = ["green"]
+        self.assertEqual(desired_result, [tag.name for tag in sample_obj.tags.all()])
+
+
 class TestSlugification(TestCase):
     def test_unicode_slugs(self):
         """
