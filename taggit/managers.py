@@ -65,8 +65,17 @@ class _TaggableManager(models.Manager):
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
-        if ordering:
+
+        if ordering is not None:
             self.ordering = ordering
+        elif instance:
+            # When working off an instance (i.e. instance.tags.all())
+            # we default to ordering by the PK of the through table
+            #
+            # (This ordering does not apply for queries at the model
+            #  level, i.e. Model.tags.all())
+            related_name = self.through.tag.field.related_query_name()
+            self.ordering = [f"{related_name}__pk"]
         else:
             self.ordering = []
 
@@ -206,18 +215,71 @@ class _TaggableManager(models.Manager):
     def _to_tag_model_instances(self, tags, tag_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
-        of both and returns set of tag objects.
+        of both and returns a list of tag objects while preserving order.
         """
         db = router.db_for_write(self.through, instance=self.instance)
 
-        str_tags = set()
-        tag_objs = set()
+        case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
+        manager = self.through.tag_model()._default_manager.using(db)
 
+        # tags can be instances of our through models, or strings
+
+        tag_strs = [tag for tag in tags if isinstance(tag, str)]
+        # This map from tag names to tags lets us handle deduplication
+        # without doing extra queries along the way, all while relying on
+        # data we were going to pull out of the database anyways
+        # existing_tags_for_str[tag_name] = tag
+        existing_tags_for_str = {}
+        # we are going to first try and lookup existing tags (in a single query)
+        if case_insensitive:
+            # Some databases can do case-insensitive comparison with IN, which
+            # would be faster, but we can't rely on it or easily detect it
+            existing = []
+            tags_to_create = []
+            for name in tag_strs:
+                try:
+                    tag = manager.get(name__iexact=name, **tag_kwargs)
+                    existing_tags_for_str[name] = tag
+                except self.through.tag_model().DoesNotExist:
+                    tags_to_create.append(name)
+        else:
+            # Django is smart enough to not actually query if tag_strs is empty
+            # but importantly, this is a single query for all potential tags
+            existing = manager.filter(name__in=tag_strs, **tag_kwargs)
+            # we're going to end up doing this query anyways, so here is fine
+            for t in existing:
+                existing_tags_for_str[t.name] = t
+
+        result = []
+        # this set is used for deduplicating tags
+        seen_tags = set()
         for t in tags:
             if isinstance(t, self.through.tag_model()):
-                tag_objs.add(t)
+                if t not in seen_tags:
+                    seen_tags.add(t)
+                    result.append(t)
             elif isinstance(t, str):
-                str_tags.add(t)
+                # we are using a string, so either the tag exists (and we have the lookup)
+                # or we need to create the value
+
+                existing_tag = existing_tags_for_str.get(t, None)
+                if existing_tag is None:
+                    # we need to create a tag
+                    # (we use get_or_create to handle potential races)
+                    if case_insensitive:
+                        lookup = {"name__iexact": t, **tag_kwargs}
+                    else:
+                        lookup = {"name": t, **tag_kwargs}
+                    existing_tag, _ = manager.get_or_create(
+                        **lookup, defaults={"name": t}
+                    )
+                # we now have an existing tag for this string
+
+                # confirm if we've seen it or not (this is where case insensitivity comes
+                # into play)
+                if existing_tag not in seen_tags:
+                    seen_tags.add(existing_tag)
+                    result.append(existing_tag)
             else:
                 raise ValueError(
                     "Cannot add {} ({}). Expected {} or str.".format(
@@ -225,40 +287,7 @@ class _TaggableManager(models.Manager):
                     )
                 )
 
-        case_insensitive = getattr(settings, "TAGGIT_CASE_INSENSITIVE", False)
-        manager = self.through.tag_model()._default_manager.using(db)
-
-        if case_insensitive:
-            # Some databases can do case-insensitive comparison with IN, which
-            # would be faster, but we can't rely on it or easily detect it.
-            existing = []
-            tags_to_create = []
-
-            for name in str_tags:
-                try:
-                    tag = manager.get(name__iexact=name, **tag_kwargs)
-                    existing.append(tag)
-                except self.through.tag_model().DoesNotExist:
-                    tags_to_create.append(name)
-        else:
-            # If str_tags has 0 elements Django actually optimizes that to not
-            # do a query.  Malcolm is very smart.
-            existing = manager.filter(name__in=str_tags, **tag_kwargs)
-
-            tags_to_create = str_tags - {t.name for t in existing}
-
-        tag_objs.update(existing)
-
-        for new_tag in tags_to_create:
-            if case_insensitive:
-                lookup = {"name__iexact": new_tag, **tag_kwargs}
-            else:
-                lookup = {"name": new_tag, **tag_kwargs}
-
-            tag, create = manager.get_or_create(**lookup, defaults={"name": new_tag})
-            tag_objs.add(tag)
-
-        return tag_objs
+        return result
 
     @require_instance_manager
     def names(self):
