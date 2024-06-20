@@ -9,6 +9,10 @@ Changelog
   If you wish to have the old behavior, set ``ordering=[]`` to your ``TaggableManager`` instance.
   We believe that this should not cause a noticable performance change, and the number of queries involved should not change.
 
+5.0.2 (2024-06-19)
+~~~~~~~~~~~~~~~~~~
+* Add Django 5.0 support (no code changes were needed, but now we test this release).
+
 5.0.1 (2023-10-26)
 ~~~~~~~~~~~~~~~~~~
 
