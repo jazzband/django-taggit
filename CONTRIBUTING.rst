@@ -43,6 +43,16 @@ django-taggit uses `tox <https://tox.readthedocs.io/>`_ to run tests:
 
     tox
 
+Running the sample application
+------------------------------
+
+There is a sample application in ``sample_taggit``. You can run it by doing the following:
+
+- Run migrations with ``sample_taggit/manage.py migrate``
+- Make yourself a superuser with ``sample_taggit/manage.py createsuperuser`` (this should let you use the admin with ease)
+- Launch the sample project itself with ``sample_taggit/manage.py runserver``
+
+
 Follow style conventions (black, flake8, isort)
 -----------------------------------------------
 
