@@ -4,13 +4,12 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
-5.0.2 (2024-06-19)
-~~~~~~~~~~~~~~~~~~
-
-* Update `tox.ini` for testing suite to now use Python 3.12.
-
-  **Note:** Python 3.8 will be reaching end-of-life status in October 2024, we will need to come back and remove support for Python 3.8 at that time.
-
+* By default, order tag items on instances by the primary key. This generally means that they will be ordered by "creation date" for the tag item.
+  The previous behavior for this was that by default tag items were not ordered. In practice tag items often end up ordered by creation date anyways, just due to how databases work, but this was not a guarantee.
+  If you wish to have the old behavior, set ``ordering=[]`` to your ``TaggableManager`` instance.
+  We believe that this should not cause a noticable performance change, and the number of queries involved should not change.
+* Add Django 5.0 support (no code changes were needed, but now we test this release).
+* Add Python 3.12 support
 
 5.0.1 (2023-10-26)
 ~~~~~~~~~~~~~~~~~~
