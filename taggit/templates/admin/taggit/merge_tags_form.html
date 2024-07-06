@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %} 
+{% load i18n admin_urls %}
+
+{% block title %}{% trans 'Django site admin' %}{% endblock %}
+
+{% block content %}
+<div class="module">
+    <form method="post" id="merge-tags-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-row">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+            <ul class="errorlist">
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div class="submit-row">
+            <!-- <input type="submit" value="Merge Tags" name="apply_merge" /> -->
+            <button type="submit" class="button">Merge Tags</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

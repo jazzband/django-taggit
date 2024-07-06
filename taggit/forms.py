@@ -52,3 +52,11 @@ class TagField(forms.CharField):
         initial_value.sort()
 
         return initial_value != data_value
+
+
+class MergeTagsForm(forms.Form):
+    new_tag_name = forms.CharField(
+        label="New Tag Name",
+        max_length=255,
+        widget=forms.TextInput(attrs={"id": "id_new_tag_name"}),
+    )
