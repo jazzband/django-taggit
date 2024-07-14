@@ -1,5 +1,6 @@
 import uuid
 from operator import attrgetter
+from typing import List
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
@@ -54,6 +55,20 @@ class ExtraJoinRestriction:
 
     def clone(self):
         return type(self)(self.alias, self.col, self.content_types[:])
+
+
+class NaturalKeyManager(models.Manager):
+    def __init__(self, natural_key_fields: List[str], *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.natural_key_fields = natural_key_fields
+
+    def get_by_natural_key(self, *args):
+        if len(args) != len(self.model.natural_key_fields):
+            raise ValueError(
+                "Number of arguments does not match number of natural key fields."
+            )
+        lookup_kwargs = dict(zip(self.model.natural_key_fields, args))
+        return self.get(**lookup_kwargs)
 
 
 class _TaggableManager(models.Manager):

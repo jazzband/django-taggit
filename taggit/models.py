@@ -1,3 +1,5 @@
+from typing import List
+
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -15,7 +17,29 @@ except ImportError:
         return tag
 
 
-class TagBase(models.Model):
+class NaturalKeyManager(models.Manager):
+    def __init__(self, natural_key_fields: List[str], *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.natural_key_fields = natural_key_fields
+
+    def get_by_natural_key(self, *args):
+        if len(args) != len(self.model.natural_key_fields):
+            raise ValueError(
+                "Number of arguments does not match number of natural key fields."
+            )
+        lookup_kwargs = dict(zip(self.model.natural_key_fields, args))
+        return self.get(**lookup_kwargs)
+
+
+class NaturalKeyModel(models.Model):
+    def natural_key(self):
+        return (getattr(self, field) for field in self.natural_key_fields)
+
+    class Meta:
+        abstract = True
+
+
+class TagBase(NaturalKeyModel):
     name = models.CharField(
         verbose_name=pgettext_lazy("A tag name", "name"), unique=True, max_length=100
     )
@@ -25,6 +49,9 @@ class TagBase(models.Model):
         max_length=100,
         allow_unicode=True,
     )
+
+    natural_key_fields = ["name"]
+    objects = NaturalKeyManager(natural_key_fields)
 
     def __str__(self):
         return self.name
@@ -91,12 +118,14 @@ class Tag(TagBase):
         app_label = "taggit"
 
 
-class ItemBase(models.Model):
+class ItemBase(NaturalKeyModel):
     def __str__(self):
         return gettext("%(object)s tagged with %(tag)s") % {
             "object": self.content_object,
             "tag": self.tag,
         }
+
+    objects = NaturalKeyManager(natural_key_fields=["name"])
 
     class Meta:
         abstract = True
@@ -170,6 +199,7 @@ class CommonGenericTaggedItemBase(ItemBase):
 
 class GenericTaggedItemBase(CommonGenericTaggedItemBase):
     object_id = models.IntegerField(verbose_name=_("object ID"), db_index=True)
+    natural_key_fields = ["object_id"]
 
     class Meta:
         abstract = True
@@ -177,6 +207,7 @@ class GenericTaggedItemBase(CommonGenericTaggedItemBase):
 
 class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
     object_id = models.UUIDField(verbose_name=_("object ID"), db_index=True)
+    natural_key_fields = ["object_id"]
 
     class Meta:
         abstract = True

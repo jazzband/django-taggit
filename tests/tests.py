@@ -1,3 +1,4 @@
+import os
 from io import StringIO
 from unittest import mock
 
@@ -1398,3 +1399,100 @@ class PendingMigrationsTests(TestCase):
         out = StringIO()
         call_command("makemigrations", "tests", dry_run=True, stdout=out)
         self.assertEqual(out.getvalue().strip(), "No changes detected in app 'tests'")
+
+
+class NaturalKeyTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.tag_names = ["circle", "square", "triangle", "rectangle", "pentagon"]
+        cls.filename = "test_data_dump.json"
+        cls.tag_count = len(cls.tag_names)
+
+    def setUp(self):
+        self.tags = self._create_tags()
+
+    def tearDown(self):
+        self._clear_existing_tags()
+        try:
+            os.remove(self.filename)
+        except FileNotFoundError:
+            pass
+
+    @property
+    def _queryset(self):
+        return Tag.objects.filter(name__in=self.tag_names)
+
+    def _create_tags(self):
+        return Tag.objects.bulk_create(
+            [Tag(name=shape, slug=shape) for shape in self.tag_names],
+            ignore_conflicts=True,
+        )
+
+    def _clear_existing_tags(self):
+        self._queryset.delete()
+
+    def _dump_model(self, model):
+        model_label = model._meta.label
+        with open(self.filename, "w") as f:
+            call_command(
+                "dumpdata",
+                model_label,
+                natural_primary=True,
+                use_natural_foreign_keys=True,
+                stdout=f,
+            )
+
+    def _load_model(self):
+        call_command("loaddata", self.filename)
+
+    def test_tag_natural_key(self):
+        """
+        Test that tags can be dumped and loaded using natural keys.
+        """
+
+        # confirm count in the DB
+        self.assertEqual(self._queryset.count(), self.tag_count)
+
+        # dump all tags to a file
+        self._dump_model(Tag)
+
+        # Delete all tags
+        self._clear_existing_tags()
+
+        # confirm all tags clear
+        self.assertEqual(self._queryset.count(), 0)
+
+        # load the tags from the file
+        self._load_model()
+
+        # confirm count in the DB
+        self.assertEqual(self._queryset.count(), self.tag_count)
+
+    def test_tag_reloading_with_changed_pk(self):
+        """Test that tags are not reliant on the primary key of the tag model.
+
+        Test that data is correctly loaded after database state has changed.
+
+        """
+        original_shape = self._queryset.first()
+        original_pk = original_shape.pk
+        original_shape_name = original_shape.name
+        new_shape_name = "hexagon"
+
+        # dump all tags to a file
+        self._dump_model(Tag)
+
+        # Delete the tag
+        self._clear_existing_tags()
+
+        # create new tag with the same PK
+        Tag.objects.create(name=new_shape_name, slug=new_shape_name, pk=original_pk)
+
+        # Load the tags from the file
+        self._load_model()
+
+        # confirm that load did not overwrite the new_shape
+        self.assertEqual(Tag.objects.get(pk=original_pk).name, new_shape_name)
+
+        # confirm that the original shape was reloaded with a different PK
+        self.assertNotEqual(Tag.objects.get(name=original_shape_name).pk, original_pk)
