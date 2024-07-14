@@ -1,0 +1,24 @@
+<html>
+  <title>Sample Taggit App</title>
+  <body>
+    <h1>Sample Taggit App</h1>
+
+    <ul>
+      {% for post in posts %}
+      <li>
+        {{ post.title }}
+        <br/>
+        Tags:
+        {% for tag in post.tags.all %}
+        {{tag.name}},
+        {% empty %}
+        (None)
+        {% endfor %}
+      </li>
+      {% empty %}
+      <li>(No posts yet, go to the admin to create some)</li>
+      {% endfor %}
+    </ul>
+      <a href="/admin">Manage data in the admin</a>
+  </body>
+</html>

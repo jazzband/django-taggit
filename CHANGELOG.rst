@@ -8,6 +8,8 @@ Changelog
   The previous behavior for this was that by default tag items were not ordered. In practice tag items often end up ordered by creation date anyways, just due to how databases work, but this was not a guarantee.
   If you wish to have the old behavior, set ``ordering=[]`` to your ``TaggableManager`` instance.
   We believe that this should not cause a noticable performance change, and the number of queries involved should not change.
+* Add Django 5.0 support (no code changes were needed, but now we test this release).
+* Add Python 3.12 support
 
 5.0.1 (2023-10-26)
 ~~~~~~~~~~~~~~~~~~
