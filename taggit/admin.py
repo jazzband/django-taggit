@@ -32,6 +32,9 @@ class TagAdmin(admin.ModelAdmin):
         ]
         return custom_urls + urls
 
+    @admin.action(
+        description="Merge selected tags"
+    )
     def render_tag_form(self, request, queryset):
         selected = request.POST.getlist(admin.helpers.ACTION_CHECKBOX_NAME)
         if not selected:
@@ -82,4 +85,3 @@ class TagAdmin(admin.ModelAdmin):
 
         return render(request, "admin/taggit/merge_tags_form.html", context)
 
-    render_tag_form.short_description = "Merge selected tags"
