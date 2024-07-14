@@ -39,3 +39,19 @@ method to the :class:`~django.contrib.admin.ModelAdmin`, using
 
         def tag_list(self, obj):
             return u", ".join(o.name for o in obj.tags.all())
+
+
+Merging tags in the admin
+=======================
+
+Functionality has been added to the admin app to allow for tag "merging". 
+Really what is happening is a "find and replace" where the selected tags are being used.
+
+To merge your tags follow these steps:
+
+1. Navigate to the Tags page inside of the Taggit app
+2. Select the tags that you want to merge
+3. Use the dropdown action list and select `Merge selected tags` and then click `Go`
+4. This will redirect you onto a new page where you can insert the new tag name.
+5. Click `Merge Tags`
+6. This will redirect you back to the tag list
