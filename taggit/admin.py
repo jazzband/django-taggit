@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.db import transaction
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from .forms import MergeTagsForm
-from taggit.models import Tag, TaggedItem
+from django.shortcuts import redirect, render
 from django.urls import path
+
+from taggit.models import Tag, TaggedItem
+
+from .forms import MergeTagsForm
 
 
 class TaggedItemInline(admin.StackedInline):
