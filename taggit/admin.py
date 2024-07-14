@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django import forms
 from django.db import transaction
-from taggit.models import Tag, TaggedItem
-
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .forms import MergeTagsForm
+from taggit.models import Tag, TaggedItem
+from django.urls import path
 
 
 class TaggedItemInline(admin.StackedInline):
@@ -18,45 +18,67 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ["name", "slug"]
     search_fields = ["name"]
     prepopulated_fields = {"slug": ["name"]}
-    actions = ["merge_tags"]
+    actions = ["render_tag_form"]
 
-    def merge_tags(self, request, queryset):
-        print("🚀 merge_tags called")
-        print(f"Request method: ✅ {queryset}")
-        print(f"Request POST data: 😊{request.POST}")
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "merge-tags/",
+                self.admin_site.admin_view(self.merge_tags_view),
+                name="merge_tags",
+            ),
+        ]
+        return custom_urls + urls
 
-        if request.method == "POST" and "csrfmiddlewaretoken" in request.POST:
+    def render_tag_form(self, request, queryset):
+        selected = request.POST.getlist(admin.helpers.ACTION_CHECKBOX_NAME)
+        if not selected:
+            self.message_user(request, "Please select at least one tag.")
+            return redirect(request.get_full_path())
+
+        selected_tag_ids = ",".join(selected)
+        redirect_url = (
+            f"{request.get_full_path()}merge-tags/?selected_tags={selected_tag_ids}"
+        )
+
+        return redirect(redirect_url)
+
+    def merge_tags_view(self, request):
+        if request.method == "GET":
+            selected_tag_ids = request.GET.get("selected_tags", "").split(",")
+
+            # store selected_tag_ids in session data until they are merged
+            request.session["selected_tag_ids"] = selected_tag_ids
+        else:
+            selected_tag_ids = request.session.get("selected_tag_ids", [])
+
+        if request.method == "POST":
             form = MergeTagsForm(request.POST)
-            if request.method == "POST":
-                print("✅", "after form submission")
-                new_tag_name = "fruit"  # hard coded value of the new tag
+            if form.is_valid():
+                new_tag_name = form.cleaned_data["new_tag_name"]
                 new_tag, created = Tag.objects.get_or_create(name=new_tag_name)
                 with transaction.atomic():
-                    for tag in queryset:
-                        for tagged_item in tag.taggit_taggeditem_items.all():
+                    for tag_id in selected_tag_ids:
+                        tag = Tag.objects.get(id=tag_id)
+                        tagged_items = TaggedItem.objects.filter(tag=tag)
+                        for tagged_item in tagged_items:
                             tagged_item.tag = new_tag
                             tagged_item.save()
-                        # tag.delete()  #we can uncomment this to also remove the selected tags
+                        # tag.delete()  #this will delete the selected tags after merge
 
-                self.message_user(request, "Tags merged successfully.")
-                return redirect(request.get_full_path())
+                # clear the selected_tag_ids from session after merge is complete
+                request.session.pop("selected_tag_ids", None)
+                return redirect("..")
             else:
                 print(f"Form errors: {form.errors}")
                 self.message_user(request, "Form is invalid.", level="error")
-        else:
-            form = MergeTagsForm()
 
         context = {
-            "title": "Merge selected tags into a new tag",
-            "form": form,
-            "action_checkbox_name": admin.helpers.ACTION_CHECKBOX_NAME,
-            "queryset": queryset,
+            "form": MergeTagsForm(),
+            "selected_tag_ids": selected_tag_ids,
         }
 
-        return render(
-            request,
-            "admin/taggit/merge_tags_form.html",
-            context,
-        )
+        return render(request, "admin/taggit/merge_tags_form.html", context)
 
-    merge_tags.short_description = "Merge selected tags"
+    render_tag_form.short_description = "Merge selected tags"
