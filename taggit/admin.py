@@ -59,8 +59,8 @@ class TagAdmin(admin.ModelAdmin):
                         tagged_items = TaggedItem.objects.filter(tag=tag)
                         for tagged_item in tagged_items:
                             tagged_item.tag = new_tag
-                            tagged_item.save()
-                        # tag.delete()  #this will delete the selected tags after merge
+                            TaggedItem.objects.filter(tag=tag).update(tag=new_tag)
+                        # tag.delete()  #this will delete the selected tags after merge...leaving out for now
 
                 self.message_user(request, "Tags have been merged")
                 # clear the selected_tag_ids from session after merge is complete
