@@ -9,26 +9,14 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
+from taggit.managers import NaturalKeyManager
+
 try:
     from unidecode import unidecode
 except ImportError:
 
     def unidecode(tag):
         return tag
-
-
-class NaturalKeyManager(models.Manager):
-    def __init__(self, natural_key_fields: List[str], *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.natural_key_fields = natural_key_fields
-
-    def get_by_natural_key(self, *args):
-        if len(args) != len(self.model.natural_key_fields):
-            raise ValueError(
-                "Number of arguments does not match number of natural key fields."
-            )
-        lookup_kwargs = dict(zip(self.model.natural_key_fields, args))
-        return self.get(**lookup_kwargs)
 
 
 class NaturalKeyModel(models.Model):
