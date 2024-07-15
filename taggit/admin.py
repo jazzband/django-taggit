@@ -32,9 +32,7 @@ class TagAdmin(admin.ModelAdmin):
         ]
         return custom_urls + urls
 
-    @admin.action(
-        description="Merge selected tags"
-    )
+    @admin.action(description="Merge selected tags")
     def render_tag_form(self, request, queryset):
         selected = request.POST.getlist(admin.helpers.ACTION_CHECKBOX_NAME)
         if not selected:
@@ -42,21 +40,14 @@ class TagAdmin(admin.ModelAdmin):
             return redirect(request.get_full_path())
 
         selected_tag_ids = ",".join(selected)
-        redirect_url = (
-            f"{request.get_full_path()}merge-tags/?selected_tags={selected_tag_ids}"
-        )
+        redirect_url = f"{request.get_full_path()}merge-tags/"
+
+        request.session["selected_tag_ids"] = selected_tag_ids
 
         return redirect(redirect_url)
 
     def merge_tags_view(self, request):
-        if request.method == "GET":
-            selected_tag_ids = request.GET.get("selected_tags", "").split(",")
-
-            # store selected_tag_ids in session data until they are merged
-            request.session["selected_tag_ids"] = selected_tag_ids
-        else:
-            selected_tag_ids = request.session.get("selected_tag_ids", [])
-
+        selected_tag_ids = request.session.get("selected_tag_ids", "").split(",")
         if request.method == "POST":
             form = MergeTagsForm(request.POST)
             if form.is_valid():
@@ -71,6 +62,7 @@ class TagAdmin(admin.ModelAdmin):
                             tagged_item.save()
                         # tag.delete()  #this will delete the selected tags after merge
 
+                self.message_user(request, "Tags have been merged")
                 # clear the selected_tag_ids from session after merge is complete
                 request.session.pop("selected_tag_ids", None)
                 return redirect("..")
@@ -84,4 +76,3 @@ class TagAdmin(admin.ModelAdmin):
         }
 
         return render(request, "admin/taggit/merge_tags_form.html", context)
-
