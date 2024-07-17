@@ -18,10 +18,6 @@ except ImportError:
 
 
 class NaturalKeyManager(models.Manager):
-    def __init__(self, natural_key_fields: List[str], *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.natural_key_fields = natural_key_fields
-
     def get_by_natural_key(self, *args):
         if len(args) != len(self.model.natural_key_fields):
             raise ValueError(
@@ -51,7 +47,7 @@ class TagBase(NaturalKeyModel):
     )
 
     natural_key_fields = ["name"]
-    objects = NaturalKeyManager(natural_key_fields)
+    objects = NaturalKeyManager()
 
     def __str__(self):
         return self.name
@@ -125,7 +121,7 @@ class ItemBase(NaturalKeyModel):
             "tag": self.tag,
         }
 
-    objects = NaturalKeyManager(natural_key_fields=["name"])
+    objects = NaturalKeyManager()
 
     class Meta:
         abstract = True

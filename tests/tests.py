@@ -1496,3 +1496,14 @@ class NaturalKeyTests(TestCase):
 
         # confirm that the original shape was reloaded with a different PK
         self.assertNotEqual(Tag.objects.get(name=original_shape_name).pk, original_pk)
+
+    def test_get_by_natural_key(self):
+        # Test retrieval of tags by their natural key
+        for name in self.tag_names:
+            tag = Tag.objects.get_by_natural_key(name)
+            self.assertEqual(tag.name, name)
+
+    def test_wrong_number_of_args(self):
+        # Test that get_by_natural_key raises an error when the wrong number of args is passed
+        with self.assertRaises(ValueError):
+            Tag.objects.get_by_natural_key()
