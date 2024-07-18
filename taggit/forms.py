@@ -57,6 +57,6 @@ class TagField(forms.CharField):
 class MergeTagsForm(forms.Form):
     new_tag_name = forms.CharField(
         label="New Tag Name",
-        max_length=255,
+        max_length=100,
         widget=forms.TextInput(attrs={"id": "id_new_tag_name"}),
     )

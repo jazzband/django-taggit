@@ -1,3 +1,4 @@
+{% extends "admin/base.html" %} {% block content %}
 <div id="mergeTagsModal">
   <div>
     <div>
@@ -20,10 +21,11 @@
           {% endfor %}
 
           <div>
-            <button type="submit" class="btn btn-primary">Merge Tags</button>
+            <input type="submit" class="btn btn-primary"></input>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}

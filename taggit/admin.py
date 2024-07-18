@@ -62,17 +62,16 @@ class TagAdmin(admin.ModelAdmin):
                             TaggedItem.objects.filter(tag=tag).update(tag=new_tag)
                         # tag.delete()  #this will delete the selected tags after merge...leaving out for now
 
-                self.message_user(request, "Tags have been merged")
+                self.message_user(request, "Tags have been merged", level="success")
                 # clear the selected_tag_ids from session after merge is complete
                 request.session.pop("selected_tag_ids", None)
+
                 return redirect("..")
             else:
-                print(f"Form errors: {form.errors}")
                 self.message_user(request, "Form is invalid.", level="error")
 
         context = {
             "form": MergeTagsForm(),
             "selected_tag_ids": selected_tag_ids,
         }
-
         return render(request, "admin/taggit/merge_tags_form.html", context)
