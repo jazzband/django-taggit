@@ -59,4 +59,5 @@ class MergeTagsForm(forms.Form):
         label="New Tag Name",
         max_length=100,
         widget=forms.TextInput(attrs={"id": "id_new_tag_name"}),
+        help_text="Enter new or existing tag name",
     )
