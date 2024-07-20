@@ -6,6 +6,8 @@ from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
+from django.utils import timezone
+
 
 try:
     from unidecode import unidecode
@@ -183,6 +185,7 @@ class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
 
 
 class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     class Meta:
         verbose_name = _("tagged item")
         verbose_name_plural = _("tagged items")

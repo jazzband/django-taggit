@@ -400,6 +400,12 @@ class _TaggableManager(models.Manager):
             using=db,
         )
 
+    def most_recent(self):
+        return self.latest("created_at")
+    
+    def least_recent(self):
+        return self.earliest("created_at")
+
     def most_common(self, min_count=None, extra_filters=None):
         queryset = (
             self.get_queryset(extra_filters)

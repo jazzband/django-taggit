@@ -902,6 +902,16 @@ class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
 
         self.assertEqual(apple, self.food_model.objects.get(tags__official=False))
 
+    def test_timestamps(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red")
+        apple.tags.add("delicious")
+        most_recent = apple.tags.most_recent()
+        least_recent = apple.tags.least_recent()
+
+        self.assertEqual(most_recent.name, "delicious")
+        self.assertEqual(least_recent.name, "red")
+
     def test_get_tags_with_count(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("red", "green", "delicious")
