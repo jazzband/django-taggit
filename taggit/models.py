@@ -27,7 +27,7 @@ class NaturalKeyManager(models.Manager):
 
 class NaturalKeyModel(models.Model):
     def natural_key(self):
-        return (getattr(self, field) for field in self.natural_key_fields)
+        return [getattr(self, field) for field in self.natural_key_fields]
 
     class Meta:
         abstract = True
