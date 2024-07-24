@@ -95,34 +95,29 @@ class TagMergingService:
 
         """
         try:
-            with transaction.atomic():
-                duplicate_query_set = duplicate_query_set.exclude(pk=base_tag.pk)
+            duplicate_query_set = duplicate_query_set.exclude(pk=base_tag.pk)
 
-                tags_to_be_merged_names = list(
-                    duplicate_query_set.values_list("name", flat=True)
-                )
-                tag_to_update = self.identify_duplicates(
-                    duplicate_query_set, through_model
-                )
-                for tagged_item in tag_to_update:
-                    if not self.tagged_item_exists(
-                        tagged_item, base_tag, through_model
-                    ):
-                        tagged_item.tag = base_tag
-                        tagged_item.save()
+            tags_to_be_merged_names = list(
+                duplicate_query_set.values_list("name", flat=True)
+            )
+            tag_to_update = self.identify_duplicates(duplicate_query_set, through_model)
+            for tagged_item in tag_to_update:
+                if not self.tagged_item_exists(tagged_item, base_tag, through_model):
+                    tagged_item.tag = base_tag
+                    tagged_item.save()
 
-                if tags_to_be_merged_names:
-                    logger.info(
-                        f"Merged tags {', '.join(tags_to_be_merged_names)} into {base_tag.name} and deleted them."
-                    )
-                else:
-                    logger.info(
-                        f"No tags were merged into {base_tag.name} as no duplicates were found."
-                    )
+            if tags_to_be_merged_names:
+                logger.info(
+                    f"Merged tags {', '.join(tags_to_be_merged_names)} into {base_tag.name} and deleted them."
+                )
+            else:
+                logger.info(
+                    f"No tags were merged into {base_tag.name} as no duplicates were found."
+                )
 
         except Exception as e:
             logger.error(f"Error merging tags: {e}")
-            raise
+            raise e
 
     @staticmethod
     def case_insensitive_queryset(tag_model, base_tag_name):
@@ -169,19 +164,20 @@ class TagMergingService:
         if not callable(duplicate_query_function):
             raise ValueError("duplicate_query_function must be callable")
         tag_models = set()
-        for through_model in self.get_models_using_tag_through_models():
-            tag_model = through_model.tag_model()
-            try:
-                base_tag = tag_model.objects.get(name=base_tag_name)
-            except tag_model.DoesNotExist:
-                continue
-            duplicate_query_set = duplicate_query_function(
-                tag_model, base_tag_name
-            ).exclude(name=base_tag_name)
-            self._merge_tags(base_tag, duplicate_query_set, through_model)
-            tag_models.add(tag_model)
+        with transaction.atomic():
+            for through_model in self.get_models_using_tag_through_models():
+                tag_model = through_model.tag_model()
+                try:
+                    base_tag = tag_model.objects.get(name=base_tag_name)
+                except tag_model.DoesNotExist:
+                    continue
+                duplicate_query_set = duplicate_query_function(
+                    tag_model, base_tag_name
+                ).exclude(name=base_tag_name)
+                self._merge_tags(base_tag, duplicate_query_set, through_model)
+                tag_models.add(tag_model)
 
-        for tag_model in tag_models:
-            duplicate_query_function(tag_model, base_tag_name).exclude(
-                name=base_tag_name
-            ).delete()
+            for tag_model in tag_models:
+                duplicate_query_function(tag_model, base_tag_name).exclude(
+                    name=base_tag_name
+                ).delete()
