@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from taggit.models import Tag
 from taggit.services.tag_merging import TagMergingService
-from tests.models import DirectFood, DirectPet, Food, HousePet, Pet, TaggedFood
+from tests.models import DirectFood, Food, HousePet
 
 
 class TagMergingServiceTests(TestCase):
@@ -15,8 +15,10 @@ class TagMergingServiceTests(TestCase):
         self.tag4 = Tag.objects.create(name="PythonFundamentals")
 
     def test_merging_identical_tags_does_nothing(self):
-        f = lambda tag, base_tag_name: tag.objects.filter(name=base_tag_name)
-        self.service.merge_tags(self.tag1.name, f)
+        def filter_same_tag(tag, base_tag_name):
+            return tag.objects.filter(name=base_tag_name)
+
+        self.service.merge_tags(self.tag1.name, filter_same_tag)
         self.assertEqual(Tag.objects.count(), 5)
 
     def test_merging_case_insensitive_tags_merges_correctly(self):
