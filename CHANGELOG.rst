@@ -10,7 +10,7 @@ Changelog
   We believe that this should not cause a noticable performance change, and the number of queries involved should not change.
 * Add Django 5.0 support (no code changes were needed, but now we test this release).
 * Add Python 3.12 support
-* Add Support for dumpdata/loaddata using Natural Keys
+* Add support for dumpdata/loaddata using natural keys
 
 5.0.1 (2023-10-26)
 ~~~~~~~~~~~~~~~~~~
