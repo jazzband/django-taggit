@@ -13,6 +13,7 @@ tagging to your project easy and fun.
    forms
    admin
    serializers
+   testing
    api
    faq
    custom_tagging
