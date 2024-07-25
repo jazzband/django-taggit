@@ -3,6 +3,7 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* Added a management command (``remove_orphaned_tags``) to remove orphaned tags
 
 6.0.0 (2024-07-27)
 ~~~~~~~~~~~~~~~~~~
