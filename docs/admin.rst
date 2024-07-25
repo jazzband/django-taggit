@@ -42,10 +42,9 @@ method to the :class:`~django.contrib.admin.ModelAdmin`, using
 
 
 Merging tags in the admin
-=========================
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Functionality has been added to the admin app to allow for tag "merging".
-Really what is happening is a "find and replace" where the selected tags are being used.
+Functionality has been added to the admin app to allow for tag "merging". Multiple tags can be selected, and all of their usages will be replaced by the tag that you choose to use.
 
 To merge your tags follow these steps:
 
