@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+6.0.0 (2024-07-27)
+~~~~~~~~~~~~~~~~~~
+
 * By default, order tag items on instances by the primary key. This generally means that they will be ordered by "creation date" for the tag item.
   The previous behavior for this was that by default tag items were not ordered. In practice tag items often end up ordered by creation date anyways, just due to how databases work, but this was not a guarantee.
   If you wish to have the old behavior, set ``ordering=[]`` to your ``TaggableManager`` instance.
