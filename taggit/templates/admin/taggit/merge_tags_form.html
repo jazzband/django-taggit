@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %} {% block content %}
+<div id="mergeTagsModal">
+  <div>
+    <div>
+      <div>
+        <form
+          id="merge-tags-form"
+          method="post"
+          action="{% url 'admin:taggit_tag_merge_tags' %}"
+        >
+          {% csrf_token %} {% for field in form %}
+          <div>
+            {{ field.label_tag }} {{ field }} {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <p><i><strong>Enter new or existing tag name</strong></strong></i></p>
+          <div>
+            <input type="submit" class="btn btn-primary"></input>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
