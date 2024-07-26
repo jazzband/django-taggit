@@ -27,7 +27,7 @@ class TagAdmin(admin.ModelAdmin):
             path(
                 "merge-tags/",
                 self.admin_site.admin_view(self.merge_tags_view),
-                name="merge_tags",
+                name="taggit_tag_merge_tags",
             ),
         ]
         return custom_urls + urls
@@ -58,9 +58,18 @@ class TagAdmin(admin.ModelAdmin):
                         tag = Tag.objects.get(id=tag_id)
                         tagged_items = TaggedItem.objects.filter(tag=tag)
                         for tagged_item in tagged_items:
-                            tagged_item.tag = new_tag
-                            TaggedItem.objects.filter(tag=tag).update(tag=new_tag)
-                        # tag.delete()  #this will delete the selected tags after merge...leaving out for now
+                            if TaggedItem.objects.filter(
+                                tag=new_tag,
+                                content_type=tagged_item.content_type,
+                                object_id=tagged_item.object_id,
+                            ).exists():
+                                # we have the new tag as well, so we can just
+                                # remove the tag association
+                                tagged_item.delete()
+                            else:
+                                # point this taggedItem to the new one
+                                tagged_item.tag = new_tag
+                                tagged_item.save()
 
                 self.message_user(request, "Tags have been merged", level="success")
                 # clear the selected_tag_ids from session after merge is complete

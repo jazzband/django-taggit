@@ -6,7 +6,7 @@
         <form
           id="merge-tags-form"
           method="post"
-          action="{% url 'admin:merge_tags' %}"
+          action="{% url 'admin:taggit_tag_merge_tags' %}"
         >
           {% csrf_token %} {% for field in form %}
           <div>
