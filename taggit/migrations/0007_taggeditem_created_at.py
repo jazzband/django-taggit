@@ -17,8 +17,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="taggeditem",
             name="created_at",
-            field=models.DateTimeField(
-                blank=True, default=django.utils.timezone.now, null=True
-            ),
+            field=models.DateTimeField(blank=True, null=True),
         ),
     ]
