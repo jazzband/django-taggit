@@ -1,4 +1,3 @@
-# Path: `library_management/forms.py`
 from django import forms
 
 from taggit.models import Tag
