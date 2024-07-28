@@ -1,15 +1,10 @@
 import uuid
 
-from better_profanity import profanity
 from django.db import models
 from django.urls import reverse
 
 from taggit.managers import TaggableManager
 from taggit.models import TagBase, TaggedItemBase
-
-
-def contains_inappropriate_language(text):
-    return profanity.contains_profanity(text)
 
 
 class BookTypeChoices(models.TextChoices):
