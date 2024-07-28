@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "taggit",
     "library_management",
-    "django_extensions",
 ]
 
 MIDDLEWARE = [
