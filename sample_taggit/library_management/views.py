@@ -95,7 +95,7 @@ class MagazineListView(BookListView):
 class MagazineDetailView(BookDetailView):
     model = Magazine
     template_name = "library_management/book_detail.html"
-    context_object_name = "book" 
+    context_object_name = "book"
 
 
 class MagazineCreateView(BookCreateView):
@@ -108,7 +108,7 @@ class MagazineUpdateView(BookUpdateView):
     model = Magazine
     form_class = BookForm
     template_name = "library_management/book_form.html"
-    context_object_name = "book"  
+    context_object_name = "book"
 
     def get_success_url(self):
         return reverse("magazine-detail", kwargs={"pk": self.object.pk})
