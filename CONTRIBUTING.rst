@@ -48,10 +48,41 @@ Running the sample application
 
 There is a sample application in ``sample_taggit``. You can run it by doing the following:
 
-- Run migrations with ``sample_taggit/manage.py migrate``
-- Make yourself a superuser with ``sample_taggit/manage.py createsuperuser`` (this should let you use the admin with ease)
-- Launch the sample project itself with ``sample_taggit/manage.py runserver``
 
+**Prepare the Database**
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the `reset-db` command to prepare your database. This will remove any existing data, run migrations, and load fixtures, including creating a default admin user.
+
+**On Windows:**
+
+.. code-block:: console
+
+     cd sample_taggit
+     call make.bat reset-db
+
+**On Mac/Linux:**
+
+.. code-block:: console
+
+     cd sample_taggit
+     make reset-db
+
+**Launch the Sample Project**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+Run the sample project with:
+Launch the sample project itself with:
+
+.. code-block:: console
+
+     sample_taggit/manage.py runserver
+
+**Default Admin User Login:**
+
+Username: taggit
+
+Password: admin
 
 Follow style conventions (black, flake8, isort)
 -----------------------------------------------
