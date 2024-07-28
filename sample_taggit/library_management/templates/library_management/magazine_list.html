@@ -1,0 +1,16 @@
+<!-- Path: `library_management/templates/library_management/magazine_list.html` -->
+{% extends "library_management/base.html" %}
+
+{% block title %}Magazine List{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Magazines</h1>
+<ul class="list-group">
+    {% for magazine in magazines %}
+        <li class="list-group-item">
+            <a href="{% url 'magazine-detail' magazine.pk %}">{{ magazine.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'magazine-create' %}" class="btn btn-primary mt-4">Add New Magazine</a>
+{% endblock %}

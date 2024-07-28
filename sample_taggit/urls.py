@@ -16,8 +16,14 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from library_management import urls as library_management_urls
 
-from sample_taggit.views import index_view
+# from sample_taggit.views import index_view
 
-urlpatterns = [path("admin/", admin.site.urls), path("", index_view)]
+
+#
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include(library_management_urls)),
+]

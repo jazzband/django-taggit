@@ -1,0 +1,14 @@
+<!-- Path: `library_management/templates/library_management/physical_copy_form.html` -->
+{% extends "library_management/base.html" %}
+
+{% block title %}Update Physical Copy Condition{% endblock %}
+
+{% block content %}
+<h1>Update Physical Copy Condition</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<a href="{% url 'book-detail' object.book.pk %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!-- Path: `library_management/templates/library_management/author_detail.html` -->
+{% extends "library_management/base.html" %}
+
+{% block title %}Author Detail{% endblock %}
+
+{% block content %}
+<h1 class="my-4">{{ author.full_name }}</h1>
+<p><strong>Birth Date:</strong> {{ author.birth_date }}</p>
+<p>{{ author.biography }}</p>
+<h2>Tags</h2>
+<ul>
+    {% for tag in author.tags.all %}
+    <li>{{ tag.name }}</li>
+    {% endfor %}
+</ul>
+<h2>Books</h2>
+<ul>
+    {% for book in author.book_set.all %}
+    <li><a href="{% url 'book-detail' book.pk %}">{{ book.name }}</a></li>
+    {% endfor %}
+</ul>
+<a href="{% url 'author-list' %}" class="btn btn-secondary">Back to list</a>
+<a href="{% url 'author-update' author.pk %}" class="btn btn-primary">Edit Author</a>
+{% endblock %}

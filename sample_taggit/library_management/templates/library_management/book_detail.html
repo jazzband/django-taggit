@@ -1,0 +1,32 @@
+{% extends "library_management/base.html" %}
+{% load custom_filters %}
+
+
+{% block title %}Book Detail{% endblock %}
+
+{% block content %}
+<h1 class="my-4">{{ book }}</h1>
+<p><strong>Author:</strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author.full_name }}</a></p>
+<p><strong>Published Date:</strong> {{ book.published_date }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Summary:</strong> {{ book.summary }}</p>
+<p><strong>Tags:</strong> {{ book.tags.all|join:", " }}</p>
+
+<h2 class="my-4">Physical Copies</h2>
+<ul class="list-group">
+    {% for copy in book.physical_copies.all %}
+    <li class="list-group-item">
+        <strong>Type:</strong> {{ copy.book_type.name }}<br>
+        <strong>Condition:</strong> {{ copy.condition_tags.all|join:", " }}<br>
+        <a href="{% url 'physical-copy-update' copy.pk %}" class="btn btn-primary">Update Condition</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'book-list' %}" class="btn btn-secondary">Back to list</a>
+{% if book|classname == 'Book' %}
+<a href="{% url 'book-update' book.pk %}" class="btn btn-primary">Edit</a>
+{% elif book|classname == 'Magazine' %}
+<a href="{% url 'magazine-update' book.pk %}" class="btn btn-primary">Edit</a>
+{% endif %}
+{% endblock %}

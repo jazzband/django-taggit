@@ -1,0 +1,14 @@
+<!-- Path: `library_management/templates/library_management/book_form.html` -->
+{% extends "library_management/base.html" %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Edit Book</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a href="{% url 'book-detail' book.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
