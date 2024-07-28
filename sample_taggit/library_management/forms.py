@@ -23,6 +23,10 @@ class AuthorForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False
     )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].queryset = self.fields['tags'].queryset.order_by('name')
 
     class Meta:
         model = Author
@@ -40,6 +44,9 @@ class BookForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False
     )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].queryset = self.fields['tags'].queryset.order_by('name')
 
     class Meta:
         model = Book

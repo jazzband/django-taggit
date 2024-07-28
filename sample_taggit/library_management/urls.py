@@ -5,12 +5,10 @@ from .views import (
     AuthorListView,
     AuthorUpdateView,
     BookCreateView,
-    BookDeleteView,
     BookDetailView,
     BookListView,
     BookUpdateView,
     MagazineCreateView,
-    MagazineDeleteView,
     MagazineDetailView,
     MagazineListView,
     MagazineUpdateView,
@@ -24,7 +22,6 @@ urlpatterns = [
     path("book/<int:pk>/", BookDetailView.as_view(), name="book-detail"),
     path("book/new/", BookCreateView.as_view(), name="book-create"),
     path("book/<int:pk>/edit/", BookUpdateView.as_view(), name="book-update"),
-    path("book/<int:pk>/delete/", BookDeleteView.as_view(), name="book-delete"),
     path("authors/", AuthorListView.as_view(), name="author-list"),
     path("authors/<int:pk>/", AuthorDetailView.as_view(), name="author-detail"),
     path("authors/<int:pk>/edit/", AuthorUpdateView.as_view(), name="author-update"),
@@ -33,11 +30,6 @@ urlpatterns = [
     path("magazine/new/", MagazineCreateView.as_view(), name="magazine-create"),
     path(
         "magazine/<int:pk>/edit/", MagazineUpdateView.as_view(), name="magazine-update"
-    ),
-    path(
-        "magazine/<int:pk>/delete/",
-        MagazineDeleteView.as_view(),
-        name="magazine-delete",
     ),
     path(
         "physical_copy/<int:pk>/edit/",

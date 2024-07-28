@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
-    DeleteView,
     DetailView,
     ListView,
     UpdateView,
@@ -72,11 +71,6 @@ class BookUpdateView(UpdateView):
         return reverse("book-detail", kwargs={"pk": self.object.pk})
 
 
-class BookDeleteView(DeleteView):
-    model = Book
-    template_name = "library_management/book_confirm_delete.html"
-    success_url = reverse_lazy("book-list")
-
 
 class AuthorListView(ListView):
     model = Author
@@ -124,12 +118,6 @@ class MagazineUpdateView(BookUpdateView):
 
     def get_success_url(self):
         return reverse("magazine-detail", kwargs={"pk": self.object.pk})
-
-
-class MagazineDeleteView(BookDeleteView):
-    model = Magazine
-    template_name = "library_management/book_confirm_delete.html"
-    success_url = reverse_lazy("magazine-list")
 
 
 class PhysicalCopyUpdateView(UpdateView):
