@@ -1,5 +1,6 @@
 <!-- Path: `library_management/templates/library_management/author_detail.html` -->
 {% extends "library_management/base.html" %}
+{% load custom_filters %}
 
 {% block title %}Author Detail{% endblock %}
 
@@ -9,7 +10,7 @@
 <p>{{ author.biography }}</p>
 <h2>Tags</h2>
 <ul>
-    {% for tag in author.tags.all %}
+    {% for tag in author.tags.all|order_tags %}
     <li>{{ tag.name }}</li>
     {% endfor %}
 </ul>
