@@ -14,7 +14,7 @@ if "%1" == "reset" (
     pip install -r requirements.txt
 ) else if "%1" == "clean" (
     rmdir /s /q __pycache__
-    
+
 ) else if "%1" == "export" (
     python manage.py dumpdata --indent 2 auth.User --output=fixtures\0001_users.json
     python manage.py dumpdata --indent 2 library_management.Author --output=fixtures\0002_author.json
