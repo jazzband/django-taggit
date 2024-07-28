@@ -2,12 +2,7 @@ from django.db.models import Count
 from django.db.models.functions import Lower
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from .forms import AuthorForm, BookForm, PhysicalCopyForm
 from .models import Author, Book, Magazine, PhysicalCopy
@@ -69,7 +64,6 @@ class BookUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse("book-detail", kwargs={"pk": self.object.pk})
-
 
 
 class AuthorListView(ListView):
