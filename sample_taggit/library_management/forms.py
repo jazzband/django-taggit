@@ -1,7 +1,6 @@
 # Path: `library_management/forms.py`
 from django import forms
 
-from taggit.forms import TagWidget
 from taggit.models import Tag
 
 from .models import Author, Book, ConditionTag, PhysicalCopy

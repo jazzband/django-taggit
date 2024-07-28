@@ -5,15 +5,7 @@ from django.db import models
 from django.urls import reverse
 
 from taggit.managers import TaggableManager
-from taggit.models import GenericTaggedItemBase, TagBase, TaggedItemBase
-
-from .abstract_models import (
-    CustomPKModel,
-    CustomTagModel,
-    GenericModel,
-    TaggedCustomPK,
-    UUIDModel,
-)
+from taggit.models import TagBase, TaggedItemBase
 
 
 def contains_inappropriate_language(text):
