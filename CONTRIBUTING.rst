@@ -70,7 +70,7 @@ Use the `reset-db` command to prepare your database. This will remove any existi
 
 **Launch the Sample Project**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     
+
 Run the sample project with:
 Launch the sample project itself with:
 
