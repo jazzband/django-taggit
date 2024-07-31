@@ -1,0 +1,12 @@
+{% extends "library_management/base.html" %}
+
+{% block title %}Authors{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Authors</h1>
+<ul>
+    {% for author in authors %}
+    <li><a href="{{ author.get_absolute_url }}">{{ author.full_name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

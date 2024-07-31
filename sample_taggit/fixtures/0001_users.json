@@ -1,0 +1,20 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$KnQUl5xpmqQF2aWaANeHIG$kO4C7iRjRpDfUNwWgvXyCtmfoCQqOHUTHCO2IvrH58U=",
+    "last_login": "2024-07-28T13:26:52.011Z",
+    "is_superuser": true,
+    "username": "taggit",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-07-27T17:02:40.676Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

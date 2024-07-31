@@ -1,0 +1,42 @@
+[
+{
+  "model": "library_management.booktype",
+  "pk": 1,
+  "fields": {
+    "slug": "hardcover",
+    "name": "Hardcover"
+  }
+},
+{
+  "model": "library_management.booktype",
+  "pk": 2,
+  "fields": {
+    "slug": "paperback",
+    "name": "Paperback"
+  }
+},
+{
+  "model": "library_management.booktype",
+  "pk": 3,
+  "fields": {
+    "slug": "e-book",
+    "name": "E-book"
+  }
+},
+{
+  "model": "library_management.booktype",
+  "pk": 4,
+  "fields": {
+    "slug": "audiobook",
+    "name": "Audiobook"
+  }
+},
+{
+  "model": "library_management.booktype",
+  "pk": 5,
+  "fields": {
+    "slug": "magazine",
+    "name": "Magazine"
+  }
+}
+]

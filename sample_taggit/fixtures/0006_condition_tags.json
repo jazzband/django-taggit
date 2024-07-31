@@ -1,0 +1,154 @@
+[
+{
+  "model": "library_management.conditiontag",
+  "pk": 1,
+  "fields": {
+    "name": "ripped",
+    "slug": "ripped"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 2,
+  "fields": {
+    "name": "signed",
+    "slug": "signed"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 3,
+  "fields": {
+    "name": "burnt",
+    "slug": "burnt"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 4,
+  "fields": {
+    "name": "Burned",
+    "slug": "burned"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 5,
+  "fields": {
+    "name": "Dog-eared",
+    "slug": "dog-eared"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 6,
+  "fields": {
+    "name": "Fair",
+    "slug": "fair"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 7,
+  "fields": {
+    "name": "Good",
+    "slug": "good"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 8,
+  "fields": {
+    "name": "Highlighted",
+    "slug": "highlighted"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 9,
+  "fields": {
+    "name": "Like New",
+    "slug": "like-new"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 10,
+  "fields": {
+    "name": "Loose Binding",
+    "slug": "loose-binding"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 11,
+  "fields": {
+    "name": "Missing Pages",
+    "slug": "missing-pages"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 12,
+  "fields": {
+    "name": "New",
+    "slug": "new"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 13,
+  "fields": {
+    "name": "Poor",
+    "slug": "poor"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 14,
+  "fields": {
+    "name": "Repaired",
+    "slug": "repaired"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 15,
+  "fields": {
+    "name": "Signed",
+    "slug": "signed_1"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 16,
+  "fields": {
+    "name": "Stained",
+    "slug": "stained"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 17,
+  "fields": {
+    "name": "Torn",
+    "slug": "torn"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 18,
+  "fields": {
+    "name": "Water Damaged",
+    "slug": "water-damaged"
+  }
+},
+{
+  "model": "library_management.conditiontag",
+  "pk": 20,
+  "fields": {
+    "name": "First Edition",
+    "slug": "first-edition"
+  }
+}
+]

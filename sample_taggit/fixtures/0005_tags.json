@@ -1,0 +1,442 @@
+[
+{
+  "model": "taggit.tag",
+  "pk": 1,
+  "fields": {
+    "name": "history",
+    "slug": "history"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 2,
+  "fields": {
+    "name": "fantasy",
+    "slug": "fantasy"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 5,
+  "fields": {
+    "name": "Science Fiction",
+    "slug": "science-fiction"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 6,
+  "fields": {
+    "name": "Historical",
+    "slug": "historical"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 7,
+  "fields": {
+    "name": "Adventure",
+    "slug": "adventure"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 8,
+  "fields": {
+    "name": "Anthology",
+    "slug": "anthology"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 9,
+  "fields": {
+    "name": "Art",
+    "slug": "art"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 10,
+  "fields": {
+    "name": "Autobiography",
+    "slug": "autobiography"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 11,
+  "fields": {
+    "name": "Biography",
+    "slug": "biography"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 12,
+  "fields": {
+    "name": "Children's",
+    "slug": "childrens"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 13,
+  "fields": {
+    "name": "Classic",
+    "slug": "classic"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 14,
+  "fields": {
+    "name": "Comics",
+    "slug": "comics"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 15,
+  "fields": {
+    "name": "Contemporary",
+    "slug": "contemporary"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 16,
+  "fields": {
+    "name": "Cookbooks",
+    "slug": "cookbooks"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 17,
+  "fields": {
+    "name": "Diaries",
+    "slug": "diaries"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 18,
+  "fields": {
+    "name": "Dictionary",
+    "slug": "dictionary"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 19,
+  "fields": {
+    "name": "Drama",
+    "slug": "drama"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 20,
+  "fields": {
+    "name": "Dystopian",
+    "slug": "dystopian"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 21,
+  "fields": {
+    "name": "Encyclopedia",
+    "slug": "encyclopedia"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 22,
+  "fields": {
+    "name": "Fantasy",
+    "slug": "fantasy_1"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 23,
+  "fields": {
+    "name": "Fiction",
+    "slug": "fiction"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 24,
+  "fields": {
+    "name": "Graphic Novels",
+    "slug": "graphic-novels"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 25,
+  "fields": {
+    "name": "Guide",
+    "slug": "guide"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 26,
+  "fields": {
+    "name": "Health",
+    "slug": "health"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 27,
+  "fields": {
+    "name": "Historical Fiction",
+    "slug": "historical-fiction"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 28,
+  "fields": {
+    "name": "History",
+    "slug": "history_1"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 29,
+  "fields": {
+    "name": "Horror",
+    "slug": "horror"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 30,
+  "fields": {
+    "name": "Journals",
+    "slug": "journals"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 31,
+  "fields": {
+    "name": "Math",
+    "slug": "math"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 32,
+  "fields": {
+    "name": "Memoir",
+    "slug": "memoir"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 33,
+  "fields": {
+    "name": "Mystery",
+    "slug": "mystery"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 34,
+  "fields": {
+    "name": "Non-Fiction",
+    "slug": "non-fiction"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 35,
+  "fields": {
+    "name": "Paranormal",
+    "slug": "paranormal"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 36,
+  "fields": {
+    "name": "Philosophy",
+    "slug": "philosophy"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 37,
+  "fields": {
+    "name": "Poetry",
+    "slug": "poetry"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 38,
+  "fields": {
+    "name": "Prayer Books",
+    "slug": "prayer-books"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 39,
+  "fields": {
+    "name": "Psychology",
+    "slug": "psychology"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 40,
+  "fields": {
+    "name": "Religion",
+    "slug": "religion"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 41,
+  "fields": {
+    "name": "Romance",
+    "slug": "romance"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 42,
+  "fields": {
+    "name": "Satire",
+    "slug": "satire"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 43,
+  "fields": {
+    "name": "Science",
+    "slug": "science"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 44,
+  "fields": {
+    "name": "Self-Help",
+    "slug": "self-help"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 45,
+  "fields": {
+    "name": "Series",
+    "slug": "series"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 46,
+  "fields": {
+    "name": "Short Stories",
+    "slug": "short-stories"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 47,
+  "fields": {
+    "name": "Suspense",
+    "slug": "suspense"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 48,
+  "fields": {
+    "name": "Thriller",
+    "slug": "thriller"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 49,
+  "fields": {
+    "name": "Travel",
+    "slug": "travel"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 50,
+  "fields": {
+    "name": "Trilogy",
+    "slug": "trilogy"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 51,
+  "fields": {
+    "name": "True Crime",
+    "slug": "true-crime"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 52,
+  "fields": {
+    "name": "Western",
+    "slug": "western"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 53,
+  "fields": {
+    "name": "Young Adult",
+    "slug": "young-adult"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 54,
+  "fields": {
+    "name": "Prolific",
+    "slug": "prolific"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 55,
+  "fields": {
+    "name": "Bestseller",
+    "slug": "bestseller"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 56,
+  "fields": {
+    "name": "Debut",
+    "slug": "debut"
+  }
+},
+{
+  "model": "taggit.tag",
+  "pk": 57,
+  "fields": {
+    "name": "Award-Winning",
+    "slug": "award-winning"
+  }
+}
+]

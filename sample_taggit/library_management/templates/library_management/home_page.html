@@ -1,0 +1,42 @@
+{% extends 'library_management/base.html' %}
+
+{% block content %}
+<h1 class="my-4">Library Management Home</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Number of Books</h5>
+                <p class="card-text"><strong>{{ num_books }}</strong></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Genres Represented</h5>
+                <ul class="list-group list-group-flush">
+                    {% for genre in genres %}
+                        <li class="list-group-item">{{ genre.name }}: <strong>{{ genre.count }}</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Condition of Physical Books</h5>
+                <ul class="list-group list-group-flush">
+                    {% for condition in condition_stats %}
+                        <li class="list-group-item">{{ condition.condition_tags__name }}: <strong>{{ condition.count }}</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
