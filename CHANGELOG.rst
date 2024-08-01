@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 * Added a management command (``remove_orphaned_tags``) to remove orphaned tags
+* Fixed MultipleObjectsReturned error when setting tags with case-insensitive names by using first() method aftre ``TAGGIT_CASE_INSENSITIVE`` is set to ``True``.
+* Added ``deduplicate_tags`` management command to remove duplicate tags based on case insensitivity. This feature is enabled when ``TAGGIT_CASE_INSENSITIVE`` is set to ``True`` in the settings.
+
 
 6.0.0 (2024-07-27)
 ~~~~~~~~~~~~~~~~~~
