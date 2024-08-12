@@ -3,6 +3,8 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+* We no longer package tests, docs, or the sample taggit app into the distributed wheels. While we believe this shouldn't affect anything for users of the library, please tell us if you find yourself hitting issues (like around import errors)
+
 * Added a management command (``remove_orphaned_tags``) to remove orphaned tags
 
 6.0.0 (2024-07-27)
