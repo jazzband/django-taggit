@@ -90,6 +90,8 @@ class TagAdmin(admin.ModelAdmin):
         try:
             orphaned_tags = Tag.objects.filter(taggit_taggeditem_items=None)
             count, _ = orphaned_tags.delete()
-            self.message_user(request, f"Successfully removed {count} orphaned tags.", level="success") 
+            self.message_user(
+                request, f"Successfully removed {count} orphaned tags.", level="success"
+            )
         except Exception as e:
             self.message_user(request, f"An error occurred: {e}", level="error")
