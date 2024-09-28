@@ -3,6 +3,10 @@ Changelog
 
 (Unreleased)
 ~~~~~~~~~~~~
+
+6.1.0 (2024-09-29)
+~~~~~~~~~~~~~~~~~~
+
 * Add a management command (``remove_orphaned_tags``) to remove orphaned tags
 * Add a fallback for when multiple tags are found in case-insensitivity mode (the earliest by PK is returned)
 * Add a ``deduplicate_tags`` management command to remove duplicate tags based on case insensitivity. This feature is enabled when ``TAGGIT_CASE_INSENSITIVE`` is set to ``True`` in the settings.
