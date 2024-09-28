@@ -4,6 +4,7 @@ from operator import attrgetter
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import connections, models, router
 from django.db.models import signals
 from django.db.models.fields.related import (
@@ -242,6 +243,13 @@ class _TaggableManager(models.Manager):
                     existing_tags_for_str[name] = tag
                 except self.through.tag_model().DoesNotExist:
                     tags_to_create.append(name)
+                except MultipleObjectsReturned:
+                    tag = (
+                        manager.filter(name__iexact=name, **tag_kwargs)
+                        .order_by("pk")
+                        .first()
+                    )
+                    existing_tags_for_str[name] = tag
         else:
             # Django is smart enough to not actually query if tag_strs is empty
             # but importantly, this is a single query for all potential tags
