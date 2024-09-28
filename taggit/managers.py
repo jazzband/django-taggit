@@ -244,7 +244,11 @@ class _TaggableManager(models.Manager):
                 except self.through.tag_model().DoesNotExist:
                     tags_to_create.append(name)
                 except MultipleObjectsReturned:
-                    tag = manager.filter(name__iexact=name, **tag_kwargs).first()
+                    tag = (
+                        manager.filter(name__iexact=name, **tag_kwargs)
+                        .order_by("pk")
+                        .first()
+                    )
                     existing_tags_for_str[name] = tag
         else:
             # Django is smart enough to not actually query if tag_strs is empty
