@@ -1,0 +1,9002 @@
+[
+{
+  "model": "library_management.physicalcopy",
+  "pk": 1,
+  "fields": {
+    "book": 159,
+    "barcode": "8129a016-7de1-441e-863c-d4f04c42e842",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 2,
+  "fields": {
+    "book": 86,
+    "barcode": "9db9ed5f-9050-4a2f-8226-17dfdbd05bf4",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 3,
+  "fields": {
+    "book": 96,
+    "barcode": "20657068-1832-4679-82e4-b203c8c6ece6",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 4,
+  "fields": {
+    "book": 113,
+    "barcode": "a5f280e3-7b59-40b6-b063-f95e12158da1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 5,
+  "fields": {
+    "book": 96,
+    "barcode": "85a7c16b-65db-4755-bd12-801bb324d27b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 6,
+  "fields": {
+    "book": 198,
+    "barcode": "acd7f11f-326c-4bca-aa4f-f3305add6842",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 7,
+  "fields": {
+    "book": 97,
+    "barcode": "ae351a1a-ba43-4101-8d9c-17901d67021a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 8,
+  "fields": {
+    "book": 58,
+    "barcode": "6c0eba8e-aa52-4260-991d-b64b4774b6ad",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 9,
+  "fields": {
+    "book": 52,
+    "barcode": "cfbb4b0e-b709-42b4-99fe-fc8dc5987863",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 10,
+  "fields": {
+    "book": 87,
+    "barcode": "ff1a21c3-8d90-4772-a894-8e0e7e33cff3",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 11,
+  "fields": {
+    "book": 22,
+    "barcode": "412961da-2ff7-48d5-b136-dfd71beafa6f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 12,
+  "fields": {
+    "book": 172,
+    "barcode": "9f32e94d-8e6f-4a73-ac57-531d4c28a492",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 13,
+  "fields": {
+    "book": 186,
+    "barcode": "0e781814-034d-41d3-a660-d92a254baa7e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 14,
+  "fields": {
+    "book": 155,
+    "barcode": "eb53a0af-3def-4096-a0ec-7a7e062dbca6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 15,
+  "fields": {
+    "book": 97,
+    "barcode": "8b5ed9b4-ce2d-4ec9-bb19-3ecf589c4fba",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 16,
+  "fields": {
+    "book": 134,
+    "barcode": "dc9b6edd-db64-4d84-a572-a8c2681728fb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 17,
+  "fields": {
+    "book": 179,
+    "barcode": "70e575ee-44d1-4f4c-993e-db4d970075cb",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 18,
+  "fields": {
+    "book": 91,
+    "barcode": "f79269af-afb2-4233-88fc-0807cab33c5d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 19,
+  "fields": {
+    "book": 199,
+    "barcode": "86f13ec4-75e3-45b9-b5a5-906931c5b47d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 20,
+  "fields": {
+    "book": 78,
+    "barcode": "21dcc661-102f-4086-a7e2-876a0ea00ee8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 21,
+  "fields": {
+    "book": 131,
+    "barcode": "89e3c555-f5fb-47d1-81b8-55869868f276",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 22,
+  "fields": {
+    "book": 80,
+    "barcode": "50dba2a3-6f15-418a-94c1-86abb75152db",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 23,
+  "fields": {
+    "book": 112,
+    "barcode": "5b8c4a0d-4594-4987-b2fe-2558d3289402",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 24,
+  "fields": {
+    "book": 25,
+    "barcode": "46fe16fc-1278-46f5-9198-33882edd05fc",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 25,
+  "fields": {
+    "book": 118,
+    "barcode": "9bb7faa9-f58f-46a8-92ab-84c54a030158",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 26,
+  "fields": {
+    "book": 96,
+    "barcode": "f4f04b46-2d77-4bbd-b530-0e82caa31043",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 27,
+  "fields": {
+    "book": 76,
+    "barcode": "a285cee7-cb8e-4b6b-9d31-e623a1cbdf87",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 28,
+  "fields": {
+    "book": 69,
+    "barcode": "5e76863d-ff0c-4d0f-b480-722fd334f0d9",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 29,
+  "fields": {
+    "book": 125,
+    "barcode": "5b24a068-5b61-4e3c-825e-9381756b33d1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 30,
+  "fields": {
+    "book": 165,
+    "barcode": "33afcb16-8c05-4af6-b68b-7ee367e59cbd",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 31,
+  "fields": {
+    "book": 85,
+    "barcode": "a3e0f387-4d53-45cb-8678-34d863400aac",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 32,
+  "fields": {
+    "book": 53,
+    "barcode": "31b9d257-234b-4fef-b588-096bd7be9039",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 33,
+  "fields": {
+    "book": 200,
+    "barcode": "069ada8b-f02c-404d-a964-2b59f87e4959",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 34,
+  "fields": {
+    "book": 128,
+    "barcode": "4b4dbc5b-92c8-4926-a87e-2583902f47f8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 35,
+  "fields": {
+    "book": 58,
+    "barcode": "9459ab89-f1e6-4a42-95f7-0e4ad69d0c1d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 36,
+  "fields": {
+    "book": 20,
+    "barcode": "317cbf09-eafa-439f-b38d-db2daebe6cb9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 37,
+  "fields": {
+    "book": 124,
+    "barcode": "b331fa45-6162-45b2-9a50-8f10bbd36759",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 38,
+  "fields": {
+    "book": 4,
+    "barcode": "8e42e3fd-46a1-4885-995b-8d2474afd5e3",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 39,
+  "fields": {
+    "book": 46,
+    "barcode": "d1c3af67-eae8-4a75-b43e-1e908236f027",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 40,
+  "fields": {
+    "book": 179,
+    "barcode": "8045f14d-f0ff-4128-97f9-265c05117a89",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 41,
+  "fields": {
+    "book": 42,
+    "barcode": "9cbf587f-bcd2-48d3-9d8e-0c0b4a761b86",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 42,
+  "fields": {
+    "book": 62,
+    "barcode": "b957f681-aa93-41e4-96e5-29bdd417bb31",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 43,
+  "fields": {
+    "book": 41,
+    "barcode": "1294382e-ff81-4015-96ac-cc6961808d85",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 44,
+  "fields": {
+    "book": 117,
+    "barcode": "b60eb2d4-e0ce-4bc2-87f6-5acce9aad55a",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 45,
+  "fields": {
+    "book": 47,
+    "barcode": "02e7558c-bc4f-41c9-a606-1c06ea7c41b8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 46,
+  "fields": {
+    "book": 168,
+    "barcode": "03fcb773-4319-4b5c-9c42-d5b94dbdecee",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 47,
+  "fields": {
+    "book": 140,
+    "barcode": "76d06c98-c7bf-495d-a556-a64c80788960",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 48,
+  "fields": {
+    "book": 56,
+    "barcode": "d46054a4-4747-47ad-864b-70dbc55d8e1f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 49,
+  "fields": {
+    "book": 52,
+    "barcode": "6b87d265-2feb-4895-8800-41a945cdcf78",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 50,
+  "fields": {
+    "book": 22,
+    "barcode": "4d192064-ef2f-4fc8-9877-5fe407b8c830",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 51,
+  "fields": {
+    "book": 92,
+    "barcode": "229924a8-c91e-407d-bd72-62af86a391b6",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 52,
+  "fields": {
+    "book": 35,
+    "barcode": "9b62f39d-f354-40dd-9479-07438296e96a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 53,
+  "fields": {
+    "book": 195,
+    "barcode": "5c6b1f56-f6b2-4b4b-9262-c3f38a8e9c5b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 54,
+  "fields": {
+    "book": 175,
+    "barcode": "e9b7e7c3-ad78-4ce0-9e37-52b832a54e07",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 55,
+  "fields": {
+    "book": 183,
+    "barcode": "af98b45e-fab9-4f49-bd20-0c90ad238361",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 56,
+  "fields": {
+    "book": 137,
+    "barcode": "2487b6a7-be42-46e9-9915-f7d774745ec8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 57,
+  "fields": {
+    "book": 84,
+    "barcode": "e98489f8-f802-4789-8e48-ec7f26f26776",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 58,
+  "fields": {
+    "book": 148,
+    "barcode": "668219c5-7db8-4d04-b1c4-14e0b9d78d1e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 59,
+  "fields": {
+    "book": 174,
+    "barcode": "5a908293-5388-4970-8d28-027b01999ff5",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 60,
+  "fields": {
+    "book": 26,
+    "barcode": "5fe7425b-80c7-45dd-aada-3060e7fe3bb0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 61,
+  "fields": {
+    "book": 58,
+    "barcode": "0c2f52c6-d235-4b02-94a4-9ccf26fafcaf",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 62,
+  "fields": {
+    "book": 76,
+    "barcode": "3f890480-1a0b-4120-872f-d0314e608965",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 63,
+  "fields": {
+    "book": 89,
+    "barcode": "17fa9c66-ac50-4e16-b192-eaa6f04d9912",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 64,
+  "fields": {
+    "book": 113,
+    "barcode": "54780622-0749-4b4c-b978-47259e313340",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 65,
+  "fields": {
+    "book": 184,
+    "barcode": "96937ccb-f71f-4e4b-8969-e84d8588b0af",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 66,
+  "fields": {
+    "book": 33,
+    "barcode": "4ffb692c-abf0-43b0-9325-cd1f439aebcb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 67,
+  "fields": {
+    "book": 95,
+    "barcode": "151bcbf5-d3e6-4ba5-9b32-6e1603f324e6",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 68,
+  "fields": {
+    "book": 38,
+    "barcode": "94834af5-1d38-4307-8372-39763a968150",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 69,
+  "fields": {
+    "book": 112,
+    "barcode": "d9f9f8a7-289b-46d8-9751-aea11a6de58a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 70,
+  "fields": {
+    "book": 116,
+    "barcode": "7a7aaf7b-2a71-4b78-928c-313f7f1a1324",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 71,
+  "fields": {
+    "book": 48,
+    "barcode": "6fbedd43-1504-4389-a569-977bd65b3754",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 72,
+  "fields": {
+    "book": 77,
+    "barcode": "6ee243a1-ec91-4976-9bc8-7e94668567fa",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 73,
+  "fields": {
+    "book": 96,
+    "barcode": "e42da673-d35a-40aa-81e4-11c307ecb6d7",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 74,
+  "fields": {
+    "book": 128,
+    "barcode": "57118101-4ef5-48f1-86b5-a19eba6ba72b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 75,
+  "fields": {
+    "book": 54,
+    "barcode": "7894ca87-fbeb-4f30-8dad-340a289e4559",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 76,
+  "fields": {
+    "book": 92,
+    "barcode": "8a8257d1-0eff-4433-a913-1a4ad07d1c0f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 77,
+  "fields": {
+    "book": 177,
+    "barcode": "4d01035b-092a-468c-82e4-6cdf0e68e00f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 78,
+  "fields": {
+    "book": 146,
+    "barcode": "9482dbd7-357d-4be1-a2f5-d6a576c60443",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 79,
+  "fields": {
+    "book": 113,
+    "barcode": "e895178a-649d-4178-b877-d0dc6c077dfa",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 80,
+  "fields": {
+    "book": 22,
+    "barcode": "d438a091-252c-4045-b03f-e9356934e39e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 81,
+  "fields": {
+    "book": 135,
+    "barcode": "e93f16d5-2185-4b11-81fa-1137bc5b5b50",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 82,
+  "fields": {
+    "book": 18,
+    "barcode": "8966ad66-ed4f-4d18-8ad2-d17e25ba007a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 83,
+  "fields": {
+    "book": 75,
+    "barcode": "6773584d-a635-47da-958f-94babad8b02b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 84,
+  "fields": {
+    "book": 115,
+    "barcode": "258b2c6f-97cf-483f-a24d-333b260cc30e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 85,
+  "fields": {
+    "book": 63,
+    "barcode": "9ad41a8f-777c-4634-928f-6753d332707d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 86,
+  "fields": {
+    "book": 163,
+    "barcode": "dfe3b397-aec0-4d7e-84cd-d442eb06e866",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 87,
+  "fields": {
+    "book": 173,
+    "barcode": "f43c404f-05ed-452c-af45-8eb90364176e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 88,
+  "fields": {
+    "book": 87,
+    "barcode": "6482d17d-9b13-4e5b-bc54-959edffebcb4",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 89,
+  "fields": {
+    "book": 25,
+    "barcode": "1f6941fb-a13f-4e56-a1b2-3b82ff16124b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 90,
+  "fields": {
+    "book": 3,
+    "barcode": "fa8becef-f680-4549-aeb2-9549ae9ec8b3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 91,
+  "fields": {
+    "book": 26,
+    "barcode": "08d1d3bd-c691-4f54-ace2-bc94ddb05f13",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 92,
+  "fields": {
+    "book": 146,
+    "barcode": "8738a6fa-92f4-4ff5-8129-6ad1cec00c4e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 93,
+  "fields": {
+    "book": 11,
+    "barcode": "7bc63afd-b16e-4fe8-938f-c11276350725",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 94,
+  "fields": {
+    "book": 186,
+    "barcode": "f7a32ffc-b148-42fa-ba52-349335fc5978",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 95,
+  "fields": {
+    "book": 182,
+    "barcode": "4d1fe05d-dfa4-44ab-9ec4-77f6fbc30bd0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 96,
+  "fields": {
+    "book": 70,
+    "barcode": "6e1a1e7e-5a7b-44b8-8394-999c02812339",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 97,
+  "fields": {
+    "book": 87,
+    "barcode": "60f94867-9f64-4b28-bff2-2acbdf88378d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 98,
+  "fields": {
+    "book": 35,
+    "barcode": "a548122c-1af5-4938-985e-7aedc1ab6187",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 99,
+  "fields": {
+    "book": 81,
+    "barcode": "5d00f876-34df-4fd1-9b6d-dfa654d01f37",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 100,
+  "fields": {
+    "book": 38,
+    "barcode": "64a93edf-c4aa-4338-82a0-06be9c22f8c9",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 101,
+  "fields": {
+    "book": 154,
+    "barcode": "8f1d124d-325e-4300-9368-3d80821fe95a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 102,
+  "fields": {
+    "book": 144,
+    "barcode": "52ab3681-a085-4518-af50-2650ba802aa1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 103,
+  "fields": {
+    "book": 79,
+    "barcode": "d56ede40-38cc-493a-8755-0d63a8eec0e3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 104,
+  "fields": {
+    "book": 25,
+    "barcode": "c77e987b-ac75-4654-9063-c13932e71747",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 105,
+  "fields": {
+    "book": 190,
+    "barcode": "03022fed-5032-4729-b285-fa2ba0ed0da3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 106,
+  "fields": {
+    "book": 108,
+    "barcode": "16186da0-c0b4-42ad-8be0-3e209d249b94",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 107,
+  "fields": {
+    "book": 18,
+    "barcode": "e2cfb201-c5e0-4160-9ca3-2f3cbf584120",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 108,
+  "fields": {
+    "book": 104,
+    "barcode": "04492fcf-4b7d-4474-9cae-4502e9c7ae89",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 109,
+  "fields": {
+    "book": 86,
+    "barcode": "67797ed9-3f9f-4215-8a41-99e44e139cf1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 110,
+  "fields": {
+    "book": 156,
+    "barcode": "e929a758-c6b7-4d2d-9b41-a075dd2056d5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 111,
+  "fields": {
+    "book": 1,
+    "barcode": "e0db53b8-b8e2-4f20-82e0-ad88ac4cc4bb",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 112,
+  "fields": {
+    "book": 56,
+    "barcode": "8f57cb24-c356-4d6b-848d-aa0e187d4554",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 113,
+  "fields": {
+    "book": 185,
+    "barcode": "72d335d8-cff8-4cc5-bb0a-7c76c4fbab44",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 114,
+  "fields": {
+    "book": 48,
+    "barcode": "1d827493-f2d6-4729-8a68-625d07a1f5b8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 115,
+  "fields": {
+    "book": 112,
+    "barcode": "db297c3d-d957-4c41-b2d4-4ab5e044fae1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 116,
+  "fields": {
+    "book": 84,
+    "barcode": "972bf0cd-5af1-42fc-99f2-b1d20190116f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 117,
+  "fields": {
+    "book": 35,
+    "barcode": "69be0dbb-74ad-4153-aea4-a390fe52369f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 118,
+  "fields": {
+    "book": 82,
+    "barcode": "a317cccf-fa0d-4559-8347-418a6d5bb782",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 119,
+  "fields": {
+    "book": 147,
+    "barcode": "a486b016-374d-49e9-881b-19bacf22346c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 120,
+  "fields": {
+    "book": 48,
+    "barcode": "6a842ffd-a287-4e81-aced-bcfdfd3dcea4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 121,
+  "fields": {
+    "book": 177,
+    "barcode": "87e6c971-108b-404e-96c2-ba9fb39bc2f5",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 122,
+  "fields": {
+    "book": 116,
+    "barcode": "7dfdc719-eb03-4cb0-a76e-34a70b10f77f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 123,
+  "fields": {
+    "book": 63,
+    "barcode": "04356be3-2192-4f27-9c23-f1b965b7bbcf",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 124,
+  "fields": {
+    "book": 61,
+    "barcode": "8c173bd5-f5db-46cf-8548-5e90aeed073b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 125,
+  "fields": {
+    "book": 187,
+    "barcode": "5bd48bfe-9c2c-4379-bfc9-3be684b0d2ed",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 126,
+  "fields": {
+    "book": 18,
+    "barcode": "5a119402-3fce-415a-8113-5a11722ab7d0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 127,
+  "fields": {
+    "book": 86,
+    "barcode": "1dca580e-bb91-4a5a-8b4b-22d8b3a87245",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 128,
+  "fields": {
+    "book": 74,
+    "barcode": "77e70d35-f656-4e29-8c44-529ca5c2d5e3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 129,
+  "fields": {
+    "book": 4,
+    "barcode": "fccb7ddd-cebf-4931-9641-a6f98c3d47b8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 130,
+  "fields": {
+    "book": 11,
+    "barcode": "d6088111-d477-4ddc-9305-e50748d03882",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 131,
+  "fields": {
+    "book": 184,
+    "barcode": "b82f9d05-d43f-4842-93e9-3b4a5de5749f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 132,
+  "fields": {
+    "book": 66,
+    "barcode": "b57ecafb-f1dc-4aa3-8950-e8c3445a3494",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 133,
+  "fields": {
+    "book": 2,
+    "barcode": "61086efe-860e-45a2-a4f5-e0695984718a",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 134,
+  "fields": {
+    "book": 57,
+    "barcode": "f10f013e-ca73-4b00-b546-1d056ae2d508",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 135,
+  "fields": {
+    "book": 6,
+    "barcode": "bfe250d5-303d-4259-9df4-7540bf5848ea",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 136,
+  "fields": {
+    "book": 13,
+    "barcode": "ed6069a7-9c8f-4b0c-b95a-1704883cc2e2",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 137,
+  "fields": {
+    "book": 134,
+    "barcode": "a4e5f9d1-1fb7-47c9-94ea-66987d059ee2",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 138,
+  "fields": {
+    "book": 188,
+    "barcode": "8c023a64-e526-414a-a7ac-aa2512ef2dbd",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 139,
+  "fields": {
+    "book": 95,
+    "barcode": "076b91a9-1e95-4d6d-83e8-8fbe6207b8a8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 140,
+  "fields": {
+    "book": 25,
+    "barcode": "cfb534ef-33a4-4faf-8316-ed9d08c62a91",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 141,
+  "fields": {
+    "book": 34,
+    "barcode": "d12b6f1a-b2fc-4644-b523-ec4a6383db41",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 142,
+  "fields": {
+    "book": 53,
+    "barcode": "166d2936-a1d3-4ede-a5f7-19d993e36cdd",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 143,
+  "fields": {
+    "book": 48,
+    "barcode": "bf795fd3-a2af-41ae-b3b9-28e13826c961",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 144,
+  "fields": {
+    "book": 9,
+    "barcode": "251a6efc-6a97-4b9b-9d7b-11361b467a4e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 145,
+  "fields": {
+    "book": 108,
+    "barcode": "d6b33f08-f914-42b4-93df-f0fdd291d5c7",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 146,
+  "fields": {
+    "book": 163,
+    "barcode": "8bc9aab6-fa79-45db-bc5b-b252bd801dc0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 147,
+  "fields": {
+    "book": 3,
+    "barcode": "c2d85809-d82b-4998-bc10-e3ff57683823",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 148,
+  "fields": {
+    "book": 51,
+    "barcode": "270e2238-b645-455d-9e29-d75023c47591",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 149,
+  "fields": {
+    "book": 147,
+    "barcode": "6160e455-9386-40be-8de4-d3c553b0972a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 150,
+  "fields": {
+    "book": 139,
+    "barcode": "268b33fb-0518-4039-9970-22fda3623a11",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 151,
+  "fields": {
+    "book": 188,
+    "barcode": "f6aba64e-b838-4351-a5a7-b359ace49921",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 152,
+  "fields": {
+    "book": 58,
+    "barcode": "ae9d218c-a3a4-4e52-bbbc-88185fa3e705",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 153,
+  "fields": {
+    "book": 117,
+    "barcode": "b91d3a2d-6158-4e4c-80a8-5f82980222d9",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 154,
+  "fields": {
+    "book": 80,
+    "barcode": "6a59b3e3-114f-47e4-9f2b-4a7f219c3788",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 155,
+  "fields": {
+    "book": 200,
+    "barcode": "d9ccefdf-266d-4b08-a882-0999fe5f804e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 156,
+  "fields": {
+    "book": 149,
+    "barcode": "6f11c51f-f6aa-4659-a971-6c5a4d1ff18e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 157,
+  "fields": {
+    "book": 109,
+    "barcode": "648f81b9-57e3-4169-84e8-6616fbbe15be",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 158,
+  "fields": {
+    "book": 131,
+    "barcode": "669b7b2f-c9f0-4267-9bcf-91f93a56285f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 159,
+  "fields": {
+    "book": 187,
+    "barcode": "7473e235-a6f0-4784-9690-fd0def5e04b8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 160,
+  "fields": {
+    "book": 152,
+    "barcode": "f76a03b3-5d00-49be-a55b-e0dc1f2a0687",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 161,
+  "fields": {
+    "book": 46,
+    "barcode": "60d2bc1a-0358-4e64-920e-873aa7066cf4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 162,
+  "fields": {
+    "book": 68,
+    "barcode": "ce5ad433-7a0c-4045-85a9-1dd56d841261",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 163,
+  "fields": {
+    "book": 53,
+    "barcode": "a32c83c6-6a26-486d-8821-c3a6f32449c8",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 164,
+  "fields": {
+    "book": 161,
+    "barcode": "fed0f73f-0009-4d43-a5e6-02d8c7029315",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 165,
+  "fields": {
+    "book": 79,
+    "barcode": "d772e736-3888-441f-8b03-885fe57230bf",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 166,
+  "fields": {
+    "book": 89,
+    "barcode": "0006f1d5-fa28-4425-9d85-e3aa013a725c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 167,
+  "fields": {
+    "book": 45,
+    "barcode": "7858dc11-1fe3-4fee-830f-80c81ee4d545",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 168,
+  "fields": {
+    "book": 87,
+    "barcode": "f279afc2-9b54-49d4-8ec7-6d405274aefd",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 169,
+  "fields": {
+    "book": 180,
+    "barcode": "ac96d5db-0e30-418d-9dd3-1ec80b1e6d8f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 170,
+  "fields": {
+    "book": 155,
+    "barcode": "b4857c62-6dcc-4dba-bbdc-b6721de3be7a",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 171,
+  "fields": {
+    "book": 76,
+    "barcode": "f9c16a20-7c5f-4b2b-aa44-aa7eba762c2d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 172,
+  "fields": {
+    "book": 30,
+    "barcode": "ab8fcb8f-b801-464f-b2d9-35b73eb344cc",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 173,
+  "fields": {
+    "book": 58,
+    "barcode": "15ced4b2-678c-4d6b-bdb1-954faa508e2d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 174,
+  "fields": {
+    "book": 23,
+    "barcode": "460d8918-d36a-4a6e-8000-34e9520e3eb7",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 175,
+  "fields": {
+    "book": 160,
+    "barcode": "7a038ec5-c828-4645-825b-b706deaf7bba",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 176,
+  "fields": {
+    "book": 149,
+    "barcode": "d97714ec-33b3-49df-8ed1-5281628fe082",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 177,
+  "fields": {
+    "book": 98,
+    "barcode": "c1389011-2fe0-4176-9970-7b784946c322",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 178,
+  "fields": {
+    "book": 121,
+    "barcode": "24339f12-8570-494f-9c51-d621e5de2e70",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 179,
+  "fields": {
+    "book": 139,
+    "barcode": "cf155f02-c98f-4f48-a586-d71a21566d8a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 180,
+  "fields": {
+    "book": 135,
+    "barcode": "f321a9fb-908c-42a4-91f2-e5af76ec117c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 181,
+  "fields": {
+    "book": 38,
+    "barcode": "03ae0ba8-ddbc-4a2b-a894-3048b6092638",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 182,
+  "fields": {
+    "book": 52,
+    "barcode": "2e302cec-da52-4903-b86f-0308896569b1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 183,
+  "fields": {
+    "book": 107,
+    "barcode": "b381d0c2-5c50-45c2-9ada-98e84bd14c2d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 184,
+  "fields": {
+    "book": 30,
+    "barcode": "5e754853-879d-4dc9-93e7-2335d79eab55",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 185,
+  "fields": {
+    "book": 192,
+    "barcode": "dad68a88-d408-4036-b439-4ad5e08bb602",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 186,
+  "fields": {
+    "book": 154,
+    "barcode": "a102e051-b53d-4be6-b4e4-560154f674df",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 187,
+  "fields": {
+    "book": 95,
+    "barcode": "f7cff3f8-fe12-4aa1-9923-af1f7ea9ec34",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 188,
+  "fields": {
+    "book": 97,
+    "barcode": "f0c0a1e0-0d36-4a90-bb45-5e8c1e7fa66d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 189,
+  "fields": {
+    "book": 188,
+    "barcode": "694d0ba1-28f3-4f9f-812a-a5403c9a47fe",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 190,
+  "fields": {
+    "book": 194,
+    "barcode": "a67d05f3-205d-4b07-9937-d49f1aea35eb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 191,
+  "fields": {
+    "book": 121,
+    "barcode": "2b6b13ff-e6d0-45aa-ad6b-e26a02cdca35",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 192,
+  "fields": {
+    "book": 107,
+    "barcode": "94dd86dd-db17-48f1-a787-4c8a29f1df69",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 193,
+  "fields": {
+    "book": 117,
+    "barcode": "b9a9c19a-5481-4c33-b04f-fd8233c1b761",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 194,
+  "fields": {
+    "book": 55,
+    "barcode": "70e0417a-5f57-4a69-976c-cae0f7f5265f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 195,
+  "fields": {
+    "book": 161,
+    "barcode": "bf2e0e65-c949-4477-a199-3d3957bb4f89",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 196,
+  "fields": {
+    "book": 200,
+    "barcode": "49bc25d1-9a5c-43d5-b9b7-a92a2bc471da",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 197,
+  "fields": {
+    "book": 53,
+    "barcode": "d23b07f7-9206-4692-90dd-3f95f6473c7f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 198,
+  "fields": {
+    "book": 189,
+    "barcode": "164bb91c-b7c9-448a-8181-86826bb329b7",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 199,
+  "fields": {
+    "book": 139,
+    "barcode": "af9d28ef-a21b-49cf-b63c-25761e77e851",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 200,
+  "fields": {
+    "book": 187,
+    "barcode": "5e8509eb-4d9d-4150-9106-9f72bf8cb0da",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 201,
+  "fields": {
+    "book": 74,
+    "barcode": "fe7948e3-ad0a-4594-92ed-bf8961eb8b4e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 202,
+  "fields": {
+    "book": 176,
+    "barcode": "e6d53b82-96c6-4c9e-a330-3c7738459e4f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 203,
+  "fields": {
+    "book": 184,
+    "barcode": "3b731ec4-c049-4c7a-bab1-c0eff4139da5",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 204,
+  "fields": {
+    "book": 177,
+    "barcode": "47df2c07-1b81-4928-930e-b63228730e16",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 205,
+  "fields": {
+    "book": 149,
+    "barcode": "9dd34b96-90c5-405e-9f61-796e6e6d60c4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 206,
+  "fields": {
+    "book": 49,
+    "barcode": "6a563ec6-810c-4895-a411-ec9eb1a4b8ec",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 207,
+  "fields": {
+    "book": 159,
+    "barcode": "66cd1db4-38f7-486f-9f26-2b039e490010",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 208,
+  "fields": {
+    "book": 155,
+    "barcode": "fec63607-dd35-4075-9def-2422386608f4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 209,
+  "fields": {
+    "book": 59,
+    "barcode": "e03ed48a-fcb4-4b8a-ac77-4a20c2a52f7f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 210,
+  "fields": {
+    "book": 40,
+    "barcode": "7947cc50-ec6c-4d77-8a6d-1e81b7b479eb",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 211,
+  "fields": {
+    "book": 170,
+    "barcode": "cc3df201-b500-4cdf-bc05-6a49167c5948",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 212,
+  "fields": {
+    "book": 172,
+    "barcode": "1d6deed0-42a5-4ea5-9297-ee8bf7705c16",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 213,
+  "fields": {
+    "book": 76,
+    "barcode": "248c3fd6-6352-406c-851f-af1f0d61735c",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 214,
+  "fields": {
+    "book": 166,
+    "barcode": "c835eaa1-992e-4df1-af6c-75b371f383e8",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 215,
+  "fields": {
+    "book": 91,
+    "barcode": "96463dc1-e176-497c-8075-15a88f69b58b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 216,
+  "fields": {
+    "book": 109,
+    "barcode": "35ec45a4-beee-43c4-a617-eb76066730be",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 217,
+  "fields": {
+    "book": 67,
+    "barcode": "7fc06b53-3528-4570-b3f7-08210b23a077",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 218,
+  "fields": {
+    "book": 11,
+    "barcode": "2e502c97-5282-47e9-8b18-9fe2d0d5ab8c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 219,
+  "fields": {
+    "book": 157,
+    "barcode": "0e1c5a89-7818-4419-ae4e-2d643a076c8b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 220,
+  "fields": {
+    "book": 79,
+    "barcode": "fe087375-36d5-4052-886b-8030ecd5c2df",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 221,
+  "fields": {
+    "book": 65,
+    "barcode": "825249d8-3a98-49ff-8f77-66ea987558e6",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 222,
+  "fields": {
+    "book": 88,
+    "barcode": "a8ba21a1-31b9-4319-b6c2-2896ffad753a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 223,
+  "fields": {
+    "book": 68,
+    "barcode": "4cb320c6-2992-4bf7-8a32-b68a62ca03e8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 224,
+  "fields": {
+    "book": 142,
+    "barcode": "b498054c-e2e5-40ea-a1da-9000dc900f3c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 225,
+  "fields": {
+    "book": 184,
+    "barcode": "a998fdf6-d9f7-4cc1-8c6f-51cdef676e1a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 226,
+  "fields": {
+    "book": 53,
+    "barcode": "0200af5a-c077-480f-a127-afe273b1bb36",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 227,
+  "fields": {
+    "book": 148,
+    "barcode": "15a8792a-71d3-4a1d-a972-d15a2b6251c5",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 228,
+  "fields": {
+    "book": 50,
+    "barcode": "4a4faaac-e0c2-4baa-87cb-2f1100729ec3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 229,
+  "fields": {
+    "book": 126,
+    "barcode": "e2ef56b9-2899-4bce-9aa9-4cd8e1391566",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 230,
+  "fields": {
+    "book": 91,
+    "barcode": "89d96095-1311-4a27-8efd-da3b0b88df20",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 231,
+  "fields": {
+    "book": 69,
+    "barcode": "dce29c9c-0b30-43fb-b28b-b93dc7fe0f7d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 232,
+  "fields": {
+    "book": 156,
+    "barcode": "8cc5fd0d-e834-4be6-a7cd-8988561b5711",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 233,
+  "fields": {
+    "book": 183,
+    "barcode": "d3ac7458-a456-4b8a-b4b2-d15ccb992d49",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 234,
+  "fields": {
+    "book": 106,
+    "barcode": "da6422d6-7839-4fc9-b7f7-eb04f6e32e69",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 235,
+  "fields": {
+    "book": 30,
+    "barcode": "daa15d6d-161b-454f-84a2-4c60c20ff4ad",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 236,
+  "fields": {
+    "book": 149,
+    "barcode": "48fc5c4e-6aa5-4a58-bc7c-8942bb51d6a4",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 237,
+  "fields": {
+    "book": 25,
+    "barcode": "0340532e-3400-4d25-8bf9-095ce8160ca6",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 238,
+  "fields": {
+    "book": 46,
+    "barcode": "77068087-f13e-442d-9d38-24b24d9afcb4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 239,
+  "fields": {
+    "book": 8,
+    "barcode": "96ab7373-e035-4674-a47b-8ae543f0386b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 240,
+  "fields": {
+    "book": 49,
+    "barcode": "a0ccb278-5458-4604-bf75-aae02dbf9e1e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 241,
+  "fields": {
+    "book": 19,
+    "barcode": "45b73084-d3af-4913-a14c-28f1937ea4bc",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 242,
+  "fields": {
+    "book": 119,
+    "barcode": "998d3852-c450-49e4-8cba-d5808e8b0480",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 243,
+  "fields": {
+    "book": 61,
+    "barcode": "85ddc249-f5bd-4ce5-b456-5c8df46e7701",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 244,
+  "fields": {
+    "book": 45,
+    "barcode": "bcb1522a-e8a0-4eee-9869-d3025880d5ef",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 245,
+  "fields": {
+    "book": 94,
+    "barcode": "834fc719-7b9d-4fd4-84bc-8f913b11250e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 246,
+  "fields": {
+    "book": 121,
+    "barcode": "1954d5c9-b289-48a4-986d-ea6a048f9042",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 247,
+  "fields": {
+    "book": 93,
+    "barcode": "d0eef19e-fc67-4f35-ae33-b350d15ab593",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 248,
+  "fields": {
+    "book": 85,
+    "barcode": "6baff495-4333-4967-b302-c3671178833f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 249,
+  "fields": {
+    "book": 190,
+    "barcode": "3a7853da-9bf0-4ca4-8901-bb2aa1684ff2",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 250,
+  "fields": {
+    "book": 58,
+    "barcode": "55a0fd88-0c36-41de-9514-275cdbb77cd7",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 251,
+  "fields": {
+    "book": 141,
+    "barcode": "10550268-1489-4ac7-9450-518c5b1f3c4d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 252,
+  "fields": {
+    "book": 195,
+    "barcode": "a1ca0bf6-7cec-498c-9512-0ef7f9bec63b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 253,
+  "fields": {
+    "book": 38,
+    "barcode": "59b0c8d1-39db-4c1a-bf4f-b2fa1ebc9804",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 254,
+  "fields": {
+    "book": 196,
+    "barcode": "cdd298f9-5566-4384-83ad-19b72d825d67",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 255,
+  "fields": {
+    "book": 7,
+    "barcode": "4d92dc2f-6efa-4c88-a374-6b3289b707c0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 256,
+  "fields": {
+    "book": 116,
+    "barcode": "1bb71afb-fc3b-491c-8fb1-83c5ce0d9a34",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 257,
+  "fields": {
+    "book": 44,
+    "barcode": "7e9ea49c-a037-4d34-9200-88a64212c530",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 258,
+  "fields": {
+    "book": 136,
+    "barcode": "52e8b4db-10ed-415c-baf0-7fae6a9346bf",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 259,
+  "fields": {
+    "book": 112,
+    "barcode": "f748dacb-6c17-441d-82e0-abe4d95c30ba",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 260,
+  "fields": {
+    "book": 8,
+    "barcode": "ad61a2c2-d0bf-4c99-bc5e-45f546faff9c",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 261,
+  "fields": {
+    "book": 66,
+    "barcode": "670f9b47-0a8b-4999-9f7a-2135d6a7ef88",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 262,
+  "fields": {
+    "book": 198,
+    "barcode": "ebd3ba9a-18bf-4bf9-b8ad-9b0c0d1d586a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 263,
+  "fields": {
+    "book": 48,
+    "barcode": "5262bb85-a872-41a9-b4c5-50843755917d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 264,
+  "fields": {
+    "book": 122,
+    "barcode": "c47ab93f-bcdf-444f-a5d5-b62610a79845",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 265,
+  "fields": {
+    "book": 129,
+    "barcode": "f4a811e5-5633-47b7-863b-9331e1a2f2e6",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 266,
+  "fields": {
+    "book": 1,
+    "barcode": "0fb438e7-05f9-475f-b859-23a29d3c7f51",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 267,
+  "fields": {
+    "book": 84,
+    "barcode": "2808a956-cb9a-4f74-b3e3-2796245732df",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 268,
+  "fields": {
+    "book": 117,
+    "barcode": "a508484e-14ed-4551-a5ae-4f4e9861bb4c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 269,
+  "fields": {
+    "book": 191,
+    "barcode": "dbafb0fc-5e67-4815-928f-c85ed564e27a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 270,
+  "fields": {
+    "book": 153,
+    "barcode": "2922ff72-3253-4ece-a8fd-f812234bc358",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 271,
+  "fields": {
+    "book": 55,
+    "barcode": "e9ca4b31-44c7-4d76-a7dd-5d3e7287fb24",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 272,
+  "fields": {
+    "book": 183,
+    "barcode": "46a4beb3-0202-4ad8-afb0-caf369da0686",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 273,
+  "fields": {
+    "book": 107,
+    "barcode": "632d1050-9171-451b-a0df-0b5e32736657",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 274,
+  "fields": {
+    "book": 70,
+    "barcode": "c9a0a448-9b76-43fd-b981-b9451e3901f6",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 275,
+  "fields": {
+    "book": 31,
+    "barcode": "4fcb9e0b-a711-43c9-a394-d2e26619d038",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 276,
+  "fields": {
+    "book": 96,
+    "barcode": "ded6f1d6-03e3-4ed0-b9b1-5365ee90893c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 277,
+  "fields": {
+    "book": 44,
+    "barcode": "49d1c58d-386f-46fd-bfa1-03a14f2f1c70",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 278,
+  "fields": {
+    "book": 93,
+    "barcode": "439be7f1-70fe-4f8f-967d-f87736f1b798",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 279,
+  "fields": {
+    "book": 126,
+    "barcode": "a2a1be25-ffe0-4025-b957-22d981ba58a4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 280,
+  "fields": {
+    "book": 109,
+    "barcode": "f42c828d-dec4-4097-8948-e4c4ec3f79b3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 281,
+  "fields": {
+    "book": 190,
+    "barcode": "1cb842be-fa98-44f6-b497-c096a8d41697",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 282,
+  "fields": {
+    "book": 199,
+    "barcode": "9ba516b8-0cae-4063-9cac-4b2268348e0c",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 283,
+  "fields": {
+    "book": 173,
+    "barcode": "d1eed89f-02a8-48b5-980f-d222a1f4af0b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 284,
+  "fields": {
+    "book": 167,
+    "barcode": "48acb240-54b8-4f7f-b960-cacb88ac8f6d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 285,
+  "fields": {
+    "book": 111,
+    "barcode": "8890fdc0-5c53-4291-ade4-70178ff57884",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 286,
+  "fields": {
+    "book": 151,
+    "barcode": "c0d37c79-3a93-471f-9ae9-ecb4dfbc46a1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 287,
+  "fields": {
+    "book": 1,
+    "barcode": "abd7f88e-d635-43c0-b741-869219f725c2",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 288,
+  "fields": {
+    "book": 56,
+    "barcode": "dc3c5fd4-15e5-464e-b4d2-3abdb53e8fdd",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 289,
+  "fields": {
+    "book": 121,
+    "barcode": "6406a88c-cfd6-4246-814d-2cc144978128",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 290,
+  "fields": {
+    "book": 134,
+    "barcode": "97662288-324a-48d0-87ec-dcf11661f0fe",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 291,
+  "fields": {
+    "book": 107,
+    "barcode": "38db2699-baab-485b-bba9-c5c636c57223",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 292,
+  "fields": {
+    "book": 166,
+    "barcode": "48c4e94b-4026-431e-80dd-13b84c8769d8",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 293,
+  "fields": {
+    "book": 157,
+    "barcode": "38f02168-68dd-4d6b-8905-af2b8eeda4a9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 294,
+  "fields": {
+    "book": 79,
+    "barcode": "d2b2955e-3434-46dd-aa77-431f0eb61b1a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 295,
+  "fields": {
+    "book": 158,
+    "barcode": "97672128-1466-4011-b5eb-9c1c2020b6a4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 296,
+  "fields": {
+    "book": 193,
+    "barcode": "926f2b4f-2766-4a8e-b912-c3e0ba2daa64",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 297,
+  "fields": {
+    "book": 56,
+    "barcode": "abc49e75-55ad-45e1-b896-15c896de7e5b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 298,
+  "fields": {
+    "book": 17,
+    "barcode": "0f8dcd2d-173d-4832-8396-04247fd01617",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 299,
+  "fields": {
+    "book": 137,
+    "barcode": "2774a597-f7d0-4527-bb18-1875dd95190f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 300,
+  "fields": {
+    "book": 87,
+    "barcode": "cd0f4589-fc7b-4eb1-b5c9-c14fea15668f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 301,
+  "fields": {
+    "book": 196,
+    "barcode": "b09dd273-01ef-42e0-a8ae-102868e23f69",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 302,
+  "fields": {
+    "book": 2,
+    "barcode": "8d411f2c-7886-4fa0-afcb-18327ffc039b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 303,
+  "fields": {
+    "book": 39,
+    "barcode": "2900068f-217b-461c-9602-83c898329b33",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 304,
+  "fields": {
+    "book": 117,
+    "barcode": "50a6078a-2730-44ea-94fc-40e440b1b0cf",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 305,
+  "fields": {
+    "book": 128,
+    "barcode": "dc39696a-91f7-46f8-870e-a149e39887e0",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 306,
+  "fields": {
+    "book": 126,
+    "barcode": "7b25c2ef-2c1a-49db-b37d-943d6fdd2f0e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 307,
+  "fields": {
+    "book": 13,
+    "barcode": "78a10f18-74a7-461c-b4ba-29fea33deb97",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 308,
+  "fields": {
+    "book": 84,
+    "barcode": "e6b8fc64-b34b-4516-a7dd-1b0a6a1f0aa9",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 309,
+  "fields": {
+    "book": 142,
+    "barcode": "0f610e7b-ea29-4533-a658-dbdb68ff3849",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 310,
+  "fields": {
+    "book": 118,
+    "barcode": "2d36284c-39c0-4aa0-9e61-b3432b23c340",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 311,
+  "fields": {
+    "book": 172,
+    "barcode": "c0e9419e-f936-49a7-ada1-30ae10902d08",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 312,
+  "fields": {
+    "book": 106,
+    "barcode": "92c609b4-f4ea-4ed7-add3-57d103840691",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 313,
+  "fields": {
+    "book": 139,
+    "barcode": "2aa4c461-2c9e-4730-a402-0eee45be3632",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 314,
+  "fields": {
+    "book": 168,
+    "barcode": "09c752e8-1e21-4311-b020-d366046bf958",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 315,
+  "fields": {
+    "book": 62,
+    "barcode": "23ea2cff-80e1-4d6c-ac51-321a29436c6a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 316,
+  "fields": {
+    "book": 75,
+    "barcode": "d1ad66b5-26b3-4a01-8c67-42aa6b538bf1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 317,
+  "fields": {
+    "book": 184,
+    "barcode": "d9429786-3036-4630-b3c9-c99df4d787bf",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 318,
+  "fields": {
+    "book": 116,
+    "barcode": "a0c19202-1413-4249-bb1d-02c452b779b9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 319,
+  "fields": {
+    "book": 22,
+    "barcode": "2d23290d-dcc7-40ed-bb3d-3af848f9b0b9",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 320,
+  "fields": {
+    "book": 146,
+    "barcode": "58cde765-1fac-4775-8832-862e0c799fd3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 321,
+  "fields": {
+    "book": 29,
+    "barcode": "8c776017-58d9-4d55-a80a-2381d2a198e9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 322,
+  "fields": {
+    "book": 117,
+    "barcode": "bace1bfe-48c4-49d9-b002-2d408ca12a42",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 323,
+  "fields": {
+    "book": 66,
+    "barcode": "259c6ae8-4413-4317-be42-89564be35837",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 324,
+  "fields": {
+    "book": 172,
+    "barcode": "3b353e36-e953-43e9-a684-c6e369944d53",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 325,
+  "fields": {
+    "book": 107,
+    "barcode": "4fd414f1-bced-4571-9569-4c951c6cdc56",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 326,
+  "fields": {
+    "book": 57,
+    "barcode": "29f80cd8-f600-49ca-af75-8fb5550ea8ab",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 327,
+  "fields": {
+    "book": 83,
+    "barcode": "8cfa3856-478a-4fcf-9f0c-6892e1e1a85e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 328,
+  "fields": {
+    "book": 9,
+    "barcode": "56608b5f-1635-454a-a4e8-10b992ebaf6e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 329,
+  "fields": {
+    "book": 198,
+    "barcode": "287019b2-2f25-488d-b9af-aaa9153e3d2d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 330,
+  "fields": {
+    "book": 76,
+    "barcode": "3a7a12a5-02d8-4f0f-b1bd-1e0676581071",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 331,
+  "fields": {
+    "book": 178,
+    "barcode": "2ded7992-c7b0-481c-9120-252eb994f145",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 332,
+  "fields": {
+    "book": 29,
+    "barcode": "93b7c60d-df0d-4590-b9c5-1171c8233ac0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 333,
+  "fields": {
+    "book": 44,
+    "barcode": "3c1234e8-7391-4e00-a1d0-9c7c5e5993b5",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 334,
+  "fields": {
+    "book": 45,
+    "barcode": "1d282703-3016-4574-a28c-87a5ac80755b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 335,
+  "fields": {
+    "book": 149,
+    "barcode": "b078b510-8d7a-4c4a-b4eb-e62f9fb143e7",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 336,
+  "fields": {
+    "book": 6,
+    "barcode": "d61f8218-6f63-4ed4-98d5-d678ac0bd5f1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 337,
+  "fields": {
+    "book": 143,
+    "barcode": "cf1b37eb-96df-4f18-b98f-6a42d48e35f5",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 338,
+  "fields": {
+    "book": 89,
+    "barcode": "d224fc32-e666-4aba-8b34-9b85174709a3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 339,
+  "fields": {
+    "book": 62,
+    "barcode": "4720a514-d175-468e-b901-000f1caebc1b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 340,
+  "fields": {
+    "book": 47,
+    "barcode": "aec84a34-fa3a-458e-b651-0928f30b7f0a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 341,
+  "fields": {
+    "book": 185,
+    "barcode": "31045839-3a89-42ec-a8c9-cfe6ac6f1157",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 342,
+  "fields": {
+    "book": 155,
+    "barcode": "fed6ab29-2ad6-4f73-93c9-6b2451891fe5",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 343,
+  "fields": {
+    "book": 178,
+    "barcode": "92928da6-1cea-463a-bff6-a7c6bc72c046",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 344,
+  "fields": {
+    "book": 148,
+    "barcode": "94937531-c220-4b1d-95b0-4b032a001224",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 345,
+  "fields": {
+    "book": 146,
+    "barcode": "5a9223d1-7efd-4435-a3b8-7e0e65d57be4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 346,
+  "fields": {
+    "book": 79,
+    "barcode": "6050e47f-bf16-4d57-97f2-d44375f166e3",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 347,
+  "fields": {
+    "book": 171,
+    "barcode": "6c733835-09e4-4f3c-833d-f35c140d8cbd",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 348,
+  "fields": {
+    "book": 199,
+    "barcode": "c79e8f3f-8dc1-4a45-b019-a8b305af29b6",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 349,
+  "fields": {
+    "book": 55,
+    "barcode": "6b99db59-ba9e-4e0f-8e7f-68ad210805b6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 350,
+  "fields": {
+    "book": 98,
+    "barcode": "2bcad7b5-e05f-414b-99bc-69f133afa2b3",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 351,
+  "fields": {
+    "book": 37,
+    "barcode": "97204d5c-74e0-464c-9bad-92c1aa1ed720",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 352,
+  "fields": {
+    "book": 12,
+    "barcode": "83420027-9e1a-4c59-8a66-0e4507320e35",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 353,
+  "fields": {
+    "book": 108,
+    "barcode": "c5887ea3-0af6-4195-8d3a-47d283f2b5a2",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 354,
+  "fields": {
+    "book": 51,
+    "barcode": "981cd184-4c15-4917-856a-fbf24150b28b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 355,
+  "fields": {
+    "book": 74,
+    "barcode": "bd9b4e29-a1f1-4373-bec4-1e8b711e6f5f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 356,
+  "fields": {
+    "book": 74,
+    "barcode": "77e92a60-62ae-4b9d-aad3-39cf1946667e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 357,
+  "fields": {
+    "book": 76,
+    "barcode": "f5a67446-5471-4480-854b-c0d0f7d9e3a5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 358,
+  "fields": {
+    "book": 68,
+    "barcode": "94708a6f-e157-41e9-865d-80865cb081ba",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 359,
+  "fields": {
+    "book": 83,
+    "barcode": "13f5bd4a-bd01-4ca7-873a-1affde7f946d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 360,
+  "fields": {
+    "book": 144,
+    "barcode": "5f9fbce7-8d16-46ba-856a-c5641e5bd807",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 361,
+  "fields": {
+    "book": 171,
+    "barcode": "7a175e28-0931-4f04-81da-2c0054912c6b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 362,
+  "fields": {
+    "book": 192,
+    "barcode": "7beeeb5d-485c-43e2-80b1-5bcf9c723bd0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 363,
+  "fields": {
+    "book": 53,
+    "barcode": "b1e639b0-7f40-475c-b225-2da22770b27c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 364,
+  "fields": {
+    "book": 182,
+    "barcode": "811ee51e-4069-44d2-a110-901fb4a7a7f1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 365,
+  "fields": {
+    "book": 171,
+    "barcode": "cd47a02f-605b-4f66-91d8-477d08ab38a1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 366,
+  "fields": {
+    "book": 167,
+    "barcode": "70aaf41a-4649-48cb-a4ea-3f8a1c9cb886",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 367,
+  "fields": {
+    "book": 39,
+    "barcode": "27b4d07a-5bd8-4fdb-a138-688477ff1edb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 368,
+  "fields": {
+    "book": 122,
+    "barcode": "7ec8827c-4f3d-4cc9-85ea-4a62c08df591",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 369,
+  "fields": {
+    "book": 50,
+    "barcode": "66dc2c83-1857-4961-a9e8-ae36565948ab",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 370,
+  "fields": {
+    "book": 198,
+    "barcode": "b1ff2166-79db-4188-b911-8cc329ccd925",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 371,
+  "fields": {
+    "book": 172,
+    "barcode": "0a0961a0-2e89-4e37-b33c-06d465b16bca",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 372,
+  "fields": {
+    "book": 14,
+    "barcode": "5c51cd4f-b43d-4e0c-a8b4-28bfaec3aeea",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 373,
+  "fields": {
+    "book": 28,
+    "barcode": "2690ad93-85a3-4173-959c-303e9f6dcb70",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 374,
+  "fields": {
+    "book": 129,
+    "barcode": "a755cf59-bbc6-4669-b970-cbae6c99ead4",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 375,
+  "fields": {
+    "book": 104,
+    "barcode": "3632cc6e-ad84-44b5-ad4a-c2a293ae9196",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 376,
+  "fields": {
+    "book": 36,
+    "barcode": "03feb118-afd8-4138-a915-17f49e9d5f13",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 377,
+  "fields": {
+    "book": 175,
+    "barcode": "b5763291-3564-4b24-80c9-9f7947b9411b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 378,
+  "fields": {
+    "book": 38,
+    "barcode": "4ec7e805-b8d1-49b7-add9-ae474762976b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 379,
+  "fields": {
+    "book": 13,
+    "barcode": "7b895329-8297-4a83-89ca-358a84b17a90",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 380,
+  "fields": {
+    "book": 29,
+    "barcode": "09e3d13f-879b-4d6c-bd2d-04c704001299",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 381,
+  "fields": {
+    "book": 188,
+    "barcode": "0720d82b-5af8-4215-9fa7-44e644738091",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 382,
+  "fields": {
+    "book": 107,
+    "barcode": "0045b45a-fb74-4b35-8a41-5b0d4d075258",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 383,
+  "fields": {
+    "book": 104,
+    "barcode": "5bbfb557-8069-4374-83dc-db2ece259def",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 384,
+  "fields": {
+    "book": 166,
+    "barcode": "a3bc7ab1-d54e-4716-b6bd-0b360254c69b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 385,
+  "fields": {
+    "book": 30,
+    "barcode": "86fe1faf-aa1d-4d93-90e5-704517da98f5",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 386,
+  "fields": {
+    "book": 13,
+    "barcode": "f6843f13-5978-4aed-8a5c-e67d72a4f2e9",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 387,
+  "fields": {
+    "book": 12,
+    "barcode": "9247fab5-1840-419a-96a0-21e6b6b3f02d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 388,
+  "fields": {
+    "book": 93,
+    "barcode": "a2e38820-143b-4e92-8377-609d93e61a85",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 389,
+  "fields": {
+    "book": 186,
+    "barcode": "fa1c5cac-0242-41b6-ab3a-5ba3ce543233",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 390,
+  "fields": {
+    "book": 58,
+    "barcode": "ceeeec03-0d11-4b0b-8afc-55500b823cd7",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 391,
+  "fields": {
+    "book": 182,
+    "barcode": "004cd145-1026-4fad-b8a2-062ef326847c",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 392,
+  "fields": {
+    "book": 179,
+    "barcode": "4b6b3663-51b6-4706-b1ba-d94e036f6d95",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 393,
+  "fields": {
+    "book": 37,
+    "barcode": "24cc2726-e91a-4351-aa8c-820916ac6b20",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 394,
+  "fields": {
+    "book": 160,
+    "barcode": "c126b202-95fb-4010-b6d6-3184ab0a337a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 395,
+  "fields": {
+    "book": 193,
+    "barcode": "09da3d81-37ec-4796-8e46-e4cd23186ef7",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 396,
+  "fields": {
+    "book": 79,
+    "barcode": "464b1c4c-5fbe-477a-b34c-c71a11228d7d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 397,
+  "fields": {
+    "book": 86,
+    "barcode": "b1fe17ac-67ac-49ee-b5e2-7d3a662b7b32",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 398,
+  "fields": {
+    "book": 188,
+    "barcode": "f2fe2540-d2dd-475e-8878-660fb71498e6",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 399,
+  "fields": {
+    "book": 152,
+    "barcode": "604e6359-2c27-400b-a70a-0bc96a9eb8bf",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 400,
+  "fields": {
+    "book": 182,
+    "barcode": "b1f9bbe3-0d50-4305-b1fb-dd3965a4433c",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 401,
+  "fields": {
+    "book": 131,
+    "barcode": "c468a3ad-e452-46cb-9b31-9dc130be419a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 402,
+  "fields": {
+    "book": 19,
+    "barcode": "7a7342a6-cfde-47ac-9bde-7a5fb0f2702c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 403,
+  "fields": {
+    "book": 133,
+    "barcode": "06131b16-9a5d-44d0-8400-721032935a85",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 404,
+  "fields": {
+    "book": 157,
+    "barcode": "0cc3e1df-9ef5-43c3-b1ec-24fe6ea6fc90",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 405,
+  "fields": {
+    "book": 56,
+    "barcode": "31a29a94-187b-4ee9-ab23-022788d1210f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 406,
+  "fields": {
+    "book": 142,
+    "barcode": "d197879a-2866-44eb-a978-f3ea041dc8dc",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 407,
+  "fields": {
+    "book": 132,
+    "barcode": "be98454a-f57a-4d3b-9fb1-363fb4addcce",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 408,
+  "fields": {
+    "book": 184,
+    "barcode": "300550a5-2a4c-4a5a-b29d-2a36d2c1d7f3",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 409,
+  "fields": {
+    "book": 37,
+    "barcode": "bea0fee2-e9d2-43c0-9e9b-093d852ed9ad",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 410,
+  "fields": {
+    "book": 178,
+    "barcode": "283ac4b3-bf6f-46cc-87d5-ecf4e9184df4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 411,
+  "fields": {
+    "book": 145,
+    "barcode": "83d8a626-cfa2-4388-80e0-b8394c733b40",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 412,
+  "fields": {
+    "book": 63,
+    "barcode": "d3726b97-8ad4-4489-a7ca-da3492da8ec4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 413,
+  "fields": {
+    "book": 170,
+    "barcode": "34585cda-b272-47f7-9c5e-7f75a2120b46",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 414,
+  "fields": {
+    "book": 161,
+    "barcode": "a3072ad3-96ff-4c8e-bb47-410a5327ac7b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 415,
+  "fields": {
+    "book": 54,
+    "barcode": "0023b913-e593-4ed5-8e2a-89e48e46d716",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 416,
+  "fields": {
+    "book": 179,
+    "barcode": "ea22238a-653f-4dd8-b887-269911b5690e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 417,
+  "fields": {
+    "book": 10,
+    "barcode": "ee210547-9cf8-46da-a4e3-3b153ffa210d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 418,
+  "fields": {
+    "book": 178,
+    "barcode": "fd9b5171-b981-4a44-8862-bc6c2d1fb77a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 419,
+  "fields": {
+    "book": 66,
+    "barcode": "4390ffa5-9fe4-4219-9f09-154c5831aa0d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 420,
+  "fields": {
+    "book": 40,
+    "barcode": "a9e842ae-9034-4899-9830-1ca9a0a4fb10",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 421,
+  "fields": {
+    "book": 21,
+    "barcode": "7b29c877-4789-405b-b8da-98e9564439bd",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 422,
+  "fields": {
+    "book": 61,
+    "barcode": "3d26c800-5895-46cb-a132-985ff63b01d3",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 423,
+  "fields": {
+    "book": 161,
+    "barcode": "f64c686f-dd7e-4e23-a384-dbe1dd9a152d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 424,
+  "fields": {
+    "book": 132,
+    "barcode": "3d64bafc-2da6-42ad-b7f7-0b8691369fa8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 425,
+  "fields": {
+    "book": 194,
+    "barcode": "ccffc317-a3c9-4270-9834-f5b1e5de1bc9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 426,
+  "fields": {
+    "book": 81,
+    "barcode": "b53a9839-1919-48fb-b66f-5b90d0da5330",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 427,
+  "fields": {
+    "book": 174,
+    "barcode": "9e59e407-57c2-46a3-a13b-7095dd12ffac",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 428,
+  "fields": {
+    "book": 5,
+    "barcode": "5c1e6f20-dfb8-48e4-9274-6d758a628969",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 429,
+  "fields": {
+    "book": 125,
+    "barcode": "b627f81d-b280-4b7e-9ee4-ffa8940be73d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 430,
+  "fields": {
+    "book": 17,
+    "barcode": "ee9d00a6-586e-4d8d-a2f5-91c400f04ffe",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 431,
+  "fields": {
+    "book": 125,
+    "barcode": "823898a3-69e8-4729-ae37-846b3a82e13d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 432,
+  "fields": {
+    "book": 18,
+    "barcode": "b3e9ec8e-5349-4df3-83f9-faae02676dbc",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 433,
+  "fields": {
+    "book": 165,
+    "barcode": "ab4056a8-aae0-40c1-b555-4251f0955e9b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 434,
+  "fields": {
+    "book": 166,
+    "barcode": "978f9074-8e64-47b7-b5c4-d519411eaf73",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 435,
+  "fields": {
+    "book": 130,
+    "barcode": "5fa5d016-e240-4c15-a621-8e7b12f4435f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 436,
+  "fields": {
+    "book": 157,
+    "barcode": "3270084b-9ac4-4800-a3d7-a27353b5ed7a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 437,
+  "fields": {
+    "book": 143,
+    "barcode": "60ec2503-d510-4d6f-8fc6-2eb8bdbcad39",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 438,
+  "fields": {
+    "book": 150,
+    "barcode": "bc8efcd2-c932-4e47-bd65-19a451719bf7",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 439,
+  "fields": {
+    "book": 34,
+    "barcode": "d40b6fbd-d0ff-4131-b307-50f0f37b97b4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 440,
+  "fields": {
+    "book": 75,
+    "barcode": "50b84968-62a2-4d26-8146-a348b52aa0cc",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 441,
+  "fields": {
+    "book": 119,
+    "barcode": "836a386b-14ae-4403-8f70-bf867c836919",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 442,
+  "fields": {
+    "book": 147,
+    "barcode": "deb71d0a-e2dc-4a4d-86c6-4742e0e2d40c",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 443,
+  "fields": {
+    "book": 153,
+    "barcode": "760cd3f4-36a4-41a5-b54a-a097991ca392",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 444,
+  "fields": {
+    "book": 31,
+    "barcode": "8a9b7cc5-3b3b-492a-a3db-d526ba8e2d16",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 445,
+  "fields": {
+    "book": 199,
+    "barcode": "ed5b79e4-857d-4849-849a-3eee8c11fc1c",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 446,
+  "fields": {
+    "book": 123,
+    "barcode": "3c50aa27-a33d-4f07-9532-cdaab730b62b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 447,
+  "fields": {
+    "book": 180,
+    "barcode": "236dc5e0-2710-4717-b763-2a128ecd40ca",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 448,
+  "fields": {
+    "book": 75,
+    "barcode": "151a65a4-6696-4fd6-af9e-0104b177044b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 449,
+  "fields": {
+    "book": 126,
+    "barcode": "a2e79b07-ca6e-41aa-a1c6-5cf573c898d2",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 450,
+  "fields": {
+    "book": 192,
+    "barcode": "8dfa9f2c-7042-4aab-805d-0a7ddefb40ea",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 451,
+  "fields": {
+    "book": 40,
+    "barcode": "f2474883-5f0a-4c63-a7a8-c67d57a1f309",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 452,
+  "fields": {
+    "book": 57,
+    "barcode": "aafd5d12-fabd-4237-986d-97dc3ce118da",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 453,
+  "fields": {
+    "book": 154,
+    "barcode": "a05c3317-0c20-4f60-8a1a-91438411a743",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 454,
+  "fields": {
+    "book": 102,
+    "barcode": "07184107-2889-4a3b-8776-ff01ba80195d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 455,
+  "fields": {
+    "book": 49,
+    "barcode": "028c5938-1525-4102-95d7-3053f3732c37",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 456,
+  "fields": {
+    "book": 32,
+    "barcode": "55784426-4702-4d9d-abf8-ec9d7f5d7917",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 457,
+  "fields": {
+    "book": 188,
+    "barcode": "f022d9c0-0309-49f6-a666-7006411260c5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 458,
+  "fields": {
+    "book": 16,
+    "barcode": "faa7ce45-417b-467d-bd55-685bdc81cb01",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 459,
+  "fields": {
+    "book": 92,
+    "barcode": "c7af3dfe-f7b3-4a0d-b08d-a1ac134beb8d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 460,
+  "fields": {
+    "book": 56,
+    "barcode": "4efd1d38-c758-4394-a893-58de63f64a7f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 461,
+  "fields": {
+    "book": 106,
+    "barcode": "396a8570-4b1b-4823-952d-7ad3eca534b7",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 462,
+  "fields": {
+    "book": 124,
+    "barcode": "a1b589b9-6851-466b-87f2-bc2c683c530f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 463,
+  "fields": {
+    "book": 31,
+    "barcode": "b85c796d-ee38-4c4f-a6c7-22bbbc331bb9",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 464,
+  "fields": {
+    "book": 79,
+    "barcode": "8c34a42e-95fd-4907-8450-eed6b6b4c873",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 465,
+  "fields": {
+    "book": 165,
+    "barcode": "6e1eecf2-094c-4671-ad41-42f8e365ae4c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 466,
+  "fields": {
+    "book": 14,
+    "barcode": "3c318c94-3f81-407a-9afd-1ddfa381ac96",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 467,
+  "fields": {
+    "book": 137,
+    "barcode": "6161a1c1-6d5d-4592-8eda-bd470f76c1ed",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 468,
+  "fields": {
+    "book": 172,
+    "barcode": "120e05fc-92df-4fc5-b716-0dd6a3c524b9",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 469,
+  "fields": {
+    "book": 31,
+    "barcode": "96c9adcd-7ead-48d1-ae6f-e1a7019758f0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 470,
+  "fields": {
+    "book": 63,
+    "barcode": "9e8b13e2-5554-4efc-b59e-6c54a189347b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 471,
+  "fields": {
+    "book": 32,
+    "barcode": "80a03c63-5bc7-42f5-9c85-38aa6cac4597",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 472,
+  "fields": {
+    "book": 192,
+    "barcode": "dbdc56c8-502d-456a-aef3-8279a43971a1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 473,
+  "fields": {
+    "book": 125,
+    "barcode": "3d07b9bb-f10d-4e27-9f15-23408f767d4f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 474,
+  "fields": {
+    "book": 118,
+    "barcode": "2e3c08a5-2b94-40c1-9e9a-7ac249acb8c5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 475,
+  "fields": {
+    "book": 61,
+    "barcode": "5cc29b84-a6b4-4380-af5b-2b9f7dc16822",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 476,
+  "fields": {
+    "book": 198,
+    "barcode": "36e0e939-1b82-4fd1-9eb4-86db49f80ed9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 477,
+  "fields": {
+    "book": 77,
+    "barcode": "0b4cb9d2-5d6a-4c43-bc3e-09e755c3a2ae",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 478,
+  "fields": {
+    "book": 158,
+    "barcode": "a6beebee-1404-4107-9a7f-a0b183a771ca",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 479,
+  "fields": {
+    "book": 37,
+    "barcode": "6c0364eb-d466-40cd-a2ce-c7367ecefe70",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 480,
+  "fields": {
+    "book": 167,
+    "barcode": "36f61010-f65b-47d3-a324-1bb4c35e0482",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 481,
+  "fields": {
+    "book": 134,
+    "barcode": "90da57f1-1748-4d94-8c65-6c29515ae773",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 482,
+  "fields": {
+    "book": 125,
+    "barcode": "b1f621c7-df55-452b-9438-e57aa2373d6a",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 483,
+  "fields": {
+    "book": 114,
+    "barcode": "67248b65-cef8-48a6-9b1b-c190c74a109b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 484,
+  "fields": {
+    "book": 160,
+    "barcode": "cc4c3064-a50d-4c2a-8231-692d5b3cf374",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 485,
+  "fields": {
+    "book": 162,
+    "barcode": "eb947235-40fe-4727-bae4-4abd5a044667",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 486,
+  "fields": {
+    "book": 93,
+    "barcode": "341ab3d0-34ac-42ff-adb5-e0395ea662a5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 487,
+  "fields": {
+    "book": 39,
+    "barcode": "ac7a5006-e063-4f7f-bb0b-2b637dd7a39a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 488,
+  "fields": {
+    "book": 73,
+    "barcode": "4754e912-2c0f-4ee2-9e3c-b9524cebbd8c",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 489,
+  "fields": {
+    "book": 3,
+    "barcode": "2ce12077-d2ef-4015-adf3-f348968624a9",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 490,
+  "fields": {
+    "book": 26,
+    "barcode": "24c9366d-139c-4a85-a760-a85db6a9685b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 491,
+  "fields": {
+    "book": 61,
+    "barcode": "42a29fb0-994c-4d70-9c4a-e3c0f53c991c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 492,
+  "fields": {
+    "book": 99,
+    "barcode": "87e7130a-e845-497f-9cb0-da71271f06f2",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 493,
+  "fields": {
+    "book": 143,
+    "barcode": "fd526b90-a37b-4e0d-955c-702212c079d4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 494,
+  "fields": {
+    "book": 174,
+    "barcode": "8800d390-ce17-4f14-b41e-02b0d8163ae8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 495,
+  "fields": {
+    "book": 39,
+    "barcode": "819f09e3-2b1d-4df1-96fc-f75308d97582",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 496,
+  "fields": {
+    "book": 142,
+    "barcode": "4a5b42b6-0660-4298-89c5-a64a43097828",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 497,
+  "fields": {
+    "book": 189,
+    "barcode": "48cab83b-643d-4c89-9c2f-db1745fcdfb1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 498,
+  "fields": {
+    "book": 159,
+    "barcode": "70e175e3-1391-4514-bd9f-8ba8cb974880",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 499,
+  "fields": {
+    "book": 164,
+    "barcode": "be12c873-09ca-48cc-81d4-8fe17feed085",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 500,
+  "fields": {
+    "book": 99,
+    "barcode": "4a9cd9da-a399-43a5-8a0e-40ee935300f2",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 501,
+  "fields": {
+    "book": 79,
+    "barcode": "908d6d18-6051-454d-aece-32fb3bae70b1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 502,
+  "fields": {
+    "book": 126,
+    "barcode": "431c3ee6-90d7-4190-b6b6-d64ef3119a8e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 503,
+  "fields": {
+    "book": 135,
+    "barcode": "0c564b79-da2b-4e83-af15-301b5c7520e5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 504,
+  "fields": {
+    "book": 92,
+    "barcode": "8887d6b0-ca7f-4643-9e30-6f51cae8de09",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 505,
+  "fields": {
+    "book": 69,
+    "barcode": "f3b0f025-5999-43a4-bc65-a146c3fe8737",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 506,
+  "fields": {
+    "book": 194,
+    "barcode": "830b456a-8f9c-492c-b72a-516b005af8f5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 507,
+  "fields": {
+    "book": 92,
+    "barcode": "fb9792f8-789d-4ae6-8bc8-4a5c32161068",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 508,
+  "fields": {
+    "book": 37,
+    "barcode": "dff7bbdb-be1a-42ec-9c8d-d617e605fec3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 509,
+  "fields": {
+    "book": 133,
+    "barcode": "88a6a084-b7f7-4b15-b41c-f55bca8d1b50",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 510,
+  "fields": {
+    "book": 151,
+    "barcode": "85bf1c78-3e3d-402e-94aa-ccce36943a4d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 511,
+  "fields": {
+    "book": 71,
+    "barcode": "49cedf5d-b0be-4acf-9e22-9e3f91993920",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 512,
+  "fields": {
+    "book": 1,
+    "barcode": "350414b3-ac58-4608-bc02-c9d0bd31936e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 513,
+  "fields": {
+    "book": 18,
+    "barcode": "8024718e-85d6-4643-8943-1569b59e761c",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 514,
+  "fields": {
+    "book": 131,
+    "barcode": "4a1e4c28-245f-4833-b9d2-d6ca1098964e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 515,
+  "fields": {
+    "book": 168,
+    "barcode": "97a31c64-09f8-40e1-9a42-5a4b9b9266f9",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 516,
+  "fields": {
+    "book": 139,
+    "barcode": "6063b5e1-4ff5-4f48-b661-38f881fc614b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 517,
+  "fields": {
+    "book": 42,
+    "barcode": "5663181b-a567-4fe0-8ea8-03e01fe30f8d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 518,
+  "fields": {
+    "book": 188,
+    "barcode": "6ef58a1f-d990-4b47-bc20-102403132d8f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 519,
+  "fields": {
+    "book": 111,
+    "barcode": "9e0abfff-b159-427e-9e70-c1ffc52fb5ab",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 520,
+  "fields": {
+    "book": 83,
+    "barcode": "2bef1d87-668a-4d82-8207-2fb1cd14f6d6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 521,
+  "fields": {
+    "book": 10,
+    "barcode": "2dd91118-b84f-49f6-8e71-b6db7cc8b4ca",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 522,
+  "fields": {
+    "book": 170,
+    "barcode": "d29acbe3-bc26-4750-a7a4-b1ec27c86b97",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 523,
+  "fields": {
+    "book": 78,
+    "barcode": "a3a712ef-4380-4b37-8846-80201c6bd893",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 524,
+  "fields": {
+    "book": 120,
+    "barcode": "2e5284b0-c69d-46e4-82d5-02cba495621c",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 525,
+  "fields": {
+    "book": 84,
+    "barcode": "ef17d349-85d4-4694-935b-8dfbb7079224",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 526,
+  "fields": {
+    "book": 119,
+    "barcode": "b4cd7a1d-ae8a-4c2f-b58b-d48f98620ab7",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 527,
+  "fields": {
+    "book": 125,
+    "barcode": "b763520a-194e-42b5-b6c5-62e658d55290",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 528,
+  "fields": {
+    "book": 132,
+    "barcode": "7dda0e54-f9f9-4603-ad97-4034b47fdebb",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 529,
+  "fields": {
+    "book": 1,
+    "barcode": "6aaecb4c-d33d-478c-87b2-85cf13ae730d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 530,
+  "fields": {
+    "book": 169,
+    "barcode": "8f6e5356-8846-4f42-b6ed-00b82bbac558",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 531,
+  "fields": {
+    "book": 196,
+    "barcode": "c802f58e-291d-426d-8336-e53b1d8d7d28",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 532,
+  "fields": {
+    "book": 115,
+    "barcode": "dce2b24f-96f5-4adc-ad4a-1699bd822c43",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 533,
+  "fields": {
+    "book": 136,
+    "barcode": "cb828a82-9f7c-497d-9e3e-8f75861b6792",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 534,
+  "fields": {
+    "book": 69,
+    "barcode": "66be0aad-0907-4a6c-a5bc-dc77b6f58545",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 535,
+  "fields": {
+    "book": 128,
+    "barcode": "927118f7-fd9b-4342-8a6d-cbdc3f8394e9",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 536,
+  "fields": {
+    "book": 150,
+    "barcode": "7509c928-9147-400d-b33f-c81460291ce0",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 537,
+  "fields": {
+    "book": 171,
+    "barcode": "c09ed365-f74e-4e9e-8fb2-e271e8144f20",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 538,
+  "fields": {
+    "book": 25,
+    "barcode": "fe470d56-fad2-4731-9977-1ec2ce538342",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 539,
+  "fields": {
+    "book": 95,
+    "barcode": "fd048215-7b91-4d89-98ca-b26e926feef1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 540,
+  "fields": {
+    "book": 183,
+    "barcode": "29991c7a-4024-4fca-bed5-9cdbe3a2830a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 541,
+  "fields": {
+    "book": 31,
+    "barcode": "5f26c4b9-6307-4d7e-bc11-a940b637e5d4",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 542,
+  "fields": {
+    "book": 148,
+    "barcode": "49d62deb-117d-43ef-bc2b-3a9ffa220a7e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 543,
+  "fields": {
+    "book": 137,
+    "barcode": "6a18b5f4-eec6-4736-a32a-5f1ae1f2845a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 544,
+  "fields": {
+    "book": 17,
+    "barcode": "cae8f7a0-21b9-4234-a668-dc62c1f42cb1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 545,
+  "fields": {
+    "book": 31,
+    "barcode": "c32b4915-8679-465e-ad9e-9451bf8e9003",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 546,
+  "fields": {
+    "book": 78,
+    "barcode": "c2343180-0274-4b01-83ad-00d8c0875df2",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 547,
+  "fields": {
+    "book": 117,
+    "barcode": "313c28b9-8669-4ba3-aed7-81e094e6599f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 548,
+  "fields": {
+    "book": 168,
+    "barcode": "0ea962d4-3f53-433a-9343-61d1af0752ba",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 549,
+  "fields": {
+    "book": 60,
+    "barcode": "3cc10ea0-9cfd-4e31-8c39-09d3c8ac185d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 550,
+  "fields": {
+    "book": 133,
+    "barcode": "46326dcb-54ed-4c30-b40a-f5fb7240cc38",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 551,
+  "fields": {
+    "book": 125,
+    "barcode": "654a18c8-6702-443b-ae59-659ad34bbd85",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 552,
+  "fields": {
+    "book": 99,
+    "barcode": "da243ae4-8bb1-43cd-9233-0a4974566131",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 553,
+  "fields": {
+    "book": 186,
+    "barcode": "03b9aca4-38c4-412d-9701-cfe028391430",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 554,
+  "fields": {
+    "book": 122,
+    "barcode": "d8d11b7b-f782-4bc2-99a1-5c403deb8abb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 555,
+  "fields": {
+    "book": 5,
+    "barcode": "4ba1f655-d3d0-46f7-9ec1-12f7c71c407d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 556,
+  "fields": {
+    "book": 135,
+    "barcode": "aee2cf1c-bedb-4c94-990f-368eaff688a8",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 557,
+  "fields": {
+    "book": 3,
+    "barcode": "cec10cf0-f996-4783-b8e9-8f0f5fc6d5ee",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 558,
+  "fields": {
+    "book": 49,
+    "barcode": "e7007255-c8ac-44cd-95cb-4fd277e394d5",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 559,
+  "fields": {
+    "book": 50,
+    "barcode": "37b5f3db-86b6-45ce-b25d-12ea21ddc9e9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 560,
+  "fields": {
+    "book": 170,
+    "barcode": "8b6d4884-4ea5-43f8-85c1-196ef4da2437",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 561,
+  "fields": {
+    "book": 195,
+    "barcode": "7771a37a-cd47-4279-b7c0-807e105b17b5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 562,
+  "fields": {
+    "book": 159,
+    "barcode": "3849c562-7a65-4272-b811-671bb292d510",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 563,
+  "fields": {
+    "book": 110,
+    "barcode": "9b2608cd-56e9-49d1-9107-8a69cef71153",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 564,
+  "fields": {
+    "book": 164,
+    "barcode": "c4d44fad-c695-419b-9b84-18f9c466d5b5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 565,
+  "fields": {
+    "book": 182,
+    "barcode": "b4f9f4df-710b-4ef4-9635-da347f64631c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 566,
+  "fields": {
+    "book": 147,
+    "barcode": "39b9c4ff-b12e-4b1d-b536-66eb1fab30c9",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 567,
+  "fields": {
+    "book": 63,
+    "barcode": "b2cd7884-722c-47ad-97ae-fe42cef1d18c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 568,
+  "fields": {
+    "book": 88,
+    "barcode": "66abee12-212d-4bf8-b6cb-c904106e52b9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 569,
+  "fields": {
+    "book": 117,
+    "barcode": "7873ca44-97ec-4333-8907-4a73ce03342b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 570,
+  "fields": {
+    "book": 110,
+    "barcode": "b9f0c423-cb22-4082-9719-3f770667c718",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 571,
+  "fields": {
+    "book": 1,
+    "barcode": "6bdbd975-4e45-4b90-8fb9-b14912f2a798",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 572,
+  "fields": {
+    "book": 147,
+    "barcode": "01ad2697-a913-46c8-beae-a5fb4404f3cc",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 573,
+  "fields": {
+    "book": 128,
+    "barcode": "f9cbc03e-9229-4bed-bf13-369d1e6d0658",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 574,
+  "fields": {
+    "book": 174,
+    "barcode": "ffe532f7-9c63-41b3-a2db-667ef3235cca",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 575,
+  "fields": {
+    "book": 64,
+    "barcode": "69d1ec35-d78d-4b07-86fe-96c3329b9004",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 576,
+  "fields": {
+    "book": 83,
+    "barcode": "e253062c-4956-45fa-8db9-ae3eaca0a827",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 577,
+  "fields": {
+    "book": 73,
+    "barcode": "4665e438-6b86-487a-9b48-2e0215bf67ab",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 578,
+  "fields": {
+    "book": 144,
+    "barcode": "d52e881b-f5db-45e4-b536-18f70850bdab",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 579,
+  "fields": {
+    "book": 131,
+    "barcode": "253144c8-6ce3-4163-8ebd-1229f5559171",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 580,
+  "fields": {
+    "book": 22,
+    "barcode": "94ae302f-7147-4506-b57f-9a3ccda0d3e8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 581,
+  "fields": {
+    "book": 44,
+    "barcode": "801cdcd4-522a-4dc5-833a-4e0c43c0117d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 582,
+  "fields": {
+    "book": 196,
+    "barcode": "84165164-a214-4efd-acd7-bde6eef71f64",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 583,
+  "fields": {
+    "book": 143,
+    "barcode": "e18cc52d-b15c-406f-9e29-cec677e78a90",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 584,
+  "fields": {
+    "book": 2,
+    "barcode": "4bc96998-b188-47d5-a18b-b73c580d34a3",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 585,
+  "fields": {
+    "book": 62,
+    "barcode": "7af98b9c-6fa1-433c-9ef9-055fdda35511",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 586,
+  "fields": {
+    "book": 178,
+    "barcode": "29dc3276-7577-45a5-9a1b-ba2d13aa4a4b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 587,
+  "fields": {
+    "book": 95,
+    "barcode": "57d274bd-4446-4891-b1ef-305fed207a10",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 588,
+  "fields": {
+    "book": 125,
+    "barcode": "176f2a3a-a234-4744-a4be-90ac14ae47e8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 589,
+  "fields": {
+    "book": 97,
+    "barcode": "0834afcd-0e92-46e7-8fba-8f6aa08e1fc2",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 590,
+  "fields": {
+    "book": 71,
+    "barcode": "8eb38827-4773-4d82-9fce-e1a112f78244",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 591,
+  "fields": {
+    "book": 28,
+    "barcode": "f186a719-9ace-4d97-8e9b-38fd1e468023",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 592,
+  "fields": {
+    "book": 126,
+    "barcode": "b997fab8-ef4d-4987-a2fa-dcd4e5c090a3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 593,
+  "fields": {
+    "book": 91,
+    "barcode": "1bfadac2-18b6-428b-8cc1-74fa569e8c22",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 594,
+  "fields": {
+    "book": 100,
+    "barcode": "71e9ff46-30b9-4d5e-a1b5-3f2a7fecef81",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 595,
+  "fields": {
+    "book": 22,
+    "barcode": "17d04763-0ca9-4458-9b0a-8918ae8d441b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 596,
+  "fields": {
+    "book": 99,
+    "barcode": "e530ed06-b3b1-4500-ac07-2422515b8dd3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 597,
+  "fields": {
+    "book": 46,
+    "barcode": "df0b3534-5808-44f2-8bb2-f41f344ea6c8",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 598,
+  "fields": {
+    "book": 163,
+    "barcode": "97ba094e-6f04-4756-b7c2-c9ffb689cf39",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 599,
+  "fields": {
+    "book": 11,
+    "barcode": "a37bca86-cfeb-445e-8e39-20b30ba4997b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 600,
+  "fields": {
+    "book": 82,
+    "barcode": "5ceddc8b-4490-4a0f-b21a-c9c9d84050c4",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 601,
+  "fields": {
+    "book": 53,
+    "barcode": "057436b3-7ed6-4fc6-9048-710660e62a1e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 602,
+  "fields": {
+    "book": 130,
+    "barcode": "9febcec7-0d8f-4c7a-89d6-518105f65137",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 603,
+  "fields": {
+    "book": 12,
+    "barcode": "db3e8dda-47c0-4b12-a281-4a5ca1ccc6ad",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 604,
+  "fields": {
+    "book": 120,
+    "barcode": "d5cfc58f-8c8b-4c38-beca-4091a9ee33c0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 605,
+  "fields": {
+    "book": 126,
+    "barcode": "fa0f54ca-8ae2-4fcd-a0c6-45d548357f50",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 606,
+  "fields": {
+    "book": 25,
+    "barcode": "e9c720eb-f4fe-4915-8ed9-11b1857e6f68",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 607,
+  "fields": {
+    "book": 179,
+    "barcode": "c4e1a49f-a640-46df-bd3d-6ec21d8624c1",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 608,
+  "fields": {
+    "book": 120,
+    "barcode": "380abdea-ee3e-468a-bed2-9d55c782e08c",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 609,
+  "fields": {
+    "book": 80,
+    "barcode": "71dd91ea-18a0-4291-8a85-3b9f8bca874d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 610,
+  "fields": {
+    "book": 162,
+    "barcode": "8b87aee4-05d4-4426-9868-faa94a6811a0",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 611,
+  "fields": {
+    "book": 132,
+    "barcode": "2ac1e9e4-3532-4535-be8a-87338e9867ad",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 612,
+  "fields": {
+    "book": 100,
+    "barcode": "00234a2c-0c16-4513-aa38-a6d430e64a04",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 613,
+  "fields": {
+    "book": 136,
+    "barcode": "63ee602d-4f29-4be4-8079-fa6011973a42",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 614,
+  "fields": {
+    "book": 63,
+    "barcode": "d137e31c-fcee-4b2f-a2ea-cac799c7138c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 615,
+  "fields": {
+    "book": 17,
+    "barcode": "22eee372-4cc0-4153-ba90-272fca31ca04",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 616,
+  "fields": {
+    "book": 13,
+    "barcode": "5d9f2553-21ad-4370-80e6-162cc1f52766",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 617,
+  "fields": {
+    "book": 86,
+    "barcode": "385a7414-7688-46cf-bc84-21d34f88ea84",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 618,
+  "fields": {
+    "book": 132,
+    "barcode": "5fb24be0-6797-4d2d-83fd-315a0ba52865",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 619,
+  "fields": {
+    "book": 1,
+    "barcode": "430655f8-5f70-4abe-9127-f158967bd11f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 620,
+  "fields": {
+    "book": 87,
+    "barcode": "31569f01-1b42-41c3-8dcc-9d5a58a526b3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 621,
+  "fields": {
+    "book": 3,
+    "barcode": "d4b5d529-77d3-4318-8e82-a94648a3252a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 622,
+  "fields": {
+    "book": 132,
+    "barcode": "69c71d19-dae3-4c0c-bf0a-58808ac98dea",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 623,
+  "fields": {
+    "book": 141,
+    "barcode": "73471e70-135d-45d1-9b86-424b88dfafd8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 624,
+  "fields": {
+    "book": 66,
+    "barcode": "3166b7e2-f44f-48ae-9dd5-d6e8a133b90d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 625,
+  "fields": {
+    "book": 9,
+    "barcode": "40647a30-943b-45d1-bdc7-fc23f03ea6b4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 626,
+  "fields": {
+    "book": 147,
+    "barcode": "0ff9c800-4fa1-4c48-9c7e-c9abb42d9b69",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 627,
+  "fields": {
+    "book": 63,
+    "barcode": "7e08f5d0-e5e8-41db-8a70-9024316f0129",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 628,
+  "fields": {
+    "book": 144,
+    "barcode": "8bdb51ac-a5fd-4899-814d-41568d0ab4a4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 629,
+  "fields": {
+    "book": 148,
+    "barcode": "fe2713d6-d2c8-4624-9845-7fab06c795c5",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 630,
+  "fields": {
+    "book": 42,
+    "barcode": "dd20e860-9ce8-427a-b580-7cbf16ac1131",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 631,
+  "fields": {
+    "book": 171,
+    "barcode": "3233a5cc-e7c7-452b-8e19-9c7d105f6a42",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 632,
+  "fields": {
+    "book": 52,
+    "barcode": "b22bab24-7b33-43fb-804c-c6541eaaa087",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 633,
+  "fields": {
+    "book": 174,
+    "barcode": "a1a42207-a379-41a7-9699-478b2449987d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 634,
+  "fields": {
+    "book": 60,
+    "barcode": "0098c407-2c82-4200-ba73-2140e7715fa1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 635,
+  "fields": {
+    "book": 78,
+    "barcode": "846453f7-982c-4491-8d97-455d5dd68114",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 636,
+  "fields": {
+    "book": 194,
+    "barcode": "67d42b99-ee09-4a4e-93ed-0fdb452b261f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 637,
+  "fields": {
+    "book": 80,
+    "barcode": "6e309219-c39e-4b6e-ae31-86a43d407b83",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 638,
+  "fields": {
+    "book": 116,
+    "barcode": "5a76fd95-19b5-4f12-9745-deaebd19b4ba",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 639,
+  "fields": {
+    "book": 182,
+    "barcode": "d9e6d870-d5ab-4c54-aa83-b7876d21e105",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 640,
+  "fields": {
+    "book": 81,
+    "barcode": "8029b98e-a54a-46a5-b85c-3eda6cdd63af",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 641,
+  "fields": {
+    "book": 181,
+    "barcode": "d51ec313-2123-4b7b-bec6-ccef2f79b074",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 642,
+  "fields": {
+    "book": 150,
+    "barcode": "f2670e59-501e-4f2c-8adc-6cc9fc7895c8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 643,
+  "fields": {
+    "book": 114,
+    "barcode": "64c17972-1c18-42aa-9051-ce60d930ea6f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 644,
+  "fields": {
+    "book": 62,
+    "barcode": "880d0d4a-6516-4e17-9f78-bd6a342270b8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 645,
+  "fields": {
+    "book": 158,
+    "barcode": "93594091-c32d-438d-acd5-46f1bd4e703e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 646,
+  "fields": {
+    "book": 163,
+    "barcode": "32d49af6-87d5-4596-9e9c-f34548e93b9a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 647,
+  "fields": {
+    "book": 133,
+    "barcode": "9759b063-cb69-4f29-a710-8a1318af7991",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 648,
+  "fields": {
+    "book": 115,
+    "barcode": "80cfb5e5-aae8-40a4-b607-0792f8ef734b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 649,
+  "fields": {
+    "book": 32,
+    "barcode": "3d10dc9a-db23-4121-81dd-8f3fa5a7bea9",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 650,
+  "fields": {
+    "book": 169,
+    "barcode": "07c2096c-2577-4dc4-8df6-4b0b7b1f85b0",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 651,
+  "fields": {
+    "book": 177,
+    "barcode": "389358a9-4a24-4d05-b39a-aabbca0d67ec",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 652,
+  "fields": {
+    "book": 119,
+    "barcode": "aea01df7-c264-4f84-ad5c-be6d0182df76",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 653,
+  "fields": {
+    "book": 150,
+    "barcode": "50ef5b49-d495-471f-b77a-5be6f1ab2195",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 654,
+  "fields": {
+    "book": 181,
+    "barcode": "64a839ec-537b-4bd0-af4a-8a6697935156",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 655,
+  "fields": {
+    "book": 178,
+    "barcode": "83da90a7-4913-468e-91d3-bd279344c085",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 656,
+  "fields": {
+    "book": 26,
+    "barcode": "09ae999b-fb46-49dc-a9e8-2cf206870c1e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 657,
+  "fields": {
+    "book": 29,
+    "barcode": "b89649b7-844d-4cd5-823c-65291ce9f5fb",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 658,
+  "fields": {
+    "book": 35,
+    "barcode": "76474238-4929-4732-b550-8158ec7bdeaf",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 659,
+  "fields": {
+    "book": 185,
+    "barcode": "69966c8c-1780-4c07-ae0d-fffd7f4f4475",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 660,
+  "fields": {
+    "book": 151,
+    "barcode": "0c1a86e2-6efa-4b8b-88d8-ee6cea2e75ec",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 661,
+  "fields": {
+    "book": 54,
+    "barcode": "af89379f-cdc4-41c5-a401-c518b37e5f71",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 662,
+  "fields": {
+    "book": 174,
+    "barcode": "585e325c-69b1-4b57-9cdc-25b0985dbb07",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 663,
+  "fields": {
+    "book": 129,
+    "barcode": "c2df3e6f-2401-4b74-8e21-8e281808fa2d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 664,
+  "fields": {
+    "book": 123,
+    "barcode": "c87869b3-644c-4ef5-a827-6664b43d7765",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 665,
+  "fields": {
+    "book": 169,
+    "barcode": "21ad0636-afc3-4e38-b939-a7c50da773e4",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 666,
+  "fields": {
+    "book": 47,
+    "barcode": "7a98db31-4c1c-40d8-9828-6783b940e133",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 667,
+  "fields": {
+    "book": 156,
+    "barcode": "ccca3122-ba84-4d32-89d8-2e193618c245",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 668,
+  "fields": {
+    "book": 171,
+    "barcode": "39df47d0-b614-4919-a070-156eec79fbe9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 669,
+  "fields": {
+    "book": 190,
+    "barcode": "40d13287-1cca-4672-b21d-74ff1f0031e8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 670,
+  "fields": {
+    "book": 105,
+    "barcode": "c9c8ef1e-7427-476b-8267-847a1f946d20",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 671,
+  "fields": {
+    "book": 195,
+    "barcode": "9ab5c14b-226a-47ab-90fd-400bacb32717",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 672,
+  "fields": {
+    "book": 52,
+    "barcode": "15aa5270-7fc4-48d9-aa9d-cbf168c80854",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 673,
+  "fields": {
+    "book": 73,
+    "barcode": "00c34cae-c9ad-4beb-90bf-2905c8612af7",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 674,
+  "fields": {
+    "book": 163,
+    "barcode": "0edcd926-f6a8-4119-bca4-2a04fa425a54",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 675,
+  "fields": {
+    "book": 79,
+    "barcode": "1be383c5-8e5c-4e15-bf50-ca55ec088b53",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 676,
+  "fields": {
+    "book": 62,
+    "barcode": "425b90bd-2a09-422c-a2a8-b1bf08265811",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 677,
+  "fields": {
+    "book": 139,
+    "barcode": "0cbc8b26-4bfd-4d4f-a82f-6abe80bfdb7e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 678,
+  "fields": {
+    "book": 137,
+    "barcode": "9b1f1ddf-772a-4f61-97ae-f6ff8c4ad1c0",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 679,
+  "fields": {
+    "book": 133,
+    "barcode": "6ccffaf9-6c00-4d7d-b567-b696d472b179",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 680,
+  "fields": {
+    "book": 2,
+    "barcode": "a2f1f245-7db6-4e4a-819c-d970e3c4a064",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 681,
+  "fields": {
+    "book": 8,
+    "barcode": "0b9891a9-17fc-4610-8eca-a4545630479f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 682,
+  "fields": {
+    "book": 197,
+    "barcode": "7e957547-8871-424e-84fc-c502fba66f5f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 683,
+  "fields": {
+    "book": 127,
+    "barcode": "c9a32d64-77c9-4b78-9e9f-f570a64ab19b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 684,
+  "fields": {
+    "book": 75,
+    "barcode": "27ad2240-51cf-4207-9cd7-bba461ad2c1b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 685,
+  "fields": {
+    "book": 56,
+    "barcode": "eda1e14f-3fe3-460a-ad1c-471c8268efd1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 686,
+  "fields": {
+    "book": 4,
+    "barcode": "752836af-4b5d-4ff2-b2c9-e561f4c288a9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 687,
+  "fields": {
+    "book": 123,
+    "barcode": "ca515fac-bee8-4e06-b5ba-d2cd3655f2c1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 688,
+  "fields": {
+    "book": 7,
+    "barcode": "e4d5b5d1-579d-43e0-bbe7-01cf290d9f22",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 689,
+  "fields": {
+    "book": 146,
+    "barcode": "d3abd2e7-efdd-4a4c-a1ea-8e9e27691c95",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 690,
+  "fields": {
+    "book": 44,
+    "barcode": "dd10f016-18bb-4490-88ea-bf51ec7f0c31",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 691,
+  "fields": {
+    "book": 148,
+    "barcode": "ba68811e-0bdb-4cff-8bc6-4fdd6aaa0894",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 692,
+  "fields": {
+    "book": 28,
+    "barcode": "aa5aa358-4281-4e09-b9ca-7f941b66e12c",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 693,
+  "fields": {
+    "book": 49,
+    "barcode": "e3d8383b-1124-4ef9-a841-72d5930c483f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 694,
+  "fields": {
+    "book": 188,
+    "barcode": "1cb9c8ca-eb87-4eeb-a5fe-50789bdf17b3",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 695,
+  "fields": {
+    "book": 152,
+    "barcode": "21456015-3986-48b9-8edd-32672a8ec922",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 696,
+  "fields": {
+    "book": 42,
+    "barcode": "bcd6c37b-7d28-4b70-ba1d-0c3e01b56277",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 697,
+  "fields": {
+    "book": 59,
+    "barcode": "491e6fcb-8b74-47ee-97e3-a8bfaa411b2e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 698,
+  "fields": {
+    "book": 87,
+    "barcode": "1e7ae568-1b14-41f2-86c9-5c4d141ff292",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 699,
+  "fields": {
+    "book": 78,
+    "barcode": "11ca0d3c-8e34-4358-9fc6-805a329eeb22",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 700,
+  "fields": {
+    "book": 34,
+    "barcode": "fb3e840b-d3b1-4c39-848a-cda06b9906e4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 701,
+  "fields": {
+    "book": 143,
+    "barcode": "22da4fba-cd53-4ca2-8500-f3faa76a3da4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 702,
+  "fields": {
+    "book": 150,
+    "barcode": "021bdf13-f5ad-4f71-8f41-a01e75fd7f61",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 703,
+  "fields": {
+    "book": 95,
+    "barcode": "2b8d01cf-9595-45e5-8d07-15bf36b84da3",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 704,
+  "fields": {
+    "book": 165,
+    "barcode": "af1420a7-c386-4310-b59b-c9b56fc9ae7f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 705,
+  "fields": {
+    "book": 3,
+    "barcode": "7ca64128-bf16-475c-8271-3c419c26bd59",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 706,
+  "fields": {
+    "book": 146,
+    "barcode": "c0051da6-0e09-4b01-b4fe-9ea1cdbf916d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 707,
+  "fields": {
+    "book": 147,
+    "barcode": "2a9f25e0-5cc4-4502-941b-f85c9b16d7c4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 708,
+  "fields": {
+    "book": 104,
+    "barcode": "a85b76d1-ace7-4d13-b230-0f5a7abb0d4e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 709,
+  "fields": {
+    "book": 196,
+    "barcode": "de0fadfc-bd7e-48e2-aa77-06ef2f237c88",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 710,
+  "fields": {
+    "book": 199,
+    "barcode": "24d520d3-1a17-4963-83f4-876f5a5a7cf2",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 711,
+  "fields": {
+    "book": 115,
+    "barcode": "41eeb1e4-d0e8-4ccd-b19f-b3e914b3a585",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 712,
+  "fields": {
+    "book": 45,
+    "barcode": "41946bf1-a2d6-458c-8bf5-1abc0d78fe75",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 713,
+  "fields": {
+    "book": 89,
+    "barcode": "0a18c462-f46d-4715-bab8-94431a2e884b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 714,
+  "fields": {
+    "book": 36,
+    "barcode": "bb3ee161-0b0b-420f-9e4a-9141921eebc0",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 715,
+  "fields": {
+    "book": 31,
+    "barcode": "2526f77d-45ae-4d85-bd1e-a46fdfe269a2",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 716,
+  "fields": {
+    "book": 37,
+    "barcode": "331082be-7b6c-455f-b334-cc42ea704e5b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 717,
+  "fields": {
+    "book": 19,
+    "barcode": "c127e8da-a6e8-4318-9714-62ee7349a869",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 718,
+  "fields": {
+    "book": 105,
+    "barcode": "aafe8b26-9953-47f7-8b37-f2228a35759e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 719,
+  "fields": {
+    "book": 35,
+    "barcode": "683b0ac1-7ec4-4080-ae5c-c7a12f2535fc",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 720,
+  "fields": {
+    "book": 143,
+    "barcode": "fd6e5aed-753b-4c4b-a2d3-723c8bad2268",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 721,
+  "fields": {
+    "book": 77,
+    "barcode": "c8444f70-294d-4809-bad5-6c12bc7d4fea",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 722,
+  "fields": {
+    "book": 125,
+    "barcode": "9c7aa00c-1ffa-4e8c-a689-4a2e8f70aeee",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 723,
+  "fields": {
+    "book": 29,
+    "barcode": "15bae5ed-507e-4980-aa4a-2e93f65f1fdd",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 724,
+  "fields": {
+    "book": 105,
+    "barcode": "97d7fd54-565e-46bb-9321-f22f2438b114",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 725,
+  "fields": {
+    "book": 181,
+    "barcode": "17094e7e-e6d0-4466-b84c-5ef08348bfb8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 726,
+  "fields": {
+    "book": 176,
+    "barcode": "0cd40613-dcea-4223-88db-fa061ee3b2fb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 727,
+  "fields": {
+    "book": 76,
+    "barcode": "f6b5aa3f-79fc-4636-b7b3-59a9c06ea164",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 728,
+  "fields": {
+    "book": 102,
+    "barcode": "579c2280-7d26-45d3-b930-0cd39218ae78",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 729,
+  "fields": {
+    "book": 71,
+    "barcode": "89000414-2d98-44cb-9961-bc1232ce35da",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 730,
+  "fields": {
+    "book": 122,
+    "barcode": "1ce167bd-7d80-48c7-b5ad-c95e759cdc88",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 731,
+  "fields": {
+    "book": 61,
+    "barcode": "0bd11503-ce84-439d-b972-796651143180",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 732,
+  "fields": {
+    "book": 129,
+    "barcode": "60a2e98e-0777-441a-9e60-5b1f4828b125",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 733,
+  "fields": {
+    "book": 97,
+    "barcode": "8572d835-0d08-49b3-aa1e-985605ab9c8e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 734,
+  "fields": {
+    "book": 75,
+    "barcode": "de294799-22ea-471f-90e1-a3b94ff37f11",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 735,
+  "fields": {
+    "book": 11,
+    "barcode": "f349e3fa-53c2-477a-99f5-37ca96ed1cd7",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 736,
+  "fields": {
+    "book": 156,
+    "barcode": "b7d66dfb-6f2e-4691-8176-761aa5abe935",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 737,
+  "fields": {
+    "book": 171,
+    "barcode": "7948c07e-400a-4d96-b267-d13a7ff62d08",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 738,
+  "fields": {
+    "book": 113,
+    "barcode": "f2b62f7b-eb66-4bf9-8872-89738218c922",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 739,
+  "fields": {
+    "book": 61,
+    "barcode": "0992ab64-31c1-43af-8061-47c3e9f76a02",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 740,
+  "fields": {
+    "book": 146,
+    "barcode": "e4f982c2-574d-4416-9143-bdf60ff24d68",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 741,
+  "fields": {
+    "book": 121,
+    "barcode": "9aa9009f-262a-43b3-b45b-d3cbf6c8edac",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 742,
+  "fields": {
+    "book": 16,
+    "barcode": "8a7fe42d-6f6c-4c41-bd14-a3bed73692e5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 743,
+  "fields": {
+    "book": 3,
+    "barcode": "d8c352f5-7246-49c9-ba12-8b1925162d99",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 744,
+  "fields": {
+    "book": 72,
+    "barcode": "dd107f70-0e63-44e6-8dec-83420eb8d31a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 745,
+  "fields": {
+    "book": 117,
+    "barcode": "1365e34e-c5a8-4f9b-9290-d42a5be937bd",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 746,
+  "fields": {
+    "book": 116,
+    "barcode": "2aef22c8-cb15-4b69-a8b3-96115c06c6d8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 747,
+  "fields": {
+    "book": 40,
+    "barcode": "3f68e914-30c5-45fc-a8ed-3953e3b7388b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 748,
+  "fields": {
+    "book": 18,
+    "barcode": "7033df94-7618-44ac-94ff-a2fe35464f74",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 749,
+  "fields": {
+    "book": 3,
+    "barcode": "311f54fc-7368-4cde-9c68-0c4fa0cade7d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 750,
+  "fields": {
+    "book": 132,
+    "barcode": "e9911fe4-d056-41aa-86f4-85177aca3446",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 751,
+  "fields": {
+    "book": 196,
+    "barcode": "3c1e50d6-d3d4-4f3f-ac16-8b49ec9828de",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 752,
+  "fields": {
+    "book": 37,
+    "barcode": "5f68ef4b-8cba-4392-84f3-7df4d6615033",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 753,
+  "fields": {
+    "book": 13,
+    "barcode": "a481cdb4-ff3d-4555-9aab-b58bc41d24f1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 754,
+  "fields": {
+    "book": 84,
+    "barcode": "3e70187a-b66e-4e86-b469-6f9c4607fd43",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 755,
+  "fields": {
+    "book": 172,
+    "barcode": "0bf576bc-f6c1-4a37-83cf-506aea293965",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 756,
+  "fields": {
+    "book": 195,
+    "barcode": "d09fab71-191d-4daa-87ae-8045e090587f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 757,
+  "fields": {
+    "book": 99,
+    "barcode": "5f8b1b29-7787-43b9-8010-88d82bc335c4",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 758,
+  "fields": {
+    "book": 197,
+    "barcode": "367b9d23-6385-481e-a7c9-b3a1850c5c8b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 759,
+  "fields": {
+    "book": 139,
+    "barcode": "6c7146d0-2021-4c57-af4a-dff1f32e762e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 760,
+  "fields": {
+    "book": 120,
+    "barcode": "46de3e57-c799-46a0-a7f6-b85f74559981",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 761,
+  "fields": {
+    "book": 179,
+    "barcode": "e7c55d91-5235-44cd-be69-917685b30e0b",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 762,
+  "fields": {
+    "book": 83,
+    "barcode": "d58a38ba-18fd-4e7d-ad3e-64eb3ef24e7e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 763,
+  "fields": {
+    "book": 168,
+    "barcode": "daa988ef-5bcc-4640-8f31-c02b592fb18a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 764,
+  "fields": {
+    "book": 198,
+    "barcode": "da773874-8e40-4199-8102-1026b051af72",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 765,
+  "fields": {
+    "book": 135,
+    "barcode": "0fdfbe31-250b-46e9-a094-c4c2fd883a0a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 766,
+  "fields": {
+    "book": 128,
+    "barcode": "b93b19b1-14dd-4133-accf-62950f203fc0",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 767,
+  "fields": {
+    "book": 25,
+    "barcode": "21e4bb11-65d8-4bec-a142-8c7e8507819f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 768,
+  "fields": {
+    "book": 196,
+    "barcode": "ea717d4f-5f58-450f-a7c4-17fa2b27dc2d",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 769,
+  "fields": {
+    "book": 144,
+    "barcode": "5cd5a209-e23d-4d87-909e-ee331d8c2d4e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 770,
+  "fields": {
+    "book": 148,
+    "barcode": "058db9c1-4b0e-4553-a6ea-e190316cea8f",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 771,
+  "fields": {
+    "book": 38,
+    "barcode": "12dfdfce-25b7-435a-93a2-b978ac7d85b0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 772,
+  "fields": {
+    "book": 94,
+    "barcode": "b5dd9c61-b3ab-4b34-8772-9fada30ae9ce",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 773,
+  "fields": {
+    "book": 63,
+    "barcode": "c7f66257-3b80-453d-a5d4-04f0a17f9737",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 774,
+  "fields": {
+    "book": 43,
+    "barcode": "b803b2cf-ebff-4428-9837-3963fe7813d5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 775,
+  "fields": {
+    "book": 194,
+    "barcode": "86a26a4d-f093-4f4f-bc3c-ba38416c8407",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 776,
+  "fields": {
+    "book": 135,
+    "barcode": "b05cc99f-b66c-46af-a7d0-c0b6a86f8305",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 777,
+  "fields": {
+    "book": 98,
+    "barcode": "67b55066-ba47-4a9d-a07d-88fd0304ee8e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 778,
+  "fields": {
+    "book": 54,
+    "barcode": "1d0f7154-75cb-4e60-b0c9-d676e24ed4d1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 779,
+  "fields": {
+    "book": 194,
+    "barcode": "1a69a5e9-67b8-46a0-b223-cb960ce16086",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 780,
+  "fields": {
+    "book": 156,
+    "barcode": "6fc40e5c-d977-4af3-9438-f8929ea4d50c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 781,
+  "fields": {
+    "book": 31,
+    "barcode": "ad04a3a1-c2ef-44f5-b8fc-7df23f6551b5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 782,
+  "fields": {
+    "book": 60,
+    "barcode": "787b6ad7-841b-43a3-ba71-61a1a46933c0",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 783,
+  "fields": {
+    "book": 177,
+    "barcode": "80c0eb5b-0b1b-4745-b69c-2bd27c656e24",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 784,
+  "fields": {
+    "book": 186,
+    "barcode": "af4b4511-f019-4b60-8b6d-670364afc46f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 785,
+  "fields": {
+    "book": 89,
+    "barcode": "99ecafe7-de9c-4e4e-b0e4-ebdcab8ab125",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 786,
+  "fields": {
+    "book": 36,
+    "barcode": "27b5c266-4e8d-40a6-9f52-c09c50111596",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 787,
+  "fields": {
+    "book": 50,
+    "barcode": "f6bfc6a4-16c3-4b8a-8dec-4db96706d301",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 788,
+  "fields": {
+    "book": 32,
+    "barcode": "643a5b74-089e-438d-9974-2732dc9229f1",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 789,
+  "fields": {
+    "book": 109,
+    "barcode": "3775d587-aa0e-4238-873b-947aede33ad4",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 790,
+  "fields": {
+    "book": 192,
+    "barcode": "2f840bd0-2bfd-4e0c-96d2-0dd226b2b4a6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 791,
+  "fields": {
+    "book": 196,
+    "barcode": "0b503525-d35a-4a77-a21d-19bc9102faf0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 792,
+  "fields": {
+    "book": 185,
+    "barcode": "628c2fd8-0cdc-4025-a042-e343cb6fae77",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 793,
+  "fields": {
+    "book": 2,
+    "barcode": "9d0ab49c-aead-45d4-ba39-aa6188e3df54",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 794,
+  "fields": {
+    "book": 93,
+    "barcode": "eff668bf-cde6-4ef3-a528-1858a6c614f7",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 795,
+  "fields": {
+    "book": 119,
+    "barcode": "50e83da7-e732-4803-bbee-c07540e66194",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 796,
+  "fields": {
+    "book": 57,
+    "barcode": "bde9f4f9-2756-44da-92a3-e5343c930891",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 797,
+  "fields": {
+    "book": 87,
+    "barcode": "d85fa794-7a1f-4d14-ae35-07d974868eb0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 798,
+  "fields": {
+    "book": 91,
+    "barcode": "a259604e-3eee-4e84-ba78-ba04e0d1c3f1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 799,
+  "fields": {
+    "book": 105,
+    "barcode": "3195ef12-4b57-4930-8f57-d25d7be75586",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 800,
+  "fields": {
+    "book": 148,
+    "barcode": "ee7b2aef-b3ce-4cf2-9cb0-b725183cfc26",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 801,
+  "fields": {
+    "book": 60,
+    "barcode": "ee54637f-472d-44c1-8b41-0b466808dd4e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 802,
+  "fields": {
+    "book": 20,
+    "barcode": "ae09941a-36ca-4bf1-b8e1-50c842d8419d",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 803,
+  "fields": {
+    "book": 137,
+    "barcode": "9582b3c8-d569-4630-b2fa-266b402e7039",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 804,
+  "fields": {
+    "book": 62,
+    "barcode": "d686dd66-b8fc-420a-a50b-356d85dd7a03",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 805,
+  "fields": {
+    "book": 46,
+    "barcode": "838498d5-132f-4b1c-bc5c-1f8e1d8c6463",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 806,
+  "fields": {
+    "book": 28,
+    "barcode": "4b39beb2-245b-46a7-84d3-3782d4b5ac7e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 807,
+  "fields": {
+    "book": 52,
+    "barcode": "0a6eb2a8-26c9-442a-b81a-fa0ad01fefb1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 808,
+  "fields": {
+    "book": 106,
+    "barcode": "40d916bf-5005-49b3-a081-0e1c784bb88f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 809,
+  "fields": {
+    "book": 181,
+    "barcode": "8628f1c3-ea72-4538-9acc-94735ce881ec",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 810,
+  "fields": {
+    "book": 155,
+    "barcode": "783879fd-4fb7-4293-b115-b3ab03320910",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 811,
+  "fields": {
+    "book": 6,
+    "barcode": "a21b2ee5-aa95-459b-a63e-f8b43754e282",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 812,
+  "fields": {
+    "book": 134,
+    "barcode": "d3e0d6d5-86ca-49f6-89f1-32773f25c7a0",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 813,
+  "fields": {
+    "book": 20,
+    "barcode": "d489d448-4d97-4533-8769-6e29a9264ff0",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 814,
+  "fields": {
+    "book": 41,
+    "barcode": "5d1f7a2a-1ed8-4f2e-abe9-190137de874f",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 815,
+  "fields": {
+    "book": 62,
+    "barcode": "2068c862-10bb-4495-8970-d99bb0d8dd73",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 816,
+  "fields": {
+    "book": 33,
+    "barcode": "e5141744-530b-46db-b43e-5e04483556e1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 817,
+  "fields": {
+    "book": 10,
+    "barcode": "33b078bb-4ed9-44f1-898f-09968aa605bc",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 818,
+  "fields": {
+    "book": 106,
+    "barcode": "534cbd14-3270-4e7e-b66c-de0912a69451",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 819,
+  "fields": {
+    "book": 157,
+    "barcode": "82979e80-21de-48d7-ac26-3472c4c0f4ef",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 820,
+  "fields": {
+    "book": 182,
+    "barcode": "4ec0e7fc-aefc-469c-86b1-2225c2bf4524",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 821,
+  "fields": {
+    "book": 149,
+    "barcode": "338615d1-e4b7-4b25-be2b-609a75695b7c",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 822,
+  "fields": {
+    "book": 178,
+    "barcode": "0720f985-6b51-45c4-876a-2a3bb7863a09",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 823,
+  "fields": {
+    "book": 128,
+    "barcode": "01f56300-4e9e-484e-9798-394c8defe951",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 824,
+  "fields": {
+    "book": 154,
+    "barcode": "75bdc95e-3018-4d40-9ec7-cce80ffbf815",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 825,
+  "fields": {
+    "book": 184,
+    "barcode": "c91e5513-9586-4b20-9d19-3fd4bf159b58",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 826,
+  "fields": {
+    "book": 177,
+    "barcode": "d0333e39-5af0-40fb-899c-9cda33ad3ff7",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 827,
+  "fields": {
+    "book": 79,
+    "barcode": "bae91e28-0537-4942-ab03-c5f3e90d45ce",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 828,
+  "fields": {
+    "book": 13,
+    "barcode": "42859d11-8a32-47e2-bb95-88122d387340",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 829,
+  "fields": {
+    "book": 126,
+    "barcode": "f923023c-2a61-4152-b0dd-108cde4c9d38",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 830,
+  "fields": {
+    "book": 2,
+    "barcode": "53852ba8-6bb4-4578-9b09-c0ed10375cb1",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 831,
+  "fields": {
+    "book": 74,
+    "barcode": "74e3d1e7-e393-4bcd-a13e-058757356a32",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 832,
+  "fields": {
+    "book": 74,
+    "barcode": "bb155ff7-5f01-4c21-bb62-7252337cdf7a",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 833,
+  "fields": {
+    "book": 139,
+    "barcode": "e9424649-a876-489e-8325-09ca4963ce5c",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 834,
+  "fields": {
+    "book": 102,
+    "barcode": "69ac10a0-e10a-40dd-b61e-2978db0244ed",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 835,
+  "fields": {
+    "book": 158,
+    "barcode": "782dd9b9-8f74-4f5d-b43a-b6df72964cd1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 836,
+  "fields": {
+    "book": 72,
+    "barcode": "82458635-663e-43e6-bac6-5b8a5e1a3acd",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 837,
+  "fields": {
+    "book": 170,
+    "barcode": "e736fd3b-8185-467f-9a38-ec620b4ea7f3",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 838,
+  "fields": {
+    "book": 70,
+    "barcode": "f45de8cc-a260-4935-8fc6-8d1ddf676065",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 839,
+  "fields": {
+    "book": 160,
+    "barcode": "00291173-2906-42de-85c2-ecd75850be95",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 840,
+  "fields": {
+    "book": 40,
+    "barcode": "259f03a9-cf07-4a19-ae92-ab5daa9c54fa",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 841,
+  "fields": {
+    "book": 148,
+    "barcode": "0c09be6c-4f96-4dc9-b802-174efb8710de",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 842,
+  "fields": {
+    "book": 3,
+    "barcode": "844b4fb6-78aa-420c-b11d-1159981d1647",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 843,
+  "fields": {
+    "book": 69,
+    "barcode": "10150a95-7b1e-4b2d-beb2-78d790b7d030",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 844,
+  "fields": {
+    "book": 93,
+    "barcode": "8b751ae6-34c6-40fa-a9fc-dc58cb83e822",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 845,
+  "fields": {
+    "book": 86,
+    "barcode": "b81b91f7-4456-4ab2-ab6c-f074c621a75d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 846,
+  "fields": {
+    "book": 110,
+    "barcode": "c2bb1258-dd4d-4858-952a-3a717fee3df1",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 847,
+  "fields": {
+    "book": 83,
+    "barcode": "bca239d6-1ecc-44ac-bd59-6532443cfdf8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 848,
+  "fields": {
+    "book": 156,
+    "barcode": "a2c8c2ab-60af-42c9-b8ac-3f52890fc16a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 849,
+  "fields": {
+    "book": 109,
+    "barcode": "5bad65b6-0af6-4c88-859b-aeb59b6f817f",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 850,
+  "fields": {
+    "book": 127,
+    "barcode": "49e81320-ac6a-47b0-a172-8ede71f54de6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 851,
+  "fields": {
+    "book": 152,
+    "barcode": "038e6387-a421-462f-90ce-8c47101cec8b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 852,
+  "fields": {
+    "book": 193,
+    "barcode": "2f1ff284-88bc-42de-a519-da2e7d4230ab",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 853,
+  "fields": {
+    "book": 67,
+    "barcode": "ccef3f21-1e32-4089-81b6-08690c50e2c6",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 854,
+  "fields": {
+    "book": 38,
+    "barcode": "5be00623-6eaa-4c29-9970-b38d82a97c8e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 855,
+  "fields": {
+    "book": 9,
+    "barcode": "5e494461-d11d-4573-a928-0b1013557907",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 856,
+  "fields": {
+    "book": 70,
+    "barcode": "358e5c39-50e2-4a65-a55d-d68c2fe2c498",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 857,
+  "fields": {
+    "book": 108,
+    "barcode": "618e4bba-f11d-4a2b-b891-807e45356a3b",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 858,
+  "fields": {
+    "book": 13,
+    "barcode": "93d1e6ee-b231-4049-8c90-9e6694a9839c",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 859,
+  "fields": {
+    "book": 166,
+    "barcode": "f79720e8-ec45-4a0f-8274-7161352b8b1e",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 860,
+  "fields": {
+    "book": 61,
+    "barcode": "ff4c6905-55d8-4d1d-bb73-04fecda8ad75",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 861,
+  "fields": {
+    "book": 198,
+    "barcode": "68f783bb-7277-4ab1-8c81-52eac3c9260c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 862,
+  "fields": {
+    "book": 195,
+    "barcode": "3838c784-4f5d-43ce-b175-ae3fdda97687",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 863,
+  "fields": {
+    "book": 199,
+    "barcode": "441e4158-4c57-47e9-9018-393864f77043",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 864,
+  "fields": {
+    "book": 192,
+    "barcode": "1639e136-8cb3-419e-992c-9ff0cc4ce2d8",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 865,
+  "fields": {
+    "book": 198,
+    "barcode": "3e780586-d243-4575-b8e2-a85ccb55676e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 866,
+  "fields": {
+    "book": 46,
+    "barcode": "de976c0f-3828-48ab-b9ab-5ae98fca226a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 867,
+  "fields": {
+    "book": 110,
+    "barcode": "5eb2494e-1d39-43ae-93e6-4c65283f57ef",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 868,
+  "fields": {
+    "book": 9,
+    "barcode": "2dc088f5-e452-4c31-84f4-99e085c459e5",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 869,
+  "fields": {
+    "book": 159,
+    "barcode": "08a9c7c6-2ac9-497e-ad77-6776ab199d48",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 870,
+  "fields": {
+    "book": 12,
+    "barcode": "ee41554c-511e-43f6-ba15-2f873307de7e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 871,
+  "fields": {
+    "book": 14,
+    "barcode": "68489fb9-1af9-4078-ad32-cb9347e989e1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 872,
+  "fields": {
+    "book": 52,
+    "barcode": "570f434c-f2bf-4ca6-bf73-d2c470314ef7",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 873,
+  "fields": {
+    "book": 36,
+    "barcode": "f6f14cd7-39f4-4238-8a40-c44e3ee8f646",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 874,
+  "fields": {
+    "book": 108,
+    "barcode": "f390807b-76d8-49db-b158-6039b2ab1f58",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 875,
+  "fields": {
+    "book": 34,
+    "barcode": "5606a04f-eaf7-4ba3-bab1-5ac22e2c011e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 876,
+  "fields": {
+    "book": 175,
+    "barcode": "c2367a77-4f2c-4b23-b966-f486a099a93d",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 877,
+  "fields": {
+    "book": 185,
+    "barcode": "04f9132e-f389-4ef2-9763-03c0c490d24a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 878,
+  "fields": {
+    "book": 140,
+    "barcode": "c732e55b-963b-454e-8d02-4e2e3ee4d514",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 879,
+  "fields": {
+    "book": 97,
+    "barcode": "d144f546-c706-42b1-b98b-8844870d27fb",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 880,
+  "fields": {
+    "book": 170,
+    "barcode": "4e70e540-f7e4-46c5-bcef-709b8c71a8b2",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 881,
+  "fields": {
+    "book": 28,
+    "barcode": "121ff9c2-4ffd-483b-addd-bc111d417df5",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 882,
+  "fields": {
+    "book": 55,
+    "barcode": "9a47ec23-e57d-41ff-8fd9-a83376abb3bd",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 883,
+  "fields": {
+    "book": 131,
+    "barcode": "1bdf8e47-82b6-4cca-b093-313cb7c91ba7",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 884,
+  "fields": {
+    "book": 159,
+    "barcode": "bc52a94a-9fd8-48c6-821a-603ece6700a8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 885,
+  "fields": {
+    "book": 131,
+    "barcode": "85024203-8bc6-4027-af3e-5dba57485971",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 886,
+  "fields": {
+    "book": 107,
+    "barcode": "2c3115aa-0ac5-4bac-8b62-9af89a09bbe8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 887,
+  "fields": {
+    "book": 82,
+    "barcode": "5d6324a3-1b97-4a82-b97f-2000ed47d5b1",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 888,
+  "fields": {
+    "book": 98,
+    "barcode": "307606ea-78f2-43d6-83f4-6856e874b7e4",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 889,
+  "fields": {
+    "book": 72,
+    "barcode": "ec011152-277b-437c-a86a-430e07b50c8a",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 890,
+  "fields": {
+    "book": 88,
+    "barcode": "55473310-09b1-460c-973c-95e835d9bd2b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 891,
+  "fields": {
+    "book": 177,
+    "barcode": "e1436d0c-283c-4085-83a4-7fa24555eff4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 892,
+  "fields": {
+    "book": 93,
+    "barcode": "2e193115-2734-4a3b-885a-ecd9c1ab4bb0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 893,
+  "fields": {
+    "book": 29,
+    "barcode": "8e23fbcd-c7b1-480f-b565-8ebe6c2f09cd",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 894,
+  "fields": {
+    "book": 187,
+    "barcode": "4d6a6f88-9ba0-4f4d-a608-924b51613938",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 895,
+  "fields": {
+    "book": 105,
+    "barcode": "ae3e4e5d-1ff1-489b-b569-d6ce73f324f1",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 896,
+  "fields": {
+    "book": 63,
+    "barcode": "542c6ac9-2674-4b38-8709-9f4273288a14",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 897,
+  "fields": {
+    "book": 106,
+    "barcode": "412afd6c-a81b-46a0-869b-00b7ee3acf1f",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 898,
+  "fields": {
+    "book": 141,
+    "barcode": "79821634-ffa7-437b-9564-b4acbffdae7a",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 899,
+  "fields": {
+    "book": 15,
+    "barcode": "d6cb1945-64a5-4d7c-8e8f-cc9ff06d1e93",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 900,
+  "fields": {
+    "book": 199,
+    "barcode": "31a8e226-fbef-4c25-84f0-9b21fa16f7ca",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 901,
+  "fields": {
+    "book": 171,
+    "barcode": "f2fa1185-14a4-4e57-9550-94f1c0f43dbe",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 902,
+  "fields": {
+    "book": 74,
+    "barcode": "e32e71eb-c314-4565-9292-eac7951b33a0",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 903,
+  "fields": {
+    "book": 15,
+    "barcode": "78763ec2-fd44-4fa3-b5e1-3645396cbb3b",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 904,
+  "fields": {
+    "book": 200,
+    "barcode": "86de9f38-b857-482e-8305-0a8e6e252015",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 905,
+  "fields": {
+    "book": 155,
+    "barcode": "e83b31f1-74a3-463d-86d5-f38af7614d41",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 906,
+  "fields": {
+    "book": 14,
+    "barcode": "c3786a14-fdba-4c3b-8030-0c78cf2e0cce",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 907,
+  "fields": {
+    "book": 111,
+    "barcode": "22f88591-02b8-41b4-819a-55e070addad8",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 908,
+  "fields": {
+    "book": 38,
+    "barcode": "09f78257-b852-4c8d-a62f-d02593b48182",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 909,
+  "fields": {
+    "book": 12,
+    "barcode": "f59fd5d2-f0b9-426a-bd29-79dc7227639d",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 910,
+  "fields": {
+    "book": 160,
+    "barcode": "3912125f-95cb-43c1-929d-fde8f39977e5",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 911,
+  "fields": {
+    "book": 127,
+    "barcode": "86d85183-93c6-49b0-8e15-91a5d9a86d48",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 912,
+  "fields": {
+    "book": 166,
+    "barcode": "be229a64-6181-4eed-b4d1-1150dc4c3acd",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 913,
+  "fields": {
+    "book": 137,
+    "barcode": "c5df0ae8-aad5-4cd2-b97a-20e766fc67e9",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 914,
+  "fields": {
+    "book": 52,
+    "barcode": "5cc55fc6-14fe-425c-b389-59cfd1017af0",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 915,
+  "fields": {
+    "book": 93,
+    "barcode": "e01bb522-32d2-48fa-b714-b2c903589e8e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 916,
+  "fields": {
+    "book": 48,
+    "barcode": "4ea32339-1f89-4b64-81fd-5815ce2b2cfc",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 917,
+  "fields": {
+    "book": 1,
+    "barcode": "102dde1e-9a50-4898-90a8-22c7abcf6aa0",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 918,
+  "fields": {
+    "book": 149,
+    "barcode": "6b306d7f-5eeb-41d9-8f37-630d11bcee33",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 919,
+  "fields": {
+    "book": 193,
+    "barcode": "674c93cc-49f8-44b8-91b3-903544c81bfe",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 920,
+  "fields": {
+    "book": 18,
+    "barcode": "6818eaad-feb2-41e5-a9b6-b1622db83376",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 921,
+  "fields": {
+    "book": 7,
+    "barcode": "c689ee98-b77f-48fb-b84f-2c4d2df23bdd",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 922,
+  "fields": {
+    "book": 47,
+    "barcode": "f9fb1c2a-2bdd-458f-8c13-e865465e1fea",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 923,
+  "fields": {
+    "book": 4,
+    "barcode": "c8ddab15-7712-48ad-9028-e007e59bbef2",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 924,
+  "fields": {
+    "book": 141,
+    "barcode": "a771843d-585b-443c-9ff8-ae3f81070928",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 925,
+  "fields": {
+    "book": 96,
+    "barcode": "a6650834-0621-422a-8aa2-8bfffb52a88e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 926,
+  "fields": {
+    "book": 134,
+    "barcode": "bb6a8ecd-9323-46b7-b952-4a9f7d5f00ec",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 927,
+  "fields": {
+    "book": 96,
+    "barcode": "c631df91-d461-4044-8ff5-05d6d4d5aaac",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 928,
+  "fields": {
+    "book": 103,
+    "barcode": "183647de-3a42-4211-a66f-749281cf19c9",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 929,
+  "fields": {
+    "book": 19,
+    "barcode": "274c5847-e211-4081-96f7-8db848d0a0cc",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 930,
+  "fields": {
+    "book": 109,
+    "barcode": "a919c282-1bb2-4ae2-bc1e-93d4e9055df2",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 931,
+  "fields": {
+    "book": 36,
+    "barcode": "5117f728-e60a-472c-8e77-8e2846544db0",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 932,
+  "fields": {
+    "book": 106,
+    "barcode": "c324da18-94a9-4ba6-a548-1707f0020537",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 933,
+  "fields": {
+    "book": 142,
+    "barcode": "fa4b911a-98a8-473d-90c0-ec8206f77094",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 934,
+  "fields": {
+    "book": 191,
+    "barcode": "576551cf-d749-487e-9dfc-b1a88a4945cb",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 935,
+  "fields": {
+    "book": 185,
+    "barcode": "40da3c11-f0ab-4817-a57f-4f76ebfb8f04",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 936,
+  "fields": {
+    "book": 103,
+    "barcode": "03ab8c31-27d8-465b-b078-6ba6d715c2dd",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 937,
+  "fields": {
+    "book": 91,
+    "barcode": "60cd3113-7c78-40f4-b1dd-745abfca0a72",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 938,
+  "fields": {
+    "book": 131,
+    "barcode": "b46f9b60-f75d-40c6-b2dc-390051fcc6d1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 939,
+  "fields": {
+    "book": 171,
+    "barcode": "ccd2fe45-bf9a-4bf1-90cd-f87f1653238a",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 940,
+  "fields": {
+    "book": 5,
+    "barcode": "f93818eb-079e-4ddb-9a5b-325038bd3304",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 941,
+  "fields": {
+    "book": 169,
+    "barcode": "9d7d2585-503f-4628-9c91-810fb621a088",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 942,
+  "fields": {
+    "book": 52,
+    "barcode": "e79d3892-8764-4c99-89b6-0c5dea4d9bc6",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 943,
+  "fields": {
+    "book": 110,
+    "barcode": "d4ceedf8-ac66-4243-9d9c-aad2a53104dd",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 944,
+  "fields": {
+    "book": 7,
+    "barcode": "cc29dce6-cac7-457f-ae51-9b11a66bdadd",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 945,
+  "fields": {
+    "book": 65,
+    "barcode": "e623ef52-e894-4812-81db-8cc127ce718b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 946,
+  "fields": {
+    "book": 73,
+    "barcode": "2a91c6e9-6839-4c31-8d4c-0ca8135d3c8f",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 947,
+  "fields": {
+    "book": 15,
+    "barcode": "e882c06c-5382-4c02-88e2-cba8a8adad74",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 948,
+  "fields": {
+    "book": 138,
+    "barcode": "13032a72-8b74-420c-bab1-0f6c034a5d12",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 949,
+  "fields": {
+    "book": 50,
+    "barcode": "3e2c9fb4-1e87-499e-a6b8-a62f7702ad58",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 950,
+  "fields": {
+    "book": 83,
+    "barcode": "ac6d02e8-031a-40d2-8daf-7ae3dcddf622",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 951,
+  "fields": {
+    "book": 90,
+    "barcode": "4b2fbd15-77de-40af-9173-77b14963da7d",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 952,
+  "fields": {
+    "book": 36,
+    "barcode": "9529065d-f1e6-4160-99dd-0b76fb4fb22b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 953,
+  "fields": {
+    "book": 174,
+    "barcode": "e5b76662-66c1-40d7-9ebb-532a29c46254",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 954,
+  "fields": {
+    "book": 104,
+    "barcode": "b50e46e6-c790-460a-994f-0d6aa1e3336e",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 955,
+  "fields": {
+    "book": 149,
+    "barcode": "fad15912-837a-4c50-8f82-67aa97190c81",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 956,
+  "fields": {
+    "book": 149,
+    "barcode": "5990524d-bef4-4e76-9859-735c49f97820",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 957,
+  "fields": {
+    "book": 109,
+    "barcode": "628e6759-0403-49e3-a738-6405acb52345",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 958,
+  "fields": {
+    "book": 185,
+    "barcode": "2e86adfb-d390-4598-b995-a4e3e9cd0e9e",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 959,
+  "fields": {
+    "book": 188,
+    "barcode": "41a64c0f-d99c-4f25-8285-03caf453904e",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 960,
+  "fields": {
+    "book": 84,
+    "barcode": "530f62ba-bc09-42a4-92a9-70b0e9ade996",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 961,
+  "fields": {
+    "book": 34,
+    "barcode": "b9126946-93d1-4ad7-a8d0-e695b2541dc8",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 962,
+  "fields": {
+    "book": 87,
+    "barcode": "576afe59-b9a7-43da-8586-56663fae0a36",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 963,
+  "fields": {
+    "book": 104,
+    "barcode": "2218c683-26e0-4618-ae4f-ad0c018c4aae",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 964,
+  "fields": {
+    "book": 67,
+    "barcode": "ce06d4b2-4f23-4acf-b4e7-714c9ce5ac05",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 965,
+  "fields": {
+    "book": 27,
+    "barcode": "c6279471-d305-4b27-9b6a-8b4d5dfd7086",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 966,
+  "fields": {
+    "book": 56,
+    "barcode": "83d80024-e04a-43c5-92d5-5ab4cf6b4d25",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 967,
+  "fields": {
+    "book": 82,
+    "barcode": "3381d50e-087e-4078-88e6-c305240660f1",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 968,
+  "fields": {
+    "book": 147,
+    "barcode": "489542af-ce64-4574-8b20-9e4a11748434",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 969,
+  "fields": {
+    "book": 200,
+    "barcode": "508999a0-b3ce-4413-a666-723e36a5bb01",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 970,
+  "fields": {
+    "book": 78,
+    "barcode": "8a432485-8262-40cc-a930-39fb090b3b81",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 971,
+  "fields": {
+    "book": 31,
+    "barcode": "a21f4284-73de-4e5f-9962-5d8ca66b3ccf",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 972,
+  "fields": {
+    "book": 132,
+    "barcode": "54ca0a7d-10ad-4499-a237-4abfb61907fb",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 973,
+  "fields": {
+    "book": 183,
+    "barcode": "14fa9985-f150-42fc-ae27-aa455093b0a8",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 974,
+  "fields": {
+    "book": 126,
+    "barcode": "c758104b-c872-4e34-a9fa-8ad8485c8182",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 975,
+  "fields": {
+    "book": 31,
+    "barcode": "40c11b43-157c-49c8-b98a-5b97807d33ee",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 976,
+  "fields": {
+    "book": 113,
+    "barcode": "941b74b8-8666-47a7-a692-198a140c0c25",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 977,
+  "fields": {
+    "book": 84,
+    "barcode": "5c52932e-b6e2-440e-9290-f3ace5478c1b",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 978,
+  "fields": {
+    "book": 60,
+    "barcode": "9aa00d47-6457-44ca-8093-fc8c642c889e",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 979,
+  "fields": {
+    "book": 66,
+    "barcode": "267f4f17-9b27-4937-9d05-d5a64609317b",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 980,
+  "fields": {
+    "book": 200,
+    "barcode": "06a2b4ba-fd5c-47c2-98ff-e709ffdf3f96",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 981,
+  "fields": {
+    "book": 125,
+    "barcode": "cdc865bf-f883-49eb-b05b-c7de5bc2d8c7",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 982,
+  "fields": {
+    "book": 174,
+    "barcode": "af000476-51bd-4279-9e9d-f99e253f7425",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 983,
+  "fields": {
+    "book": 54,
+    "barcode": "2ab3b180-4b00-468a-a90f-d51c359ea3b1",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 984,
+  "fields": {
+    "book": 69,
+    "barcode": "a8b84656-7f76-4f57-91e1-48d6b8de397c",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 985,
+  "fields": {
+    "book": 140,
+    "barcode": "4c2910b7-3493-4cae-8257-9a89e9e3e523",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 986,
+  "fields": {
+    "book": 49,
+    "barcode": "13945562-7e88-4669-bf05-fef539593158",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 987,
+  "fields": {
+    "book": 84,
+    "barcode": "c50bdce7-eb6d-4c20-b9c3-bbb1aaf0ccd3",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 988,
+  "fields": {
+    "book": 117,
+    "barcode": "e0d9edff-d1e3-492c-9357-9fc96d7e3d50",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 989,
+  "fields": {
+    "book": 123,
+    "barcode": "81e6612e-3f46-4857-98c1-47a002edbc77",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 990,
+  "fields": {
+    "book": 56,
+    "barcode": "a2b6a26b-4c23-4718-a008-61740fec3e34",
+    "book_type": 3
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 991,
+  "fields": {
+    "book": 158,
+    "barcode": "7c99e6c6-b33a-41e5-ba1e-daa5039cbff2",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 992,
+  "fields": {
+    "book": 31,
+    "barcode": "e28f36f1-7088-4f21-baa7-08c12832c318",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 993,
+  "fields": {
+    "book": 116,
+    "barcode": "197074da-20fa-460c-8e9d-a97a02359594",
+    "book_type": 5
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 994,
+  "fields": {
+    "book": 29,
+    "barcode": "8c59d5d5-f09d-48e5-95e9-6ff572ce04e4",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 995,
+  "fields": {
+    "book": 13,
+    "barcode": "92ea111e-6cd2-423e-9ed3-15461771c596",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 996,
+  "fields": {
+    "book": 112,
+    "barcode": "34208b86-26b9-4b24-b448-fd2cb0f65c57",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 997,
+  "fields": {
+    "book": 87,
+    "barcode": "371d790b-75d3-477b-8582-cb2b7dda9939",
+    "book_type": 4
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 998,
+  "fields": {
+    "book": 22,
+    "barcode": "241cb5d2-576a-4d32-a78d-06c3efd42568",
+    "book_type": 1
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 999,
+  "fields": {
+    "book": 167,
+    "barcode": "35204de0-9cc9-4bbd-92c1-6eaa25c81657",
+    "book_type": 2
+  }
+},
+{
+  "model": "library_management.physicalcopy",
+  "pk": 1000,
+  "fields": {
+    "book": 53,
+    "barcode": "8f67335c-9a8e-4a64-8693-dd8277960511",
+    "book_type": 1
+  }
+}
+]
