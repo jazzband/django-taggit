@@ -1,7 +1,9 @@
 from io import StringIO
+
+from django.conf import settings
 from django.core.management import call_command
 from django.test import TestCase
-from django.conf import settings
+
 from taggit.models import Tag, TaggedItem
 from tests.models import Food, HousePet
 
