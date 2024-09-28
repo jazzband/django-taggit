@@ -2,7 +2,10 @@ include AUTHORS
 include CHANGELOG.rst
 include LICENSE
 include README.rst
-include tox.ini
-recursive-include docs *.py *.rst
+include setup.cfg
+include setup.py
+recursive-include taggit *.py
 recursive-include taggit/locale *.mo *.po
-recursive-include tests *.html *.py
+prune tests
+prune sample_taggit
+prune docs
