@@ -21,10 +21,11 @@ class DeduplicateTagsTests(TestCase):
 
         self.food_item.tags.add(self.tag1)
         self.pet_item.tags.add(self.tag2)
+        self.pet_item.tags.add(self.tag3)
 
     def test_deduplicate_tags(self):
         self.assertEqual(Tag.objects.count(), 3)
-        self.assertEqual(TaggedItem.objects.count(), 2)
+        self.assertEqual(TaggedItem.objects.count(), 3)
 
         out = StringIO()
         call_command("deduplicate_tags", stdout=out)
@@ -41,7 +42,7 @@ class DeduplicateTagsTests(TestCase):
 
     def test_no_duplicates(self):
         self.assertEqual(Tag.objects.count(), 3)
-        self.assertEqual(TaggedItem.objects.count(), 2)
+        self.assertEqual(TaggedItem.objects.count(), 3)
 
         out = StringIO()
         call_command("deduplicate_tags", stdout=out)
@@ -65,4 +66,4 @@ class DeduplicateTagsTests(TestCase):
         self.assertIn("TAGGIT_CASE_INSENSITIVE is not enabled.", out.getvalue())
 
         self.assertEqual(Tag.objects.count(), 3)
-        self.assertEqual(TaggedItem.objects.count(), 2)
+        self.assertEqual(TaggedItem.objects.count(), 3)
