@@ -11,7 +11,7 @@ Changelog
 * Add a fallback for when multiple tags are found in case-insensitivity mode (the earliest by PK is returned)
 * Add a ``deduplicate_tags`` management command to remove duplicate tags based on case insensitivity. This feature is enabled when ``TAGGIT_CASE_INSENSITIVE`` is set to ``True`` in the settings.
 * We no longer package tests, docs, or the sample taggit app into the distributed wheels. While we believe this shouldn't affect anything for users of the library, please tell us if you find yourself hitting issues (like around import errors)
-
+* Fix missing template file for admin merge tag action
 
 6.0.0 (2024-07-27)
 ~~~~~~~~~~~~~~~~~~
