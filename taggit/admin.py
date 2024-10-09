@@ -88,7 +88,7 @@ class TagAdmin(admin.ModelAdmin):
     @admin.action(description="Remove orphaned tags")
     def remove_orphaned_tags_action(self, request, queryset):
         try:
-            orphaned_tags = Tag.objects.filter(taggit_taggeditem_items=None)
+            orphaned_tags = queryset.objects.orphaned()
             count, _ = orphaned_tags.delete()
             self.message_user(
                 request, f"Successfully removed {count} orphaned tags.", level="success"
