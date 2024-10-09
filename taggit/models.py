@@ -9,9 +9,20 @@ from django.utils.translation import pgettext_lazy
 
 try:
     from unidecode import unidecode
-except ImportError:
 
-    def unidecode(tag):
+    unidecode_installed = True
+except ImportError:
+    unidecode_installed = False
+
+
+def slugify_unicode_stripping_prep(tag):
+    """
+    This handles stripping via unidecode if it's installed,
+    otherwise is a no-op
+    """
+    if unidecode_installed:
+        return unidecode(tag)
+    else:
         return tag
 
 
@@ -97,7 +108,7 @@ class TagBase(NaturalKeyModel):
 
     def slugify(self, tag, i=None):
         if getattr(settings, "TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING", False):
-            slug = slugify(unidecode(tag))
+            slug = slugify(slugify_unicode_stripping_prep(tag))
         else:
             slug = slugify(tag, allow_unicode=True)
         if i is not None:
