@@ -1,4 +1,8 @@
+from unittest import skipIf
+
 from django.test import TestCase, override_settings
+
+from taggit import models as taggit_models
 
 from tests.models import TestModel
 
@@ -22,7 +26,30 @@ class TestSlugification(TestCase):
         sample_obj.tags.add("あい うえお")
         self.assertEqual([tag.slug for tag in sample_obj.tags.all()], ["あい-うえお"])
 
-    def test_old_slugs(self):
+    def test_old_slugs_wo_unidecode(self):
+        """
+        Test that the setting that gives us the old slugification behavior
+        is in place
+        """
+        with override_settings(TAGGIT_STRIP_UNICODE_WHEN_SLUGIFYING=True):
+            old_installed_value = taggit_models.unidecode_installed
+            taggit_models.unidecode_installed = False
+            try:
+                sample_obj = TestModel.objects.create()
+                # a unicode tag will be slugified for space reasons but
+                # unicode-ness will be kept by default
+                sample_obj.tags.add("あい うえお")
+                self.assertEqual(
+                    [tag.slug for tag in sample_obj.tags.all()], ["ai-ueo"]
+                )
+            finally:
+                taggit_models.unidecode_installed = old_installed_value
+
+    @skipIf(
+        not taggit_models.unidecode_installed,
+        "This test requires unidecode to be installed",
+    )
+    def test_old_slugs_with_unidecode(self):
         """
         Test that the setting that gives us the old slugification behavior
         is in place
