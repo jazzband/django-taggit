@@ -105,7 +105,16 @@ class TagBase(NaturalKeyModel):
         return slug
 
 
+class TagQuerySet(models.QuerySet):
+
+    def orphaned(self):
+        return self.filter(taggit_taggeditem_items=None)
+
+
 class Tag(TagBase):
+
+    objects = NaturalKeyManager.from_queryset(TagQuerySet)()
+
     class Meta:
         verbose_name = _("tag")
         verbose_name_plural = _("tags")

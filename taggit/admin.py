@@ -19,7 +19,7 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ["name", "slug"]
     search_fields = ["name"]
     prepopulated_fields = {"slug": ["name"]}
-    actions = ["render_tag_form"]
+    actions = ["render_tag_form", "remove_orphaned_tags_action"]
 
     def get_urls(self):
         urls = super().get_urls()
@@ -84,3 +84,14 @@ class TagAdmin(admin.ModelAdmin):
             "selected_tag_ids": selected_tag_ids,
         }
         return render(request, "admin/taggit/merge_tags_form.html", context)
+
+    @admin.action(description="Remove orphaned tags")
+    def remove_orphaned_tags_action(self, request, queryset):
+        try:
+            orphaned_tags = queryset.objects.orphaned()
+            count, _ = orphaned_tags.delete()
+            self.message_user(
+                request, f"Successfully removed {count} orphaned tags.", level="success"
+            )
+        except Exception as e:
+            self.message_user(request, f"An error occurred: {e}", level="error")

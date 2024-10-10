@@ -4,6 +4,8 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Add an admin command to remove orphaned tags
+
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~
 
