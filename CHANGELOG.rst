@@ -5,6 +5,7 @@ Changelog
 ~~~~~~~~~~~~
 
 * Add an admin command to remove orphaned tags
+* Remove support for Python 3.8
 
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~
