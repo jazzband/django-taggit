@@ -40,7 +40,7 @@ class TagAdmin(admin.ModelAdmin):
             return redirect(request.get_full_path())
 
         selected_tag_ids = ",".join(selected)
-        redirect_url = f"{request.get_full_path()}merge-tags/"
+        redirect_url = f"{request.path}merge-tags/"
 
         request.session["selected_tag_ids"] = selected_tag_ids
 
