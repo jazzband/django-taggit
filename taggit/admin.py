@@ -39,12 +39,11 @@ class TagAdmin(admin.ModelAdmin):
             self.message_user(request, "Please select at least one tag.")
             return redirect(request.get_full_path())
 
+        # set the selected tags into the session, to be used later
         selected_tag_ids = ",".join(selected)
-        redirect_url = f"{request.path}merge-tags/"
-
         request.session["selected_tag_ids"] = selected_tag_ids
 
-        return redirect(redirect_url)
+        return redirect("admin:taggit_tag_merge_tags")
 
     def merge_tags_view(self, request):
         selected_tag_ids = request.session.get("selected_tag_ids", "").split(",")

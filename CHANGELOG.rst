@@ -6,7 +6,7 @@ Changelog
 
 * Add an admin command to remove orphaned tags
 * Remove support for Python 3.8
-* Replace `request.get_full_path()` with `request.path` for merge form action
+* Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
 
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~

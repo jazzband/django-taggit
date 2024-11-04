@@ -59,6 +59,7 @@ class AdminTest(TestCase):
         )
         # we're redirecting
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("admin:taggit_tag_merge_tags"))
         # make sure what we expected got into the session keys
         assert "selected_tag_ids" in self.client.session.keys()
         self.assertEqual(
