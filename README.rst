@@ -17,8 +17,8 @@ django-taggit
    :target: https://github.com/jazzband/django-taggit/actions
    :alt: GitHub Actions
 
-.. image:: https://codecov.io/gh/jazzband/django-taggit/coverage.svg?branch=master
-    :target: https://codecov.io/gh/jazzband/django-taggit?branch=master
+.. image:: https://codecov.io/gh/jazzband/django-taggit/branch/master/graph/badge.svg?token=eaixNiyRk2
+    :target: https://app.codecov.io/gh/jazzband/django-taggit/tree/master
 
 This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree
 to abide by the `Contributor Code of Conduct
