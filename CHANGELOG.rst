@@ -4,6 +4,9 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Add ``strict`` parameter to ``TaggableManager.remove()`` method. When ``strict=True``,
+  a ``ValueError`` is raised if any of the specified tags are not associated with the object.
+  Default behavior (``strict=False``) remains unchanged for backwards compatibility.
 * Add an admin command to remove orphaned tags
 * Remove support for Python 3.8
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
