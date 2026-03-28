@@ -142,6 +142,8 @@ class ItemBase(NaturalKeyModel):
     objects = NaturalKeyManager()
 
     class Meta:
+        verbose_name = _("tagged item")
+        verbose_name_plural = _("tagged items")
         abstract = True
 
     @classmethod
@@ -229,8 +231,6 @@ class GenericUUIDTaggedItemBase(CommonGenericTaggedItemBase):
 
 class TaggedItem(GenericTaggedItemBase, TaggedItemBase):
     class Meta:
-        verbose_name = _("tagged item")
-        verbose_name_plural = _("tagged items")
         app_label = "taggit"
         indexes = [
             models.Index(
