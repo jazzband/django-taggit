@@ -348,6 +348,14 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
                 ),
             ]
         )
+    
+    def test_remove_tag_by_slug(self):
+        apple_pie = self.food_model.objects.create(name='apple pie')
+        apple_pie.tags.add("apple pie")
+        slug = apple_pie.tags.first().slug
+        apple_pie.tags.remove(slug)
+        self.assertEqual(apple_pie.tags.count(),0)
+        self.assertFalse(apple_pie.tags.exists(),False)
 
     @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_clear_sends_m2m_changed_signal(self, send_mock):
