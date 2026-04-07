@@ -6,7 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import connections, models, router
-from django.db.models import signals,Q
+from django.db.models import signals, Q
 from django.db.models.fields.related import (
     ManyToManyRel,
     OneToOneRel,
@@ -356,7 +356,7 @@ class _TaggableManager(models.Manager):
         qs = (
             self.through._default_manager.using(db)
             .filter(**self._lookup_kwargs())
-            .filter(Q(tag__name__in=tags)|Q(tag__slug__in=tags))
+            .filter(Q(tag__name__in=tags) | Q(tag__slug__in=tags))
         )
 
         old_ids = set(qs.values_list("tag_id", flat=True))
