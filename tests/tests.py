@@ -744,6 +744,23 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             foods = {f.name: {t.name for t in f.tags.all()} for f in list_prefetched}
             self.assertEqual(foods, {"orange": {"2", "4"}, "apple": {"1", "2"}})
 
+    def test_prefetch_related_with_shared_tag(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("shared", "apple-only")
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add("shared", "orange-only")
+
+        with self.assertNumQueries(2):
+            list_prefetched = list(
+                self.food_model.objects.prefetch_related("tags").order_by("name")
+            )
+
+        with self.assertNumQueries(0):
+            foods = {f.name: {t.name for t in f.tags.all()} for f in list_prefetched}
+
+        self.assertEqual(foods["apple"], {"shared", "apple-only"})
+        self.assertEqual(foods["orange"], {"shared", "orange-only"})
+
     def test_internal_type_is_manytomany(self):
         self.assertEqual(TaggableManager().get_internal_type(), "ManyToManyField")
 

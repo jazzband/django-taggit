@@ -6,6 +6,10 @@ Changelog
 
 * Add an admin command to remove orphaned tags
 * Remove support for Python 3.8
+* Remove support for Python 3.9
+* Remove support for Django versions older than 5.2
+* Add Django 5.2 and 6.0 support
+* Add Python 3.13 and 3.14 support
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
 
 6.1.0 (2024-09-29)

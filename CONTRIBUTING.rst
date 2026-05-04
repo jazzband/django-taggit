@@ -32,7 +32,7 @@ own fork in your development environment:
 
     git clone git@github.com:<your_fork>/django-taggit.git
     cd django-taggit
-    python setup.py develop
+    python -m pip install -e .
 
 Running tests
 -------------
