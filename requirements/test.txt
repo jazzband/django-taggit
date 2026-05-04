@@ -1,2 +1,2 @@
-Django>=5.2
 coverage
+Django>=5.2
