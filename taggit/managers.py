@@ -353,10 +353,7 @@ class _TaggableManager(models.Manager):
         self._remove_prefetched_objects()
         db = router.db_for_write(self.through, instance=self.instance)
 
-        qs = (
-            self.through._default_manager.using(db)
-            .filter(**self._lookup_kwargs())
-        )
+        qs = self.through._default_manager.using(db).filter(**self._lookup_kwargs())
 
         name_matches = qs.filter(tag__name__in=tags)
 
