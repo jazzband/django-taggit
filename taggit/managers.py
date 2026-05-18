@@ -6,7 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import MultipleObjectsReturned
 from django.db import connections, models, router
-from django.db.models import signals
+from django.db.models import Q, signals
 from django.db.models.fields.related import (
     ManyToManyRel,
     OneToOneRel,
@@ -353,11 +353,14 @@ class _TaggableManager(models.Manager):
         self._remove_prefetched_objects()
         db = router.db_for_write(self.through, instance=self.instance)
 
-        qs = (
-            self.through._default_manager.using(db)
-            .filter(**self._lookup_kwargs())
-            .filter(tag__name__in=tags)
-        )
+        qs = self.through._default_manager.using(db).filter(**self._lookup_kwargs())
+
+        name_matches = qs.filter(tag__name__in=tags)
+
+        if name_matches.exists():
+            qs = name_matches
+        else:
+            qs = qs.filter(tag__slug__in=tags)
 
         old_ids = set(qs.values_list("tag_id", flat=True))
 
