@@ -341,7 +341,19 @@ class _TaggableManager(models.Manager):
             self.add(*new_objs, through_defaults=through_defaults, **kwargs)
 
     @require_instance_manager
-    def remove(self, *tags):
+    def remove(self, *tags, strict=False):
+        """
+        Remove tags from the object.
+
+        Args:
+            *tags: Tag names (strings) or Tag objects to remove.
+            strict: If True, raise ValueError when any of the specified tags
+                are not associated with this object. If False (default),
+                silently ignore tags that don't exist on this object.
+
+        Raises:
+            ValueError: When strict=True and any tags are not found on this object.
+        """
         if not tags:
             return
 
@@ -355,6 +367,17 @@ class _TaggableManager(models.Manager):
         )
 
         old_ids = set(qs.values_list("tag_id", flat=True))
+
+        if strict:
+            # Get the tag names that were actually found
+            found_tag_names = set(qs.values_list("tag__name", flat=True))
+            requested_tag_names = set(tags)
+            missing_tags = requested_tag_names - found_tag_names
+            if missing_tags:
+                missing_str = ", ".join(sorted(missing_tags))
+                raise ValueError(
+                    f"The following tags are not associated with this object: {missing_str}"
+                )
 
         signals.m2m_changed.send(
             sender=self.through,

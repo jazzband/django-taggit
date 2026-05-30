@@ -27,10 +27,21 @@ playing around with the API.
         The ``tag_kwargs`` argument allows one to specify parameters for the tags
         themselves.
 
-    .. method:: remove(*tags)
+    .. method:: remove(*tags, strict=False)
 
-        Removes a tag from an object. No exception is raised if the object
-        doesn't have that tag.
+        Removes tags from an object.
+
+        :param tags: Tag names (strings) or Tag instances to remove.
+        :param strict: If ``True``, raises ``ValueError`` when any of the
+            specified tags are not associated with this object. If ``False``
+            (default), silently ignores tags that don't exist on this object.
+
+        Example::
+
+            >>> apple.tags.add("red", "green")
+            >>> apple.tags.remove("red")  # Works, removes "red"
+            >>> apple.tags.remove("blue")  # Silently ignored (default)
+            >>> apple.tags.remove("blue", strict=True)  # Raises ValueError
 
     .. method:: clear()
 

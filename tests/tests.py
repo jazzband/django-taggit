@@ -349,6 +349,47 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ]
         )
 
+    def test_remove_nonexistent_tag_silent_by_default(self):
+        """Test that removing a non-existent tag does not raise an error by default."""
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green")
+
+        # Should not raise - this is the default behavior for backwards compatibility
+        apple.tags.remove("nonexistent")
+        self.assertEqual(sorted(apple.tags.names()), ["green", "red"])
+
+    def test_remove_nonexistent_tag_strict_raises_error(self):
+        """Test that removing a non-existent tag raises ValueError when strict=True."""
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green")
+
+        with self.assertRaises(ValueError) as cm:
+            apple.tags.remove("blue", strict=True)
+
+        self.assertIn("blue", str(cm.exception))
+        # Tags should be unchanged
+        self.assertEqual(sorted(apple.tags.names()), ["green", "red"])
+
+    def test_remove_existing_tag_strict_succeeds(self):
+        """Test that removing an existing tag works normally with strict=True."""
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green")
+
+        apple.tags.remove("red", strict=True)
+        self.assertEqual(list(apple.tags.names()), ["green"])
+
+    def test_remove_mixed_tags_strict_raises_error(self):
+        """Test that removing a mix of existing and non-existing tags raises error with strict=True."""
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("red", "green")
+
+        with self.assertRaises(ValueError) as cm:
+            apple.tags.remove("red", "purple", strict=True)
+
+        self.assertIn("purple", str(cm.exception))
+        # Tags should be unchanged since the operation failed
+        self.assertEqual(sorted(apple.tags.names()), ["green", "red"])
+
     @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_clear_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
