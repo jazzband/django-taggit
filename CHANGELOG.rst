@@ -4,6 +4,7 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Add a ``remove_by_slug()`` method to ``TaggableManager``, for removing a tag by its slug instead of its name
 * Add an admin command to remove orphaned tags
 * Remove support for Python 3.8
 * Remove support for Python 3.9

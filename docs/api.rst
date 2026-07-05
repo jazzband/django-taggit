@@ -32,6 +32,13 @@ playing around with the API.
         Removes a tag from an object. No exception is raised if the object
         doesn't have that tag.
 
+    .. method:: remove_by_slug(*slugs)
+
+        Removes a tag from an object by its slug rather than its name. This
+        is useful when only the slug is available, for example in a URL such
+        as ``.../some-object/tags/<slug>/remove/``. No exception is raised if
+        the object doesn't have a tag with that slug.
+
     .. method:: clear()
 
         Removes all tags from an object.

@@ -377,6 +377,51 @@ class _TaggableManager(models.Manager):
         )
 
     @require_instance_manager
+    def remove_by_slug(self, *slugs):
+        """
+        Removes tags from an object by their slug, instead of their name.
+
+        This is useful when the caller only has the slug on hand, e.g. when
+        building URLs like ``.../some-object/tags/<slug>/remove/``. Unlike
+        ``remove()``, this never matches on the tag name, so it behaves
+        correctly for custom tag models where names and slugs are not
+        guaranteed to be unique with respect to each other.
+        """
+        if not slugs:
+            return
+
+        self._remove_prefetched_objects()
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        qs = (
+            self.through._default_manager.using(db)
+            .filter(**self._lookup_kwargs())
+            .filter(tag__slug__in=slugs)
+        )
+
+        old_ids = set(qs.values_list("tag_id", flat=True))
+
+        signals.m2m_changed.send(
+            sender=self.through,
+            action="pre_remove",
+            instance=self.instance,
+            reverse=False,
+            model=self.through.tag_model(),
+            pk_set=old_ids,
+            using=db,
+        )
+        qs.delete()
+        signals.m2m_changed.send(
+            sender=self.through,
+            action="post_remove",
+            instance=self.instance,
+            reverse=False,
+            model=self.through.tag_model(),
+            pk_set=old_ids,
+            using=db,
+        )
+
+    @require_instance_manager
     def clear(self):
         self._remove_prefetched_objects()
         db = router.db_for_write(self.through, instance=self.instance)
