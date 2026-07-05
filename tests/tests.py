@@ -349,6 +349,102 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ]
         )
 
+    def test_remove_by_slug(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green", "red")
+        green = self.tag_model.objects.get(name="green")
+
+        apple.tags.remove_by_slug(green.slug)
+
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+
+    def test_remove_by_slug_unicode(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("café", "tea")
+        cafe = self.tag_model.objects.get(name="café")
+
+        apple.tags.remove_by_slug(cafe.slug)
+
+        self.assert_tags_equal(apple.tags.all(), ["tea"])
+
+    def test_remove_by_slug_nonexistent(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green")
+
+        apple.tags.remove_by_slug("does-not-exist")
+
+        self.assert_tags_equal(apple.tags.all(), ["green"])
+
+    def test_remove_by_slug_no_args_is_noop(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green")
+
+        apple.tags.remove_by_slug()
+
+        self.assert_tags_equal(apple.tags.all(), ["green"])
+
+    def test_remove_by_slug_is_case_sensitive(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green")
+        green = self.tag_model.objects.get(name="green")
+        self.assertEqual(green.slug, "green")
+
+        apple.tags.remove_by_slug(green.slug.upper())
+
+        self.assert_tags_equal(apple.tags.all(), ["green"])
+
+    def test_remove_by_slug_does_not_match_by_name(self):
+        """
+        remove_by_slug() must only ever match on the slug field, even when a
+        different tag happens to share that string as its name. This guards
+        against the ambiguity that sank the earlier attempt at this feature
+        (name-or-slug filtering could delete the wrong tag relation, see
+        #151 and #939).
+        """
+        apple = self.food_model.objects.create(name="apple")
+        green_apple = self.tag_model.objects.create(name="Green Apple")
+        self.assertEqual(green_apple.slug, "green-apple")
+        name_collision = self.tag_model.objects.create(name="green-apple")
+        self.assertNotEqual(name_collision.slug, "green-apple")
+
+        apple.tags.add(green_apple, name_collision)
+        apple.tags.remove_by_slug("green-apple")
+
+        self.assert_tags_equal(apple.tags.all(), ["green-apple"], attr="name")
+
+    @mock.patch("django.db.models.signals.m2m_changed.send")
+    def test_remove_by_slug_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green")
+        green = self.tag_model.objects.get(name="green")
+        send_mock.reset_mock()
+
+        apple.tags.remove_by_slug(green.slug)
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green.pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
+        )
+
     @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_clear_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
@@ -900,6 +996,25 @@ class TenantTagTestCase(TestCase):
         self.assertEqual(self.tag_model.objects.all().count(), 4)
         self.assertEqual(tenant_1.tags.count(), 2)
         self.assertEqual(tenant_2.tags.count(), 2)
+
+    def test_remove_by_slug_scopes_to_the_tagged_instance(self):
+        # Different tenants can independently own a tag with the same slug,
+        # since slugs are only unique per tenant_id, not globally. Removing
+        # by slug on one instance must not affect the other tenant's tag.
+        tenant_1 = self.model.objects.create(name="tenant 1")
+        tenant_2 = self.model.objects.create(name="tenant 2")
+
+        tenant_1.tags.add("foo", tag_kwargs={"tenant_id": 1})
+        tenant_2.tags.add("foo", tag_kwargs={"tenant_id": 2})
+
+        tenant_1_foo = self.tag_model.objects.get(tenant_id=1, name="foo")
+        tenant_2_foo = self.tag_model.objects.get(tenant_id=2, name="foo")
+        self.assertEqual(tenant_1_foo.slug, tenant_2_foo.slug)
+
+        tenant_1.tags.remove_by_slug(tenant_1_foo.slug)
+
+        self.assertEqual(tenant_1.tags.count(), 0)
+        self.assertEqual(tenant_2.tags.count(), 1)
 
 
 class TaggableManagerOfficialTestCase(TaggableManagerTestCase):
