@@ -4,6 +4,7 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Fix ``TaggableManager.names()`` and ``slugs()`` issuing a query even when the tags were already loaded via ``prefetch_related``, causing N+1 selects (#936)
 * Add an admin command to remove orphaned tags
 * Remove support for Python 3.8
 * Remove support for Python 3.9

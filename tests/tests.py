@@ -744,6 +744,24 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             foods = {f.name: {t.name for t in f.tags.all()} for f in list_prefetched}
             self.assertEqual(foods, {"orange": {"2", "4"}, "apple": {"1", "2"}})
 
+    def test_prefetch_related_names_and_slugs(self):
+        # names()/slugs() must use the prefetched tags instead of issuing a
+        # fresh query, avoiding N+1 selects. Regression test for #936.
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("1", "2")
+        orange = self.food_model.objects.create(name="orange")
+        orange.tags.add("2", "4")
+        with self.assertNumQueries(2):
+            list_prefetched = list(
+                self.food_model.objects.prefetch_related("tags").all()
+            )
+        with self.assertNumQueries(0):
+            names = {f.name: set(f.tags.names()) for f in list_prefetched}
+            self.assertEqual(names, {"orange": {"2", "4"}, "apple": {"1", "2"}})
+        with self.assertNumQueries(0):
+            slugs = {f.name: set(f.tags.slugs()) for f in list_prefetched}
+            self.assertEqual(slugs, {"orange": {"2", "4"}, "apple": {"1", "2"}})
+
     def test_prefetch_related_with_shared_tag(self):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("shared", "apple-only")

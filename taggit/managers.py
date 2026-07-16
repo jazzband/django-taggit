@@ -292,13 +292,26 @@ class _TaggableManager(models.Manager):
 
         return result
 
+    def _values_list(self, field):
+        # When the tags have been prefetched (e.g. via prefetch_related),
+        # read the field from the cached Tag objects instead of issuing a
+        # fresh values_list query that would bypass the prefetch cache and
+        # cause N+1 selects (#936).
+        try:
+            prefetched = self.instance._prefetched_objects_cache[
+                self.prefetch_cache_name
+            ]
+        except (AttributeError, KeyError):
+            return self.get_queryset().values_list(field, flat=True)
+        return [getattr(tag, field) for tag in prefetched]
+
     @require_instance_manager
     def names(self):
-        return self.get_queryset().values_list("name", flat=True)
+        return self._values_list("name")
 
     @require_instance_manager
     def slugs(self):
-        return self.get_queryset().values_list("slug", flat=True)
+        return self._values_list("slug")
 
     @require_instance_manager
     def set(self, tags, *, through_defaults=None, **kwargs):
