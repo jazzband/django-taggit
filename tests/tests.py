@@ -90,6 +90,27 @@ class TagModelTestCase(BaseTaggingTestCase):
         apple = self.food_model.objects.create(name="apple")
         apple.tags.add("Red", "red")
 
+    def test_no_blank_slug_for_unslugifiable_name(self):
+        """
+        Regression test for
+        https://github.com/jazzband/django-taggit/issues/393
+
+        A tag name made up entirely of characters stripped by
+        slugify() (e.g. "@") must not be saved with a blank slug --
+        including the very first such tag created, not just
+        subsequent ones that happen to collide with an existing blank
+        slug.
+        """
+        first = self.tag_model.objects.create(name="@")
+        second = self.tag_model.objects.create(name="#")
+        third = self.tag_model.objects.create(name="%")
+
+        for tag in (first, second, third):
+            assert tag.slug, f"tag {tag.name!r} was saved with a blank slug"
+
+        slugs = {first.slug, second.slug, third.slug}
+        assert len(slugs) == 3, f"slugs must all be unique, got {slugs}"
+
     def test_update(self):
         special = self.tag_model.objects.create(name="special")
         special.save()
