@@ -32,6 +32,18 @@ playing around with the API.
         Removes a tag from an object. No exception is raised if the object
         doesn't have that tag.
 
+    .. method:: remove_by_slug(*slugs)
+
+        Like ``remove()``, but matches tags by slug instead of name. Useful
+        when the tag's display name isn't a safe identifier to put in a URL,
+        e.g. for a ``.../tags/<slug>/remove/`` endpoint::
+
+            >>> apple.tags.all()
+            [<Tag: C++>]
+            >>> apple.tags.remove_by_slug("c")
+            >>> apple.tags.all()
+            []
+
     .. method:: clear()
 
         Removes all tags from an object.

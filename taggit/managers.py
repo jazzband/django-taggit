@@ -342,7 +342,20 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def remove(self, *tags):
-        if not tags:
+        self._remove_by(tag__name__in=tags)
+
+    @require_instance_manager
+    def remove_by_slug(self, *slugs):
+        """
+        Like `remove`, but matches tags by slug instead of name. Useful when
+        the tag's display name isn't a safe identifier to put in a URL, e.g.
+        for a `.../tags/<slug>/remove/` endpoint.
+        """
+        self._remove_by(tag__slug__in=slugs)
+
+    def _remove_by(self, **lookup):
+        values = next(iter(lookup.values()))
+        if not values:
             return
 
         self._remove_prefetched_objects()
@@ -351,7 +364,7 @@ class _TaggableManager(models.Manager):
         qs = (
             self.through._default_manager.using(db)
             .filter(**self._lookup_kwargs())
-            .filter(tag__name__in=tags)
+            .filter(**lookup)
         )
 
         old_ids = set(qs.values_list("tag_id", flat=True))

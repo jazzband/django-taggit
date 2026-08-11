@@ -349,6 +349,69 @@ class TaggableManagerTestCase(BaseTaggingTestCase):
             ]
         )
 
+    def test_remove_by_slug(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green", "red")
+        self.assert_tags_equal(apple.tags.all(), ["green", "red"])
+
+        apple.tags.remove_by_slug("green")
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+
+        # a slug for a tag the object was never tagged with is a no-op,
+        # same as remove()
+        apple.tags.remove_by_slug("nonexistent")
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+
+        apple.tags.remove_by_slug()
+        self.assert_tags_equal(apple.tags.all(), ["red"])
+
+    def test_remove_by_slug_matches_slug_not_name(self):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("C++")
+        tag = self.tag_model.objects.get(name="C++")
+        self.assertEqual(tag.slug, "c")
+
+        # the tag's name isn't a valid slug, so remove_by_slug(name) must
+        # not match it
+        apple.tags.remove_by_slug("C++")
+        self.assert_tags_equal(apple.tags.all(), ["C++"])
+
+        apple.tags.remove_by_slug(tag.slug)
+        self.assert_tags_equal(apple.tags.all(), [])
+
+    @mock.patch("django.db.models.signals.m2m_changed.send")
+    def test_remove_by_slug_sends_m2m_changed_signals(self, send_mock):
+        apple = self.food_model.objects.create(name="apple")
+        apple.tags.add("green")
+        green_pk = self.tag_model.objects.get(name="green").pk
+        send_mock.reset_mock()
+
+        apple.tags.remove_by_slug("green")
+
+        self.assertEqual(send_mock.call_count, 2)
+        send_mock.assert_has_calls(
+            [
+                mock.call(
+                    action="pre_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+                mock.call(
+                    action="post_remove",
+                    instance=apple,
+                    model=self.tag_model,
+                    pk_set={green_pk},
+                    reverse=False,
+                    sender=self.taggeditem_model,
+                    using="default",
+                ),
+            ]
+        )
+
     @mock.patch("django.db.models.signals.m2m_changed.send")
     def test_clear_sends_m2m_changed_signal(self, send_mock):
         apple = self.food_model.objects.create(name="apple")
