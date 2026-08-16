@@ -36,9 +36,7 @@ class TagField(forms.CharField):
         for tag in tags:
             if len(tag) > max_tag_length:
                 raise forms.ValidationError(
-                    _(
-                        "Tag(s) %(tag)s are over %(max_tag_length)d characters"
-                    )
+                    _("Tag(s) %(tag)s are over %(max_tag_length)d characters")
                     % {"tag": tag, "max_tag_length": max_tag_length}
                 )
 
