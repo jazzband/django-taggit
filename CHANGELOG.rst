@@ -11,6 +11,7 @@ Changelog
 * Add Django 5.2 and 6.0 support
 * Add Python 3.13 and 3.14 support
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
+* Fix disabled TagField incorrectly stringifying and parsing non-string initial values (such as model instances or lists of tags)
 
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~
