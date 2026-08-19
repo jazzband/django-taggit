@@ -23,6 +23,16 @@ class TagField(forms.CharField):
     widget = TagWidget
 
     def clean(self, value):
+        if self.disabled:
+            if isinstance(value, str):
+                try:
+                    return parse_tags(super().clean(value))
+                except ValueError:
+                    raise forms.ValidationError(
+                        _("Please provide a comma-separated list of tags.")
+                    )
+            return [] if value is None else value
+
         value = super().clean(value)
         try:
             return parse_tags(value)
