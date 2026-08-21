@@ -18,7 +18,7 @@ except ImportError:
 def slugify_unicode_stripping_prep(tag):
     """
     This handles stripping via unidecode if it's installed,
-    otherwise is a no-op
+    otherwise it is a no-op.
     """
     if unidecode_installed:
         return unidecode(tag)
