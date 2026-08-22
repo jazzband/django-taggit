@@ -23,10 +23,26 @@ class TestTaggit_serializer(TestCase):
 
         assert type(correct_value) is list
 
-        incorrect_value = "123"
-
+        # Non-list, non-string input raises ValidationError
+        incorrect_value = 123
         with self.assertRaises(ValidationError):
-            incorrect_value = serializer_field.to_internal_value(incorrect_value)
+            serializer_field.to_internal_value(incorrect_value)
+
+        # Invalid JSON array raises ValidationError
+        with self.assertRaises(ValidationError):
+            serializer_field.to_internal_value("[invalid json")
+
+        # Comma-separated string parsing
+        parsed = serializer_field.to_internal_value("apple, banana, cherry")
+        self.assertEqual(sorted(parsed), ["apple", "banana", "cherry"])
+
+        # Quoted string parsing
+        parsed_quotes = serializer_field.to_internal_value('tag1, "multi word tag", tag2')
+        self.assertIn("multi word tag", parsed_quotes)
+
+        # Empty string parsing
+        empty_parsed = serializer_field.to_internal_value("")
+        self.assertEqual(empty_parsed, [])
 
         representation = serializer_field.to_representation(correct_value)
         self.assertIsInstance(representation, serializers.TagList)
@@ -68,6 +84,22 @@ class TestTaggit_serializer(TestCase):
         test_model = serializer.save()
 
         assert {tag.name for tag in test_model.tags.all()} == {"1", "2", "3"}
+
+    def test_taggit_serializer_create_with_comma_separated_string(self):
+        """
+        Test that comma-separated tag string is parsed and saved properly
+        """
+        request_data = {"tags": "django, python, rest-framework"}
+
+        serializer = TestModelSerializer(data=request_data)
+        assert serializer.is_valid(), serializer.errors
+        test_model = serializer.save()
+
+        assert {tag.name for tag in test_model.tags.all()} == {
+            "django",
+            "python",
+            "rest-framework",
+        }
 
     def test_taggit_removes_tags(self):
         """
