@@ -10,6 +10,8 @@ import json
 from django.utils.translation import gettext_lazy
 from rest_framework import serializers
 
+from taggit.utils import parse_tags
+
 
 class TagList(list):
     """
@@ -79,12 +81,19 @@ class TagListSerializerField(serializers.ListField):
         # In the future we should look at removing this feature so we can
         # make this a simple ListField (if feasible)
         if isinstance(value, str):
+            value = value.strip()
             if not value:
-                value = "[]"
-            try:
-                value = json.loads(value)
-            except ValueError:
-                self.fail("invalid_json")
+                value = []
+            elif value.startswith("["):
+                try:
+                    value = json.loads(value)
+                except ValueError:
+                    self.fail("invalid_json")
+            else:
+                try:
+                    value = json.loads(value)
+                except ValueError:
+                    value = parse_tags(value)
 
         if not isinstance(value, list):
             self.fail("not_a_list", input_type=type(value).__name__)
