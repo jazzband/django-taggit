@@ -104,3 +104,12 @@ class TestPrefetchCache(TestCase):
 
         sample_obj.tags.clear()
         self.assertFalse(sample_obj.tags.is_cached(sample_obj))
+
+    def test_names_and_slugs_use_prefetch_cache(self):
+        """
+        Test that names() and slugs() utilize prefetch cache without additional DB queries
+        """
+        sample_obj = TestModel.objects.prefetch_related("tags").get()
+        with self.assertNumQueries(0):
+            self.assertEqual(set(sample_obj.tags.names()), {"1", "2", "3"})
+            self.assertEqual(set(sample_obj.tags.slugs()), {"1", "2", "3"})
