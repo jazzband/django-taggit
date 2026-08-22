@@ -37,7 +37,9 @@ class TestTaggit_serializer(TestCase):
         self.assertEqual(sorted(parsed), ["apple", "banana", "cherry"])
 
         # Quoted string parsing
-        parsed_quotes = serializer_field.to_internal_value('tag1, "multi word tag", tag2')
+        parsed_quotes = serializer_field.to_internal_value(
+            'tag1, "multi word tag", tag2'
+        )
         self.assertIn("multi word tag", parsed_quotes)
 
         # Empty string parsing
