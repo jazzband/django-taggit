@@ -294,10 +294,16 @@ class _TaggableManager(models.Manager):
 
     @require_instance_manager
     def names(self):
+        prefetch_cache = getattr(self.instance, "_prefetched_objects_cache", None)
+        if prefetch_cache and self.prefetch_cache_name in prefetch_cache:
+            return [t.name for t in prefetch_cache[self.prefetch_cache_name]]
         return self.get_queryset().values_list("name", flat=True)
 
     @require_instance_manager
     def slugs(self):
+        prefetch_cache = getattr(self.instance, "_prefetched_objects_cache", None)
+        if prefetch_cache and self.prefetch_cache_name in prefetch_cache:
+            return [t.slug for t in prefetch_cache[self.prefetch_cache_name]]
         return self.get_queryset().values_list("slug", flat=True)
 
     @require_instance_manager
