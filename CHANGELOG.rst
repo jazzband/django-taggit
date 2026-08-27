@@ -11,6 +11,7 @@ Changelog
 * Add Django 5.2 and 6.0 support
 * Add Python 3.13 and 3.14 support
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
+* Mark ``add``/``set``/``remove``/``clear`` on ``_TaggableManager`` with ``alters_data = True`` so templates cannot invoke them
 
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~
