@@ -4,7 +4,7 @@ import os.path
 from django.test import TestCase
 from django.utils import translation
 
-from taggit.utils import split_strip
+from taggit.utils import edit_string_for_tags, parse_tags, split_strip
 
 
 class SplitStripTests(TestCase):
@@ -33,3 +33,35 @@ class TestLanguages(TestCase):
             # attempt translation activation to confirm that the language files are working
             with translation.override(locale):
                 pass
+
+
+class EditStringForTagsTests(TestCase):
+    def test_with_tag_instances(self):
+        class DummyTag:
+            def __init__(self, name):
+                self.name = name
+
+        tags = [DummyTag("tag1"), DummyTag("tag with space"), DummyTag("tag,comma")]
+        self.assertEqual(
+            edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1'
+        )
+
+    def test_with_strings(self):
+        tags = ["tag1", "tag with space", "tag,comma"]
+        self.assertEqual(
+            edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1'
+        )
+
+    def test_with_empty_list(self):
+        self.assertEqual(edit_string_for_tags([]), "")
+
+
+class ParseTagsTests(TestCase):
+    def test_basic_parse(self):
+        self.assertEqual(parse_tags("foo, bar, baz"), ["bar", "baz", "foo"])
+
+    def test_quoted_tags(self):
+        self.assertEqual(parse_tags('"foo bar", baz'), ["baz", "foo bar"])
+
+    def test_empty_string(self):
+        self.assertEqual(parse_tags(""), [])

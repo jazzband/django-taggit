@@ -92,8 +92,8 @@ def split_strip(string, delimiter=","):
 
 def _edit_string_for_tags(tags):
     """
-    Given list of ``Tag`` instances, creates a string representation of
-    the list suitable for editing by the user, such that submitting the
+    Given a list of ``Tag`` instances or strings, creates a string representation
+    of the list suitable for editing by the user, such that submitting the
     given string representation back without changing it will give the
     same list of tags.
 
@@ -108,7 +108,7 @@ def _edit_string_for_tags(tags):
     """
     names = []
     for tag in tags:
-        name = tag.name
+        name = tag.name if hasattr(tag, "name") else str(tag)
         if "," in name or " " in name:
             names.append('"%s"' % name)
         else:
