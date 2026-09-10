@@ -42,11 +42,15 @@ class EditStringForTagsTests(TestCase):
                 self.name = name
 
         tags = [DummyTag("tag1"), DummyTag("tag with space"), DummyTag("tag,comma")]
-        self.assertEqual(edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1')
+        self.assertEqual(
+            edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1'
+        )
 
     def test_with_strings(self):
         tags = ["tag1", "tag with space", "tag,comma"]
-        self.assertEqual(edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1')
+        self.assertEqual(
+            edit_string_for_tags(tags), '"tag with space", "tag,comma", tag1'
+        )
 
     def test_with_empty_list(self):
         self.assertEqual(edit_string_for_tags([]), "")
@@ -61,4 +65,3 @@ class ParseTagsTests(TestCase):
 
     def test_empty_string(self):
         self.assertEqual(parse_tags(""), [])
-
