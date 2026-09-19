@@ -11,6 +11,7 @@ Changelog
 * Add Django 5.2 and 6.0 support
 * Add Python 3.13 and 3.14 support
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
+* Expose ``field`` on ``_TaggableManager`` and add ``m2m_field_name`` to ``TaggableManager`` to improve compatibility with model introspection tools such as ``django-simple-history``
 
 6.1.0 (2024-09-29)
 ~~~~~~~~~~~~~~~~~~
