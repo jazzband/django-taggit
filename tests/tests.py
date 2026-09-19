@@ -974,6 +974,41 @@ class TaggableManagerInitializationTestCase(TaggableManagerTestCase):
     def test_custom_manager(self):
         self.assertIs(type(self.custom_manager_model.tags), CustomManager.Foo)
 
+    def test_manager_field_attribute(self):
+        # Issue #918: Ensure _TaggableManager exposes .field referencing the TaggableManager instance
+        # on both model class and instance for third-party libraries (e.g., django-simple-history).
+        tags_field = self.food_model._meta.get_field("tags")
+        self.assertIs(self.food_model.tags.field, tags_field)
+
+        apple = self.food_model.objects.create(name="apple")
+        self.assertIs(apple.tags.field, tags_field)
+
+        # Custom manager also exposes field
+        custom_field = self.custom_manager_model._meta.get_field("tags")
+        self.assertIs(self.custom_manager_model.tags.field, custom_field)
+
+        # Manual instantiation fallback
+        mgr = _TaggableManager(
+            through=tags_field.through,
+            model=self.food_model,
+            instance=apple,
+            prefetch_cache_name=tags_field.name,
+        )
+        self.assertIs(mgr.field, tags_field)
+
+    def test_m2m_field_name(self):
+        # GFK through model
+        tags_field = self.food_model._meta.get_field("tags")
+        self.assertEqual(tags_field.m2m_field_name(), "object_id")
+        self.assertEqual(tags_field.m2m_column_name(), "object_id")
+
+        # Non-GFK through model
+        from tests.models import MultipleTags
+
+        custom_tags_field = MultipleTags._meta.get_field("tags1")
+        self.assertEqual(custom_tags_field.m2m_field_name(), "content_object")
+        self.assertEqual(custom_tags_field.m2m_column_name(), "content_object_id")
+
 
 class TaggableFormTestCase(BaseTaggingTestCase):
     form_class = FoodForm

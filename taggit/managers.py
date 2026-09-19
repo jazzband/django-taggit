@@ -60,12 +60,21 @@ class ExtraJoinRestriction:
 class _TaggableManager(models.Manager):
     # TODO investigate whether we can use a RelatedManager instead of all this stuff
     # to take advantage of all the Django goodness
-    def __init__(self, through, model, instance, prefetch_cache_name, ordering=None):
+    def __init__(
+        self,
+        through,
+        model,
+        instance,
+        prefetch_cache_name,
+        ordering=None,
+        field=None,
+    ):
         super().__init__()
         self.through = through
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
+        self._field = field
 
         if ordering is not None:
             self.ordering = ordering
@@ -79,6 +88,21 @@ class _TaggableManager(models.Manager):
             self.ordering = [f"{related_name}__pk"]
         else:
             self.ordering = []
+
+    @property
+    def field(self):
+        if self._field is not None:
+            return self._field
+        if self.model and self.prefetch_cache_name:
+            try:
+                return self.model._meta.get_field(self.prefetch_cache_name)
+            except Exception:
+                pass
+        return None
+
+    @field.setter
+    def field(self, value):
+        self._field = value
 
     def is_cached(self, instance):
         return self.prefetch_cache_name in instance._prefetched_objects_cache
@@ -503,13 +527,29 @@ class TaggableManager(RelatedField):
                 "%s objects need to have a primary key value "
                 "before you can access their tags." % model.__name__
             )
-        return self.manager(
-            through=self.through,
-            model=model,
-            instance=instance,
-            prefetch_cache_name=self.name,
-            ordering=self.ordering,
-        )
+        try:
+            manager = self.manager(
+                through=self.through,
+                model=model,
+                instance=instance,
+                prefetch_cache_name=self.name,
+                ordering=self.ordering,
+                field=self,
+            )
+        except TypeError:
+            manager = self.manager(
+                through=self.through,
+                model=model,
+                instance=instance,
+                prefetch_cache_name=self.name,
+                ordering=self.ordering,
+            )
+        if not hasattr(manager, "field") or manager.field is None:
+            try:
+                manager.field = self
+            except AttributeError:
+                pass
+        return manager
 
     def deconstruct(self):
         """
@@ -625,6 +665,11 @@ class TaggableManager(RelatedField):
 
     def m2m_reverse_target_field_name(self):
         return self.remote_field.model._meta.pk.name
+
+    def m2m_field_name(self):
+        if self.use_gfk:
+            return self.through._meta.private_fields[0].fk_field
+        return self.through._meta.get_field("content_object").name
 
     def m2m_column_name(self):
         if self.use_gfk:
