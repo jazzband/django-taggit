@@ -41,7 +41,8 @@ class ExtraJoinRestriction:
         self.content_types = content_types
 
     def as_sql(self, compiler, connection):
-        qn = compiler.quote_name_unless_alias
+        # Django 6.1 deprecates quote_name_unless_alias() in favour of quote_name().
+        qn = getattr(compiler, "quote_name", None) or compiler.quote_name_unless_alias
         if len(self.content_types) == 1:
             extra_where = f"{qn(self.alias)}.{qn(self.col)} = %s"
         else:

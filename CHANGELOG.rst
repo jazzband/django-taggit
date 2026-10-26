@@ -8,7 +8,7 @@ Changelog
 * Remove support for Python 3.8
 * Remove support for Python 3.9
 * Remove support for Django versions older than 5.2
-* Add Django 5.2 and 6.0 support
+* Add Django 5.2, 6.0 and 6.1 support
 * Add Python 3.13 and 3.14 support
 * Fix an issue where the admin merge tag form redirect would fail when querystrings are present inside the URL
 
