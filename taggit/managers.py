@@ -1,4 +1,5 @@
 import uuid
+from functools import cached_property
 from operator import attrgetter
 
 from django.conf import settings
@@ -14,7 +15,6 @@ from django.db.models.fields.related import (
     lazy_related_operation,
 )
 from django.db.models.query_utils import PathInfo
-from django.utils.functional import cached_property
 from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
@@ -41,7 +41,8 @@ class ExtraJoinRestriction:
         self.content_types = content_types
 
     def as_sql(self, compiler, connection):
-        qn = compiler.quote_name_unless_alias
+        # Django 6.1 deprecates quote_name_unless_alias() in favour of quote_name().
+        qn = getattr(compiler, "quote_name", None) or compiler.quote_name_unless_alias
         if len(self.content_types) == 1:
             extra_where = f"{qn(self.alias)}.{qn(self.col)} = %s"
         else:
