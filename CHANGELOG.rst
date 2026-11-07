@@ -4,6 +4,8 @@ Changelog
 (Unreleased)
 ~~~~~~~~~~~~
 
+* Switched to trusted publisher release process with Django Commons
+
 7.0.0 (2026-11-02)
 ~~~~~~~~~~~~
 

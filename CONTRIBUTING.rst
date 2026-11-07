@@ -135,4 +135,4 @@ To make a release, the following needs to happen:
 - Update the changelog (making sure to add the (Unreleased) section to the top)
 - Get those changes onto the ``master`` branch
 - Tag the commit with the version number
-- CI should then upload a release to be verified through Jazzband
+- CI should then upload a release to PyPI through the trusted publisher process with Django Commons
