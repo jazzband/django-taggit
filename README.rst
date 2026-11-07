@@ -1,10 +1,6 @@
 django-taggit
 =============
 
-.. image:: https://jazzband.co/static/img/badge.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-
 .. image:: https://img.shields.io/pypi/pyversions/django-taggit.svg
    :target: https://pypi.org/project/django-taggit/
    :alt: Supported Python versions
@@ -13,17 +9,16 @@ django-taggit
    :target: https://pypi.org/project/django-taggit/
    :alt: Supported Django versions
 
-.. image:: https://github.com/jazzband/django-taggit/workflows/Test/badge.svg
-   :target: https://github.com/jazzband/django-taggit/actions
+.. image:: https://github.com/django-commons/django-taggit/workflows/Test/badge.svg
+   :target: https://github.com/django-commons/django-taggit/actions
    :alt: GitHub Actions
 
-.. image:: https://codecov.io/gh/jazzband/django-taggit/branch/master/graph/badge.svg?token=eaixNiyRk2
-    :target: https://app.codecov.io/gh/jazzband/django-taggit/tree/master
+.. image:: https://codecov.io/gh/django-commons/django-taggit/branch/master/graph/badge.svg?token=eaixNiyRk2
+    :target: https://app.codecov.io/gh/django-commons/django-taggit/tree/master
 
-This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree
+This is a `Django Commons <https://github.com/django-commons>`_ project. By contributing you agree
 to abide by the `Contributor Code of Conduct
-<https://jazzband.co/about/conduct>`_ and follow the `guidelines
-<https://jazzband.co/about/guidelines>`_.
+<https://github.com/django-commons/membership/blob/main/CODE_OF_CONDUCT.md>`_.
 
 ``django-taggit`` a simpler approach to tagging with Django.  Add ``"taggit"`` to your
 ``INSTALLED_APPS`` then just add a TaggableManager to your model and go:
