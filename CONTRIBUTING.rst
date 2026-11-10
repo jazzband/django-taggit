@@ -1,14 +1,9 @@
 Contributing to django-taggit
 =============================
 
-.. image:: https://jazzband.co/static/img/jazzband.svg
-   :target: https://jazzband.co/
-   :alt: Jazzband
-
-This is a `Jazzband <https://jazzband.co>`_ project. By contributing you agree
+This is a `Django Commons <https://github.com/django-commons>`_ project. By contributing you agree
 to abide by the `Contributor Code of Conduct
-<https://jazzband.co/about/conduct>`_ and follow the `guidelines
-<https://jazzband.co/about/guidelines>`_.
+<https://github.com/django-commons/membership/blob/main/CODE_OF_CONDUCT.md>`_.
 
 Thank you for taking the time to contribute to django-taggit.
 
@@ -19,8 +14,8 @@ Reach out before you start
 
 Before opening a new issue, look if somebody else has already started working
 on the same issue in the `GitHub issues
-<https://github.com/jazzband/django-taggit/issues>`_ and `pull requests
-<https://github.com/jazzband/django-taggit/pulls>`_.
+<https://github.com/django-commons/django-taggit/issues>`_ and `pull requests
+<https://github.com/django-commons/django-taggit/pulls>`_.
 
 Fork the repository
 -------------------
@@ -119,7 +114,7 @@ Send pull request
 -----------------
 
 It is now time to push your changes to GitHub and open a `pull request
-<https://github.com/jazzband/django-taggit/pulls>`_!
+<https://github.com/django-commons/django-taggit/pulls>`_!
 
 
 Release Checklist
@@ -135,4 +130,4 @@ To make a release, the following needs to happen:
 - Update the changelog (making sure to add the (Unreleased) section to the top)
 - Get those changes onto the ``master`` branch
 - Tag the commit with the version number
-- CI should then upload a release to be verified through Jazzband
+- CI should then upload a release to PyPI through the trusted publisher process with Django Commons
