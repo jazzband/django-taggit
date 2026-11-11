@@ -27,6 +27,15 @@ class TestTaggableManager(TestCase):
         desired_result = ["green"]
         self.assertEqual(desired_result, [tag.name for tag in sample_obj.tags.all()])
 
+    def test_mutating_methods_mark_alters_data(self):
+        sample_obj = TestModel.objects.create()
+        for name in ("add", "set", "remove", "clear"):
+            method = getattr(sample_obj.tags, name)
+            self.assertTrue(
+                getattr(method, "alters_data", False),
+                f"{name} should be marked alters_data",
+            )
+
 
 class TestSlugification(TestCase):
     def test_unicode_slugs(self):

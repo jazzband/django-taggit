@@ -209,6 +209,8 @@ class _TaggableManager(models.Manager):
             using=db,
         )
 
+    add.alters_data = True
+
     def _to_tag_model_instances(self, tags, tag_kwargs):
         """
         Takes an iterable containing either strings, tag objects, or a mixture
@@ -341,6 +343,8 @@ class _TaggableManager(models.Manager):
             self.remove(*old_tag_strs)
             self.add(*new_objs, through_defaults=through_defaults, **kwargs)
 
+    set.alters_data = True
+
     @require_instance_manager
     def remove(self, *tags):
         if not tags:
@@ -377,6 +381,8 @@ class _TaggableManager(models.Manager):
             using=db,
         )
 
+    remove.alters_data = True
+
     @require_instance_manager
     def clear(self):
         self._remove_prefetched_objects()
@@ -403,6 +409,8 @@ class _TaggableManager(models.Manager):
             pk_set=None,
             using=db,
         )
+
+    clear.alters_data = True
 
     def most_common(self, min_count=None, extra_filters=None):
         queryset = (
