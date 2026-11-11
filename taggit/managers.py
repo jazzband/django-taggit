@@ -61,12 +61,22 @@ class ExtraJoinRestriction:
 class _TaggableManager(models.Manager):
     # TODO investigate whether we can use a RelatedManager instead of all this stuff
     # to take advantage of all the Django goodness
-    def __init__(self, through, model, instance, prefetch_cache_name, ordering=None):
+    def __init__(
+        self,
+        through,
+        model,
+        instance,
+        prefetch_cache_name,
+        ordering=None,
+        *,
+        field,
+    ):
         super().__init__()
         self.through = through
         self.model = model
         self.instance = instance
         self.prefetch_cache_name = prefetch_cache_name
+        self.field = field
 
         if ordering is not None:
             self.ordering = ordering
@@ -510,6 +520,7 @@ class TaggableManager(RelatedField):
             instance=instance,
             prefetch_cache_name=self.name,
             ordering=self.ordering,
+            field=self,
         )
 
     def deconstruct(self):
@@ -626,6 +637,11 @@ class TaggableManager(RelatedField):
 
     def m2m_reverse_target_field_name(self):
         return self.remote_field.model._meta.pk.name
+
+    def m2m_field_name(self):
+        if self.use_gfk:
+            return self.through._meta.private_fields[0].fk_field
+        return self.through._meta.get_field("content_object").name
 
     def m2m_column_name(self):
         if self.use_gfk:

@@ -92,6 +92,10 @@ playing around with the API.
               # ... fields here
               tags = TaggableManager(manager=_CustomTaggableManager)
 
+       The custom class must accept the same arguments as ``_TaggableManager``,
+       including the required ``field`` keyword argument, which is the
+       ``TaggableManager`` field the manager was created from.
+
 Filtering
 ~~~~~~~~~
 
