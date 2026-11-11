@@ -80,14 +80,22 @@ class TagBase(NaturalKeyModel):
             # with a multi-master setup, theoretically we could try to
             # write and rollback on different DBs
             kwargs["using"] = using
-            # Be opportunistic and try to save the tag, this should work for
-            # most cases ;)
-            try:
-                with transaction.atomic(using=using):
-                    res = super().save(*args, **kwargs)
-                return res
-            except IntegrityError:
-                pass
+            # A name made up entirely of characters that slugify() strips
+            # (e.g. "@") produces an empty slug. Treat that the same as an
+            # existing-slug collision below, rather than ever saving a
+            # blank slug: skip the initial optimistic save attempt and go
+            # straight to the numbered-suffix fallback loop, so every such
+            # tag consistently gets a non-empty slug like "_1", "_2", ...
+            # instead of only the *second* one onwards. See GH #393.
+            if self.slug:
+                # Be opportunistic and try to save the tag, this should work
+                # for most cases ;)
+                try:
+                    with transaction.atomic(using=using):
+                        res = super().save(*args, **kwargs)
+                    return res
+                except IntegrityError:
+                    pass
             # Now try to find existing slugs with similar names
             slugs = set(
                 type(self)
