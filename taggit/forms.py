@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 
+from taggit.models import Tag
 from taggit.utils import edit_string_for_tags, parse_tags
 
 
@@ -25,11 +26,21 @@ class TagField(forms.CharField):
     def clean(self, value):
         value = super().clean(value)
         try:
-            return parse_tags(value)
+            tags = parse_tags(value)
         except ValueError:
             raise forms.ValidationError(
                 _("Please provide a comma-separated list of tags.")
             )
+
+        max_tag_length = Tag._meta.get_field("name").max_length
+        for tag in tags:
+            if len(tag) > max_tag_length:
+                raise forms.ValidationError(
+                    _("Tag(s) %(tag)s are over %(max_tag_length)d characters")
+                    % {"tag": tag, "max_tag_length": max_tag_length}
+                )
+
+        return tags
 
     def has_changed(self, initial_value, data_value):
         # Always return False if the field is disabled since self.bound_data

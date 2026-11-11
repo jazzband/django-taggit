@@ -60,3 +60,32 @@ class TagFieldTests(TestCase):
         form = TestForm()
 
         self.assertFalse(form.has_changed())
+
+
+class TagFieldMaxLengthTests(TestCase):
+    def test_should_return_error_on_clean_if_tag_exceeds_max_length(self):
+        class TestForm(forms.Form):
+            tag = TagField()
+
+        max_length = Tag._meta.get_field("name").max_length
+        too_long_tag = "x" * (max_length + 1)
+
+        form = TestForm({"tag": too_long_tag})
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            f"Tag(s) {too_long_tag} are over {max_length} characters",
+            form.errors["tag"],
+        )
+
+    def test_should_be_valid_for_normal_length_tags(self):
+        class TestForm(forms.Form):
+            tag = TagField()
+
+        max_length = Tag._meta.get_field("name").max_length
+        ok_tag = "x" * max_length
+
+        form = TestForm({"tag": ok_tag})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["tag"], [ok_tag])
