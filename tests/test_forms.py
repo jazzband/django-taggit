@@ -60,3 +60,52 @@ class TagFieldTests(TestCase):
         form = TestForm()
 
         self.assertFalse(form.has_changed())
+
+    def test_disabled_field_with_model_instances(self):
+        class TestForm(forms.Form):
+            tag = TagField(disabled=True)
+
+        initial_tags = [Tag(name="apple"), Tag(name="banana")]
+        form = TestForm(initial={"tag": initial_tags}, data={"tag": "other"})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["tag"], initial_tags)
+
+    def test_disabled_field_with_string_initial(self):
+        class TestForm(forms.Form):
+            tag = TagField(disabled=True)
+
+        form = TestForm(initial={"tag": "apple,banana"}, data={"tag": "other"})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["tag"], ["apple", "banana"])
+
+    def test_disabled_field_with_none_initial(self):
+        class TestForm(forms.Form):
+            tag = TagField(disabled=True, required=False)
+
+        form = TestForm(initial={"tag": None}, data={"tag": "other"})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["tag"], [])
+
+    def test_disabled_field_in_model_form(self):
+        from .forms import FoodForm
+        from .models import Food
+
+        food = Food.objects.create(name="Apple")
+        food.tags.add("red", "sweet")
+
+        form = FoodForm(
+            data={"name": "Green Apple", "tags": "green,sour"},
+            instance=food,
+        )
+        form.fields["tags"].disabled = True
+
+        self.assertTrue(form.is_valid())
+        saved_food = form.save()
+        self.assertEqual(saved_food.name, "Green Apple")
+        self.assertSequenceEqual(
+            saved_food.tags.order_by("name").values_list("name", flat=True),
+            ["red", "sweet"],
+        )
