@@ -27,6 +27,28 @@ class TestTaggableManager(TestCase):
         desired_result = ["green"]
         self.assertEqual(desired_result, [tag.name for tag in sample_obj.tags.all()])
 
+    def test_related_name_disabled_no_reverse_query_name_clash(self):
+        from django.db import models
+
+        from taggit.managers import TaggableManager
+
+        class TaggableMixin(models.Model):
+            tags = TaggableManager(related_name="+")
+
+            class Meta:
+                abstract = True
+
+        class ModelA(TaggableMixin):
+            class Meta:
+                app_label = "tests"
+
+        class ModelB(TaggableMixin):
+            class Meta:
+                app_label = "tests"
+
+        self.assertEqual(ModelA.check(), [])
+        self.assertEqual(ModelB.check(), [])
+
 
 class TestSlugification(TestCase):
     def test_unicode_slugs(self):
