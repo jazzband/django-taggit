@@ -44,6 +44,10 @@ def _parse_tags(tagstring):
                 open_quote = True
                 c = next(i)
                 while c != '"':
+                    if c == "\\":
+                        # a backslash escapes the next character inside a quote,
+                        # so a tag name can contain a literal double quote
+                        c = next(i)
                     buffer.append(c)
                     c = next(i)
                 if buffer:
@@ -109,7 +113,8 @@ def _edit_string_for_tags(tags):
     names = []
     for tag in tags:
         name = tag.name
-        if "," in name or " " in name:
+        if "," in name or " " in name or '"' in name:
+            name = name.replace("\\", "\\\\").replace('"', '\\"')
             names.append('"%s"' % name)
         else:
             names.append(name)

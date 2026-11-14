@@ -1283,6 +1283,25 @@ class TagStringParseTestCase(SimpleTestCase):
         self.assertEqual(edit_string_for_tags([plain, comma]), '"com,ma", plain')
         self.assertEqual(edit_string_for_tags([comma, spaces]), '"com,ma", "spa ces"')
 
+    def test_recreation_of_tag_names_with_double_quotes(self):
+        """
+        A tag name containing a double quote survives the documented round trip.
+
+        edit_string_for_tags() promises that submitting its output back to
+        parse_tags() without changing it returns the same tags.
+        """
+        quoted = Tag(name='quote"inside')
+        spaced_quote = Tag(name='say "hi" now')
+
+        self.assertEqual(parse_tags(edit_string_for_tags([quoted])), ['quote"inside'])
+        self.assertEqual(
+            parse_tags(edit_string_for_tags([spaced_quote])), ['say "hi" now']
+        )
+        self.assertEqual(
+            parse_tags(edit_string_for_tags([quoted, spaced_quote])),
+            ['quote"inside', 'say "hi" now'],
+        )
+
     @override_settings(TAGGIT_TAGS_FROM_STRING="tests.custom_parser.comma_splitter")
     def test_custom_comma_splitter(self):
         self.assertEqual(parse_tags("   Cued Speech "), ["Cued Speech"])
